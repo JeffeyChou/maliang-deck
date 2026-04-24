@@ -13,8 +13,8 @@ const tokens = VisualTokenListSchema.default([]);
 const BoxSchema = z.object({
   x: finite.default(0),
   y: finite.default(0),
-  width: positive,
-  height: positive,
+  width: positive.default(320),
+  height: positive.default(180),
 });
 
 const MetricCardPropsSchema = BoxSchema.extend({
@@ -22,6 +22,7 @@ const MetricCardPropsSchema = BoxSchema.extend({
   value: z.union([z.string(), z.number()]),
   caption: z.string().optional(),
   delta: z.string().optional(),
+  badge: z.string().optional(),
   accent: color.default('#2563eb'),
   background: color.optional(),
   tokens,
@@ -30,6 +31,9 @@ const MetricCardPropsSchema = BoxSchema.extend({
 type MetricCardProps = z.infer<typeof MetricCardPropsSchema>;
 
 const TwoColumnPropsSchema = BoxSchema.extend({
+  title: z.string().optional(),
+  leftTitle: z.string().optional(),
+  rightTitle: z.string().optional(),
   gap: nonnegative.default(32),
   leftRatio: positive.default(1),
   rightRatio: positive.default(1),
@@ -66,6 +70,7 @@ const TimelineStepSchema = z.object({
 }).strict();
 
 const TimelineSectionPropsSchema = BoxSchema.extend({
+  title: z.string().optional(),
   steps: z.array(TimelineStepSchema).min(1),
   orientation: z.enum(['vertical', 'horizontal']).default('vertical'),
   accent: color.default('#2563eb'),
@@ -199,7 +204,7 @@ function metricCardElements(props: MetricCardProps, makeId: (role: string) => st
         animation: visualTokenAnimation(props.tokens, 1),
       },
       ...optionalText(props.caption, makeId('caption'), 24, props.height - 42, props.width - 48, 16, '#4b5563'),
-      ...optionalBadge(props.delta, makeId, props.width - 116, 22, props.accent, props.tokens),
+      ...optionalBadge(props.delta ?? props.badge, makeId, props.width - 116, 22, props.accent, props.tokens),
     ],
   };
   return [card];
@@ -207,8 +212,14 @@ function metricCardElements(props: MetricCardProps, makeId: (role: string) => st
 
 function twoColumnElements(context: ComponentExpandContext<TwoColumnProps>): Element[] {
   const { props, id } = context;
-  const left = context.expandSlot('left');
-  const right = context.expandSlot('right');
+  const left = [
+    ...optionalText(props.leftTitle, id.forRole('left-title'), 0, 0, props.width / 2, 18, '#111827'),
+    ...context.expandSlot('left'),
+  ];
+  const right = [
+    ...optionalText(props.rightTitle, id.forRole('right-title'), 0, 0, props.width / 2, 18, '#111827'),
+    ...context.expandSlot('right'),
+  ];
   const totalRatio = props.leftRatio + props.rightRatio;
   const innerWidth = props.width - props.gap;
   const leftWidth = innerWidth * (props.leftRatio / totalRatio);
@@ -276,13 +287,14 @@ function timelineSectionElements(props: TimelineSectionProps, makeId: (role: str
   const stepWidth = vertical ? props.width - 40 : (props.width - stepGap * (count - 1)) / count;
   const stepHeight = vertical ? (props.height - stepGap * (count - 1)) / count : props.height - 36;
   const elements: Element[] = [
+    ...optionalText(props.title, makeId('title'), 0, 0, props.width, 32, '#ffffff'),
     {
       type: 'line',
       id: makeId('connector'),
       x: vertical ? 16 : 0,
-      y: vertical ? 0 : 14,
+      y: vertical ? (props.title ? 52 : 0) : (props.title ? 66 : 14),
       x2: vertical ? 16 : props.width,
-      y2: vertical ? props.height : 14,
+      y2: vertical ? props.height : (props.title ? 66 : 14),
       stroke: props.accent,
       strokeWidth: 3,
       opacity: 0.45,
@@ -290,7 +302,7 @@ function timelineSectionElements(props: TimelineSectionProps, makeId: (role: str
     ...props.steps.map((step, index) => timelineStepGroup({
       ...step,
       x: vertical ? 40 : index * (stepWidth + stepGap),
-      y: vertical ? index * (stepHeight + stepGap) : 36,
+      y: (props.title ? 58 : 0) + (vertical ? index * (stepHeight + stepGap) : 36),
       width: stepWidth,
       height: stepHeight,
       index: index + 1,
