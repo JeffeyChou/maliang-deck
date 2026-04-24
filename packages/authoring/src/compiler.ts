@@ -25,7 +25,7 @@ export function compileAuthoringDeck(input: unknown, options: CompileAuthoringDe
   }
 
   const authoringDeck = parsed.data as AuthoringDeckInput;
-  const registry = options.registry ?? createAuthoringRegistry();
+  const registry = options.registry ?? createBuiltinAuthoringRegistry();
   const allocateId = createDeterministicAllocator(collectExistingIds(authoringDeck));
   const slides: Slide[] = authoringDeck.slides.map((slide: AuthoringDeckInput['slides'][number], slideIndex: number) => ({
     ...slide,
