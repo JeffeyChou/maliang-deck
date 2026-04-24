@@ -36,6 +36,7 @@ export interface AuthoringSourceMapEntry {
   component: ComponentName;
   path: string;
   generatedElementIds: string[];
+  passthroughElementIds?: string[];
 }
 
 export interface AuthoringSourceMap {

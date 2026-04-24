@@ -65,6 +65,11 @@ describe('authoring compiler diagnostics', () => {
       code: 'authoring.invalid-props',
       path: 'slides.0.elements.0.props.label',
     }));
+    expect(result.diagnostics[0].detail).toMatchObject({
+      invocationId: 'bad-card',
+      component: 'metric-card',
+      requestedComponent: 'metric-card',
+    });
     expect(result.sourceMap.invocations[0]).toMatchObject({ invocationId: 'bad-card', generatedElementIds: [] });
   });
 
@@ -111,9 +116,13 @@ describe('authoring compiler output contracts', () => {
       expect(entry.generatedElementIds.length).toBeGreaterThan(0);
     }
     expect(entriesById.get('nested-header')?.path).toBe('slides.0.elements.1.slots.right.0');
+    expect(entriesById.get('split')?.generatedElementIds).toEqual(expect.arrayContaining(['split-layout', 'split-left', 'split-right']));
+    expect(entriesById.get('split')?.generatedElementIds).not.toContain('left-copy');
+    expect(entriesById.get('split')?.passthroughElementIds).toEqual(expect.arrayContaining(['left-copy']));
+    expect(entriesById.get('nested-header')?.generatedElementIds).toEqual(expect.arrayContaining(['nested-header-header']));
   });
 
-  it('keeps existing element IDs collision-safe when generated IDs share the same role', () => {
+  it('keeps top-level existing element IDs collision-safe when generated IDs share the same role', () => {
     const result = expectCompiled({
       meta: macroDemoDeck.meta,
       slides: [{
@@ -127,4 +136,33 @@ describe('authoring compiler output contracts', () => {
 
     expect(collectIds(result.deck.slides[0].elements)).toContain('revenue-group__2');
   });
+
+  it('seeds ordinary slot element IDs before allocating nested generated IDs', () => {
+    const result = expectCompiled({
+      meta: macroDemoDeck.meta,
+      slides: [{
+        id: 's1',
+        elements: [{
+          kind: 'component',
+          id: 'split',
+          component: 'two-column',
+          props: { x: 0, y: 0, width: 600, height: 240 },
+          slots: {
+            left: [{ type: 'rect', id: 'nested-header-header', x: 0, y: 0, width: 24, height: 24 }],
+            right: [{
+              kind: 'component',
+              id: 'nested-header',
+              component: 'section-header',
+              props: { width: 260, height: 120, title: 'Header' },
+            }],
+          },
+        }],
+      }],
+    });
+
+    const ids = collectIds(result.deck.slides[0].elements);
+    expect(ids).toContain('nested-header-header');
+    expect(ids).toContain('nested-header-header__2');
+  });
+
 });

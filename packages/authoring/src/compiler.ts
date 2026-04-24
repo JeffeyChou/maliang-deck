@@ -129,6 +129,13 @@ function expandInvocation(
   }
 
   let elements: Element[] = [];
+  const passthroughElementIds = new Set<string>();
+  const expandPassthroughNodes = (nodes: AuthoringNode[], childPath: string): Element[] => {
+    const expanded = expandNodes(nodes, childPath, registry, diagnostics, sourceMap, allocateId);
+    collectElementIds(expanded).forEach((id) => passthroughElementIds.add(id));
+    return expanded;
+  };
+
   try {
     const id = createScopedIdFactory(invocationId, allocateId);
     elements = component.expand({
@@ -136,14 +143,10 @@ function expandInvocation(
       props: props.data,
       path,
       id,
-      expandNodes: (nodes, childPath) => expandNodes(nodes, childPath, registry, diagnostics, sourceMap, allocateId),
-      expandSlot: (slotName) => expandNodes(
+      expandNodes: expandPassthroughNodes,
+      expandSlot: (slotName) => expandPassthroughNodes(
         invocation.slots?.[slotName] ?? [],
         `${path}.slots.${slotName}`,
-        registry,
-        diagnostics,
-        sourceMap,
-        allocateId,
       ),
     });
   } catch (error) {
@@ -156,11 +159,14 @@ function expandInvocation(
     elements = [];
   }
 
+  const emittedElementIds = collectElementIds(elements);
+  const generatedElementIds = emittedElementIds.filter((id) => !passthroughElementIds.has(id));
   addSourceMapEntry(sourceMap, {
     invocationId,
     component: component.canonicalName,
     path,
-    generatedElementIds: collectElementIds(elements),
+    generatedElementIds,
+    ...(passthroughElementIds.size > 0 ? { passthroughElementIds: emittedElementIds.filter((id) => passthroughElementIds.has(id)) } : {}),
   });
 
   return elements;
