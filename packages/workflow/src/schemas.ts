@@ -296,9 +296,34 @@ export const LockedTokensSchema = z.object({
   spacing: z.object({ element: z.number(), section: z.number() }),
 });
 
+export const PaletteTokensSchema = z.object({
+  primary: z.string().min(1),
+  secondary: z.string().min(1),
+  accent: z.string().min(1),
+  neutral: z.string().min(1),
+  semantic: z.record(z.string(), z.string()).optional(),
+});
+
+export const TypographyTokensSchema = z.object({
+  headingFont: z.string().min(1),
+  bodyFont: z.string().min(1),
+  monoFont: z.string().min(1),
+  scaleRatio: z.number().positive(),
+});
+
+export const SpacingTokensSchema = z.object({
+  element: z.number().nonnegative(),
+  section: z.number().nonnegative(),
+  margin: z.object({ top: z.number().nonnegative(), right: z.number().nonnegative(), bottom: z.number().nonnegative(), left: z.number().nonnegative() }),
+});
+
 export const DeckDesignSchema = z.object({
   styleId: z.string().min(1),
+  theme: z.string().min(1).optional(),
   canvas: z.object({ width: z.number().positive(), height: z.number().positive() }),
+  palette: PaletteTokensSchema.optional(),
+  typography: TypographyTokensSchema.optional(),
+  spacing: SpacingTokensSchema.optional(),
   typographyScaleId: z.string().min(1),
   paletteId: z.string().min(1),
   lockedTokens: LockedTokensSchema,
@@ -329,6 +354,21 @@ const SlideDslGuidanceSchema = z.object({
   colorRules: z.array(z.string()),
   positioningRules: z.array(z.string()),
   lockedTokens: LockedTokensSchema.optional(),
+  styleContract: DeckDesignSchema.optional(),
+  layoutPattern: z.object({
+    id: z.string(),
+    name: z.string(),
+    purpose: z.string(),
+    slideTypes: z.array(SlideTypeSchema),
+    elementPositions: z.record(z.string(), z.object({ x: z.number(), y: z.number(), w: z.number(), h: z.number() })),
+    density: z.enum(['low', 'medium', 'high']),
+  }).optional(),
+  approvedAssets: z.array(z.object({
+    id: z.string(),
+    kind: z.string(),
+    sourcePath: z.string(),
+    caption: z.string().optional(),
+  })).optional(),
 });
 
 const StageGuidanceSchema = z.object({

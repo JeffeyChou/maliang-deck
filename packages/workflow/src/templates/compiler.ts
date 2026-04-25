@@ -18,7 +18,17 @@ export function compileTemplatePackToStyle(pack: TemplatePack): StyleDefinition 
   return { id: pack.id, version: pack.version, name: pack.name, description: `${pack.description} (compiled from template pack; activation=${pack.activation.status})`, recommendedTheme: 'minimal-white', tokens: { palette: pack.tokens.palette, typography: pack.tokens.typography, spacing: pack.tokens.spacing }, layoutPatterns: layoutPatternsFromPack(pack), stageGuidance: stageGuidanceFromPack(pack), qualityRules: [{ id: `${pack.id}-template-slot-alignment`, name: 'Template slot alignment', severity: 'warning', applicableStyles: [pack.id], description: 'Slides should use selected template slots unless intentionally deviating.' }], rendererCapabilities: { animations: 'none', charts: 'partial', tables: 'partial', gradients: 'partial', clipPaths: 'partial', groupElements: 'full', textWrapping: 'full' }, roleDocRefs: [{ path: 'docs/TEMPLATE-EXTRACTION.md', role: 'shared' }] };
 }
 export function compileTemplatePackToDeckDesign(pack: TemplatePack): DeckDesign {
-  return { styleId: pack.id, canvas: pack.tokens.canvas, typographyScaleId: `${pack.id}-typography`, paletteId: `${pack.id}-palette`, lockedTokens: { titleBandHeight: Math.round(pack.tokens.canvas.height * 0.18), margins: pack.tokens.spacing.margin, spacing: { element: pack.tokens.spacing.element, section: pack.tokens.spacing.section } } };
+  return {
+    styleId: pack.id,
+    theme: 'minimal-white',
+    canvas: pack.tokens.canvas,
+    palette: pack.tokens.palette,
+    typography: pack.tokens.typography,
+    spacing: pack.tokens.spacing,
+    typographyScaleId: `${pack.id}-typography`,
+    paletteId: `${pack.id}-palette`,
+    lockedTokens: { titleBandHeight: Math.round(pack.tokens.canvas.height * 0.18), margins: pack.tokens.spacing.margin, spacing: { element: pack.tokens.spacing.element, section: pack.tokens.spacing.section } },
+  };
 }
 export function compileTemplatePackToWorkOrderGuidance(pack: TemplatePack, stage: WorkOrderGuidance['stage'] = 'slide-dsl'): WorkOrderGuidance {
   return { styleId: pack.id, stage, structured: stageGuidanceFromPack(pack), roleDocs: [{ path: 'docs/TEMPLATE-EXTRACTION.md', sections: ['Usage', 'Confidence limits'], digest: pack.guidance.summary }], checklist: ['Use ordinary JSON DSL as the source of truth.', 'Do not import template modules from renderers/exporters.', 'Review coverage and activation status before treating extracted packs as production styles.', ...(pack.coverage?.warnings ?? []).map((warning) => `Extraction warning: ${warning}`)] };

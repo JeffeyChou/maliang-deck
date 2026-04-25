@@ -110,6 +110,28 @@ describe('workflow hierarchical config wiring', () => {
     expect(report.results[0].error).not.toMatch(/DrawingML|chart\/table|unsupported/i);
   });
 
+  it('copies deck image assets into the generated render asset bundle for HTML', () => {
+    tempWorkspace();
+    createProject({ slug: 'asset-build', sources: [], config: { outputs: { formats: ['html'] } } });
+    mkdirSync(join('projects', 'asset-build', 'extraction', 'mineru', 'raw', 'm1', 'images'), { recursive: true });
+    writeFileSync(join('projects', 'asset-build', 'extraction', 'mineru', 'raw', 'm1', 'images', 'figure.png'), 'png-fixture');
+    mkdirSync(join('projects', 'asset-build', 'dsl'), { recursive: true });
+    writeFileSync(join('projects', 'asset-build', 'dsl', 'deck.json'), JSON.stringify({
+      meta: { title: 'Asset Build', canvas: { width: 1280, height: 720 } },
+      slides: [{
+        id: 'slide-1',
+        elements: [
+          { type: 'image', id: 'figure', x: 64, y: 64, width: 320, height: 180, src: 'extraction/mineru/raw/m1/images/figure.png' },
+        ],
+      }],
+    }));
+
+    buildWorkflow('asset-build');
+    const html = readFileSync(join('projects', 'asset-build', 'render', 'html', 'index.html'), 'utf-8');
+    expect(html).toContain('../assets/materials/1-figure.png');
+    expect(existsSync(join('projects', 'asset-build', 'render', 'assets', 'materials', '1-figure.png'))).toBe(true);
+  });
+
   it('lets workflow init use config defaults while explicit --formats remains an override', async () => {
     tempWorkspace();
     writeFileSync('maliang-deck.config.json', JSON.stringify({ outputs: { formats: ['html'] } }));

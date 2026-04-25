@@ -111,6 +111,12 @@ export type SlideDslGuidance = {
    * during parallel generation.
    */
   lockedTokens?: LockedTokens;
+  /** Full project style contract for this slide generation task. */
+  styleContract?: DeckDesign;
+  /** Resolved layout pattern selected for this slide. */
+  layoutPattern?: LayoutPattern;
+  /** Assets this slide is allowed to reference. */
+  approvedAssets?: ApprovedAsset[];
 };
 
 export type StageGuidance = {
@@ -215,9 +221,20 @@ export type LockedTokens = {
   spacing: { element: number; section: number };
 };
 
+export type ApprovedAsset = {
+  id: string;
+  kind: string;
+  sourcePath: string;
+  caption?: string;
+};
+
 export type DeckDesign = {
   styleId: string;
+  theme: string;
   canvas: { width: number; height: number };
+  palette: PaletteTokens;
+  typography: TypographyTokens;
+  spacing: SpacingTokens;
   typographyScaleId: string;
   paletteId: string;
   lockedTokens: LockedTokens;

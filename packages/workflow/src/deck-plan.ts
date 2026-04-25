@@ -5,6 +5,7 @@ import { DeckPlanSchema, type DeckPlan, type ExtractedAsset, type ExtractedBlock
 import { assertOutlineApproved } from './outline.js';
 import { enrichDeckPlanWorkOrder } from './guidance/work-order-enricher.js';
 import { registerConfiguredTemplatePacksForProject } from './templates/registry.js';
+import { resolveProjectStyleContract } from './style-contract.js';
 
 export function createDeckPlanWorkOrder(slugOrPath: string, mode: 'agent' | 'manual' = 'agent'): GenerationWorkOrder {
   const root = projectRoot(slugOrPath);
@@ -22,6 +23,8 @@ export function createDeckPlanWorkOrder(slugOrPath: string, mode: 'agent' | 'man
       'Every sourceBlockRef and candidateAssetRef must reference normalized artifacts.',
       'Fill speakerNotesIntent for each slide with a concrete description of the spoken explanation beats, not a generic summary.',
       'Speaker notes intent must support sentence-by-sentence presenter notes: derivation steps, transitions, audience prompts, caveats, and reveal timing where relevant.',
+      'Write a full deckDesign project style contract with styleId, theme, canvas, palette, typography, spacing, and lockedTokens.',
+      'Treat deckDesign as canonical for DSL colors, fonts, spacing, margins, and layout alignment; CSS theme is HTML-only polish.',
       mode === 'agent' ? 'Active Codex/OMX agent authors planning/deck-plan.json.' : 'Manual lane authors planning/deck-plan.json.',
     ],
     sourceRefs: manifest.sources.map((source) => source.id),
@@ -40,6 +43,9 @@ export function createDeckPlanWorkOrder(slugOrPath: string, mode: 'agent' | 'man
 export function validateDeckPlan(slugOrPath: string): DeckPlan {
   const root = projectRoot(slugOrPath);
   const plan = parseJsonWithSchema(DeckPlanSchema, readJson(join(root, 'planning', 'deck-plan.json')), 'deck plan') as DeckPlan;
+  if (plan.deckDesign) {
+    plan.deckDesign = resolveProjectStyleContract(root, plan.deckDesign);
+  }
   const blocks = pathExists(join(root, 'extraction', 'normalized', 'blocks.json'))
     ? readJson(join(root, 'extraction', 'normalized', 'blocks.json')) as ExtractedBlock[]
     : [];

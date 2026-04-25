@@ -14,6 +14,9 @@ export type PptxEngineConfig = z.infer<typeof PptxEngineSchema>;
 export const DoclingTableModeSchema = z.enum(['fast', 'accurate']);
 export type DoclingTableModeConfig = z.infer<typeof DoclingTableModeSchema>;
 
+export const StyleValidationSchema = z.enum(['warn', 'fail']);
+export type StyleValidationConfig = z.infer<typeof StyleValidationSchema>;
+
 const CanvasConfigSchema = z.object({
   width: z.number().positive(),
   height: z.number().positive(),
@@ -78,6 +81,7 @@ export const MaliangDeckConfigSchema = z.object({
   theme: z.string().min(1).optional(),
   canvas: CanvasConfigSchema.optional(),
   tokens: TokenConfigSchema.optional(),
+  styleValidation: StyleValidationSchema.optional(),
 }).strict();
 
 export type MaliangDeckConfig = z.infer<typeof MaliangDeckConfigSchema>;
@@ -214,6 +218,7 @@ export const BUILT_IN_MALIANG_DECK_CONFIG: ResolvedMaliangDeckConfig = {
   },
   templatePackPaths: [],
   includeDraftTemplatePacks: false,
+  styleValidation: 'warn',
 };
 
 function sourcePrefix(source: ConfigSource): string {

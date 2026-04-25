@@ -206,7 +206,9 @@ describe('DSL work orders with deckDesign and slide.design', () => {
     const manifest = createProject('acad-dsl', ['paper.pdf'], ['html']);
     writeJson(join('projects', 'acad-dsl', 'project.json'), { ...manifest, styleId: 'academic' });
 
-    writeNormalizedBlocks(join('projects', 'acad-dsl'), sampleBlocks);
+    writeNormalizedBlocks(join('projects', 'acad-dsl'), sampleBlocks, [
+      { id: 'asset-1', materialId: 'm1', kind: 'image', sourcePath: 'extraction/mineru/raw/m1/images/figure.png', sourceOrder: 0 },
+    ]);
     writeOutlineApproved(join('projects', 'acad-dsl'));
 
     const deckPlan = {
@@ -227,7 +229,7 @@ describe('DSL work orders with deckDesign and slide.design', () => {
           id: 'slide-1',
           title: 'Introduction',
           sourceBlockRefs: ['block-1', 'block-2'],
-          candidateAssetRefs: [],
+          candidateAssetRefs: ['asset-1'],
           layoutIntent: 'Title slide with author info',
           outputConstraints: ['html'],
           design: {
@@ -253,6 +255,10 @@ describe('DSL work orders with deckDesign and slide.design', () => {
     // locked tokens passed through
     expect(order.guidance!.structured.slideDsl.lockedTokens).toBeDefined();
     expect(order.guidance!.structured.slideDsl.lockedTokens!.titleBandHeight).toBe(80);
+    expect(order.guidance!.structured.slideDsl.styleContract?.palette.primary).toBe('#1a2c4e');
+    expect(order.guidance!.structured.slideDsl.approvedAssets).toMatchObject([
+      { id: 'asset-1', kind: 'image', sourcePath: 'extraction/mineru/raw/m1/images/figure.png' },
+    ]);
   });
 
   it('omits guidance when slide has no design field (backward compat)', () => {
@@ -323,6 +329,77 @@ describe('assembleDeck with deckDesign', () => {
     const deck = assembleDeck('assemble-custom');
     expect(deck.meta.canvas).toEqual({ width: 1920, height: 1080 });
     expect(deck.meta.theme).toBe('corporate-blue');
+  });
+
+  it('uses config theme over the style recommended theme', () => {
+    createProject({
+      slug: 'assemble-config-theme',
+      sources: ['paper.pdf'],
+      outputFormats: ['html'],
+      config: { styleId: 'consulting', theme: 'minimal-white' },
+    });
+
+    writeNormalizedBlocks(join('projects', 'assemble-config-theme'), sampleBlocks);
+    writeOutlineApproved(join('projects', 'assemble-config-theme'));
+    writeJson(join('projects', 'assemble-config-theme', 'planning', 'deck-plan.json'), {
+      projectSlug: 'assemble-config-theme',
+      deckDesign: {
+        styleId: 'consulting',
+        canvas: { width: 1280, height: 720 },
+        typographyScaleId: 'consulting-typography',
+        paletteId: 'consulting-palette',
+        lockedTokens: {
+          titleBandHeight: 80,
+          margins: { top: 40, right: 56, bottom: 40, left: 56 },
+          spacing: { element: 16, section: 32 },
+        },
+      },
+      slides: [{ id: 'slide-1', title: 'Overview', sourceBlockRefs: ['block-1'], candidateAssetRefs: [], layoutIntent: 'title layout', outputConstraints: ['html'] }],
+    });
+    writeSlice(join('projects', 'assemble-config-theme'), 'slide-1', 60);
+
+    const deck = assembleDeck('assemble-config-theme');
+    expect(deck.meta.theme).toBe('minimal-white');
+  });
+
+  it('warns by default but blocks style drift when styleValidation is fail', () => {
+    createProject({
+      slug: 'style-warn',
+      sources: ['paper.pdf'],
+      outputFormats: ['html'],
+      config: { styleId: 'consulting' },
+    });
+    writeNormalizedBlocks(join('projects', 'style-warn'), sampleBlocks);
+    writeOutlineApproved(join('projects', 'style-warn'));
+    writeJson(join('projects', 'style-warn', 'planning', 'deck-plan.json'), {
+      projectSlug: 'style-warn',
+      slides: [{ id: 'slide-1', title: 'Slide', sourceBlockRefs: ['block-1'], candidateAssetRefs: [], layoutIntent: 'plain', outputConstraints: ['html'] }],
+    });
+    mkdirSync(join('projects', 'style-warn', 'dsl', 'slides'), { recursive: true });
+    writeJson(join('projects', 'style-warn', 'dsl', 'slides', 'slide-1.json'), {
+      id: 'slide-1',
+      elements: [{ type: 'text', id: 'title', x: 80, y: 60, width: 800, height: 60, fontSize: 32, content: 'Off palette', color: '#ff00ff' }],
+    });
+    expect(() => assembleDeck('style-warn')).not.toThrow();
+
+    createProject({
+      slug: 'style-fail',
+      sources: ['paper.pdf'],
+      outputFormats: ['html'],
+      config: { styleId: 'consulting', styleValidation: 'fail' },
+    });
+    writeNormalizedBlocks(join('projects', 'style-fail'), sampleBlocks);
+    writeOutlineApproved(join('projects', 'style-fail'));
+    writeJson(join('projects', 'style-fail', 'planning', 'deck-plan.json'), {
+      projectSlug: 'style-fail',
+      slides: [{ id: 'slide-1', title: 'Slide', sourceBlockRefs: ['block-1'], candidateAssetRefs: [], layoutIntent: 'plain', outputConstraints: ['html'] }],
+    });
+    mkdirSync(join('projects', 'style-fail', 'dsl', 'slides'), { recursive: true });
+    writeJson(join('projects', 'style-fail', 'dsl', 'slides', 'slide-1.json'), {
+      id: 'slide-1',
+      elements: [{ type: 'text', id: 'title', x: 80, y: 60, width: 800, height: 60, fontSize: 32, content: 'Off palette', color: '#ff00ff' }],
+    });
+    expect(() => assembleDeck('style-fail')).toThrow(/style contract error/);
   });
 
   it('falls back to 1280x720 and minimal-white when no deckDesign present', () => {
@@ -552,6 +629,8 @@ describe('DeckPlanSchema accepts deckDesign section', () => {
     const plan = validateDeckPlan('schema-test');
     expect(plan.deckDesign).toBeDefined();
     expect(plan.deckDesign!.canvas).toEqual({ width: 1280, height: 720 });
+    expect(plan.deckDesign!.theme).toBe('minimal-white');
+    expect(plan.deckDesign!.palette.primary).toBe('#1a2c4e');
     expect(plan.slides[0]!.design?.slideType).toBe('title');
   });
 

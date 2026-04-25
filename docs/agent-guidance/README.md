@@ -11,7 +11,7 @@ The structured layer proves output stays inside the style contract. The markdown
 
 ## Style Identity
 
-`styleId` selects the guidance/design system (`academic`, `consulting`). `theme` selects runtime CSS rendering. Do not use `meta.theme` as style identity.
+`styleId` selects the guidance/design system (`academic`, `consulting`). `deckDesign` in `planning/deck-plan.json` is the project style contract for DSL colors, fonts, spacing, margins, layout patterns, and approved asset refs. `theme` selects runtime CSS rendering for HTML only; do not use `meta.theme` as style identity.
 
 ## Workflow Use
 

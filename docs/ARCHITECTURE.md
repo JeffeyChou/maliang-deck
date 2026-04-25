@@ -35,11 +35,13 @@ Python does not own DSL parsing, workflow state, extraction, or file discovery.
 
 ## Render and Export Paths
 
-HTML rendering emits DOM, CSS variables, `data-anim-*` attributes, slide FX containers, notes, and runtime metadata. The runtime handles navigation, presenter mode, timeline steps, transitions, laser pointer, whiteboard, themes, and scaling.
+HTML rendering emits DOM, CSS variables, `data-anim-*` attributes, slide FX containers, notes, and runtime metadata. The runtime handles navigation, presenter mode, timeline steps, transitions, laser pointer, whiteboard, themes, and scaling. CSS themes are HTML-only polish; workflow style alignment is driven by the `deckDesign` contract and DSL-native colors, fonts, spacing, and assets.
 
 SVG rendering emits deterministic static geometry. It wraps text with `@maliang-deck/text-measure`, resolves layouts, renders chart/table primitives, and attaches `data-*` metadata used by the DrawingML bridge for text boxes.
 
 PDF export is SVG-based. Default PPTX export is SVG-to-DrawingML. Native chart/table PPTX export requires the explicit `pptxgenjs` engine; default DrawingML fails fast for chart/table decks so content is not silently dropped.
+
+Workflow build copies referenced image assets into `render/assets/materials/` and generates target-specific deck views with portable relative paths. The canonical `dsl/deck.json` remains the source DSL artifact.
 
 ## Workflow Artifacts
 

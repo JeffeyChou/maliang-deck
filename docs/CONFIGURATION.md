@@ -121,5 +121,6 @@ Config references existing style/template primitives instead of defining a new v
 - `styleId` / `styleVersion` select registered styles.
 - `templatePackPaths` registers local JSON template packs before style lookup.
 - `tokens`, `canvas`, and `theme` provide bounded declarative overrides.
+- `styleValidation` controls assembly style drift policy: `warn` by default, or `fail` to block off-contract colors, fonts, margins, and unapproved assets.
 
 Template pack paths must be local JSON files. Remote URLs and executable `.js`/`.mjs`/`.cjs` paths are rejected in v1.

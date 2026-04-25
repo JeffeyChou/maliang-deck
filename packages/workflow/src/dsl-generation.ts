@@ -1,11 +1,12 @@
 import { join } from 'node:path';
 import { loadProject, projectRoot, saveProject } from './project.js';
 import { readJson, pathExists, writeJson } from './fs-utils.js';
-import type { GenerationWorkOrder, RequirementSet } from './schemas.js';
+import type { ExtractedAsset, GenerationWorkOrder, RequirementSet } from './schemas.js';
 import { assertOutlineApproved } from './outline.js';
 import { validateDeckPlan } from './deck-plan.js';
 import { enrichDslWorkOrder } from './guidance/work-order-enricher.js';
 import { registerConfiguredTemplatePacksForProject } from './templates/registry.js';
+import { resolveProjectStyleContract } from './style-contract.js';
 
 export function createDslWorkOrders(slugOrPath: string, options: { mode?: 'agent' | 'manual'; parallel?: boolean } = {}): GenerationWorkOrder[] {
   const root = projectRoot(slugOrPath);
@@ -13,8 +14,12 @@ export function createDslWorkOrders(slugOrPath: string, options: { mode?: 'agent
   const templateRegistration = registerConfiguredTemplatePacksForProject(root);
   assertOutlineApproved(root);
   const deckPlan = validateDeckPlan(root);
-  const lockedTokens = deckPlan.deckDesign?.lockedTokens;
-  const styleId = manifest.styleId ?? templateRegistration.styleId;
+  const styleContract = resolveProjectStyleContract(root, deckPlan.deckDesign);
+  const styleId = styleContract.styleId ?? manifest.styleId ?? templateRegistration.styleId;
+  const assets = pathExists(join(root, 'extraction', 'normalized', 'assets.json'))
+    ? readJson(join(root, 'extraction', 'normalized', 'assets.json')) as ExtractedAsset[]
+    : [];
+  const assetsById = new Map(assets.map((asset) => [asset.id, asset]));
 
   // Check if speaker notes are enabled (default: true)
   const reqPath = join(root, 'requirements.md');
@@ -57,11 +62,16 @@ export function createDslWorkOrders(slugOrPath: string, options: { mode?: 'agent
     };
 
     if (styleId && slide.design) {
+      const approvedAssets = slide.candidateAssetRefs
+        .map((ref) => assetsById.get(ref))
+        .filter((asset): asset is ExtractedAsset => Boolean(asset))
+        .map((asset) => ({ id: asset.id, kind: asset.kind, sourcePath: asset.sourcePath, caption: asset.caption }));
       return enrichDslWorkOrder(
         baseOrder,
         styleId,
         slide.design,
-        lockedTokens,
+        styleContract,
+        approvedAssets,
         slide.speakerNotesIntent,
         { includeDrafts: templateRegistration.includeDraftTemplatePacks },
       );

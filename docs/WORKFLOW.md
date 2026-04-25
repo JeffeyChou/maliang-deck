@@ -104,7 +104,7 @@ pnpm --dir packages/cli exec tsx src/index.ts workflow plan-deck projects/<slug>
 pnpm --dir packages/cli exec tsx src/index.ts workflow plan-deck projects/<slug> --validate-only
 ```
 
-`planning/deck-plan.json` should define each slide's purpose, source refs, candidate assets, layout intent, style, and speaker-notes intent.
+`planning/deck-plan.json` should define each slide's purpose, source refs, candidate assets, layout intent, style, and speaker-notes intent. New deck plans should include `deckDesign` as the project style contract: `styleId`, HTML `theme`, canvas, palette, typography, spacing, and locked tokens.
 Planning task state is tracked in `planning/tasks.json`.
 
 ## 7. Slide DSL Gate
@@ -122,7 +122,7 @@ Best practices:
 - reuse normalized source block IDs and asset refs;
 - keep coordinates intentional, or use `layout` for structured regions;
 - write `notes` as presenter script, not vague summaries;
-- use theme/style tokens where possible;
+- use the locked `deckDesign` palette, typography, spacing, margins, and approved asset refs from the slide task;
 - keep `meta.htmlRuntime` and animations as HTML polish, not core content.
 
 ## 8. Assemble and Build
@@ -132,7 +132,7 @@ pnpm --dir packages/cli exec tsx src/index.ts workflow assemble projects/<slug>
 pnpm --dir packages/cli exec tsx src/index.ts workflow build projects/<slug> --formats html,pdf,pptx
 ```
 
-Assembly checks missing/vague notes and style guidance. Build writes requested outputs under `render/` and `exports/`.
+Assembly checks missing/vague notes, the style contract, and asset references. Style drift warns by default and can block assembly when `styleValidation` is `fail`. Build writes requested outputs under `render/` and `exports/`, copying referenced image assets into `render/assets/materials/` for portable HTML/PDF/PPTX paths.
 
 ## 9. Review
 
