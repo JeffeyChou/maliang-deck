@@ -1,0 +1,433 @@
+{
+  "meta": {
+    "title": "OpsPilot AI Operations Platform Pitch",
+    "theme": "startup-pitch",
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "htmlRuntime": {
+      "transition": {
+        "type": "fade",
+        "durationMs": 420,
+        "easing": "ease-out",
+        "autoAnimate": true,
+        "unmatched": "fade"
+      }
+    }
+  },
+  "slides": [
+    {
+      "id": "case-opening",
+      "background": "#FAFAFA",
+      "notes": "OpsPilot AI Operations Platform Pitch introduces AI operations platform startup pitch for seed investors, design partners, and GTM advisors.",
+      "fx": [
+        "gradient-blob"
+      ],
+      "elements": [
+        {
+          "type": "rect",
+          "id": "hero-band",
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 190,
+          "fill": "#18181B"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 18,
+          "color": "#A855F7",
+          "content": "AI OPERATIONS PLATFORM STARTUP PITCH",
+          "fontFamily": "JetBrains Mono"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "x": 72,
+          "y": 88,
+          "width": 1136,
+          "fontSize": 50,
+          "color": "#FFFFFF",
+          "content": "OpsPilot AI Operations Platform Pitch",
+          "fontFamily": "Inter Tight",
+          "fontWeight": "bold",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 650,
+            "delay": 80
+          }
+        },
+        {
+          "type": "text",
+          "id": "narrative",
+          "x": 72,
+          "y": 230,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#18181B",
+          "content": "A founder pitches an AI operations copilot that automates incident triage, playbooks, and postmortem learning.",
+          "fontFamily": "Inter",
+          "lineHeight": 1.25
+        },
+        {
+          "type": "rect",
+          "id": "accent-card",
+          "x": 72,
+          "y": 420,
+          "width": 340,
+          "height": 150,
+          "fill": "#A855F7",
+          "radius": 18,
+          "opacity": 0.14
+        },
+        {
+          "type": "text",
+          "id": "audience-label",
+          "x": 96,
+          "y": 448,
+          "width": 280,
+          "fontSize": 16,
+          "color": "#71717A",
+          "content": "PRIMARY AUDIENCE",
+          "fontFamily": "JetBrains Mono"
+        },
+        {
+          "type": "text",
+          "id": "audience",
+          "x": 96,
+          "y": 482,
+          "width": 290,
+          "fontSize": 22,
+          "color": "#18181B",
+          "content": "seed investors, design partners, and GTM advisors",
+          "fontWeight": "bold"
+        }
+      ]
+    },
+    {
+      "id": "evidence-dashboard",
+      "background": "#FFFFFF",
+      "notes": "Evidence slide uses OpsPilot, AI, incident, playbook, automation as domain anchors, not generic filler.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "dash-title",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 40,
+          "color": "#18181B",
+          "content": "OpsPilot signals point to a focused decision",
+          "fontFamily": "Inter Tight",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "chart",
+          "id": "case-metrics",
+          "x": 72,
+          "y": 150,
+          "width": 520,
+          "height": 260,
+          "chartType": "bar",
+          "data": [
+            {
+              "name": "case metrics",
+              "labels": [
+                "OpsPilot",
+                "AI",
+                "Incident",
+                "Playbook"
+              ],
+              "values": [
+                72,
+                58,
+                84,
+                49
+              ]
+            }
+          ],
+          "options": {
+            "palette": [
+              "#A855F7"
+            ],
+            "showValues": true
+          }
+        },
+        {
+          "type": "table",
+          "id": "decision-table",
+          "x": 680,
+          "y": 150,
+          "width": 500,
+          "height": 150,
+          "rows": [
+            [
+              "AI lever",
+              "Current",
+              "Target"
+            ],
+            [
+              "automation",
+              "42",
+              "68"
+            ],
+            [
+              "platform",
+              "31",
+              "55"
+            ],
+            [
+              "pipeline",
+              "18",
+              "12"
+            ]
+          ],
+          "options": {
+            "headerFill": "#111827",
+            "headerColor": "#ffffff",
+            "zebra": true
+          }
+        },
+        {
+          "type": "text",
+          "id": "insight",
+          "x": 72,
+          "y": 470,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#18181B",
+          "content": "The strongest OpsPilot signal is paired with incident momentum, while playbook execution remains the gating constraint.",
+          "lineHeight": 1.25
+        }
+      ]
+    },
+    {
+      "id": "operating-system",
+      "background": "#F8FAFC",
+      "notes": "Operating model translates AI operations platform startup pitch into reusable components and action rules.",
+      "fx": [
+        "constellation"
+      ],
+      "elements": [
+        {
+          "type": "text",
+          "id": "system-title",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 40,
+          "color": "#18181B",
+          "content": "A reusable AI operating system",
+          "fontFamily": "Inter Tight",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "rect",
+          "id": "pillar-0",
+          "x": 72,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#A855F7",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-0-title",
+          "x": 96,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#18181B",
+          "content": "incident",
+          "fontWeight": "bold",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 0
+          }
+        },
+        {
+          "type": "text",
+          "id": "pillar-0-body",
+          "x": 96,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#71717A",
+          "content": "Use platform evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "rect",
+          "id": "pillar-1",
+          "x": 452,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#A855F7",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-1-title",
+          "x": 476,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#18181B",
+          "content": "playbook",
+          "fontWeight": "bold",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 120
+          }
+        },
+        {
+          "type": "text",
+          "id": "pillar-1-body",
+          "x": 476,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#71717A",
+          "content": "Use pipeline evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "rect",
+          "id": "pillar-2",
+          "x": 832,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#A855F7",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-2-title",
+          "x": 856,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#18181B",
+          "content": "automation",
+          "fontWeight": "bold",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 240
+          }
+        },
+        {
+          "type": "text",
+          "id": "pillar-2-body",
+          "x": 856,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#71717A",
+          "content": "Use investors evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "text",
+          "id": "system-footer",
+          "x": 72,
+          "y": 510,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#18181B",
+          "content": "The template combines executive narrative, metric evidence, and implementation guardrails for OpsPilot AI Operations Platform Pitch."
+        }
+      ]
+    },
+    {
+      "id": "next-actions",
+      "background": "#18181B",
+      "notes": "Closing slide defines next actions for seed investors, design partners, and GTM advisors.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "close-title",
+          "x": 72,
+          "y": 70,
+          "width": 1136,
+          "fontSize": 46,
+          "color": "#FFFFFF",
+          "content": "Decision path for OpsPilot momentum",
+          "fontFamily": "Inter Tight",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "action-0",
+          "x": 72,
+          "y": 190,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "1. Align leadership review: incident / platform",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 0
+          }
+        },
+        {
+          "type": "text",
+          "id": "action-1",
+          "x": 72,
+          "y": 300,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "2. Instrument proof metrics: playbook / pipeline",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 160
+          }
+        },
+        {
+          "type": "text",
+          "id": "action-2",
+          "x": 72,
+          "y": 410,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "3. Commit launch cadence: automation / investors",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 320
+          }
+        },
+        {
+          "type": "text",
+          "id": "close-note",
+          "x": 72,
+          "y": 560,
+          "width": 1136,
+          "fontSize": 24,
+          "color": "#A855F7",
+          "content": "Static exports preserve this decision content; HTML runtime enhancements only affect motion and atmospheric FX."
+        }
+      ]
+    }
+  ]
+}

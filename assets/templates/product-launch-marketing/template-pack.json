@@ -1,0 +1,516 @@
+{
+  "id": "product-launch-marketing",
+  "version": "1.0.0",
+  "name": "Product Launch Marketing",
+  "description": "Curated Maliang Deck template for consumer electronics product launch marketing: Auraloop AR Earbuds Launch.",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "sources": [
+    {
+      "id": "product-launch-marketing-synthesis",
+      "format": "html",
+      "path": "assets/templates/product-launch-marketing/README.md",
+      "dimensions": {
+        "width": 1280,
+        "height": 720
+      },
+      "pageCount": 1,
+      "warnings": []
+    }
+  ],
+  "tokens": {
+    "palette": {
+      "primary": "#111827",
+      "secondary": "#FFF7ED",
+      "accent": "#F97316",
+      "neutral": "#6B7280",
+      "semantic": {
+        "success": "#16A34A",
+        "warning": "#F59E0B",
+        "danger": "#DC2626"
+      }
+    },
+    "typography": {
+      "headingFont": "Sora",
+      "bodyFont": "Inter",
+      "monoFont": "JetBrains Mono",
+      "scaleRatio": 1.22
+    },
+    "spacing": {
+      "element": 18,
+      "section": 40,
+      "margin": {
+        "top": 48,
+        "right": 72,
+        "bottom": 48,
+        "left": 72
+      }
+    },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "backgrounds": [
+      "#FFF7ED",
+      "#111827"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "product-launch-marketing-opening",
+      "name": "Case opening",
+      "slideType": "title",
+      "purpose": "Sets case context, audience, and narrative hook.",
+      "slots": [
+        {
+          "id": "product-launch-marketing-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 72,
+            "y": 84,
+            "width": 1136,
+            "height": 86
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "product-launch-marketing-synthesis",
+              "format": "html",
+              "path": "assets/templates/product-launch-marketing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "product-launch-marketing-narrative-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 220,
+            "width": 1136,
+            "height": 140
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "product-launch-marketing-synthesis",
+              "format": "html",
+              "path": "assets/templates/product-launch-marketing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "product-launch-marketing-synthesis",
+          "format": "html",
+          "path": "assets/templates/product-launch-marketing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "product-launch-marketing-dashboard",
+      "name": "Evidence dashboard",
+      "slideType": "chart",
+      "purpose": "Pairs metric visuals with decision evidence.",
+      "slots": [
+        {
+          "id": "product-launch-marketing-chart-slot",
+          "role": "chart",
+          "bbox": {
+            "x": 72,
+            "y": 150,
+            "width": 520,
+            "height": 260
+          },
+          "required": true,
+          "accepts": [
+            "chart"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "product-launch-marketing-synthesis",
+              "format": "html",
+              "path": "assets/templates/product-launch-marketing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "product-launch-marketing-table-slot",
+          "role": "table",
+          "bbox": {
+            "x": 680,
+            "y": 150,
+            "width": 500,
+            "height": 160
+          },
+          "required": false,
+          "accepts": [
+            "table"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "product-launch-marketing-synthesis",
+              "format": "html",
+              "path": "assets/templates/product-launch-marketing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "product-launch-marketing-synthesis",
+          "format": "html",
+          "path": "assets/templates/product-launch-marketing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "product-launch-marketing-system",
+      "name": "Operating system",
+      "slideType": "evidence",
+      "purpose": "Frames reusable pillars and implementation logic.",
+      "slots": [
+        {
+          "id": "product-launch-marketing-pillar-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 170,
+            "width": 330,
+            "height": 240
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "product-launch-marketing-synthesis",
+              "format": "html",
+              "path": "assets/templates/product-launch-marketing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "product-launch-marketing-caption-slot",
+          "role": "caption",
+          "bbox": {
+            "x": 72,
+            "y": 510,
+            "width": 1136,
+            "height": 80
+          },
+          "required": false,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "product-launch-marketing-synthesis",
+              "format": "html",
+              "path": "assets/templates/product-launch-marketing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "product-launch-marketing-synthesis",
+          "format": "html",
+          "path": "assets/templates/product-launch-marketing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "product-launch-marketing-closing",
+      "name": "Decision close",
+      "slideType": "closing",
+      "purpose": "Summarizes next actions and export-safe takeaway.",
+      "slots": [
+        {
+          "id": "product-launch-marketing-actions-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 190,
+            "width": 1136,
+            "height": 300
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "product-launch-marketing-synthesis",
+              "format": "html",
+              "path": "assets/templates/product-launch-marketing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "product-launch-marketing-synthesis",
+          "format": "html",
+          "path": "assets/templates/product-launch-marketing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "id": "product-launch-marketing-opening-fragment",
+      "archetypeId": "product-launch-marketing-opening",
+      "description": "Reusable case opening fragment for Auraloop AR Earbuds Launch.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "product-launch-marketing-opening",
+        "template": "product-launch-marketing",
+        "roles": [
+          "title",
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "product-launch-marketing-synthesis",
+          "format": "html",
+          "path": "assets/templates/product-launch-marketing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "product-launch-marketing-dashboard-fragment",
+      "archetypeId": "product-launch-marketing-dashboard",
+      "description": "Reusable evidence dashboard fragment for Auraloop AR Earbuds Launch.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "product-launch-marketing-dashboard",
+        "template": "product-launch-marketing",
+        "roles": [
+          "chart",
+          "table"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "product-launch-marketing-synthesis",
+          "format": "html",
+          "path": "assets/templates/product-launch-marketing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "product-launch-marketing-system-fragment",
+      "archetypeId": "product-launch-marketing-system",
+      "description": "Reusable operating system fragment for Auraloop AR Earbuds Launch.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "product-launch-marketing-system",
+        "template": "product-launch-marketing",
+        "roles": [
+          "body",
+          "caption"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "product-launch-marketing-synthesis",
+          "format": "html",
+          "path": "assets/templates/product-launch-marketing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "product-launch-marketing-closing-fragment",
+      "archetypeId": "product-launch-marketing-closing",
+      "description": "Reusable decision close fragment for Auraloop AR Earbuds Launch.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "product-launch-marketing-closing",
+        "template": "product-launch-marketing",
+        "roles": [
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "product-launch-marketing-synthesis",
+          "format": "html",
+          "path": "assets/templates/product-launch-marketing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "guidance": {
+    "summary": "Use Product Launch Marketing for consumer electronics product launch marketing with concrete Auraloop, earbuds, spatial, retail content.",
+    "outline": [
+      "Lead with Auraloop AR Earbuds Launch and audience stakes.",
+      "Reserve one slide for Auraloop evidence and one for implementation choices."
+    ],
+    "deckPlan": [
+      "Use opening, dashboard, operating system, and closing archetypes in order.",
+      "Keep charts tied to earbuds decisions."
+    ],
+    "slideDsl": [
+      "Use #111827 for dominant surfaces and #F97316 for emphasis.",
+      "Prefer concise domain language: Auraloop, earbuds, spatial, retail, creator, launch, preorder, audio."
+    ]
+  },
+  "provenance": [
+    {
+      "sourceId": "product-launch-marketing-synthesis",
+      "format": "html",
+      "path": "assets/templates/product-launch-marketing/README.md",
+      "pageIndex": 0,
+      "adapter": "curated-human-synthesis"
+    }
+  ],
+  "coverage": {
+    "templateId": "product-launch-marketing",
+    "generatedAt": "2026-04-25T00:00:00.000Z",
+    "significantObservationCount": 12,
+    "assignedSlotCount": 7,
+    "metrics": {
+      "tokens": {
+        "covered": 6,
+        "total": 6,
+        "ratio": 1
+      },
+      "archetypes": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      },
+      "slots": {
+        "covered": 7,
+        "total": 7,
+        "ratio": 1
+      },
+      "fragments": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      }
+    },
+    "formatConfidence": {
+      "html": 0.9
+    },
+    "warnings": [],
+    "sampleDeck": {
+      "validates": true,
+      "formats": {
+        "html": true,
+        "pdf": false,
+        "pptx": false
+      },
+      "degraded": true,
+      "warnings": [
+        "HTML animation/FX degrade to static content in SVG/PDF/PPTX."
+      ]
+    },
+    "slotCoverage": {
+      "assignedSignificantObservations": 7
+    }
+  },
+  "activation": {
+    "status": "approved",
+    "approvedAt": "2026-04-25T00:00:00.000Z",
+    "approvedBy": "ralph-curated-library"
+  },
+  "sampleDeck": {
+    "path": "sample.deck.json",
+    "case": {
+      "title": "Auraloop AR Earbuds Launch",
+      "domain": "consumer electronics product launch marketing",
+      "audience": "retail partners, press, and launch marketing leads",
+      "narrative": "A launch team introduces AR earbuds with spatial audio, creator workflows, and retail conversion proof points.",
+      "slideCount": 4,
+      "canvas": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "staticFallback": {
+      "htmlOnlyFeatures": [
+        "element animation",
+        "slide fx",
+        "htmlRuntime transition"
+      ],
+      "staticBehavior": "ignored",
+      "notes": [
+        "SVG/PDF/PPTX exports preserve final element positions and text.",
+        "Motion, timeline easing, and atmospheric FX are HTML-only enhancements."
+      ]
+    },
+    "warnings": []
+  },
+  "warnings": []
+}

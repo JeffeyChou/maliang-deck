@@ -1,0 +1,383 @@
+{
+  "meta": {
+    "title": "TriageAI Diagnostic Validation",
+    "theme": "healthcare-biotech-briefing",
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "slides": [
+    {
+      "id": "case-opening",
+      "background": "#F8FAFC",
+      "notes": "TriageAI Diagnostic Validation introduces clinical workflow optimization and diagnostic AI validation for hospital operations, clinical governance, and biotech partners.",
+      "elements": [
+        {
+          "type": "rect",
+          "id": "hero-band",
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 190,
+          "fill": "#0F3D3E"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 18,
+          "color": "#22C55E",
+          "content": "CLINICAL WORKFLOW OPTIMIZATION AND DIAGNOSTIC AI VALIDATION",
+          "fontFamily": "IBM Plex Mono"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "x": 72,
+          "y": 88,
+          "width": 1136,
+          "fontSize": 50,
+          "color": "#FFFFFF",
+          "content": "TriageAI Diagnostic Validation",
+          "fontFamily": "Nunito Sans",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "narrative",
+          "x": 72,
+          "y": 230,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#0F3D3E",
+          "content": "A clinical team presents diagnostic validation, workflow impact, and safety gates for emergency triage AI.",
+          "fontFamily": "Inter",
+          "lineHeight": 1.25
+        },
+        {
+          "type": "rect",
+          "id": "accent-card",
+          "x": 72,
+          "y": 420,
+          "width": 340,
+          "height": 150,
+          "fill": "#22C55E",
+          "radius": 18,
+          "opacity": 0.14
+        },
+        {
+          "type": "text",
+          "id": "audience-label",
+          "x": 96,
+          "y": 448,
+          "width": 280,
+          "fontSize": 16,
+          "color": "#64748B",
+          "content": "PRIMARY AUDIENCE",
+          "fontFamily": "IBM Plex Mono"
+        },
+        {
+          "type": "text",
+          "id": "audience",
+          "x": 96,
+          "y": 482,
+          "width": 290,
+          "fontSize": 22,
+          "color": "#0F3D3E",
+          "content": "hospital operations, clinical governance, and biotech partners",
+          "fontWeight": "bold"
+        }
+      ]
+    },
+    {
+      "id": "evidence-dashboard",
+      "background": "#FFFFFF",
+      "notes": "Evidence slide uses triage, diagnostic, sensitivity, specificity, workflow as domain anchors, not generic filler.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "dash-title",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 40,
+          "color": "#0F3D3E",
+          "content": "Triage signals point to a focused decision",
+          "fontFamily": "Nunito Sans",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "chart",
+          "id": "case-metrics",
+          "x": 72,
+          "y": 150,
+          "width": 520,
+          "height": 260,
+          "chartType": "bar",
+          "data": [
+            {
+              "name": "case metrics",
+              "labels": [
+                "Triage",
+                "Diagnostic",
+                "Sensitivity",
+                "Specificity"
+              ],
+              "values": [
+                72,
+                58,
+                84,
+                49
+              ]
+            }
+          ],
+          "options": {
+            "palette": [
+              "#22C55E"
+            ],
+            "showValues": true
+          }
+        },
+        {
+          "type": "table",
+          "id": "decision-table",
+          "x": 680,
+          "y": 150,
+          "width": 500,
+          "height": 150,
+          "rows": [
+            [
+              "Diagnostic lever",
+              "Current",
+              "Target"
+            ],
+            [
+              "workflow",
+              "42",
+              "68"
+            ],
+            [
+              "clinical",
+              "31",
+              "55"
+            ],
+            [
+              "validation",
+              "18",
+              "12"
+            ]
+          ],
+          "options": {
+            "headerFill": "#111827",
+            "headerColor": "#ffffff",
+            "zebra": true
+          }
+        },
+        {
+          "type": "text",
+          "id": "insight",
+          "x": 72,
+          "y": 470,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#0F3D3E",
+          "content": "The strongest triage signal is paired with sensitivity momentum, while specificity execution remains the gating constraint.",
+          "lineHeight": 1.25
+        }
+      ]
+    },
+    {
+      "id": "operating-system",
+      "background": "#F8FAFC",
+      "notes": "Operating model translates clinical workflow optimization and diagnostic AI validation into reusable components and action rules.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "system-title",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 40,
+          "color": "#0F3D3E",
+          "content": "A reusable diagnostic operating system",
+          "fontFamily": "Nunito Sans",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "rect",
+          "id": "pillar-0",
+          "x": 72,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#22C55E",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-0-title",
+          "x": 96,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#0F3D3E",
+          "content": "sensitivity",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "pillar-0-body",
+          "x": 96,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#64748B",
+          "content": "Use clinical evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "rect",
+          "id": "pillar-1",
+          "x": 452,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#22C55E",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-1-title",
+          "x": 476,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#0F3D3E",
+          "content": "specificity",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "pillar-1-body",
+          "x": 476,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#64748B",
+          "content": "Use validation evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "rect",
+          "id": "pillar-2",
+          "x": 832,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#22C55E",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-2-title",
+          "x": 856,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#0F3D3E",
+          "content": "workflow",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "pillar-2-body",
+          "x": 856,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#64748B",
+          "content": "Use patient evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "text",
+          "id": "system-footer",
+          "x": 72,
+          "y": 510,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#0F3D3E",
+          "content": "The template combines executive narrative, metric evidence, and implementation guardrails for TriageAI Diagnostic Validation."
+        }
+      ]
+    },
+    {
+      "id": "next-actions",
+      "background": "#0F3D3E",
+      "notes": "Closing slide defines next actions for hospital operations, clinical governance, and biotech partners.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "close-title",
+          "x": 72,
+          "y": 70,
+          "width": 1136,
+          "fontSize": 46,
+          "color": "#FFFFFF",
+          "content": "Decision path for triage momentum",
+          "fontFamily": "Nunito Sans",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "action-0",
+          "x": 72,
+          "y": 190,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "1. Align leadership review: sensitivity / clinical"
+        },
+        {
+          "type": "text",
+          "id": "action-1",
+          "x": 72,
+          "y": 300,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "2. Instrument proof metrics: specificity / validation"
+        },
+        {
+          "type": "text",
+          "id": "action-2",
+          "x": 72,
+          "y": 410,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "3. Commit launch cadence: workflow / patient"
+        },
+        {
+          "type": "text",
+          "id": "close-note",
+          "x": 72,
+          "y": 560,
+          "width": 1136,
+          "fontSize": 24,
+          "color": "#22C55E",
+          "content": "Static exports preserve this decision content; HTML runtime enhancements only affect motion and atmospheric FX."
+        }
+      ]
+    }
+  ]
+}

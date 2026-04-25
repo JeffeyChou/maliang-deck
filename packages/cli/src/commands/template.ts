@@ -1,8 +1,8 @@
 import { Command } from 'commander';
 import {
   extractTemplatePack,
+  getTemplatePackRecord,
   listAvailableTemplateStyles,
-  loadTemplatePackFile,
   registerTemplatePackFile,
   validateTemplatePack,
   writeTemplateSampleProject,
@@ -27,20 +27,25 @@ export function registerTemplateCommand(program: Command): void {
 
   template
     .command('validate <templatePack>')
-    .description('Validate a template-pack.json file')
+    .description('Validate a template-pack.json file or built-in template id')
     .action((templatePack: string) => {
-      const pack = validateTemplatePack(JSON.parse(readFileSync(templatePack, 'utf-8')));
+      const pack = templatePack.endsWith('.json')
+        ? validateTemplatePack(JSON.parse(readFileSync(templatePack, 'utf-8')))
+        : getTemplatePackRecord(templatePack).pack;
       console.log(`Template pack valid: ${pack.id}@${pack.version} (${pack.activation.status})`);
       if (pack.activation.status !== 'approved') console.warn('Draft/deprecated packs are not generation-active by default.');
     });
 
   template
     .command('sample <templatePack>')
-    .description('Generate a sample project from a template pack through ordinary JSON DSL')
+    .description('Generate a sample project from a template pack file or built-in id through ordinary JSON DSL')
     .requiredOption('--out <project>', 'Output project directory')
     .action((templatePack: string, opts: { out: string }) => {
-      const pack = loadTemplatePackFile(templatePack);
-      const result = writeTemplateSampleProject(pack, opts.out);
+      const record = getTemplatePackRecord(templatePack);
+      const result = writeTemplateSampleProject(record.pack, opts.out, {
+        ownerDir: record.ownerDir,
+        requireSamplePath: record.source === 'built-in',
+      });
       console.log(`Sample deck: ${result.deckPath}`);
       console.log(`Sample HTML: ${result.htmlPath}`);
       console.log('Sample uses standard Maliang Deck JSON DSL; renderers remain template-unaware.');
@@ -51,10 +56,11 @@ export function registerTemplateCommand(program: Command): void {
     .command('list')
     .description('List built-in styles and registered file-backed template styles')
     .option('--include-drafts', 'Include draft template packs when loading files')
+    .option('--no-built-ins', 'Exclude curated built-in template packs')
     .option('--template-pack <paths...>', 'Template pack files to load before listing')
-    .action((opts: { includeDrafts?: boolean; templatePack?: string[] }) => {
+    .action((opts: { includeDrafts?: boolean; builtIns?: boolean; templatePack?: string[] }) => {
       for (const packPath of opts.templatePack ?? []) registerTemplatePackFile(packPath, { includeDrafts: Boolean(opts.includeDrafts) });
-      for (const style of listAvailableTemplateStyles({ includeDrafts: Boolean(opts.includeDrafts) })) {
+      for (const style of listAvailableTemplateStyles({ includeDrafts: Boolean(opts.includeDrafts), includeBuiltIns: opts.builtIns !== false })) {
         console.log(`${style.id}\t${style.version}\t${style.name}`);
       }
     });

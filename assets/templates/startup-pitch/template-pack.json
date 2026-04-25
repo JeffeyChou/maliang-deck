@@ -1,0 +1,516 @@
+{
+  "id": "startup-pitch",
+  "version": "1.0.0",
+  "name": "Startup Pitch",
+  "description": "Curated Maliang Deck template for AI operations platform startup pitch: OpsPilot AI Operations Platform Pitch.",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "sources": [
+    {
+      "id": "startup-pitch-synthesis",
+      "format": "html",
+      "path": "assets/templates/startup-pitch/README.md",
+      "dimensions": {
+        "width": 1280,
+        "height": 720
+      },
+      "pageCount": 1,
+      "warnings": []
+    }
+  ],
+  "tokens": {
+    "palette": {
+      "primary": "#18181B",
+      "secondary": "#FAFAFA",
+      "accent": "#A855F7",
+      "neutral": "#71717A",
+      "semantic": {
+        "success": "#16A34A",
+        "warning": "#F59E0B",
+        "danger": "#DC2626"
+      }
+    },
+    "typography": {
+      "headingFont": "Inter Tight",
+      "bodyFont": "Inter",
+      "monoFont": "JetBrains Mono",
+      "scaleRatio": 1.22
+    },
+    "spacing": {
+      "element": 18,
+      "section": 40,
+      "margin": {
+        "top": 48,
+        "right": 72,
+        "bottom": 48,
+        "left": 72
+      }
+    },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "backgrounds": [
+      "#FAFAFA",
+      "#18181B"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "startup-pitch-opening",
+      "name": "Case opening",
+      "slideType": "title",
+      "purpose": "Sets case context, audience, and narrative hook.",
+      "slots": [
+        {
+          "id": "startup-pitch-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 72,
+            "y": 84,
+            "width": 1136,
+            "height": 86
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "startup-pitch-synthesis",
+              "format": "html",
+              "path": "assets/templates/startup-pitch/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "startup-pitch-narrative-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 220,
+            "width": 1136,
+            "height": 140
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "startup-pitch-synthesis",
+              "format": "html",
+              "path": "assets/templates/startup-pitch/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "startup-pitch-synthesis",
+          "format": "html",
+          "path": "assets/templates/startup-pitch/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "startup-pitch-dashboard",
+      "name": "Evidence dashboard",
+      "slideType": "chart",
+      "purpose": "Pairs metric visuals with decision evidence.",
+      "slots": [
+        {
+          "id": "startup-pitch-chart-slot",
+          "role": "chart",
+          "bbox": {
+            "x": 72,
+            "y": 150,
+            "width": 520,
+            "height": 260
+          },
+          "required": true,
+          "accepts": [
+            "chart"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "startup-pitch-synthesis",
+              "format": "html",
+              "path": "assets/templates/startup-pitch/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "startup-pitch-table-slot",
+          "role": "table",
+          "bbox": {
+            "x": 680,
+            "y": 150,
+            "width": 500,
+            "height": 160
+          },
+          "required": false,
+          "accepts": [
+            "table"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "startup-pitch-synthesis",
+              "format": "html",
+              "path": "assets/templates/startup-pitch/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "startup-pitch-synthesis",
+          "format": "html",
+          "path": "assets/templates/startup-pitch/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "startup-pitch-system",
+      "name": "Operating system",
+      "slideType": "evidence",
+      "purpose": "Frames reusable pillars and implementation logic.",
+      "slots": [
+        {
+          "id": "startup-pitch-pillar-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 170,
+            "width": 330,
+            "height": 240
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "startup-pitch-synthesis",
+              "format": "html",
+              "path": "assets/templates/startup-pitch/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "startup-pitch-caption-slot",
+          "role": "caption",
+          "bbox": {
+            "x": 72,
+            "y": 510,
+            "width": 1136,
+            "height": 80
+          },
+          "required": false,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "startup-pitch-synthesis",
+              "format": "html",
+              "path": "assets/templates/startup-pitch/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "startup-pitch-synthesis",
+          "format": "html",
+          "path": "assets/templates/startup-pitch/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "startup-pitch-closing",
+      "name": "Decision close",
+      "slideType": "closing",
+      "purpose": "Summarizes next actions and export-safe takeaway.",
+      "slots": [
+        {
+          "id": "startup-pitch-actions-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 190,
+            "width": 1136,
+            "height": 300
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "startup-pitch-synthesis",
+              "format": "html",
+              "path": "assets/templates/startup-pitch/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "startup-pitch-synthesis",
+          "format": "html",
+          "path": "assets/templates/startup-pitch/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "id": "startup-pitch-opening-fragment",
+      "archetypeId": "startup-pitch-opening",
+      "description": "Reusable case opening fragment for OpsPilot AI Operations Platform Pitch.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "startup-pitch-opening",
+        "template": "startup-pitch",
+        "roles": [
+          "title",
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "startup-pitch-synthesis",
+          "format": "html",
+          "path": "assets/templates/startup-pitch/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "startup-pitch-dashboard-fragment",
+      "archetypeId": "startup-pitch-dashboard",
+      "description": "Reusable evidence dashboard fragment for OpsPilot AI Operations Platform Pitch.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "startup-pitch-dashboard",
+        "template": "startup-pitch",
+        "roles": [
+          "chart",
+          "table"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "startup-pitch-synthesis",
+          "format": "html",
+          "path": "assets/templates/startup-pitch/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "startup-pitch-system-fragment",
+      "archetypeId": "startup-pitch-system",
+      "description": "Reusable operating system fragment for OpsPilot AI Operations Platform Pitch.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "startup-pitch-system",
+        "template": "startup-pitch",
+        "roles": [
+          "body",
+          "caption"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "startup-pitch-synthesis",
+          "format": "html",
+          "path": "assets/templates/startup-pitch/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "startup-pitch-closing-fragment",
+      "archetypeId": "startup-pitch-closing",
+      "description": "Reusable decision close fragment for OpsPilot AI Operations Platform Pitch.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "startup-pitch-closing",
+        "template": "startup-pitch",
+        "roles": [
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "startup-pitch-synthesis",
+          "format": "html",
+          "path": "assets/templates/startup-pitch/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "guidance": {
+    "summary": "Use Startup Pitch for AI operations platform startup pitch with concrete OpsPilot, AI, incident, playbook content.",
+    "outline": [
+      "Lead with OpsPilot AI Operations Platform Pitch and audience stakes.",
+      "Reserve one slide for OpsPilot evidence and one for implementation choices."
+    ],
+    "deckPlan": [
+      "Use opening, dashboard, operating system, and closing archetypes in order.",
+      "Keep charts tied to AI decisions."
+    ],
+    "slideDsl": [
+      "Use #18181B for dominant surfaces and #A855F7 for emphasis.",
+      "Prefer concise domain language: OpsPilot, AI, incident, playbook, automation, platform, pipeline, investors."
+    ]
+  },
+  "provenance": [
+    {
+      "sourceId": "startup-pitch-synthesis",
+      "format": "html",
+      "path": "assets/templates/startup-pitch/README.md",
+      "pageIndex": 0,
+      "adapter": "curated-human-synthesis"
+    }
+  ],
+  "coverage": {
+    "templateId": "startup-pitch",
+    "generatedAt": "2026-04-25T00:00:00.000Z",
+    "significantObservationCount": 12,
+    "assignedSlotCount": 7,
+    "metrics": {
+      "tokens": {
+        "covered": 6,
+        "total": 6,
+        "ratio": 1
+      },
+      "archetypes": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      },
+      "slots": {
+        "covered": 7,
+        "total": 7,
+        "ratio": 1
+      },
+      "fragments": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      }
+    },
+    "formatConfidence": {
+      "html": 0.9
+    },
+    "warnings": [],
+    "sampleDeck": {
+      "validates": true,
+      "formats": {
+        "html": true,
+        "pdf": false,
+        "pptx": false
+      },
+      "degraded": true,
+      "warnings": [
+        "HTML animation/FX degrade to static content in SVG/PDF/PPTX."
+      ]
+    },
+    "slotCoverage": {
+      "assignedSignificantObservations": 7
+    }
+  },
+  "activation": {
+    "status": "approved",
+    "approvedAt": "2026-04-25T00:00:00.000Z",
+    "approvedBy": "ralph-curated-library"
+  },
+  "sampleDeck": {
+    "path": "sample.deck.json",
+    "case": {
+      "title": "OpsPilot AI Operations Platform Pitch",
+      "domain": "AI operations platform startup pitch",
+      "audience": "seed investors, design partners, and GTM advisors",
+      "narrative": "A founder pitches an AI operations copilot that automates incident triage, playbooks, and postmortem learning.",
+      "slideCount": 4,
+      "canvas": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "staticFallback": {
+      "htmlOnlyFeatures": [
+        "element animation",
+        "slide fx",
+        "htmlRuntime transition"
+      ],
+      "staticBehavior": "ignored",
+      "notes": [
+        "SVG/PDF/PPTX exports preserve final element positions and text.",
+        "Motion, timeline easing, and atmospheric FX are HTML-only enhancements."
+      ]
+    },
+    "warnings": []
+  },
+  "warnings": []
+}

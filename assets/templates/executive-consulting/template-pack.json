@@ -1,0 +1,502 @@
+{
+  "id": "executive-consulting",
+  "version": "1.0.0",
+  "name": "Executive Consulting",
+  "description": "Curated Maliang Deck template for B2B SaaS market-entry strategy consulting: Northstar B2B SaaS Market Entry.",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "sources": [
+    {
+      "id": "executive-consulting-synthesis",
+      "format": "html",
+      "path": "assets/templates/executive-consulting/README.md",
+      "dimensions": {
+        "width": 1280,
+        "height": 720
+      },
+      "pageCount": 1,
+      "warnings": []
+    }
+  ],
+  "tokens": {
+    "palette": {
+      "primary": "#102A43",
+      "secondary": "#F7FAFC",
+      "accent": "#2F80ED",
+      "neutral": "#52616B",
+      "semantic": {
+        "success": "#16A34A",
+        "warning": "#F59E0B",
+        "danger": "#DC2626"
+      }
+    },
+    "typography": {
+      "headingFont": "Aptos Display",
+      "bodyFont": "Aptos",
+      "monoFont": "IBM Plex Mono",
+      "scaleRatio": 1.22
+    },
+    "spacing": {
+      "element": 18,
+      "section": 40,
+      "margin": {
+        "top": 48,
+        "right": 72,
+        "bottom": 48,
+        "left": 72
+      }
+    },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "backgrounds": [
+      "#F7FAFC",
+      "#102A43"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "executive-consulting-opening",
+      "name": "Case opening",
+      "slideType": "title",
+      "purpose": "Sets case context, audience, and narrative hook.",
+      "slots": [
+        {
+          "id": "executive-consulting-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 72,
+            "y": 84,
+            "width": 1136,
+            "height": 86
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "executive-consulting-synthesis",
+              "format": "html",
+              "path": "assets/templates/executive-consulting/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "executive-consulting-narrative-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 220,
+            "width": 1136,
+            "height": 140
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "executive-consulting-synthesis",
+              "format": "html",
+              "path": "assets/templates/executive-consulting/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "executive-consulting-synthesis",
+          "format": "html",
+          "path": "assets/templates/executive-consulting/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "executive-consulting-dashboard",
+      "name": "Evidence dashboard",
+      "slideType": "chart",
+      "purpose": "Pairs metric visuals with decision evidence.",
+      "slots": [
+        {
+          "id": "executive-consulting-chart-slot",
+          "role": "chart",
+          "bbox": {
+            "x": 72,
+            "y": 150,
+            "width": 520,
+            "height": 260
+          },
+          "required": true,
+          "accepts": [
+            "chart"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "executive-consulting-synthesis",
+              "format": "html",
+              "path": "assets/templates/executive-consulting/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "executive-consulting-table-slot",
+          "role": "table",
+          "bbox": {
+            "x": 680,
+            "y": 150,
+            "width": 500,
+            "height": 160
+          },
+          "required": false,
+          "accepts": [
+            "table"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "executive-consulting-synthesis",
+              "format": "html",
+              "path": "assets/templates/executive-consulting/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "executive-consulting-synthesis",
+          "format": "html",
+          "path": "assets/templates/executive-consulting/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "executive-consulting-system",
+      "name": "Operating system",
+      "slideType": "evidence",
+      "purpose": "Frames reusable pillars and implementation logic.",
+      "slots": [
+        {
+          "id": "executive-consulting-pillar-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 170,
+            "width": 330,
+            "height": 240
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "executive-consulting-synthesis",
+              "format": "html",
+              "path": "assets/templates/executive-consulting/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "executive-consulting-caption-slot",
+          "role": "caption",
+          "bbox": {
+            "x": 72,
+            "y": 510,
+            "width": 1136,
+            "height": 80
+          },
+          "required": false,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "executive-consulting-synthesis",
+              "format": "html",
+              "path": "assets/templates/executive-consulting/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "executive-consulting-synthesis",
+          "format": "html",
+          "path": "assets/templates/executive-consulting/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "executive-consulting-closing",
+      "name": "Decision close",
+      "slideType": "closing",
+      "purpose": "Summarizes next actions and export-safe takeaway.",
+      "slots": [
+        {
+          "id": "executive-consulting-actions-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 190,
+            "width": 1136,
+            "height": 300
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "executive-consulting-synthesis",
+              "format": "html",
+              "path": "assets/templates/executive-consulting/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "executive-consulting-synthesis",
+          "format": "html",
+          "path": "assets/templates/executive-consulting/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "id": "executive-consulting-opening-fragment",
+      "archetypeId": "executive-consulting-opening",
+      "description": "Reusable case opening fragment for Northstar B2B SaaS Market Entry.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "executive-consulting-opening",
+        "template": "executive-consulting",
+        "roles": [
+          "title",
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "executive-consulting-synthesis",
+          "format": "html",
+          "path": "assets/templates/executive-consulting/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "executive-consulting-dashboard-fragment",
+      "archetypeId": "executive-consulting-dashboard",
+      "description": "Reusable evidence dashboard fragment for Northstar B2B SaaS Market Entry.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "executive-consulting-dashboard",
+        "template": "executive-consulting",
+        "roles": [
+          "chart",
+          "table"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "executive-consulting-synthesis",
+          "format": "html",
+          "path": "assets/templates/executive-consulting/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "executive-consulting-system-fragment",
+      "archetypeId": "executive-consulting-system",
+      "description": "Reusable operating system fragment for Northstar B2B SaaS Market Entry.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "executive-consulting-system",
+        "template": "executive-consulting",
+        "roles": [
+          "body",
+          "caption"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "executive-consulting-synthesis",
+          "format": "html",
+          "path": "assets/templates/executive-consulting/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "executive-consulting-closing-fragment",
+      "archetypeId": "executive-consulting-closing",
+      "description": "Reusable decision close fragment for Northstar B2B SaaS Market Entry.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "executive-consulting-closing",
+        "template": "executive-consulting",
+        "roles": [
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "executive-consulting-synthesis",
+          "format": "html",
+          "path": "assets/templates/executive-consulting/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "guidance": {
+    "summary": "Use Executive Consulting for B2B SaaS market-entry strategy consulting with concrete SaaS, DACH, enterprise, channel content.",
+    "outline": [
+      "Lead with Northstar B2B SaaS Market Entry and audience stakes.",
+      "Reserve one slide for SaaS evidence and one for implementation choices."
+    ],
+    "deckPlan": [
+      "Use opening, dashboard, operating system, and closing archetypes in order.",
+      "Keep charts tied to DACH decisions."
+    ],
+    "slideDsl": [
+      "Use #102A43 for dominant surfaces and #2F80ED for emphasis.",
+      "Prefer concise domain language: SaaS, DACH, enterprise, channel, ARR, market, wedge, board."
+    ]
+  },
+  "provenance": [
+    {
+      "sourceId": "executive-consulting-synthesis",
+      "format": "html",
+      "path": "assets/templates/executive-consulting/README.md",
+      "pageIndex": 0,
+      "adapter": "curated-human-synthesis"
+    }
+  ],
+  "coverage": {
+    "templateId": "executive-consulting",
+    "generatedAt": "2026-04-25T00:00:00.000Z",
+    "significantObservationCount": 12,
+    "assignedSlotCount": 7,
+    "metrics": {
+      "tokens": {
+        "covered": 6,
+        "total": 6,
+        "ratio": 1
+      },
+      "archetypes": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      },
+      "slots": {
+        "covered": 7,
+        "total": 7,
+        "ratio": 1
+      },
+      "fragments": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      }
+    },
+    "formatConfidence": {
+      "html": 0.9
+    },
+    "warnings": [],
+    "sampleDeck": {
+      "validates": true,
+      "formats": {
+        "html": true,
+        "pdf": false,
+        "pptx": false
+      },
+      "degraded": false,
+      "warnings": []
+    },
+    "slotCoverage": {
+      "assignedSignificantObservations": 7
+    }
+  },
+  "activation": {
+    "status": "approved",
+    "approvedAt": "2026-04-25T00:00:00.000Z",
+    "approvedBy": "ralph-curated-library"
+  },
+  "sampleDeck": {
+    "path": "sample.deck.json",
+    "case": {
+      "title": "Northstar B2B SaaS Market Entry",
+      "domain": "B2B SaaS market-entry strategy consulting",
+      "audience": "CEO, CRO, and board strategy committee",
+      "narrative": "A consulting team sizes the DACH opportunity, compares channel economics, and recommends a focused enterprise wedge.",
+      "slideCount": 4,
+      "canvas": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "warnings": []
+  },
+  "warnings": []
+}

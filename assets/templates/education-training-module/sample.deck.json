@@ -1,0 +1,383 @@
+{
+  "meta": {
+    "title": "Data Literacy Onboarding Sprint",
+    "theme": "education-training-module",
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "slides": [
+    {
+      "id": "case-opening",
+      "background": "#EEF2FF",
+      "notes": "Data Literacy Onboarding Sprint introduces data-literacy onboarding and training module for new operations managers and enablement facilitators.",
+      "elements": [
+        {
+          "type": "rect",
+          "id": "hero-band",
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 190,
+          "fill": "#312E81"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 18,
+          "color": "#FBBF24",
+          "content": "DATA-LITERACY ONBOARDING AND TRAINING MODULE",
+          "fontFamily": "JetBrains Mono"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "x": 72,
+          "y": 88,
+          "width": 1136,
+          "fontSize": 50,
+          "color": "#FFFFFF",
+          "content": "Data Literacy Onboarding Sprint",
+          "fontFamily": "Nunito",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "narrative",
+          "x": 72,
+          "y": 230,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#312E81",
+          "content": "A training module teaches metric definitions, cohort reading, dashboard critique, and action planning.",
+          "fontFamily": "Inter",
+          "lineHeight": 1.25
+        },
+        {
+          "type": "rect",
+          "id": "accent-card",
+          "x": 72,
+          "y": 420,
+          "width": 340,
+          "height": 150,
+          "fill": "#FBBF24",
+          "radius": 18,
+          "opacity": 0.14
+        },
+        {
+          "type": "text",
+          "id": "audience-label",
+          "x": 96,
+          "y": 448,
+          "width": 280,
+          "fontSize": 16,
+          "color": "#6B7280",
+          "content": "PRIMARY AUDIENCE",
+          "fontFamily": "JetBrains Mono"
+        },
+        {
+          "type": "text",
+          "id": "audience",
+          "x": 96,
+          "y": 482,
+          "width": 290,
+          "fontSize": 22,
+          "color": "#312E81",
+          "content": "new operations managers and enablement facilitators",
+          "fontWeight": "bold"
+        }
+      ]
+    },
+    {
+      "id": "evidence-dashboard",
+      "background": "#FFFFFF",
+      "notes": "Evidence slide uses literacy, cohort, dashboard, metric, facilitator as domain anchors, not generic filler.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "dash-title",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 40,
+          "color": "#312E81",
+          "content": "Literacy signals point to a focused decision",
+          "fontFamily": "Nunito",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "chart",
+          "id": "case-metrics",
+          "x": 72,
+          "y": 150,
+          "width": 520,
+          "height": 260,
+          "chartType": "bar",
+          "data": [
+            {
+              "name": "case metrics",
+              "labels": [
+                "Literacy",
+                "Cohort",
+                "Dashboard",
+                "Metric"
+              ],
+              "values": [
+                72,
+                58,
+                84,
+                49
+              ]
+            }
+          ],
+          "options": {
+            "palette": [
+              "#FBBF24"
+            ],
+            "showValues": true
+          }
+        },
+        {
+          "type": "table",
+          "id": "decision-table",
+          "x": 680,
+          "y": 150,
+          "width": 500,
+          "height": 150,
+          "rows": [
+            [
+              "Cohort lever",
+              "Current",
+              "Target"
+            ],
+            [
+              "facilitator",
+              "42",
+              "68"
+            ],
+            [
+              "onboarding",
+              "31",
+              "55"
+            ],
+            [
+              "practice",
+              "18",
+              "12"
+            ]
+          ],
+          "options": {
+            "headerFill": "#111827",
+            "headerColor": "#ffffff",
+            "zebra": true
+          }
+        },
+        {
+          "type": "text",
+          "id": "insight",
+          "x": 72,
+          "y": 470,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#312E81",
+          "content": "The strongest literacy signal is paired with dashboard momentum, while metric execution remains the gating constraint.",
+          "lineHeight": 1.25
+        }
+      ]
+    },
+    {
+      "id": "operating-system",
+      "background": "#F8FAFC",
+      "notes": "Operating model translates data-literacy onboarding and training module into reusable components and action rules.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "system-title",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 40,
+          "color": "#312E81",
+          "content": "A reusable cohort operating system",
+          "fontFamily": "Nunito",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "rect",
+          "id": "pillar-0",
+          "x": 72,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#FBBF24",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-0-title",
+          "x": 96,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#312E81",
+          "content": "dashboard",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "pillar-0-body",
+          "x": 96,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#6B7280",
+          "content": "Use onboarding evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "rect",
+          "id": "pillar-1",
+          "x": 452,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#FBBF24",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-1-title",
+          "x": 476,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#312E81",
+          "content": "metric",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "pillar-1-body",
+          "x": 476,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#6B7280",
+          "content": "Use practice evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "rect",
+          "id": "pillar-2",
+          "x": 832,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#FBBF24",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-2-title",
+          "x": 856,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#312E81",
+          "content": "facilitator",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "pillar-2-body",
+          "x": 856,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#6B7280",
+          "content": "Use learners evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "text",
+          "id": "system-footer",
+          "x": 72,
+          "y": 510,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#312E81",
+          "content": "The template combines executive narrative, metric evidence, and implementation guardrails for Data Literacy Onboarding Sprint."
+        }
+      ]
+    },
+    {
+      "id": "next-actions",
+      "background": "#312E81",
+      "notes": "Closing slide defines next actions for new operations managers and enablement facilitators.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "close-title",
+          "x": 72,
+          "y": 70,
+          "width": 1136,
+          "fontSize": 46,
+          "color": "#FFFFFF",
+          "content": "Decision path for literacy momentum",
+          "fontFamily": "Nunito",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "action-0",
+          "x": 72,
+          "y": 190,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "1. Align leadership review: dashboard / onboarding"
+        },
+        {
+          "type": "text",
+          "id": "action-1",
+          "x": 72,
+          "y": 300,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "2. Instrument proof metrics: metric / practice"
+        },
+        {
+          "type": "text",
+          "id": "action-2",
+          "x": 72,
+          "y": 410,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "3. Commit launch cadence: facilitator / learners"
+        },
+        {
+          "type": "text",
+          "id": "close-note",
+          "x": 72,
+          "y": 560,
+          "width": 1136,
+          "fontSize": 24,
+          "color": "#FBBF24",
+          "content": "Static exports preserve this decision content; HTML runtime enhancements only affect motion and atmospheric FX."
+        }
+      ]
+    }
+  ]
+}

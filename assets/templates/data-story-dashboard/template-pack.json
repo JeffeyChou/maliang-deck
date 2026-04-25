@@ -1,0 +1,516 @@
+{
+  "id": "data-story-dashboard",
+  "version": "1.0.0",
+  "name": "Data Story Dashboard",
+  "description": "Curated Maliang Deck template for energy and logistics KPI narrative: GridPulse Energy Resilience Story.",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "sources": [
+    {
+      "id": "data-story-dashboard-synthesis",
+      "format": "html",
+      "path": "assets/templates/data-story-dashboard/README.md",
+      "dimensions": {
+        "width": 1280,
+        "height": 720
+      },
+      "pageCount": 1,
+      "warnings": []
+    }
+  ],
+  "tokens": {
+    "palette": {
+      "primary": "#0B1120",
+      "secondary": "#ECFEFF",
+      "accent": "#06B6D4",
+      "neutral": "#94A3B8",
+      "semantic": {
+        "success": "#16A34A",
+        "warning": "#F59E0B",
+        "danger": "#DC2626"
+      }
+    },
+    "typography": {
+      "headingFont": "Space Grotesk",
+      "bodyFont": "Inter",
+      "monoFont": "Roboto Mono",
+      "scaleRatio": 1.22
+    },
+    "spacing": {
+      "element": 18,
+      "section": 40,
+      "margin": {
+        "top": 48,
+        "right": 72,
+        "bottom": 48,
+        "left": 72
+      }
+    },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "backgrounds": [
+      "#ECFEFF",
+      "#0B1120"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "data-story-dashboard-opening",
+      "name": "Case opening",
+      "slideType": "title",
+      "purpose": "Sets case context, audience, and narrative hook.",
+      "slots": [
+        {
+          "id": "data-story-dashboard-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 72,
+            "y": 84,
+            "width": 1136,
+            "height": 86
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "data-story-dashboard-synthesis",
+              "format": "html",
+              "path": "assets/templates/data-story-dashboard/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "data-story-dashboard-narrative-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 220,
+            "width": 1136,
+            "height": 140
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "data-story-dashboard-synthesis",
+              "format": "html",
+              "path": "assets/templates/data-story-dashboard/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "data-story-dashboard-synthesis",
+          "format": "html",
+          "path": "assets/templates/data-story-dashboard/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "data-story-dashboard-dashboard",
+      "name": "Evidence dashboard",
+      "slideType": "chart",
+      "purpose": "Pairs metric visuals with decision evidence.",
+      "slots": [
+        {
+          "id": "data-story-dashboard-chart-slot",
+          "role": "chart",
+          "bbox": {
+            "x": 72,
+            "y": 150,
+            "width": 520,
+            "height": 260
+          },
+          "required": true,
+          "accepts": [
+            "chart"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "data-story-dashboard-synthesis",
+              "format": "html",
+              "path": "assets/templates/data-story-dashboard/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "data-story-dashboard-table-slot",
+          "role": "table",
+          "bbox": {
+            "x": 680,
+            "y": 150,
+            "width": 500,
+            "height": 160
+          },
+          "required": false,
+          "accepts": [
+            "table"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "data-story-dashboard-synthesis",
+              "format": "html",
+              "path": "assets/templates/data-story-dashboard/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "data-story-dashboard-synthesis",
+          "format": "html",
+          "path": "assets/templates/data-story-dashboard/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "data-story-dashboard-system",
+      "name": "Operating system",
+      "slideType": "evidence",
+      "purpose": "Frames reusable pillars and implementation logic.",
+      "slots": [
+        {
+          "id": "data-story-dashboard-pillar-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 170,
+            "width": 330,
+            "height": 240
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "data-story-dashboard-synthesis",
+              "format": "html",
+              "path": "assets/templates/data-story-dashboard/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "data-story-dashboard-caption-slot",
+          "role": "caption",
+          "bbox": {
+            "x": 72,
+            "y": 510,
+            "width": 1136,
+            "height": 80
+          },
+          "required": false,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "data-story-dashboard-synthesis",
+              "format": "html",
+              "path": "assets/templates/data-story-dashboard/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "data-story-dashboard-synthesis",
+          "format": "html",
+          "path": "assets/templates/data-story-dashboard/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "data-story-dashboard-closing",
+      "name": "Decision close",
+      "slideType": "closing",
+      "purpose": "Summarizes next actions and export-safe takeaway.",
+      "slots": [
+        {
+          "id": "data-story-dashboard-actions-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 190,
+            "width": 1136,
+            "height": 300
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "data-story-dashboard-synthesis",
+              "format": "html",
+              "path": "assets/templates/data-story-dashboard/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "data-story-dashboard-synthesis",
+          "format": "html",
+          "path": "assets/templates/data-story-dashboard/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "id": "data-story-dashboard-opening-fragment",
+      "archetypeId": "data-story-dashboard-opening",
+      "description": "Reusable case opening fragment for GridPulse Energy Resilience Story.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "data-story-dashboard-opening",
+        "template": "data-story-dashboard",
+        "roles": [
+          "title",
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "data-story-dashboard-synthesis",
+          "format": "html",
+          "path": "assets/templates/data-story-dashboard/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "data-story-dashboard-dashboard-fragment",
+      "archetypeId": "data-story-dashboard-dashboard",
+      "description": "Reusable evidence dashboard fragment for GridPulse Energy Resilience Story.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "data-story-dashboard-dashboard",
+        "template": "data-story-dashboard",
+        "roles": [
+          "chart",
+          "table"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "data-story-dashboard-synthesis",
+          "format": "html",
+          "path": "assets/templates/data-story-dashboard/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "data-story-dashboard-system-fragment",
+      "archetypeId": "data-story-dashboard-system",
+      "description": "Reusable operating system fragment for GridPulse Energy Resilience Story.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "data-story-dashboard-system",
+        "template": "data-story-dashboard",
+        "roles": [
+          "body",
+          "caption"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "data-story-dashboard-synthesis",
+          "format": "html",
+          "path": "assets/templates/data-story-dashboard/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "data-story-dashboard-closing-fragment",
+      "archetypeId": "data-story-dashboard-closing",
+      "description": "Reusable decision close fragment for GridPulse Energy Resilience Story.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "data-story-dashboard-closing",
+        "template": "data-story-dashboard",
+        "roles": [
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "data-story-dashboard-synthesis",
+          "format": "html",
+          "path": "assets/templates/data-story-dashboard/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "guidance": {
+    "summary": "Use Data Story Dashboard for energy and logistics KPI narrative with concrete energy, outage, carbon, dispatch content.",
+    "outline": [
+      "Lead with GridPulse Energy Resilience Story and audience stakes.",
+      "Reserve one slide for energy evidence and one for implementation choices."
+    ],
+    "deckPlan": [
+      "Use opening, dashboard, operating system, and closing archetypes in order.",
+      "Keep charts tied to outage decisions."
+    ],
+    "slideDsl": [
+      "Use #0B1120 for dominant surfaces and #06B6D4 for emphasis.",
+      "Prefer concise domain language: energy, outage, carbon, dispatch, resilience, grid, KPI, demand."
+    ]
+  },
+  "provenance": [
+    {
+      "sourceId": "data-story-dashboard-synthesis",
+      "format": "html",
+      "path": "assets/templates/data-story-dashboard/README.md",
+      "pageIndex": 0,
+      "adapter": "curated-human-synthesis"
+    }
+  ],
+  "coverage": {
+    "templateId": "data-story-dashboard",
+    "generatedAt": "2026-04-25T00:00:00.000Z",
+    "significantObservationCount": 12,
+    "assignedSlotCount": 7,
+    "metrics": {
+      "tokens": {
+        "covered": 6,
+        "total": 6,
+        "ratio": 1
+      },
+      "archetypes": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      },
+      "slots": {
+        "covered": 7,
+        "total": 7,
+        "ratio": 1
+      },
+      "fragments": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      }
+    },
+    "formatConfidence": {
+      "html": 0.9
+    },
+    "warnings": [],
+    "sampleDeck": {
+      "validates": true,
+      "formats": {
+        "html": true,
+        "pdf": false,
+        "pptx": false
+      },
+      "degraded": true,
+      "warnings": [
+        "HTML animation/FX degrade to static content in SVG/PDF/PPTX."
+      ]
+    },
+    "slotCoverage": {
+      "assignedSignificantObservations": 7
+    }
+  },
+  "activation": {
+    "status": "approved",
+    "approvedAt": "2026-04-25T00:00:00.000Z",
+    "approvedBy": "ralph-curated-library"
+  },
+  "sampleDeck": {
+    "path": "sample.deck.json",
+    "case": {
+      "title": "GridPulse Energy Resilience Story",
+      "domain": "energy and logistics KPI narrative",
+      "audience": "utility operations leaders and sustainability analysts",
+      "narrative": "A data story connects demand response, outage minutes, fleet dispatch, and carbon intensity into an operating narrative.",
+      "slideCount": 4,
+      "canvas": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "staticFallback": {
+      "htmlOnlyFeatures": [
+        "element animation",
+        "slide fx",
+        "htmlRuntime transition"
+      ],
+      "staticBehavior": "ignored",
+      "notes": [
+        "SVG/PDF/PPTX exports preserve final element positions and text.",
+        "Motion, timeline easing, and atmospheric FX are HTML-only enhancements."
+      ]
+    },
+    "warnings": []
+  },
+  "warnings": []
+}

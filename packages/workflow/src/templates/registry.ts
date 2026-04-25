@@ -5,8 +5,13 @@ import { getStyle, listStyles, registerStyle } from '../guidance/style-registry.
 import type { TemplatePack } from './contracts.js';
 import { TemplatePackSchema } from './contracts.js';
 import { compileTemplatePackToStyle } from './compiler.js';
+import {
+  getBuiltInTemplatePackRecord,
+  isBuiltInTemplateId,
+  listBuiltInTemplatePackRecords,
+} from './builtins.js';
 
-type RegistryRecord = { pack: TemplatePack; filePath?: string; style: StyleDefinition };
+export type TemplatePackRegistryRecord = { pack: TemplatePack; filePath?: string; ownerDir?: string; style: StyleDefinition; source: 'file' | 'built-in' | 'memory' };
 type TemplateConfigLike = {
   styleId?: string;
   templatePackPaths?: string[];
@@ -18,27 +23,33 @@ type TemplateConfigSource = {
   label: string;
 };
 
-const templateRegistry = new Map<string, RegistryRecord>();
+const templateRegistry = new Map<string, TemplatePackRegistryRecord>();
 const loadedFiles = new Map<string, string>();
+let builtInsRegistered = false;
+let builtInsRegisteredWithDrafts = false;
 
 export function validateTemplatePack(input: unknown): TemplatePack { return TemplatePackSchema.parse(input); }
 export function loadTemplatePackFile(inputPath: string): TemplatePack { return validateTemplatePack(JSON.parse(readFileSync(inputPath, 'utf-8'))); }
 export const loadTemplatePack = loadTemplatePackFile;
 
-export function registerTemplatePack(pack: TemplatePack, options: { filePath?: string; sourcePath?: string; includeDrafts?: boolean } = {}): StyleDefinition {
+export function registerTemplatePack(pack: TemplatePack, options: { filePath?: string; sourcePath?: string; includeDrafts?: boolean; ownerDir?: string; source?: 'file' | 'built-in' | 'memory' } = {}): StyleDefinition {
   const filePath = options.filePath ?? options.sourcePath;
+  const source = options.source ?? (filePath ? 'file' : 'memory');
+  if (source !== 'built-in' && isBuiltInTemplateId(pack.id)) throw new Error(`Template pack ${pack.id} cannot shadow reserved built-in template id`);
   const existingBuiltIn = getStyle(pack.id);
   const existingFile = loadedFiles.get(pack.id);
+  const existingTemplate = templateRegistry.get(pack.id);
+  if (existingTemplate && existingTemplate.source !== source) throw new Error(`Template pack id collision: ${pack.id} is already loaded from ${existingTemplate.source}`);
   if (existingBuiltIn && !existingFile) throw new Error(`Template pack ${pack.id} cannot shadow built-in style`);
   if (pack.activation.status !== 'approved' && !options.includeDrafts) {
     const style = compileTemplatePackToStyle(pack);
-    templateRegistry.set(pack.id, { pack, filePath, style });
+    templateRegistry.set(pack.id, { pack, filePath, ownerDir: options.ownerDir ?? (filePath ? dirname(filePath) : undefined), style, source });
     if (filePath) loadedFiles.set(pack.id, filePath);
     return style;
   }
   if (existingFile && filePath && existingFile !== filePath) throw new Error(`Template pack id/version collision: ${pack.id} is already loaded from ${existingFile}`);
   const style = compileTemplatePackToStyle(pack);
-  templateRegistry.set(pack.id, { pack, filePath, style });
+  templateRegistry.set(pack.id, { pack, filePath, ownerDir: options.ownerDir ?? (filePath ? dirname(filePath) : undefined), style, source });
   if (filePath) loadedFiles.set(pack.id, filePath);
   if (pack.activation.status === 'approved' || options.includeDrafts) {
     registerStyle(style, { source: 'template', activationStatus: pack.activation.status });
@@ -50,17 +61,50 @@ export const registerTemplatePackStyle = registerTemplatePack;
 export function loadTemplateStyleFile(inputPath: string, options: { includeDrafts?: boolean } = {}): StyleDefinition | undefined {
   const pack = loadTemplatePackFile(inputPath);
   if (pack.activation.status !== 'approved' && !options.includeDrafts) {
-    registerTemplatePack(pack, { sourcePath: inputPath, includeDrafts: false });
+    registerTemplatePack(pack, { sourcePath: inputPath, includeDrafts: false, source: 'file' });
     return undefined;
   }
-  return registerTemplatePack(pack, { sourcePath: inputPath, includeDrafts: options.includeDrafts });
+  return registerTemplatePack(pack, { sourcePath: inputPath, includeDrafts: options.includeDrafts, source: 'file' });
 }
 export function loadTemplatePackStyles(inputPaths: string[], options: { includeDrafts?: boolean } = {}): StyleDefinition[] { return inputPaths.map((path) => loadTemplateStyleFile(path, options)).filter((style): style is StyleDefinition => Boolean(style)); }
-export function listTemplatePacks(options: { includeDrafts?: boolean } = {}): TemplatePack[] { return Array.from(templateRegistry.values()).filter((entry) => options.includeDrafts || entry.pack.activation.status === 'approved').map((entry) => entry.pack); }
-export function listAvailableTemplateStyles(options: { includeDrafts?: boolean } = {}): StyleDefinition[] {
+export function registerBuiltInTemplatePacks(options: { includeDrafts?: boolean } = {}): StyleDefinition[] {
+  const styles: StyleDefinition[] = [];
+  for (const record of listBuiltInTemplatePackRecords()) {
+    if (record.pack.activation.status !== 'approved' && !options.includeDrafts) continue;
+    styles.push(registerTemplatePack(record.pack, {
+      filePath: record.packPath,
+      ownerDir: record.ownerDir,
+      includeDrafts: options.includeDrafts,
+      source: 'built-in',
+    }));
+  }
+  builtInsRegistered = true;
+  if (options.includeDrafts) builtInsRegisteredWithDrafts = true;
+  return styles;
+}
+
+function ensureBuiltInsRegistered(options: { includeBuiltIns?: boolean; includeDrafts?: boolean } = {}): void {
+  if (options.includeBuiltIns === false) return;
+  if (builtInsRegistered && (!options.includeDrafts || builtInsRegisteredWithDrafts)) return;
+  registerBuiltInTemplatePacks({ includeDrafts: options.includeDrafts });
+}
+
+export function listTemplatePacks(options: { includeDrafts?: boolean; includeBuiltIns?: boolean } = {}): TemplatePack[] {
+  ensureBuiltInsRegistered(options);
+  return Array.from(templateRegistry.values())
+    .filter((entry) => options.includeBuiltIns !== false || entry.source !== 'built-in')
+    .filter((entry) => options.includeDrafts || entry.pack.activation.status === 'approved')
+    .map((entry) => entry.pack);
+}
+export function listAvailableTemplateStyles(options: { includeDrafts?: boolean; includeBuiltIns?: boolean } = {}): StyleDefinition[] {
+  ensureBuiltInsRegistered(options);
   const byId = new Map<string, StyleDefinition>();
-  for (const style of listStyles(options)) byId.set(style.id, style);
+  for (const style of listStyles(options)) {
+    if (options.includeBuiltIns === false && isBuiltInTemplateId(style.id)) continue;
+    byId.set(style.id, style);
+  }
   for (const entry of templateRegistry.values()) {
+    if (options.includeBuiltIns === false && entry.source === 'built-in') continue;
     if (options.includeDrafts || entry.pack.activation.status === 'approved') byId.set(entry.style.id, entry.style);
   }
   return Array.from(byId.values());
@@ -70,6 +114,49 @@ export function listGenerationStyles(): StyleDefinition[] { return listAvailable
 
 export function registerTemplatePackFile(inputPath: string, options: { includeDrafts?: boolean } = {}): StyleDefinition | undefined {
   return loadTemplateStyleFile(inputPath, options);
+}
+
+export function getTemplatePackRecord(input: string, options: { includeDrafts?: boolean; includeBuiltIns?: boolean } = {}): TemplatePackRegistryRecord {
+  if (existsSync(input)) {
+    const filePath = resolve(input);
+    const builtInByPath = options.includeBuiltIns === false
+      ? undefined
+      : listBuiltInTemplatePackRecords().find((record) => resolve(record.packPath) === filePath);
+    if (builtInByPath) {
+      registerTemplatePack(builtInByPath.pack, {
+        filePath: builtInByPath.packPath,
+        ownerDir: builtInByPath.ownerDir,
+        includeDrafts: options.includeDrafts,
+        source: 'built-in',
+      });
+      return templateRegistry.get(builtInByPath.id)!;
+    }
+
+    const pack = loadTemplatePackFile(filePath);
+    registerTemplatePack(pack, { filePath, includeDrafts: options.includeDrafts, source: 'file' });
+    return templateRegistry.get(pack.id)!;
+  }
+
+  if (options.includeBuiltIns !== false) {
+    const builtIn = getBuiltInTemplatePackRecord(input);
+    if (builtIn) {
+      registerTemplatePack(builtIn.pack, {
+        filePath: builtIn.packPath,
+        ownerDir: builtIn.ownerDir,
+        includeDrafts: options.includeDrafts,
+        source: 'built-in',
+      });
+      return templateRegistry.get(input)!;
+    }
+  }
+
+  const existing = templateRegistry.get(input);
+  if (existing && (options.includeDrafts || existing.pack.activation.status === 'approved')) return existing;
+  throw new Error(`Template pack not found: ${input}`);
+}
+
+export function getTemplatePack(input: string, options: { includeDrafts?: boolean; includeBuiltIns?: boolean } = {}): TemplatePack {
+  return getTemplatePackRecord(input, options).pack;
 }
 
 export type ProjectTemplateRegistrationResult = {

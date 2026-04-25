@@ -1,0 +1,502 @@
+{
+  "id": "investor-financial-brief",
+  "version": "1.0.0",
+  "name": "Investor Financial Brief",
+  "description": "Curated Maliang Deck template for SaaS quarterly metrics and funding update: HelioCloud Quarterly Metrics Update.",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "sources": [
+    {
+      "id": "investor-financial-brief-synthesis",
+      "format": "html",
+      "path": "assets/templates/investor-financial-brief/README.md",
+      "dimensions": {
+        "width": 1280,
+        "height": 720
+      },
+      "pageCount": 1,
+      "warnings": []
+    }
+  ],
+  "tokens": {
+    "palette": {
+      "primary": "#052E2B",
+      "secondary": "#F0FDFA",
+      "accent": "#14B8A6",
+      "neutral": "#64748B",
+      "semantic": {
+        "success": "#16A34A",
+        "warning": "#F59E0B",
+        "danger": "#DC2626"
+      }
+    },
+    "typography": {
+      "headingFont": "Manrope",
+      "bodyFont": "Inter",
+      "monoFont": "Roboto Mono",
+      "scaleRatio": 1.22
+    },
+    "spacing": {
+      "element": 18,
+      "section": 40,
+      "margin": {
+        "top": 48,
+        "right": 72,
+        "bottom": 48,
+        "left": 72
+      }
+    },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "backgrounds": [
+      "#F0FDFA",
+      "#052E2B"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "investor-financial-brief-opening",
+      "name": "Case opening",
+      "slideType": "title",
+      "purpose": "Sets case context, audience, and narrative hook.",
+      "slots": [
+        {
+          "id": "investor-financial-brief-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 72,
+            "y": 84,
+            "width": 1136,
+            "height": 86
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "investor-financial-brief-synthesis",
+              "format": "html",
+              "path": "assets/templates/investor-financial-brief/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "investor-financial-brief-narrative-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 220,
+            "width": 1136,
+            "height": 140
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "investor-financial-brief-synthesis",
+              "format": "html",
+              "path": "assets/templates/investor-financial-brief/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "investor-financial-brief-synthesis",
+          "format": "html",
+          "path": "assets/templates/investor-financial-brief/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "investor-financial-brief-dashboard",
+      "name": "Evidence dashboard",
+      "slideType": "chart",
+      "purpose": "Pairs metric visuals with decision evidence.",
+      "slots": [
+        {
+          "id": "investor-financial-brief-chart-slot",
+          "role": "chart",
+          "bbox": {
+            "x": 72,
+            "y": 150,
+            "width": 520,
+            "height": 260
+          },
+          "required": true,
+          "accepts": [
+            "chart"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "investor-financial-brief-synthesis",
+              "format": "html",
+              "path": "assets/templates/investor-financial-brief/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "investor-financial-brief-table-slot",
+          "role": "table",
+          "bbox": {
+            "x": 680,
+            "y": 150,
+            "width": 500,
+            "height": 160
+          },
+          "required": false,
+          "accepts": [
+            "table"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "investor-financial-brief-synthesis",
+              "format": "html",
+              "path": "assets/templates/investor-financial-brief/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "investor-financial-brief-synthesis",
+          "format": "html",
+          "path": "assets/templates/investor-financial-brief/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "investor-financial-brief-system",
+      "name": "Operating system",
+      "slideType": "evidence",
+      "purpose": "Frames reusable pillars and implementation logic.",
+      "slots": [
+        {
+          "id": "investor-financial-brief-pillar-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 170,
+            "width": 330,
+            "height": 240
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "investor-financial-brief-synthesis",
+              "format": "html",
+              "path": "assets/templates/investor-financial-brief/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "investor-financial-brief-caption-slot",
+          "role": "caption",
+          "bbox": {
+            "x": 72,
+            "y": 510,
+            "width": 1136,
+            "height": 80
+          },
+          "required": false,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "investor-financial-brief-synthesis",
+              "format": "html",
+              "path": "assets/templates/investor-financial-brief/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "investor-financial-brief-synthesis",
+          "format": "html",
+          "path": "assets/templates/investor-financial-brief/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "investor-financial-brief-closing",
+      "name": "Decision close",
+      "slideType": "closing",
+      "purpose": "Summarizes next actions and export-safe takeaway.",
+      "slots": [
+        {
+          "id": "investor-financial-brief-actions-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 190,
+            "width": 1136,
+            "height": 300
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "investor-financial-brief-synthesis",
+              "format": "html",
+              "path": "assets/templates/investor-financial-brief/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "investor-financial-brief-synthesis",
+          "format": "html",
+          "path": "assets/templates/investor-financial-brief/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "id": "investor-financial-brief-opening-fragment",
+      "archetypeId": "investor-financial-brief-opening",
+      "description": "Reusable case opening fragment for HelioCloud Quarterly Metrics Update.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "investor-financial-brief-opening",
+        "template": "investor-financial-brief",
+        "roles": [
+          "title",
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "investor-financial-brief-synthesis",
+          "format": "html",
+          "path": "assets/templates/investor-financial-brief/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "investor-financial-brief-dashboard-fragment",
+      "archetypeId": "investor-financial-brief-dashboard",
+      "description": "Reusable evidence dashboard fragment for HelioCloud Quarterly Metrics Update.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "investor-financial-brief-dashboard",
+        "template": "investor-financial-brief",
+        "roles": [
+          "chart",
+          "table"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "investor-financial-brief-synthesis",
+          "format": "html",
+          "path": "assets/templates/investor-financial-brief/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "investor-financial-brief-system-fragment",
+      "archetypeId": "investor-financial-brief-system",
+      "description": "Reusable operating system fragment for HelioCloud Quarterly Metrics Update.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "investor-financial-brief-system",
+        "template": "investor-financial-brief",
+        "roles": [
+          "body",
+          "caption"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "investor-financial-brief-synthesis",
+          "format": "html",
+          "path": "assets/templates/investor-financial-brief/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "investor-financial-brief-closing-fragment",
+      "archetypeId": "investor-financial-brief-closing",
+      "description": "Reusable decision close fragment for HelioCloud Quarterly Metrics Update.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "investor-financial-brief-closing",
+        "template": "investor-financial-brief",
+        "roles": [
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "investor-financial-brief-synthesis",
+          "format": "html",
+          "path": "assets/templates/investor-financial-brief/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "guidance": {
+    "summary": "Use Investor Financial Brief for SaaS quarterly metrics and funding update with concrete ARR, NRR, burn, runway content.",
+    "outline": [
+      "Lead with HelioCloud Quarterly Metrics Update and audience stakes.",
+      "Reserve one slide for ARR evidence and one for implementation choices."
+    ],
+    "deckPlan": [
+      "Use opening, dashboard, operating system, and closing archetypes in order.",
+      "Keep charts tied to NRR decisions."
+    ],
+    "slideDsl": [
+      "Use #052E2B for dominant surfaces and #14B8A6 for emphasis.",
+      "Prefer concise domain language: ARR, NRR, burn, runway, funding, SaaS, cohort, margin."
+    ]
+  },
+  "provenance": [
+    {
+      "sourceId": "investor-financial-brief-synthesis",
+      "format": "html",
+      "path": "assets/templates/investor-financial-brief/README.md",
+      "pageIndex": 0,
+      "adapter": "curated-human-synthesis"
+    }
+  ],
+  "coverage": {
+    "templateId": "investor-financial-brief",
+    "generatedAt": "2026-04-25T00:00:00.000Z",
+    "significantObservationCount": 12,
+    "assignedSlotCount": 7,
+    "metrics": {
+      "tokens": {
+        "covered": 6,
+        "total": 6,
+        "ratio": 1
+      },
+      "archetypes": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      },
+      "slots": {
+        "covered": 7,
+        "total": 7,
+        "ratio": 1
+      },
+      "fragments": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      }
+    },
+    "formatConfidence": {
+      "html": 0.9
+    },
+    "warnings": [],
+    "sampleDeck": {
+      "validates": true,
+      "formats": {
+        "html": true,
+        "pdf": false,
+        "pptx": false
+      },
+      "degraded": false,
+      "warnings": []
+    },
+    "slotCoverage": {
+      "assignedSignificantObservations": 7
+    }
+  },
+  "activation": {
+    "status": "approved",
+    "approvedAt": "2026-04-25T00:00:00.000Z",
+    "approvedBy": "ralph-curated-library"
+  },
+  "sampleDeck": {
+    "path": "sample.deck.json",
+    "case": {
+      "title": "HelioCloud Quarterly Metrics Update",
+      "domain": "SaaS quarterly metrics and funding update",
+      "audience": "venture investors and finance leadership",
+      "narrative": "A CFO reports ARR growth, retention, burn multiple, and the funding ask for an infrastructure SaaS platform.",
+      "slideCount": 4,
+      "canvas": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "warnings": []
+  },
+  "warnings": []
+}

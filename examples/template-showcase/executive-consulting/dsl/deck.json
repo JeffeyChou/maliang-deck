@@ -1,0 +1,383 @@
+{
+  "meta": {
+    "title": "Northstar B2B SaaS Market Entry",
+    "theme": "executive-consulting",
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "slides": [
+    {
+      "id": "case-opening",
+      "background": "#F7FAFC",
+      "notes": "Northstar B2B SaaS Market Entry introduces B2B SaaS market-entry strategy consulting for CEO, CRO, and board strategy committee.",
+      "elements": [
+        {
+          "type": "rect",
+          "id": "hero-band",
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 190,
+          "fill": "#102A43"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 18,
+          "color": "#2F80ED",
+          "content": "B2B SAAS MARKET-ENTRY STRATEGY CONSULTING",
+          "fontFamily": "IBM Plex Mono"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "x": 72,
+          "y": 88,
+          "width": 1136,
+          "fontSize": 50,
+          "color": "#FFFFFF",
+          "content": "Northstar B2B SaaS Market Entry",
+          "fontFamily": "Aptos Display",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "narrative",
+          "x": 72,
+          "y": 230,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#102A43",
+          "content": "A consulting team sizes the DACH opportunity, compares channel economics, and recommends a focused enterprise wedge.",
+          "fontFamily": "Aptos",
+          "lineHeight": 1.25
+        },
+        {
+          "type": "rect",
+          "id": "accent-card",
+          "x": 72,
+          "y": 420,
+          "width": 340,
+          "height": 150,
+          "fill": "#2F80ED",
+          "radius": 18,
+          "opacity": 0.14
+        },
+        {
+          "type": "text",
+          "id": "audience-label",
+          "x": 96,
+          "y": 448,
+          "width": 280,
+          "fontSize": 16,
+          "color": "#52616B",
+          "content": "PRIMARY AUDIENCE",
+          "fontFamily": "IBM Plex Mono"
+        },
+        {
+          "type": "text",
+          "id": "audience",
+          "x": 96,
+          "y": 482,
+          "width": 290,
+          "fontSize": 22,
+          "color": "#102A43",
+          "content": "CEO, CRO, and board strategy committee",
+          "fontWeight": "bold"
+        }
+      ]
+    },
+    {
+      "id": "evidence-dashboard",
+      "background": "#FFFFFF",
+      "notes": "Evidence slide uses SaaS, DACH, enterprise, channel, ARR as domain anchors, not generic filler.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "dash-title",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 40,
+          "color": "#102A43",
+          "content": "SaaS signals point to a focused decision",
+          "fontFamily": "Aptos Display",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "chart",
+          "id": "case-metrics",
+          "x": 72,
+          "y": 150,
+          "width": 520,
+          "height": 260,
+          "chartType": "bar",
+          "data": [
+            {
+              "name": "case metrics",
+              "labels": [
+                "SaaS",
+                "DACH",
+                "Enterprise",
+                "Channel"
+              ],
+              "values": [
+                72,
+                58,
+                84,
+                49
+              ]
+            }
+          ],
+          "options": {
+            "palette": [
+              "#2F80ED"
+            ],
+            "showValues": true
+          }
+        },
+        {
+          "type": "table",
+          "id": "decision-table",
+          "x": 680,
+          "y": 150,
+          "width": 500,
+          "height": 150,
+          "rows": [
+            [
+              "DACH lever",
+              "Current",
+              "Target"
+            ],
+            [
+              "ARR",
+              "42",
+              "68"
+            ],
+            [
+              "market",
+              "31",
+              "55"
+            ],
+            [
+              "wedge",
+              "18",
+              "12"
+            ]
+          ],
+          "options": {
+            "headerFill": "#111827",
+            "headerColor": "#ffffff",
+            "zebra": true
+          }
+        },
+        {
+          "type": "text",
+          "id": "insight",
+          "x": 72,
+          "y": 470,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#102A43",
+          "content": "The strongest SaaS signal is paired with enterprise momentum, while channel execution remains the gating constraint.",
+          "lineHeight": 1.25
+        }
+      ]
+    },
+    {
+      "id": "operating-system",
+      "background": "#F8FAFC",
+      "notes": "Operating model translates B2B SaaS market-entry strategy consulting into reusable components and action rules.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "system-title",
+          "x": 72,
+          "y": 48,
+          "width": 1136,
+          "fontSize": 40,
+          "color": "#102A43",
+          "content": "A reusable DACH operating system",
+          "fontFamily": "Aptos Display",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "rect",
+          "id": "pillar-0",
+          "x": 72,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#2F80ED",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-0-title",
+          "x": 96,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#102A43",
+          "content": "enterprise",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "pillar-0-body",
+          "x": 96,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#52616B",
+          "content": "Use market evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "rect",
+          "id": "pillar-1",
+          "x": 452,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#2F80ED",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-1-title",
+          "x": 476,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#102A43",
+          "content": "channel",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "pillar-1-body",
+          "x": 476,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#52616B",
+          "content": "Use wedge evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "rect",
+          "id": "pillar-2",
+          "x": 832,
+          "y": 170,
+          "width": 330,
+          "height": 240,
+          "fill": "#FFFFFF",
+          "stroke": "#2F80ED",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "type": "text",
+          "id": "pillar-2-title",
+          "x": 856,
+          "y": 198,
+          "width": 280,
+          "fontSize": 24,
+          "color": "#102A43",
+          "content": "ARR",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "pillar-2-body",
+          "x": 856,
+          "y": 244,
+          "width": 280,
+          "fontSize": 20,
+          "color": "#52616B",
+          "content": "Use board evidence to guide prioritization, sequencing, and review cadence.",
+          "lineHeight": 1.22
+        },
+        {
+          "type": "text",
+          "id": "system-footer",
+          "x": 72,
+          "y": 510,
+          "width": 1136,
+          "fontSize": 28,
+          "color": "#102A43",
+          "content": "The template combines executive narrative, metric evidence, and implementation guardrails for Northstar B2B SaaS Market Entry."
+        }
+      ]
+    },
+    {
+      "id": "next-actions",
+      "background": "#102A43",
+      "notes": "Closing slide defines next actions for CEO, CRO, and board strategy committee.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "close-title",
+          "x": 72,
+          "y": 70,
+          "width": 1136,
+          "fontSize": 46,
+          "color": "#FFFFFF",
+          "content": "Decision path for SaaS momentum",
+          "fontFamily": "Aptos Display",
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "action-0",
+          "x": 72,
+          "y": 190,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "1. Align leadership review: enterprise / market"
+        },
+        {
+          "type": "text",
+          "id": "action-1",
+          "x": 72,
+          "y": 300,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "2. Instrument proof metrics: channel / wedge"
+        },
+        {
+          "type": "text",
+          "id": "action-2",
+          "x": 72,
+          "y": 410,
+          "width": 1136,
+          "fontSize": 30,
+          "color": "#FFFFFF",
+          "content": "3. Commit launch cadence: ARR / board"
+        },
+        {
+          "type": "text",
+          "id": "close-note",
+          "x": 72,
+          "y": 560,
+          "width": 1136,
+          "fontSize": 24,
+          "color": "#2F80ED",
+          "content": "Static exports preserve this decision content; HTML runtime enhancements only affect motion and atmospheric FX."
+        }
+      ]
+    }
+  ]
+}

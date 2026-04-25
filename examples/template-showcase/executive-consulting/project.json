@@ -1,0 +1,23 @@
+{
+  "id": "executive-consulting-showcase",
+  "slug": "executive-consulting",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "updatedAt": "2026-04-25T00:00:00.000Z",
+  "stage": "initialized",
+  "currentStage": "initialized",
+  "sources": [],
+  "outputFormats": [
+    "html",
+    "pdf",
+    "pptx"
+  ],
+  "config": {
+    "styleId": "executive-consulting",
+    "theme": "executive-consulting"
+  },
+  "artifacts": {
+    "deck": "dsl/deck.json",
+    "html": "render/html/index.html",
+    "exportReport": "exports/export-report.json"
+  }
+}

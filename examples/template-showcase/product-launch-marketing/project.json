@@ -1,0 +1,23 @@
+{
+  "id": "product-launch-marketing-showcase",
+  "slug": "product-launch-marketing",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "updatedAt": "2026-04-25T00:00:00.000Z",
+  "stage": "initialized",
+  "currentStage": "initialized",
+  "sources": [],
+  "outputFormats": [
+    "html",
+    "pdf",
+    "pptx"
+  ],
+  "config": {
+    "styleId": "product-launch-marketing",
+    "theme": "product-launch-marketing"
+  },
+  "artifacts": {
+    "deck": "dsl/deck.json",
+    "html": "render/html/index.html",
+    "exportReport": "exports/export-report.json"
+  }
+}

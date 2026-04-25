@@ -1,0 +1,54 @@
+{
+  "templates": [
+    {
+      "id": "executive-consulting",
+      "dir": "executive-consulting",
+      "pack": "template-pack.json"
+    },
+    {
+      "id": "product-launch-marketing",
+      "dir": "product-launch-marketing",
+      "pack": "template-pack.json"
+    },
+    {
+      "id": "academic-ml-report",
+      "dir": "academic-ml-report",
+      "pack": "template-pack.json"
+    },
+    {
+      "id": "investor-financial-brief",
+      "dir": "investor-financial-brief",
+      "pack": "template-pack.json"
+    },
+    {
+      "id": "healthcare-biotech-briefing",
+      "dir": "healthcare-biotech-briefing",
+      "pack": "template-pack.json"
+    },
+    {
+      "id": "education-training-module",
+      "dir": "education-training-module",
+      "pack": "template-pack.json"
+    },
+    {
+      "id": "data-story-dashboard",
+      "dir": "data-story-dashboard",
+      "pack": "template-pack.json"
+    },
+    {
+      "id": "startup-pitch",
+      "dir": "startup-pitch",
+      "pack": "template-pack.json"
+    },
+    {
+      "id": "creative-portfolio-case",
+      "dir": "creative-portfolio-case",
+      "pack": "template-pack.json"
+    },
+    {
+      "id": "mobile-portrait-story",
+      "dir": "mobile-portrait-story",
+      "pack": "template-pack.json"
+    }
+  ]
+}

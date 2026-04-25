@@ -1,0 +1,516 @@
+{
+  "id": "mobile-portrait-story",
+  "version": "1.0.0",
+  "name": "Mobile Portrait Story",
+  "description": "Curated Maliang Deck template for 9:16 mobile app and product teaser walkthrough: PulseFit App Teaser Walkthrough.",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "sources": [
+    {
+      "id": "mobile-portrait-story-synthesis",
+      "format": "html",
+      "path": "assets/templates/mobile-portrait-story/README.md",
+      "dimensions": {
+        "width": 720,
+        "height": 1280
+      },
+      "pageCount": 1,
+      "warnings": []
+    }
+  ],
+  "tokens": {
+    "palette": {
+      "primary": "#064E3B",
+      "secondary": "#ECFDF5",
+      "accent": "#34D399",
+      "neutral": "#6B7280",
+      "semantic": {
+        "success": "#16A34A",
+        "warning": "#F59E0B",
+        "danger": "#DC2626"
+      }
+    },
+    "typography": {
+      "headingFont": "SF Pro Display",
+      "bodyFont": "Inter",
+      "monoFont": "JetBrains Mono",
+      "scaleRatio": 1.22
+    },
+    "spacing": {
+      "element": 18,
+      "section": 40,
+      "margin": {
+        "top": 48,
+        "right": 72,
+        "bottom": 48,
+        "left": 72
+      }
+    },
+    "canvas": {
+      "width": 720,
+      "height": 1280
+    },
+    "backgrounds": [
+      "#ECFDF5",
+      "#064E3B"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "mobile-portrait-story-opening",
+      "name": "Case opening",
+      "slideType": "title",
+      "purpose": "Sets case context, audience, and narrative hook.",
+      "slots": [
+        {
+          "id": "mobile-portrait-story-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 72,
+            "y": 84,
+            "width": 576,
+            "height": 86
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "mobile-portrait-story-synthesis",
+              "format": "html",
+              "path": "assets/templates/mobile-portrait-story/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "mobile-portrait-story-narrative-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 220,
+            "width": 576,
+            "height": 140
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "mobile-portrait-story-synthesis",
+              "format": "html",
+              "path": "assets/templates/mobile-portrait-story/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "mobile-portrait-story-synthesis",
+          "format": "html",
+          "path": "assets/templates/mobile-portrait-story/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "mobile-portrait-story-dashboard",
+      "name": "Evidence dashboard",
+      "slideType": "chart",
+      "purpose": "Pairs metric visuals with decision evidence.",
+      "slots": [
+        {
+          "id": "mobile-portrait-story-chart-slot",
+          "role": "chart",
+          "bbox": {
+            "x": 72,
+            "y": 150,
+            "width": 520,
+            "height": 260
+          },
+          "required": true,
+          "accepts": [
+            "chart"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "mobile-portrait-story-synthesis",
+              "format": "html",
+              "path": "assets/templates/mobile-portrait-story/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "mobile-portrait-story-table-slot",
+          "role": "table",
+          "bbox": {
+            "x": 680,
+            "y": 150,
+            "width": 500,
+            "height": 160
+          },
+          "required": false,
+          "accepts": [
+            "table"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "mobile-portrait-story-synthesis",
+              "format": "html",
+              "path": "assets/templates/mobile-portrait-story/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "mobile-portrait-story-synthesis",
+          "format": "html",
+          "path": "assets/templates/mobile-portrait-story/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "mobile-portrait-story-system",
+      "name": "Operating system",
+      "slideType": "evidence",
+      "purpose": "Frames reusable pillars and implementation logic.",
+      "slots": [
+        {
+          "id": "mobile-portrait-story-pillar-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 170,
+            "width": 330,
+            "height": 240
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "mobile-portrait-story-synthesis",
+              "format": "html",
+              "path": "assets/templates/mobile-portrait-story/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "mobile-portrait-story-caption-slot",
+          "role": "caption",
+          "bbox": {
+            "x": 72,
+            "y": 510,
+            "width": 576,
+            "height": 80
+          },
+          "required": false,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "mobile-portrait-story-synthesis",
+              "format": "html",
+              "path": "assets/templates/mobile-portrait-story/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "mobile-portrait-story-synthesis",
+          "format": "html",
+          "path": "assets/templates/mobile-portrait-story/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "mobile-portrait-story-closing",
+      "name": "Decision close",
+      "slideType": "closing",
+      "purpose": "Summarizes next actions and export-safe takeaway.",
+      "slots": [
+        {
+          "id": "mobile-portrait-story-actions-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 190,
+            "width": 576,
+            "height": 300
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "mobile-portrait-story-synthesis",
+              "format": "html",
+              "path": "assets/templates/mobile-portrait-story/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "mobile-portrait-story-synthesis",
+          "format": "html",
+          "path": "assets/templates/mobile-portrait-story/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "id": "mobile-portrait-story-opening-fragment",
+      "archetypeId": "mobile-portrait-story-opening",
+      "description": "Reusable case opening fragment for PulseFit App Teaser Walkthrough.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "mobile-portrait-story-opening",
+        "template": "mobile-portrait-story",
+        "roles": [
+          "title",
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "mobile-portrait-story-synthesis",
+          "format": "html",
+          "path": "assets/templates/mobile-portrait-story/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "mobile-portrait-story-dashboard-fragment",
+      "archetypeId": "mobile-portrait-story-dashboard",
+      "description": "Reusable evidence dashboard fragment for PulseFit App Teaser Walkthrough.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "mobile-portrait-story-dashboard",
+        "template": "mobile-portrait-story",
+        "roles": [
+          "chart",
+          "table"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "mobile-portrait-story-synthesis",
+          "format": "html",
+          "path": "assets/templates/mobile-portrait-story/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "mobile-portrait-story-system-fragment",
+      "archetypeId": "mobile-portrait-story-system",
+      "description": "Reusable operating system fragment for PulseFit App Teaser Walkthrough.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "mobile-portrait-story-system",
+        "template": "mobile-portrait-story",
+        "roles": [
+          "body",
+          "caption"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "mobile-portrait-story-synthesis",
+          "format": "html",
+          "path": "assets/templates/mobile-portrait-story/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "mobile-portrait-story-closing-fragment",
+      "archetypeId": "mobile-portrait-story-closing",
+      "description": "Reusable decision close fragment for PulseFit App Teaser Walkthrough.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "mobile-portrait-story-closing",
+        "template": "mobile-portrait-story",
+        "roles": [
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "mobile-portrait-story-synthesis",
+          "format": "html",
+          "path": "assets/templates/mobile-portrait-story/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "guidance": {
+    "summary": "Use Mobile Portrait Story for 9:16 mobile app and product teaser walkthrough with concrete PulseFit, mobile, habit, biometric content.",
+    "outline": [
+      "Lead with PulseFit App Teaser Walkthrough and audience stakes.",
+      "Reserve one slide for PulseFit evidence and one for implementation choices."
+    ],
+    "deckPlan": [
+      "Use opening, dashboard, operating system, and closing archetypes in order.",
+      "Keep charts tied to mobile decisions."
+    ],
+    "slideDsl": [
+      "Use #064E3B for dominant surfaces and #34D399 for emphasis.",
+      "Prefer concise domain language: PulseFit, mobile, habit, biometric, subscription, wellness, teaser, coach."
+    ]
+  },
+  "provenance": [
+    {
+      "sourceId": "mobile-portrait-story-synthesis",
+      "format": "html",
+      "path": "assets/templates/mobile-portrait-story/README.md",
+      "pageIndex": 0,
+      "adapter": "curated-human-synthesis"
+    }
+  ],
+  "coverage": {
+    "templateId": "mobile-portrait-story",
+    "generatedAt": "2026-04-25T00:00:00.000Z",
+    "significantObservationCount": 12,
+    "assignedSlotCount": 7,
+    "metrics": {
+      "tokens": {
+        "covered": 6,
+        "total": 6,
+        "ratio": 1
+      },
+      "archetypes": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      },
+      "slots": {
+        "covered": 7,
+        "total": 7,
+        "ratio": 1
+      },
+      "fragments": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      }
+    },
+    "formatConfidence": {
+      "html": 0.9
+    },
+    "warnings": [],
+    "sampleDeck": {
+      "validates": true,
+      "formats": {
+        "html": true,
+        "pdf": false,
+        "pptx": false
+      },
+      "degraded": true,
+      "warnings": [
+        "HTML animation/FX degrade to static content in SVG/PDF/PPTX."
+      ]
+    },
+    "slotCoverage": {
+      "assignedSignificantObservations": 7
+    }
+  },
+  "activation": {
+    "status": "approved",
+    "approvedAt": "2026-04-25T00:00:00.000Z",
+    "approvedBy": "ralph-curated-library"
+  },
+  "sampleDeck": {
+    "path": "sample.deck.json",
+    "case": {
+      "title": "PulseFit App Teaser Walkthrough",
+      "domain": "9:16 mobile app and product teaser walkthrough",
+      "audience": "growth marketers, app store editors, and mobile product teams",
+      "narrative": "A portrait story walks through habit coaching, biometric nudges, subscription value, and launch CTA for a wellness app.",
+      "slideCount": 4,
+      "canvas": {
+        "width": 720,
+        "height": 1280
+      }
+    },
+    "staticFallback": {
+      "htmlOnlyFeatures": [
+        "element animation",
+        "slide fx",
+        "htmlRuntime transition"
+      ],
+      "staticBehavior": "ignored",
+      "notes": [
+        "SVG/PDF/PPTX exports preserve final element positions and text.",
+        "Motion, timeline easing, and atmospheric FX are HTML-only enhancements."
+      ]
+    },
+    "warnings": []
+  },
+  "warnings": []
+}

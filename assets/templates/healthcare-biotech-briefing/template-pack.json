@@ -1,0 +1,502 @@
+{
+  "id": "healthcare-biotech-briefing",
+  "version": "1.0.0",
+  "name": "Healthcare Biotech Briefing",
+  "description": "Curated Maliang Deck template for clinical workflow optimization and diagnostic AI validation: TriageAI Diagnostic Validation.",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "sources": [
+    {
+      "id": "healthcare-biotech-briefing-synthesis",
+      "format": "html",
+      "path": "assets/templates/healthcare-biotech-briefing/README.md",
+      "dimensions": {
+        "width": 1280,
+        "height": 720
+      },
+      "pageCount": 1,
+      "warnings": []
+    }
+  ],
+  "tokens": {
+    "palette": {
+      "primary": "#0F3D3E",
+      "secondary": "#F8FAFC",
+      "accent": "#22C55E",
+      "neutral": "#64748B",
+      "semantic": {
+        "success": "#16A34A",
+        "warning": "#F59E0B",
+        "danger": "#DC2626"
+      }
+    },
+    "typography": {
+      "headingFont": "Nunito Sans",
+      "bodyFont": "Inter",
+      "monoFont": "IBM Plex Mono",
+      "scaleRatio": 1.22
+    },
+    "spacing": {
+      "element": 18,
+      "section": 40,
+      "margin": {
+        "top": 48,
+        "right": 72,
+        "bottom": 48,
+        "left": 72
+      }
+    },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "backgrounds": [
+      "#F8FAFC",
+      "#0F3D3E"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "healthcare-biotech-briefing-opening",
+      "name": "Case opening",
+      "slideType": "title",
+      "purpose": "Sets case context, audience, and narrative hook.",
+      "slots": [
+        {
+          "id": "healthcare-biotech-briefing-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 72,
+            "y": 84,
+            "width": 1136,
+            "height": 86
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "healthcare-biotech-briefing-synthesis",
+              "format": "html",
+              "path": "assets/templates/healthcare-biotech-briefing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "healthcare-biotech-briefing-narrative-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 220,
+            "width": 1136,
+            "height": 140
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "healthcare-biotech-briefing-synthesis",
+              "format": "html",
+              "path": "assets/templates/healthcare-biotech-briefing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "healthcare-biotech-briefing-synthesis",
+          "format": "html",
+          "path": "assets/templates/healthcare-biotech-briefing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "healthcare-biotech-briefing-dashboard",
+      "name": "Evidence dashboard",
+      "slideType": "chart",
+      "purpose": "Pairs metric visuals with decision evidence.",
+      "slots": [
+        {
+          "id": "healthcare-biotech-briefing-chart-slot",
+          "role": "chart",
+          "bbox": {
+            "x": 72,
+            "y": 150,
+            "width": 520,
+            "height": 260
+          },
+          "required": true,
+          "accepts": [
+            "chart"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "healthcare-biotech-briefing-synthesis",
+              "format": "html",
+              "path": "assets/templates/healthcare-biotech-briefing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "healthcare-biotech-briefing-table-slot",
+          "role": "table",
+          "bbox": {
+            "x": 680,
+            "y": 150,
+            "width": 500,
+            "height": 160
+          },
+          "required": false,
+          "accepts": [
+            "table"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "healthcare-biotech-briefing-synthesis",
+              "format": "html",
+              "path": "assets/templates/healthcare-biotech-briefing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "healthcare-biotech-briefing-synthesis",
+          "format": "html",
+          "path": "assets/templates/healthcare-biotech-briefing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "healthcare-biotech-briefing-system",
+      "name": "Operating system",
+      "slideType": "evidence",
+      "purpose": "Frames reusable pillars and implementation logic.",
+      "slots": [
+        {
+          "id": "healthcare-biotech-briefing-pillar-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 170,
+            "width": 330,
+            "height": 240
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "healthcare-biotech-briefing-synthesis",
+              "format": "html",
+              "path": "assets/templates/healthcare-biotech-briefing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "healthcare-biotech-briefing-caption-slot",
+          "role": "caption",
+          "bbox": {
+            "x": 72,
+            "y": 510,
+            "width": 1136,
+            "height": 80
+          },
+          "required": false,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "healthcare-biotech-briefing-synthesis",
+              "format": "html",
+              "path": "assets/templates/healthcare-biotech-briefing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "healthcare-biotech-briefing-synthesis",
+          "format": "html",
+          "path": "assets/templates/healthcare-biotech-briefing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "healthcare-biotech-briefing-closing",
+      "name": "Decision close",
+      "slideType": "closing",
+      "purpose": "Summarizes next actions and export-safe takeaway.",
+      "slots": [
+        {
+          "id": "healthcare-biotech-briefing-actions-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 190,
+            "width": 1136,
+            "height": 300
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "healthcare-biotech-briefing-synthesis",
+              "format": "html",
+              "path": "assets/templates/healthcare-biotech-briefing/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "healthcare-biotech-briefing-synthesis",
+          "format": "html",
+          "path": "assets/templates/healthcare-biotech-briefing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "id": "healthcare-biotech-briefing-opening-fragment",
+      "archetypeId": "healthcare-biotech-briefing-opening",
+      "description": "Reusable case opening fragment for TriageAI Diagnostic Validation.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "healthcare-biotech-briefing-opening",
+        "template": "healthcare-biotech-briefing",
+        "roles": [
+          "title",
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "healthcare-biotech-briefing-synthesis",
+          "format": "html",
+          "path": "assets/templates/healthcare-biotech-briefing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "healthcare-biotech-briefing-dashboard-fragment",
+      "archetypeId": "healthcare-biotech-briefing-dashboard",
+      "description": "Reusable evidence dashboard fragment for TriageAI Diagnostic Validation.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "healthcare-biotech-briefing-dashboard",
+        "template": "healthcare-biotech-briefing",
+        "roles": [
+          "chart",
+          "table"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "healthcare-biotech-briefing-synthesis",
+          "format": "html",
+          "path": "assets/templates/healthcare-biotech-briefing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "healthcare-biotech-briefing-system-fragment",
+      "archetypeId": "healthcare-biotech-briefing-system",
+      "description": "Reusable operating system fragment for TriageAI Diagnostic Validation.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "healthcare-biotech-briefing-system",
+        "template": "healthcare-biotech-briefing",
+        "roles": [
+          "body",
+          "caption"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "healthcare-biotech-briefing-synthesis",
+          "format": "html",
+          "path": "assets/templates/healthcare-biotech-briefing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "healthcare-biotech-briefing-closing-fragment",
+      "archetypeId": "healthcare-biotech-briefing-closing",
+      "description": "Reusable decision close fragment for TriageAI Diagnostic Validation.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "healthcare-biotech-briefing-closing",
+        "template": "healthcare-biotech-briefing",
+        "roles": [
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "healthcare-biotech-briefing-synthesis",
+          "format": "html",
+          "path": "assets/templates/healthcare-biotech-briefing/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "guidance": {
+    "summary": "Use Healthcare Biotech Briefing for clinical workflow optimization and diagnostic AI validation with concrete triage, diagnostic, sensitivity, specificity content.",
+    "outline": [
+      "Lead with TriageAI Diagnostic Validation and audience stakes.",
+      "Reserve one slide for triage evidence and one for implementation choices."
+    ],
+    "deckPlan": [
+      "Use opening, dashboard, operating system, and closing archetypes in order.",
+      "Keep charts tied to diagnostic decisions."
+    ],
+    "slideDsl": [
+      "Use #0F3D3E for dominant surfaces and #22C55E for emphasis.",
+      "Prefer concise domain language: triage, diagnostic, sensitivity, specificity, workflow, clinical, validation, patient."
+    ]
+  },
+  "provenance": [
+    {
+      "sourceId": "healthcare-biotech-briefing-synthesis",
+      "format": "html",
+      "path": "assets/templates/healthcare-biotech-briefing/README.md",
+      "pageIndex": 0,
+      "adapter": "curated-human-synthesis"
+    }
+  ],
+  "coverage": {
+    "templateId": "healthcare-biotech-briefing",
+    "generatedAt": "2026-04-25T00:00:00.000Z",
+    "significantObservationCount": 12,
+    "assignedSlotCount": 7,
+    "metrics": {
+      "tokens": {
+        "covered": 6,
+        "total": 6,
+        "ratio": 1
+      },
+      "archetypes": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      },
+      "slots": {
+        "covered": 7,
+        "total": 7,
+        "ratio": 1
+      },
+      "fragments": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      }
+    },
+    "formatConfidence": {
+      "html": 0.9
+    },
+    "warnings": [],
+    "sampleDeck": {
+      "validates": true,
+      "formats": {
+        "html": true,
+        "pdf": false,
+        "pptx": false
+      },
+      "degraded": false,
+      "warnings": []
+    },
+    "slotCoverage": {
+      "assignedSignificantObservations": 7
+    }
+  },
+  "activation": {
+    "status": "approved",
+    "approvedAt": "2026-04-25T00:00:00.000Z",
+    "approvedBy": "ralph-curated-library"
+  },
+  "sampleDeck": {
+    "path": "sample.deck.json",
+    "case": {
+      "title": "TriageAI Diagnostic Validation",
+      "domain": "clinical workflow optimization and diagnostic AI validation",
+      "audience": "hospital operations, clinical governance, and biotech partners",
+      "narrative": "A clinical team presents diagnostic validation, workflow impact, and safety gates for emergency triage AI.",
+      "slideCount": 4,
+      "canvas": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "warnings": []
+  },
+  "warnings": []
+}

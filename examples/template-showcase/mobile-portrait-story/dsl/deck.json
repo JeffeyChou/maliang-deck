@@ -1,0 +1,433 @@
+{
+  "meta": {
+    "title": "PulseFit App Teaser Walkthrough",
+    "theme": "mobile-portrait-story",
+    "canvas": {
+      "width": 720,
+      "height": 1280
+    },
+    "htmlRuntime": {
+      "transition": {
+        "type": "fade",
+        "durationMs": 420,
+        "easing": "ease-out",
+        "autoAnimate": true,
+        "unmatched": "fade"
+      }
+    }
+  },
+  "slides": [
+    {
+      "id": "case-opening",
+      "background": "#ECFDF5",
+      "elements": [
+        {
+          "id": "hero-band",
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 260,
+          "type": "rect",
+          "fill": "#064E3B"
+        },
+        {
+          "id": "eyebrow",
+          "x": 44,
+          "y": 56,
+          "width": 632,
+          "type": "text",
+          "content": "9:16 MOBILE APP AND PRODUCT TEASER WALKTHROUGH",
+          "fontSize": 20,
+          "fontFamily": "JetBrains Mono",
+          "color": "#34D399"
+        },
+        {
+          "id": "title",
+          "x": 44,
+          "y": 104,
+          "width": 632,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 650,
+            "delay": 80
+          },
+          "type": "text",
+          "content": "PulseFit App Teaser Walkthrough",
+          "fontSize": 46,
+          "fontFamily": "SF Pro Display",
+          "fontWeight": "bold",
+          "color": "#FFFFFF"
+        },
+        {
+          "id": "narrative",
+          "x": 44,
+          "y": 310,
+          "width": 632,
+          "type": "text",
+          "content": "A portrait story walks through habit coaching, biometric nudges, subscription value, and launch CTA for a wellness app.",
+          "fontSize": 26,
+          "fontFamily": "Inter",
+          "color": "#064E3B",
+          "lineHeight": 1.25
+        },
+        {
+          "id": "accent-card",
+          "x": 44,
+          "y": 520,
+          "width": 632,
+          "height": 180,
+          "opacity": 0.14,
+          "type": "rect",
+          "fill": "#34D399",
+          "radius": 18
+        },
+        {
+          "id": "audience-label",
+          "x": 68,
+          "y": 552,
+          "width": 280,
+          "type": "text",
+          "content": "PRIMARY AUDIENCE",
+          "fontSize": 18,
+          "fontFamily": "JetBrains Mono",
+          "color": "#6B7280"
+        },
+        {
+          "id": "audience",
+          "x": 68,
+          "y": 590,
+          "width": 584,
+          "type": "text",
+          "content": "growth marketers, app store editors, and mobile product teams",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#064E3B"
+        }
+      ],
+      "notes": "PulseFit App Teaser Walkthrough introduces 9:16 mobile app and product teaser walkthrough for growth marketers, app store editors, and mobile product teams.",
+      "fx": [
+        "gradient-blob"
+      ]
+    },
+    {
+      "id": "evidence-dashboard",
+      "background": "#FFFFFF",
+      "elements": [
+        {
+          "id": "dash-title",
+          "x": 44,
+          "y": 48,
+          "width": 632,
+          "type": "text",
+          "content": "PulseFit signals point to a focused decision",
+          "fontSize": 38,
+          "fontFamily": "SF Pro Display",
+          "fontWeight": "bold",
+          "color": "#064E3B"
+        },
+        {
+          "id": "case-metrics",
+          "x": 44,
+          "y": 160,
+          "width": 632,
+          "height": 300,
+          "type": "chart",
+          "chartType": "bar",
+          "data": [
+            {
+              "name": "case metrics",
+              "labels": [
+                "PulseFit",
+                "Mobile",
+                "Habit",
+                "Biometric"
+              ],
+              "values": [
+                72,
+                58,
+                84,
+                49
+              ]
+            }
+          ],
+          "options": {
+            "palette": [
+              "#34D399"
+            ],
+            "showValues": true
+          }
+        },
+        {
+          "id": "decision-table",
+          "x": 44,
+          "y": 510,
+          "width": 632,
+          "height": 150,
+          "type": "table",
+          "rows": [
+            [
+              "Mobile lever",
+              "Current",
+              "Target"
+            ],
+            [
+              "subscription",
+              "42",
+              "68"
+            ],
+            [
+              "wellness",
+              "31",
+              "55"
+            ],
+            [
+              "teaser",
+              "18",
+              "12"
+            ]
+          ],
+          "options": {
+            "headerFill": "#111827",
+            "headerColor": "#ffffff",
+            "zebra": true
+          }
+        },
+        {
+          "id": "insight",
+          "x": 44,
+          "y": 750,
+          "width": 632,
+          "type": "text",
+          "content": "The strongest PulseFit signal is paired with habit momentum, while biometric execution remains the gating constraint.",
+          "fontSize": 26,
+          "color": "#064E3B",
+          "lineHeight": 1.25
+        }
+      ],
+      "notes": "Evidence slide uses PulseFit, mobile, habit, biometric, subscription as domain anchors, not generic filler."
+    },
+    {
+      "id": "operating-system",
+      "background": "#F8FAFC",
+      "elements": [
+        {
+          "id": "system-title",
+          "x": 44,
+          "y": 48,
+          "width": 632,
+          "type": "text",
+          "content": "A reusable mobile operating system",
+          "fontSize": 38,
+          "fontFamily": "SF Pro Display",
+          "fontWeight": "bold",
+          "color": "#064E3B"
+        },
+        {
+          "id": "pillar-0",
+          "x": 44,
+          "y": 160,
+          "width": 632,
+          "height": 170,
+          "type": "rect",
+          "fill": "#FFFFFF",
+          "stroke": "#34D399",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "id": "pillar-0-title",
+          "x": 68,
+          "y": 188,
+          "width": 584,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 0
+          },
+          "type": "text",
+          "content": "habit",
+          "fontSize": 26,
+          "fontWeight": "bold",
+          "color": "#064E3B"
+        },
+        {
+          "id": "pillar-0-body",
+          "x": 68,
+          "y": 234,
+          "width": 584,
+          "type": "text",
+          "content": "Use wellness evidence to guide prioritization, sequencing, and review cadence.",
+          "fontSize": 22,
+          "color": "#6B7280",
+          "lineHeight": 1.22
+        },
+        {
+          "id": "pillar-1",
+          "x": 44,
+          "y": 390,
+          "width": 632,
+          "height": 170,
+          "type": "rect",
+          "fill": "#FFFFFF",
+          "stroke": "#34D399",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "id": "pillar-1-title",
+          "x": 68,
+          "y": 418,
+          "width": 584,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 120
+          },
+          "type": "text",
+          "content": "biometric",
+          "fontSize": 26,
+          "fontWeight": "bold",
+          "color": "#064E3B"
+        },
+        {
+          "id": "pillar-1-body",
+          "x": 68,
+          "y": 464,
+          "width": 584,
+          "type": "text",
+          "content": "Use teaser evidence to guide prioritization, sequencing, and review cadence.",
+          "fontSize": 22,
+          "color": "#6B7280",
+          "lineHeight": 1.22
+        },
+        {
+          "id": "pillar-2",
+          "x": 44,
+          "y": 620,
+          "width": 632,
+          "height": 170,
+          "type": "rect",
+          "fill": "#FFFFFF",
+          "stroke": "#34D399",
+          "strokeWidth": 2,
+          "radius": 18
+        },
+        {
+          "id": "pillar-2-title",
+          "x": 68,
+          "y": 648,
+          "width": 584,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 240
+          },
+          "type": "text",
+          "content": "subscription",
+          "fontSize": 26,
+          "fontWeight": "bold",
+          "color": "#064E3B"
+        },
+        {
+          "id": "pillar-2-body",
+          "x": 68,
+          "y": 694,
+          "width": 584,
+          "type": "text",
+          "content": "Use coach evidence to guide prioritization, sequencing, and review cadence.",
+          "fontSize": 22,
+          "color": "#6B7280",
+          "lineHeight": 1.22
+        },
+        {
+          "id": "system-footer",
+          "x": 44,
+          "y": 900,
+          "width": 632,
+          "type": "text",
+          "content": "The template combines executive narrative, metric evidence, and implementation guardrails for PulseFit App Teaser Walkthrough.",
+          "fontSize": 26,
+          "color": "#064E3B"
+        }
+      ],
+      "notes": "Operating model translates 9:16 mobile app and product teaser walkthrough into reusable components and action rules.",
+      "fx": [
+        "constellation"
+      ]
+    },
+    {
+      "id": "next-actions",
+      "background": "#064E3B",
+      "elements": [
+        {
+          "id": "close-title",
+          "x": 44,
+          "y": 72,
+          "width": 632,
+          "type": "text",
+          "content": "Decision path for PulseFit momentum",
+          "fontSize": 42,
+          "fontFamily": "SF Pro Display",
+          "fontWeight": "bold",
+          "color": "#FFFFFF"
+        },
+        {
+          "id": "action-0",
+          "x": 44,
+          "y": 220,
+          "width": 632,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 0
+          },
+          "type": "text",
+          "content": "1. Align leadership review: habit / wellness",
+          "fontSize": 30,
+          "color": "#FFFFFF"
+        },
+        {
+          "id": "action-1",
+          "x": 45.19,
+          "y": 274.37,
+          "width": 632,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 160
+          },
+          "type": "text",
+          "content": "2. Instrument proof metrics: biometric / teaser",
+          "fontSize": 30,
+          "color": "#FFFFFF"
+        },
+        {
+          "id": "action-2",
+          "x": 44,
+          "y": 322.22,
+          "width": 632,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 320
+          },
+          "type": "text",
+          "content": "3. Commit launch cadence: subscription / coach",
+          "fontSize": 30,
+          "color": "#FFFFFF"
+        },
+        {
+          "id": "close-note",
+          "x": 39.85,
+          "y": 686.74,
+          "width": 632,
+          "type": "text",
+          "content": "Static exports preserve this decision content; HTML runtime enhancements only affect motion and atmospheric FX.",
+          "fontSize": 24,
+          "color": "#34D399"
+        }
+      ],
+      "notes": "Closing slide defines next actions for growth marketers, app store editors, and mobile product teams."
+    }
+  ]
+}

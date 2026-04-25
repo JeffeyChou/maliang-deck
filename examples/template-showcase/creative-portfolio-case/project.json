@@ -1,0 +1,23 @@
+{
+  "id": "creative-portfolio-case-showcase",
+  "slug": "creative-portfolio-case",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "updatedAt": "2026-04-25T00:00:00.000Z",
+  "stage": "initialized",
+  "currentStage": "initialized",
+  "sources": [],
+  "outputFormats": [
+    "html",
+    "pdf",
+    "pptx"
+  ],
+  "config": {
+    "styleId": "creative-portfolio-case",
+    "theme": "creative-portfolio-case"
+  },
+  "artifacts": {
+    "deck": "dsl/deck.json",
+    "html": "render/html/index.html",
+    "exportReport": "exports/export-report.json"
+  }
+}

@@ -1,0 +1,502 @@
+{
+  "id": "education-training-module",
+  "version": "1.0.0",
+  "name": "Education Training Module",
+  "description": "Curated Maliang Deck template for data-literacy onboarding and training module: Data Literacy Onboarding Sprint.",
+  "createdAt": "2026-04-25T00:00:00.000Z",
+  "sources": [
+    {
+      "id": "education-training-module-synthesis",
+      "format": "html",
+      "path": "assets/templates/education-training-module/README.md",
+      "dimensions": {
+        "width": 1280,
+        "height": 720
+      },
+      "pageCount": 1,
+      "warnings": []
+    }
+  ],
+  "tokens": {
+    "palette": {
+      "primary": "#312E81",
+      "secondary": "#EEF2FF",
+      "accent": "#FBBF24",
+      "neutral": "#6B7280",
+      "semantic": {
+        "success": "#16A34A",
+        "warning": "#F59E0B",
+        "danger": "#DC2626"
+      }
+    },
+    "typography": {
+      "headingFont": "Nunito",
+      "bodyFont": "Inter",
+      "monoFont": "JetBrains Mono",
+      "scaleRatio": 1.22
+    },
+    "spacing": {
+      "element": 18,
+      "section": 40,
+      "margin": {
+        "top": 48,
+        "right": 72,
+        "bottom": 48,
+        "left": 72
+      }
+    },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "backgrounds": [
+      "#EEF2FF",
+      "#312E81"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "education-training-module-opening",
+      "name": "Case opening",
+      "slideType": "title",
+      "purpose": "Sets case context, audience, and narrative hook.",
+      "slots": [
+        {
+          "id": "education-training-module-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 72,
+            "y": 84,
+            "width": 1136,
+            "height": 86
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "education-training-module-synthesis",
+              "format": "html",
+              "path": "assets/templates/education-training-module/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "education-training-module-narrative-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 220,
+            "width": 1136,
+            "height": 140
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "education-training-module-synthesis",
+              "format": "html",
+              "path": "assets/templates/education-training-module/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "education-training-module-synthesis",
+          "format": "html",
+          "path": "assets/templates/education-training-module/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "education-training-module-dashboard",
+      "name": "Evidence dashboard",
+      "slideType": "chart",
+      "purpose": "Pairs metric visuals with decision evidence.",
+      "slots": [
+        {
+          "id": "education-training-module-chart-slot",
+          "role": "chart",
+          "bbox": {
+            "x": 72,
+            "y": 150,
+            "width": 520,
+            "height": 260
+          },
+          "required": true,
+          "accepts": [
+            "chart"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "education-training-module-synthesis",
+              "format": "html",
+              "path": "assets/templates/education-training-module/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "education-training-module-table-slot",
+          "role": "table",
+          "bbox": {
+            "x": 680,
+            "y": 150,
+            "width": 500,
+            "height": 160
+          },
+          "required": false,
+          "accepts": [
+            "table"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "education-training-module-synthesis",
+              "format": "html",
+              "path": "assets/templates/education-training-module/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "education-training-module-synthesis",
+          "format": "html",
+          "path": "assets/templates/education-training-module/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "education-training-module-system",
+      "name": "Operating system",
+      "slideType": "evidence",
+      "purpose": "Frames reusable pillars and implementation logic.",
+      "slots": [
+        {
+          "id": "education-training-module-pillar-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 170,
+            "width": 330,
+            "height": 240
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "education-training-module-synthesis",
+              "format": "html",
+              "path": "assets/templates/education-training-module/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        },
+        {
+          "id": "education-training-module-caption-slot",
+          "role": "caption",
+          "bbox": {
+            "x": 72,
+            "y": 510,
+            "width": 1136,
+            "height": 80
+          },
+          "required": false,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "education-training-module-synthesis",
+              "format": "html",
+              "path": "assets/templates/education-training-module/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "education-training-module-synthesis",
+          "format": "html",
+          "path": "assets/templates/education-training-module/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "education-training-module-closing",
+      "name": "Decision close",
+      "slideType": "closing",
+      "purpose": "Summarizes next actions and export-safe takeaway.",
+      "slots": [
+        {
+          "id": "education-training-module-actions-slot",
+          "role": "body",
+          "bbox": {
+            "x": 72,
+            "y": 190,
+            "width": 1136,
+            "height": 300
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.92,
+          "provenance": [
+            {
+              "sourceId": "education-training-module-synthesis",
+              "format": "html",
+              "path": "assets/templates/education-training-module/README.md",
+              "pageIndex": 0,
+              "adapter": "curated-human-synthesis"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.9,
+      "provenance": [
+        {
+          "sourceId": "education-training-module-synthesis",
+          "format": "html",
+          "path": "assets/templates/education-training-module/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "id": "education-training-module-opening-fragment",
+      "archetypeId": "education-training-module-opening",
+      "description": "Reusable case opening fragment for Data Literacy Onboarding Sprint.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "education-training-module-opening",
+        "template": "education-training-module",
+        "roles": [
+          "title",
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "education-training-module-synthesis",
+          "format": "html",
+          "path": "assets/templates/education-training-module/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "education-training-module-dashboard-fragment",
+      "archetypeId": "education-training-module-dashboard",
+      "description": "Reusable evidence dashboard fragment for Data Literacy Onboarding Sprint.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "education-training-module-dashboard",
+        "template": "education-training-module",
+        "roles": [
+          "chart",
+          "table"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "education-training-module-synthesis",
+          "format": "html",
+          "path": "assets/templates/education-training-module/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "education-training-module-system-fragment",
+      "archetypeId": "education-training-module-system",
+      "description": "Reusable operating system fragment for Data Literacy Onboarding Sprint.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "education-training-module-system",
+        "template": "education-training-module",
+        "roles": [
+          "body",
+          "caption"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "education-training-module-synthesis",
+          "format": "html",
+          "path": "assets/templates/education-training-module/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "education-training-module-closing-fragment",
+      "archetypeId": "education-training-module-closing",
+      "description": "Reusable decision close fragment for Data Literacy Onboarding Sprint.",
+      "variables": {
+        "title": "string",
+        "evidence": "text | chart | table",
+        "takeaway": "string"
+      },
+      "slideDsl": {
+        "layout": "education-training-module-closing",
+        "template": "education-training-module",
+        "roles": [
+          "body"
+        ]
+      },
+      "confidence": 0.88,
+      "provenance": [
+        {
+          "sourceId": "education-training-module-synthesis",
+          "format": "html",
+          "path": "assets/templates/education-training-module/README.md",
+          "pageIndex": 0,
+          "adapter": "curated-human-synthesis"
+        }
+      ]
+    }
+  ],
+  "guidance": {
+    "summary": "Use Education Training Module for data-literacy onboarding and training module with concrete literacy, cohort, dashboard, metric content.",
+    "outline": [
+      "Lead with Data Literacy Onboarding Sprint and audience stakes.",
+      "Reserve one slide for literacy evidence and one for implementation choices."
+    ],
+    "deckPlan": [
+      "Use opening, dashboard, operating system, and closing archetypes in order.",
+      "Keep charts tied to cohort decisions."
+    ],
+    "slideDsl": [
+      "Use #312E81 for dominant surfaces and #FBBF24 for emphasis.",
+      "Prefer concise domain language: literacy, cohort, dashboard, metric, facilitator, onboarding, practice, learners."
+    ]
+  },
+  "provenance": [
+    {
+      "sourceId": "education-training-module-synthesis",
+      "format": "html",
+      "path": "assets/templates/education-training-module/README.md",
+      "pageIndex": 0,
+      "adapter": "curated-human-synthesis"
+    }
+  ],
+  "coverage": {
+    "templateId": "education-training-module",
+    "generatedAt": "2026-04-25T00:00:00.000Z",
+    "significantObservationCount": 12,
+    "assignedSlotCount": 7,
+    "metrics": {
+      "tokens": {
+        "covered": 6,
+        "total": 6,
+        "ratio": 1
+      },
+      "archetypes": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      },
+      "slots": {
+        "covered": 7,
+        "total": 7,
+        "ratio": 1
+      },
+      "fragments": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      }
+    },
+    "formatConfidence": {
+      "html": 0.9
+    },
+    "warnings": [],
+    "sampleDeck": {
+      "validates": true,
+      "formats": {
+        "html": true,
+        "pdf": false,
+        "pptx": false
+      },
+      "degraded": false,
+      "warnings": []
+    },
+    "slotCoverage": {
+      "assignedSignificantObservations": 7
+    }
+  },
+  "activation": {
+    "status": "approved",
+    "approvedAt": "2026-04-25T00:00:00.000Z",
+    "approvedBy": "ralph-curated-library"
+  },
+  "sampleDeck": {
+    "path": "sample.deck.json",
+    "case": {
+      "title": "Data Literacy Onboarding Sprint",
+      "domain": "data-literacy onboarding and training module",
+      "audience": "new operations managers and enablement facilitators",
+      "narrative": "A training module teaches metric definitions, cohort reading, dashboard critique, and action planning.",
+      "slideCount": 4,
+      "canvas": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "warnings": []
+  },
+  "warnings": []
+}
