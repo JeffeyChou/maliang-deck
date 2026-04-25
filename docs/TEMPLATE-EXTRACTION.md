@@ -1,30 +1,33 @@
-# Template Extraction System
+# Template Extraction
 
-Maliang Deck template extraction is a workflow-level subsystem. It converts reference PPTX, HTML, PDF, or PNG material into a draft `TemplatePack` with design tokens, layout archetypes, slot boxes, DSL fragment guidance, provenance, and coverage evidence.
+Template extraction is a workflow-level subsystem for turning reference PPTX, HTML, PDF, or PNG material into draft `TemplatePack` artifacts. Packs provide style and layout guidance; renderers and exporters still consume ordinary deck DSL only.
 
-## Current implementation status
+## Status
 
-Status: **implemented v1**. The system is intentionally deterministic and dependency-light: no parser/browser/native packages were added. It supports draft extraction from PPTX, HTML, PDF, and PNG references, writes coverage and advisory threshold artifacts, generates sample ordinary DSL/HTML output, and exposes `maliang-deck template extract|validate|sample|list`.
+Implemented v1:
 
-Verification recorded for the current implementation:
+- deterministic local adapters for PPTX, HTML, PDF, and PNG references;
+- `TemplateExtractionIR`, draft `TemplatePack`, coverage report, and advisory threshold artifacts;
+- compile layer into existing `StyleDefinition`, `DeckDesign`, `SlideDesign`, and `WorkOrderGuidance` surfaces;
+- sample generation to ordinary JSON DSL and HTML preview;
+- `maliang-deck template extract|validate|sample|list`;
+- renderer-unaware tests and CLI smoke coverage.
 
-- `pnpm -r build`
-- `pnpm -r typecheck`
-- `pnpm lint`
-- `pnpm test tests/workflow`
-- `pnpm test tests/schema`
-- `pnpm test tests/renderer-html tests/renderer-svg tests/exporter`
-- template CLI extract/validate/sample/list smoke
-
-Known full-suite gap: `pnpm test` still needs the ignored local `projects/cuszp/dsl/deck.json` fixture for three text-measure/cuSZp tests.
+Known full-suite gap: `pnpm test` still needs ignored local `projects/cuszp/dsl/deck.json` for three text-measure/cuSZp tests.
 
 ## Architecture
 
-1. Source adapters read untrusted inputs and emit `TemplateExtractionIR` only.
-2. Inference converts IR into a draft `TemplatePack`.
-3. The compiler maps approved packs into existing guidance surfaces (`StyleDefinition`, `DeckDesign`, and `WorkOrderGuidance`).
-4. Sample decks are ordinary Maliang Deck JSON DSL.
-5. Renderers and exporters stay template-unaware and consume only deck DSL.
+```text
+reference files
+  -> source adapters
+  -> TemplateExtractionIR
+  -> draft TemplatePack + coverage evidence
+  -> review/approval
+  -> compiled guidance/style surfaces
+  -> ordinary deck DSL generation
+```
+
+Key boundary: template fragments are generation guidance, not renderer input. Draft packs are excluded from generation-safe style listings unless explicitly included or approved.
 
 ## CLI
 
@@ -42,19 +45,46 @@ Extraction writes:
 - `coverage-report.json`
 - `coverage-thresholds.proposed.json`
 
-Threshold proposals are advisory review evidence only. They are not enforced as final gates until a human explicitly approves that policy.
+Threshold proposals are review evidence only until a human explicitly approves that policy.
 
-## Security and dependency review
+## Review Checklist
 
-The v1 implementation intentionally adds no parser, image, browser, or native dependencies. The lightweight adapters use deterministic local parsing and never call external LLM/API providers. Heavyweight additions remain behind dependency review:
+- Provenance lists every reference file and extracted observation source.
+- Coverage report shows which tokens, layouts, slots, and fragments were inferred.
+- Warnings are acceptable for lower-confidence PDF/PNG observations.
+- Sample deck renders as ordinary DSL/HTML without renderer template awareness.
+- Pack activation state is appropriate: draft for review, approved only after explicit acceptance.
 
-- PPTX: JSZip + fast-xml-parser may replace the built-in OpenXML-lite ZIP/XML reader if richer shape geometry is required.
-- HTML: parse5/jsdom may replace static regex extraction; Playwright should be added only if rendered screenshot/layout evidence is explicitly approved.
-- PDF: pdfjs-dist may improve text and image extraction, with resource limits retained.
-- PNG/image: pngjs can improve palette parsing; sharp should require explicit native-processing justification.
+## Dependency and Security Notes
+
+The v1 implementation adds no parser, image, browser, or native runtime dependencies. Lightweight adapters use bounded deterministic parsing:
+
+- PPTX: minimal ZIP central-directory reader plus XML token extraction.
+- HTML: static string parsing for text/style hints; scripts are stripped and no browser/network runtime is used.
+- PDF: static header, MediaBox, encryption, and text-token scan; semantic confidence is intentionally low.
+- PNG: signature/IHDR/PLTE scan only; no native image processing.
+
+Rejected for v1 because they were not needed for deterministic fixtures: `sharp`, Playwright, PDF.js, JSZip, fast-xml-parser, parse5/jsdom, and pngjs.
+
+Future parser, browser, PDF-renderer, or native-image dependencies require a new dependency review plus security/resource-limit tests.
 
 Current safety controls include PPTX/ZIP traversal rejection, corrupt archive rejection, HTML script/network ignore behavior, PDF encryption/resource-limit rejection, PNG signature/IHDR validation, and no network fetches.
 
-## Confidence limits
+## Confidence Limits
 
-This system does not promise pixel-perfect cloning and is not a full importer from PPTX/PDF/HTML/PNG to DSL. PDF and PNG observations are lower confidence; PNG is visual-only unless external annotation/OCR is added later. Draft template packs do not appear in generation-safe style lists unless explicitly included or approved.
+Template extraction does not promise pixel-perfect cloning and is not a full importer from PPTX/PDF/HTML/PNG to DSL. PDF and PNG observations are lower confidence; PNG is visual-only unless OCR/annotation support is added later.
+
+## Verification
+
+Current focused verification:
+
+```bash
+pnpm test tests/workflow
+pnpm test tests/schema
+pnpm test tests/renderer-html tests/renderer-svg tests/exporter
+pnpm -r build
+pnpm -r typecheck
+pnpm lint
+```
+
+Also smoke `template extract`, `validate`, `sample`, and `list` when template code changes.
