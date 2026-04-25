@@ -135,7 +135,7 @@ export function registerWorkflowCommand(program: Command): void {
       const extractionOptions = extractionCliOverrides(command, opts);
       const workOrder = writeExtractionWorkOrder(project, extractionOptions);
       const result = extractLocalSources(project, extractionOptions);
-      console.log(`Extraction work order: ${workOrder}`);
+      console.log(`Extraction task manifest: ${workOrder}`);
       console.log(`Extraction records: ${result.records.length}`);
     });
 
@@ -156,7 +156,7 @@ export function registerWorkflowCommand(program: Command): void {
     .option('--mode <mode>', 'agent or manual', 'agent')
     .action((project: string, opts: { mode: string }) => {
       const order = createOutlineWorkOrder(project, parseMode(opts.mode));
-      console.log(`Outline work order: planning/outline-work-order.json (${order.status})`);
+      console.log(`Planning task manifest: planning/tasks.json (${order.status})`);
     });
 
   workflow
@@ -177,18 +177,18 @@ export function registerWorkflowCommand(program: Command): void {
         console.log(`Deck plan valid: ${plan.slides.length} slide(s)`);
       } else {
         const order = createDeckPlanWorkOrder(project, parseMode(opts.mode));
-        console.log(`Deck-plan work order: ${order.id}`);
+        console.log(`Planning task manifest: planning/tasks.json (${order.id})`);
       }
     });
 
   workflow
     .command('generate-dsl <project>')
-    .description('Create slide DSL work orders after outline approval')
+    .description('Create slide DSL tasks after outline and deck-plan approval')
     .option('--mode <mode>', 'agent or manual', 'agent')
-    .option('--parallel', 'Create disjoint slide work orders for parallel authoring')
+    .option('--parallel', 'Create disjoint slide tasks for parallel authoring')
     .action((project: string, opts: { mode: string; parallel?: boolean }) => {
       const orders = createDslWorkOrders(project, { mode: parseMode(opts.mode), parallel: Boolean(opts.parallel) });
-      console.log(`Created ${orders.length} slide DSL work order(s)`);
+      console.log(`Created ${orders.length} slide DSL task(s): dsl/tasks.json`);
     });
 
   workflow

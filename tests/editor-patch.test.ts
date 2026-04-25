@@ -42,11 +42,11 @@ describe('editor patch contract', () => {
   it('applies top-level text updates without mutating the original deck', () => {
     const deck = baseDeck();
     const result = applyEditorPatch(deck, {
-      ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'title', changes: { x: 11, y: 22, width: 320, height: 90, content: 'Edited', fontSize: 36 } }],
+      ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'title', changes: { x: 11, y: 22, width: 320, height: 90, content: 'Edited', fontSize: 36, fontFamily: 'serif', fontWeight: 'bold', fontStyle: 'italic' } }],
     });
 
     const edited = result.deck.slides[0].elements[0];
-    expect(edited).toMatchObject({ x: 11, y: 22, width: 320, height: 90, content: 'Edited', fontSize: 36 });
+    expect(edited).toMatchObject({ x: 11, y: 22, width: 320, height: 90, content: 'Edited', fontSize: 36, fontFamily: 'serif', fontWeight: 'bold', fontStyle: 'italic' });
     expect(deck.slides[0].elements[0]).toMatchObject({ x: 10, y: 20, content: 'Hello', fontSize: 32 });
   });
 
@@ -66,10 +66,18 @@ describe('editor patch contract', () => {
     expectPatchError(() => applyEditorPatch(baseDeck(), { ops: [{ op: 'reorderSlides', slideIds: ['slide-a', 'slide-a'] }] }), 'invalid-slide-set');
   });
 
+  it('deletes slides but keeps at least one slide', () => {
+    const result = applyEditorPatch(baseDeck(), { ops: [{ op: 'deleteSlide', slideId: 'slide-a' }] });
+    expect(result.deck.slides.map((slide) => slide.id)).toEqual(['slide-b']);
+
+    expectPatchError(() => applyEditorPatch(result.deck, { ops: [{ op: 'deleteSlide', slideId: 'slide-b' }] }), 'cannot-delete-last-slide');
+  });
+
   it('rejects unsupported fields and invalid values', () => {
     expectPatchError(() => applyEditorPatch(baseDeck(), { ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'title', changes: { fill: '#fff' } }] }), 'unsupported-field');
     expectPatchError(() => normalizeEditorSaveRequest({ baseRevision: 'abc', ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'title', changes: { width: 0 } }] }), 'invalid-value');
     expectPatchError(() => normalizeEditorSaveRequest({ baseRevision: 'abc', ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'title', changes: { x: Number.NaN } }] }), 'invalid-value');
+    expectPatchError(() => normalizeEditorSaveRequest({ baseRevision: 'abc', ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'title', changes: { fontWeight: 'heavy' } }] }), 'invalid-value');
   });
 
   it('rejects unsupported, nested, rotated, and duplicate top-level targets', () => {

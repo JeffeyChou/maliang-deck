@@ -7,10 +7,11 @@ import { assertInside, ensureDir, readJson, writeJson } from './fs-utils.js';
 import { MinerUClient, MinerUWorkflowError, type FetchLike } from './mineru-client.js';
 import { runDoclingOnFile, type DoclingExtractOptions, type ExtractionProvider } from './docling-runner.js';
 import { resolveProjectMaliangDeckConfig, type MaliangDeckCliOverrides } from './config.js';
-import type { MinerUPollAttempt, MinerUTaskRecord } from './schemas.js';
+import type { ExtractionTask, MinerUPollAttempt, MinerUTaskRecord, TaskStatus } from './schemas.js';
 
 export type ExtractionResult = {
-  records: MinerUTaskRecord[];
+  records: ExtractionTask[];
+  rawDirs: string[];
   unpackedDirs: string[];
 };
 
@@ -80,9 +81,8 @@ export type MinerUZipManifest = {
   files: Array<{ archivePath: string; outputPath: string }>;
 };
 
-function safeMaterialId(input: string, index: number): string {
-  const stem = basename(input).replace(/\.[^.]+$/u, '').replace(/[^a-zA-Z0-9._-]+/gu, '-').replace(/^-|-$/gu, '');
-  return stem || `material-${index + 1}`;
+function safeMaterialId(_input: string, index: number): string {
+  return `m${index + 1}`;
 }
 
 function listZipEntries(zipPath: string): string[] {
@@ -125,17 +125,60 @@ function copyDirectory(source: string, target: string): string[] {
 }
 
 function recordPath(projectDir: string, materialId: string): string {
-  return join(projectDir, 'extraction', 'mineru', 'responses', `${materialId}.json`);
+  void materialId;
+  return join(projectDir, 'extraction', 'mineru', 'tasks.json');
 }
 
 function persistExtractionRecord(projectDir: string, materialId: string, record: MinerUTaskRecord): void {
-  writeJson(recordPath(projectDir, materialId), record);
+  const task = compactTaskFromRecord(materialId, record);
+  upsertExtractionTask(projectDir, 'mineru', task);
 }
 
 export async function readExtractionRecord(projectDir: string, materialId: string): Promise<MinerUTaskRecord | undefined> {
   const path = recordPath(projectDir, materialId);
   if (!existsSync(path)) return undefined;
-  return readJson(path) as MinerUTaskRecord;
+  const records = readJson(path) as ExtractionTask[];
+  const task = records.find((entry) => entry.id === materialId);
+  if (!task) return undefined;
+  return {
+    sourceId: task.sourceId,
+    materialId: task.id,
+    taskId: task.remoteTaskId,
+    state: task.stage === 'running' ? 'running' : task.stage === 'failed' ? 'failed' : task.stage === 'done' ? 'done' : 'pending',
+    attempts: 0,
+    error: task.error,
+  };
+}
+
+function taskStatusFromMinerUState(state: MinerUTaskRecord['state']): TaskStatus {
+  if (state === 'done') return 'done';
+  if (state === 'failed') return 'failed';
+  if (state === 'pending' || state === 'waiting-file') return 'pending';
+  return 'running';
+}
+
+function compactTaskFromRecord(materialId: string, record: MinerUTaskRecord): ExtractionTask {
+  const response = record.response && typeof record.response === 'object' ? record.response as Record<string, unknown> : {};
+  const batchId = typeof response.batchId === 'string' ? response.batchId : undefined;
+  return {
+    id: materialId,
+    sourceId: record.sourceId ?? materialId,
+    stage: taskStatusFromMinerUState(record.state),
+    input: record.requestPath ?? '',
+    markdown: `extraction/mineru/raw/${materialId}/source.md`,
+    artifacts: `extraction/mineru/raw/${materialId}/artifacts`,
+    remoteTaskId: record.taskId,
+    batchId,
+    error: record.error,
+  };
+}
+
+function upsertExtractionTask(projectDir: string, provider: ExtractionProvider, task: ExtractionTask): void {
+  const path = join(projectDir, 'extraction', provider, 'tasks.json');
+  const current = existsSync(path) ? readJson(path) as ExtractionTask[] : [];
+  const next = current.filter((entry) => entry.id !== task.id);
+  next.push(task);
+  writeJson(path, next.sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true })));
 }
 
 export async function pollSingleMinerUTask(options: {
@@ -207,14 +250,14 @@ export async function downloadResultZip(options: {
     throw new MinerUWorkflowError(`Failed to download MinerU ZIP (${response.status})`, 'MINERU_ZIP_DOWNLOAD_ERROR');
   }
   const bytes = Buffer.from(await response.arrayBuffer());
-  const zipPath = join(options.projectDir, 'extraction', 'mineru', 'zips', `${options.materialId}.zip`);
+  const zipPath = join(options.projectDir, 'extraction', 'mineru', 'raw', options.materialId, 'artifacts', 'source.zip');
   ensureDir(dirname(zipPath));
   await writeFile(zipPath, bytes);
   return zipPath;
 }
 
 export async function unpackMinerUZip(projectDir: string, materialId: string, zipPath: string): Promise<MinerUZipManifest> {
-  const outputDir = join(projectDir, 'extraction', 'mineru', 'unpacked', materialId);
+  const outputDir = join(projectDir, 'extraction', 'mineru', 'raw', materialId);
   ensureDir(outputDir);
   const entries = listZipEntries(zipPath);
   for (const entry of entries) assertSafeArchiveEntry(entry, outputDir);
@@ -224,7 +267,9 @@ export async function unpackMinerUZip(projectDir: string, materialId: string, zi
     outputDir,
     files: entries.map((entry) => ({ archivePath: entry, outputPath: join(outputDir, normalize(entry.replace(/\\/gu, '/'))) })),
   };
-  writeJson(join(outputDir, 'manifest.json'), manifest);
+  if (existsSync(join(outputDir, 'full.md')) && !existsSync(join(outputDir, 'source.md'))) {
+    copyFileSync(join(outputDir, 'full.md'), join(outputDir, 'source.md'));
+  }
   return manifest;
 }
 
@@ -264,58 +309,60 @@ export function extractLocalSources(slugOrPath: string, options: ExtractLocalSou
 function extractMinerULocalSources(slugOrPath: string): ExtractionResult {
   const root = projectRoot(slugOrPath);
   const manifest = loadProject(root);
-  const records: MinerUTaskRecord[] = [];
-  const unpackedDirs: string[] = [];
+  const records: ExtractionTask[] = [];
+  const rawDirs: string[] = [];
 
   manifest.sources.forEach((source, index) => {
     const materialId = safeMaterialId(source.originalName ?? source.uri, index);
     const sourcePath = resolve(source.uri);
-    const unpackedDir = join(root, 'extraction', 'mineru', 'unpacked', materialId);
-    const zipPath = join(root, 'extraction', 'mineru', 'zips', `${materialId}.zip`);
+    const rawDir = join(root, 'extraction', 'mineru', 'raw', materialId);
+    const artifactsDir = join(rawDir, 'artifacts');
+    const zipPath = join(artifactsDir, 'source.zip');
 
     if (source.kind === 'remote-url') {
       records.push({
+        id: materialId,
         sourceId: source.id,
-        materialId,
-        requestPath: '/extract/task',
-        response: { url: source.uri },
-        state: 'pending',
-        attempts: 0,
+        stage: 'pending',
+        input: source.uri,
+        markdown: relative(root, join(rawDir, 'source.md')),
+        artifacts: relative(root, artifactsDir),
       });
       return;
     }
 
     if (!existsSync(sourcePath)) throw new Error(`Source does not exist: ${sourcePath}`);
-    let unpackedFiles: string[];
+    ensureDir(artifactsDir);
     if (source.kind === 'local-zip') {
-      ensureDir(dirname(zipPath));
       copyFileSync(sourcePath, zipPath);
-      unpackedFiles = unpackZipSafely(zipPath, unpackedDir);
+      unpackZipSafely(zipPath, rawDir);
     } else {
-      unpackedFiles = copyDirectory(sourcePath, unpackedDir);
+      copyDirectory(sourcePath, rawDir);
     }
-    unpackedDirs.push(unpackedDir);
+    if (existsSync(join(rawDir, 'full.md')) && !existsSync(join(rawDir, 'source.md'))) {
+      copyFileSync(join(rawDir, 'full.md'), join(rawDir, 'source.md'));
+    }
+    rawDirs.push(rawDir);
     records.push({
+      id: materialId,
       sourceId: source.id,
-      materialId,
-      requestPath: source.kind === 'local-zip' ? 'fixture/local-zip' : 'fixture/local-file',
-      response: { materialId, unpackedFiles: unpackedFiles.map((file) => relative(root, file)) },
-      state: 'done',
-      attempts: 1,
-      zipPath: source.kind === 'local-zip' ? relative(root, zipPath) : undefined,
+      stage: 'done',
+      input: source.uri,
+      markdown: relative(root, join(rawDir, 'source.md')),
+      artifacts: relative(root, artifactsDir),
     });
   });
 
   writeJson(join(root, 'extraction', 'mineru', 'tasks.json'), records);
   saveProject(root, manifest, 'extracted');
-  return { records, unpackedDirs };
+  return { records, rawDirs, unpackedDirs: rawDirs };
 }
 
 function extractDoclingSources(slugOrPath: string, options: ExtractLocalSourcesOptions): ExtractionResult {
   const root = projectRoot(slugOrPath);
   const manifest = loadProject(root);
-  const records: MinerUTaskRecord[] = [];
-  const unpackedDirs: string[] = [];
+  const records: ExtractionTask[] = [];
+  const rawDirs: string[] = [];
 
   manifest.sources.forEach((source, index) => {
     const materialId = safeMaterialId(source.originalName ?? source.uri, index);
@@ -334,25 +381,20 @@ function extractDoclingSources(slugOrPath: string, options: ExtractLocalSourcesO
       sourcePath,
       materialId,
     });
-    unpackedDirs.push(result.unpackedDir);
+    rawDirs.push(result.rawDir);
     records.push({
+      id: materialId,
       sourceId: source.id,
-      materialId,
-      requestPath: 'docling/local-cli',
-      response: {
-        record: result.record,
-        markdownPath: result.markdownPath ? relative(root, result.markdownPath) : undefined,
-        jsonPath: result.jsonPath ? relative(root, result.jsonPath) : undefined,
-        contentListPath: result.contentListPath ? relative(root, result.contentListPath) : undefined,
-      },
-      state: 'done',
-      attempts: 1,
+      stage: 'done',
+      input: source.uri,
+      markdown: result.markdownPath ? relative(root, result.markdownPath) : '',
+      artifacts: relative(root, result.artifactsDir),
     });
   });
 
   writeJson(join(root, 'extraction', 'docling', 'tasks.json'), records);
   saveProject(root, manifest, 'extracted');
-  return { records, unpackedDirs };
+  return { records, rawDirs, unpackedDirs: rawDirs };
 }
 
 export function writeExtractionWorkOrder(slugOrPath: string, minerOrOptions?: 'precise' | ExtractionWorkOrderOptions, model?: string): string {
@@ -364,33 +406,18 @@ export function writeExtractionWorkOrder(slugOrPath: string, minerOrOptions?: 'p
   const { root, options } = resolveExtractionOptions(slugOrPath, explicitOptions);
   const manifest = loadProject(root);
   const provider = options.provider;
-  const path = join(root, 'extraction', provider, 'extract-work-order.json');
-  writeJson(path, {
-    provider,
-    miner: provider === 'mineru' ? options.miner ?? 'precise' : undefined,
-    model: provider === 'mineru' ? options.model : undefined,
-    sources: manifest.sources,
-    requiredArtifacts: provider === 'mineru'
-      ? ['full.md', 'content_list.json', 'structured JSON files', 'visual assets']
-      : ['Docling Markdown', 'Docling JSON', 'provider-adapted content_list.json when structure is available'],
-    uploadFlow: provider === 'mineru' ? ['/api/v4/file-urls/batch', 'PUT upload URLs', '/api/v4/extract-results/batch/{batch_id}'] : undefined,
-    tokenPolicy: provider === 'mineru'
-      ? 'Read MINERU_API_TOKEN from process environment or local .env at execution time; never persist token values.'
-      : undefined,
-    localExecutionPolicy: provider === 'docling'
-      ? 'Run installed Docling CLI locally with remote services and external plugins disabled by default. True air-gapped use requires --artifacts-path with pre-downloaded model artifacts.'
-      : undefined,
-    doclingOptions: provider === 'docling'
-      ? {
-          formats: options.formats ?? ['md', 'json'],
-          ocr: options.ocr,
-          tables: options.tables,
-          tableMode: options.tableMode,
-          artifactsPath: options.artifactsPath,
-          documentTimeoutSeconds: options.documentTimeoutSeconds,
-        }
-      : undefined,
-    status: 'open',
+  const path = join(root, 'extraction', provider, 'tasks.json');
+  const tasks: ExtractionTask[] = manifest.sources.map((source, index) => {
+    const id = safeMaterialId(source.originalName ?? source.uri, index);
+    return {
+      id,
+      sourceId: source.id,
+      stage: 'pending',
+      input: source.uri,
+      markdown: `extraction/${provider}/raw/${id}/source.md`,
+      artifacts: `extraction/${provider}/raw/${id}/artifacts`,
+    };
   });
+  writeJson(path, tasks);
   return path;
 }

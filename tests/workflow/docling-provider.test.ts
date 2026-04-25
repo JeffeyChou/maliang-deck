@@ -82,18 +82,25 @@ describe('Docling optional extraction provider', () => {
 
     const extraction = extractLocalSources('docling-demo', { provider: 'docling', execFile: fakeDoclingExec });
     expect(extraction.records).toHaveLength(1);
-    expect(extraction.unpackedDirs[0]).toMatch(/extraction\/docling\/unpacked\/source$/);
-    expect(readFileSync(join('projects', 'docling-demo', 'extraction', 'docling', 'unpacked', 'source', 'full.md'), 'utf-8')).toContain('Docling Fixture');
+    expect(extraction.rawDirs[0]).toMatch(/extraction\/docling\/raw\/m1$/);
+    expect(extraction.records[0]).toMatchObject({
+      id: 'm1',
+      sourceId: 'source-1',
+      stage: 'done',
+      markdown: 'extraction/docling/raw/m1/source.md',
+      artifacts: 'extraction/docling/raw/m1/artifacts',
+    });
+    expect(readFileSync(join('projects', 'docling-demo', 'extraction', 'docling', 'raw', 'm1', 'source.md'), 'utf-8')).toContain('Docling Fixture');
 
     const normalized = normalizeExtraction('docling-demo', { provider: 'docling' });
-    expect(normalized.materials[0]).toMatchObject({ id: 'source', contentListPath: 'extraction/docling/unpacked/source/content_list.json' });
+    expect(normalized.materials[0]).toMatchObject({ id: 'm1', sourceId: 'source-1', contentListPath: 'extraction/docling/raw/m1/content_list.json' });
     expect(normalized.blocks.map((block) => block.kind)).toEqual(['title', 'text', 'table', 'image']);
-    expect(normalized.blocks[3].assetRefs).toEqual(['source-asset-1']);
+    expect(normalized.blocks[3].assetRefs).toEqual(['m1-asset-1']);
     expect(normalized.assets[0]).toMatchObject({
       kind: 'image',
-      sourcePath: 'extraction/docling/unpacked/source/sample_artifacts/figure.png',
-      normalizedPath: 'extraction/normalized/assets/source/source-asset-1.png',
+      sourcePath: 'extraction/docling/raw/m1/artifacts/sample_artifacts/figure.png',
     });
+    expect(normalized.assets[0].normalizedPath).toBeUndefined();
     expect(normalized.blocks[2].text).toContain('A | B');
   });
 
@@ -104,7 +111,7 @@ describe('Docling optional extraction provider', () => {
     writeFileSync(join(preparedDir, 'full.md'), '# Prepared MinerU artifact\n');
     createProject('mineru-default', [{ id: 'source-1', kind: 'local-file', path: preparedDir }]);
     const result = extractLocalSources('mineru-default');
-    expect(result.records[0]).toMatchObject({ requestPath: 'fixture/local-file' });
+    expect(result.records[0]).toMatchObject({ id: 'm1', sourceId: 'source-1', stage: 'done', markdown: 'extraction/mineru/raw/m1/source.md' });
   });
 
   it('rejects remote URL sources for Docling by default', () => {

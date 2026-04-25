@@ -6,11 +6,16 @@ export type EditorSaveRequest = {
   ops: EditorOperation[];
 };
 
-export type EditorOperation = ReorderSlidesOperation | UpdateElementOperation;
+export type EditorOperation = ReorderSlidesOperation | DeleteSlideOperation | UpdateElementOperation;
 
 export type ReorderSlidesOperation = {
   op: 'reorderSlides';
   slideIds: string[];
+};
+
+export type DeleteSlideOperation = {
+  op: 'deleteSlide';
+  slideId: string;
 };
 
 export type UpdateElementOperation = {
@@ -27,6 +32,9 @@ export type EditorElementChanges = {
   height?: number;
   content?: string;
   fontSize?: number;
+  fontFamily?: string;
+  fontWeight?: 'normal' | 'bold';
+  fontStyle?: 'normal' | 'italic';
   fill?: string;
   stroke?: string;
   strokeWidth?: number;
@@ -37,6 +45,7 @@ export type EditorPatchErrorCode =
   | 'invalid-request'
   | 'invalid-operation'
   | 'invalid-slide-set'
+  | 'cannot-delete-last-slide'
   | 'duplicate-element-id'
   | 'slide-not-found'
   | 'element-not-found'
@@ -65,11 +74,21 @@ export type ApplyEditorPatchResult = {
   changed: boolean;
 };
 
-const TEXT_FIELDS = new Set<keyof EditorElementChanges>(['x', 'y', 'width', 'height', 'content', 'fontSize']);
+const TEXT_FIELDS = new Set<keyof EditorElementChanges>([
+  'x',
+  'y',
+  'width',
+  'height',
+  'content',
+  'fontSize',
+  'fontFamily',
+  'fontWeight',
+  'fontStyle',
+]);
 const RECT_FIELDS = new Set<keyof EditorElementChanges>(['x', 'y', 'width', 'height', 'fill', 'stroke', 'strokeWidth', 'radius']);
 const POSITIVE_NUMBER_FIELDS = new Set<keyof EditorElementChanges>(['width', 'height', 'fontSize', 'strokeWidth']);
 const FINITE_NUMBER_FIELDS = new Set<keyof EditorElementChanges>(['x', 'y', 'width', 'height', 'fontSize', 'strokeWidth', 'radius']);
-const STRING_FIELDS = new Set<keyof EditorElementChanges>(['content', 'fill', 'stroke']);
+const STRING_FIELDS = new Set<keyof EditorElementChanges>(['content', 'fontFamily', 'fontWeight', 'fontStyle', 'fill', 'stroke']);
 const CHANGE_FIELDS = new Set<keyof EditorElementChanges>([
   'x',
   'y',
@@ -77,6 +96,9 @@ const CHANGE_FIELDS = new Set<keyof EditorElementChanges>([
   'height',
   'content',
   'fontSize',
+  'fontFamily',
+  'fontWeight',
+  'fontStyle',
   'fill',
   'stroke',
   'strokeWidth',
@@ -146,6 +168,12 @@ function normalizeOperation(raw: unknown, opIndex: number): EditorOperation {
       slideIds: assertStringArray(raw.slideIds, ['ops', opIndex, 'slideIds'], 'slideIds'),
     };
   }
+  if (raw.op === 'deleteSlide') {
+    return {
+      op: 'deleteSlide',
+      slideId: assertString(raw.slideId, ['ops', opIndex, 'slideId'], 'slideId'),
+    };
+  }
   if (raw.op === 'updateElement') {
     if (!isRecord(raw.changes)) {
       throw new EditorPatchError('invalid-operation', 'changes must be an object', ['ops', opIndex, 'changes']);
@@ -195,6 +223,12 @@ function normalizeChanges(raw: Record<string, unknown>, opIndex: number): Editor
       if (typeof value !== 'string') {
         throw new EditorPatchError('invalid-value', `${field} must be a string`, ['ops', opIndex, 'changes', field]);
       }
+      if (field === 'fontWeight' && value !== 'normal' && value !== 'bold') {
+        throw new EditorPatchError('invalid-value', 'fontWeight must be "normal" or "bold"', ['ops', opIndex, 'changes', field]);
+      }
+      if (field === 'fontStyle' && value !== 'normal' && value !== 'italic') {
+        throw new EditorPatchError('invalid-value', 'fontStyle must be "normal" or "italic"', ['ops', opIndex, 'changes', field]);
+      }
       (normalized as Record<string, unknown>)[field] = value;
       continue;
     }
@@ -218,6 +252,18 @@ function applyReorder(deck: Deck, op: ReorderSlidesOperation, opIndex: number): 
   const byId = new Map(deck.slides.map((slide) => [slide.id, slide]));
   deck.slides = op.slideIds.map((id) => byId.get(id)!);
   return op.slideIds.some((id, index) => id !== currentIds[index]);
+}
+
+function applyDeleteSlide(deck: Deck, op: DeleteSlideOperation, opIndex: number): boolean {
+  if (deck.slides.length <= 1) {
+    throw new EditorPatchError('cannot-delete-last-slide', 'Cannot delete the final slide', ['ops', opIndex, 'slideId']);
+  }
+  const index = deck.slides.findIndex((slide) => slide.id === op.slideId);
+  if (index < 0) {
+    throw new EditorPatchError('slide-not-found', `Slide "${op.slideId}" was not found`, ['ops', opIndex, 'slideId']);
+  }
+  deck.slides.splice(index, 1);
+  return true;
 }
 
 function assertEditableElement(element: Element, opIndex: number): asserts element is TextElement | RectElement {
@@ -266,6 +312,10 @@ export function applyEditorPatch(deck: Deck, request: Pick<EditorSaveRequest, 'o
       changed = applyReorder(next, normalized, index) || changed;
       return;
     }
+    if (normalized.op === 'deleteSlide') {
+      changed = applyDeleteSlide(next, normalized, index) || changed;
+      return;
+    }
     changed = applyUpdateElement(next, normalized, index) || changed;
   });
 
@@ -281,5 +331,5 @@ export function isEditorPatchError(error: unknown): error is EditorPatchError {
   return error instanceof EditorPatchError;
 }
 
-export const EDITOR_SUPPORTED_OPS = ['reorderSlides', 'updateElement'] as const;
+export const EDITOR_SUPPORTED_OPS = ['reorderSlides', 'deleteSlide', 'updateElement'] as const;
 export const EDITOR_SUPPORTED_ELEMENT_TYPES = ['text', 'rect'] as const;

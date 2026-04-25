@@ -41,12 +41,12 @@ describe('HTML slide editor runtime lane', () => {
     expect(runtimeSource).toContain('function viewportToSlideDelta(slide, dx, dy)');
     expect(runtimeSource).toContain('dx: dx / (scale.x || 1)');
     expect(runtimeSource).toContain('dy: dy / (scale.y || 1)');
-    expect(runtimeSource).toContain("addEditorOp(drag.el, { x: numberFromStyle(drag.el, 'left', drag.startLeft), y: numberFromStyle(drag.el, 'top', drag.startTop) })");
+    expect(runtimeSource).toContain("addEditorOp(item.el, { x: numberFromStyle(item.el, 'left', item.left), y: numberFromStyle(item.el, 'top', item.top) })");
     expect(runtimeSource).toContain("addEditorOp(drag.el, { width: numberFromStyle(drag.el, 'width', drag.startWidth), height: numberFromStyle(drag.el, 'height', drag.startHeight) })");
   });
 
   it('creates pending text/font/rect style ops, transient undo, and save payloads with baseRevision', () => {
-    expect(runtimeSource).toContain("['x', 'y', 'width', 'height', 'content', 'fontSize', 'fill', 'stroke', 'strokeWidth', 'radius']");
+    expect(runtimeSource).toContain("['x', 'y', 'width', 'height', 'content', 'fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'fill', 'stroke', 'strokeWidth', 'radius']");
     expect(runtimeSource).toContain("addEditorOp(el, { content: after })");
     expect(runtimeSource).toContain("addEditorOp(el, { fontSize: fontSize })");
     expect(runtimeSource).toContain("applyEditorRectStyle('fill'");
@@ -54,6 +54,7 @@ describe('HTML slide editor runtime lane', () => {
     expect(runtimeSource).toContain("applyEditorRectNumberStyle('strokeWidth'");
     expect(runtimeSource).toContain("applyEditorRectNumberStyle('radius'");
     expect(runtimeSource).toContain('editorState.undoStack');
+    expect(runtimeSource).toContain('editorState.redoStack');
     expect(runtimeSource).toContain("op: 'updateElement'");
     expect(runtimeSource).toContain('changes: safePatch');
     expect(runtimeSource).not.toContain("type: 'updateElement'");
@@ -67,12 +68,26 @@ describe('HTML slide editor runtime lane', () => {
   it('supports slide reorder operations and structured save errors', () => {
     expect(runtimeSource).toContain('function ensureEditorReorderDrawer()');
     expect(runtimeSource).toContain('function escapeEditorHtml(value)');
-    expect(runtimeSource).toContain('function moveEditorSlide(index, direction)');
+    expect(runtimeSource).toContain('function reorderEditorSlide(index, nextIndex)');
     expect(runtimeSource).toContain("op: 'reorderSlides'");
-    expect(runtimeSource).toContain('slideIds: order.slice()');
+    expect(runtimeSource).toContain("op: 'deleteSlide'");
+    expect(runtimeSource).toContain('slideIds: editorState.slideOrder.slice()');
+    expect(runtimeSource).toContain('maliang-deck-editor-page-thumb');
     expect(runtimeSource).toContain("body.error || {}");
     expect(runtimeSource).toContain('serverError.message');
     expect(runtimeSource).toContain('serverError.path.join');
     expect(runtimeSource).not.toContain("new Error(body.error || body.message");
+  });
+
+  it('adopts reference-style editor chrome, multi-select, redo, and text styling controls', () => {
+    expect(runtimeSource).toContain("'<button type=\"button\" data-role=\"slides\">Pages</button>'");
+    expect(runtimeSource).toContain("'<button type=\"button\" data-role=\"redo\" disabled>Redo</button>'");
+    expect(runtimeSource).toContain("'<button type=\"button\" data-role=\"done\">Done</button>'");
+    expect(runtimeSource).toContain('maliang-deck-editor-textbar');
+    expect(runtimeSource).toContain('selectedItems: []');
+    expect(runtimeSource).toContain('selectEditorElement(target, !!e.ctrlKey)');
+    expect(runtimeSource).toContain("toggleEditorTextStyle('fontWeight', 'bold', 'normal')");
+    expect(runtimeSource).toContain("toggleEditorTextStyle('fontStyle', 'italic', 'normal')");
+    expect(runtimeSource).toContain('applyEditorFontFamily');
   });
 });

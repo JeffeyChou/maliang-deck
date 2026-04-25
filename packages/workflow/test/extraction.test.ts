@@ -79,7 +79,7 @@ describe('MinerU polling task records', () => {
 });
 
 describe('safe ZIP download and unpack', () => {
-  it('downloads a ZIP into extraction/mineru/zips', async () => {
+  it('downloads a ZIP into the material artifact folder', async () => {
     const projectDir = await tempProject();
     const zipBytes = Buffer.from('fake zip bytes');
     const zipPath = await downloadResultZip({
@@ -98,7 +98,7 @@ describe('safe ZIP download and unpack', () => {
       })
     });
 
-    expect(zipPath).toMatch(/extraction\/mineru\/zips\/material-1\.zip$/);
+    expect(zipPath).toMatch(/extraction\/mineru\/raw\/material-1\/artifacts\/source\.zip$/);
     await expect(readFile(zipPath, 'utf8')).resolves.toBe('fake zip bytes');
   });
 
@@ -114,7 +114,7 @@ describe('safe ZIP download and unpack', () => {
     const manifest = await unpackMinerUZip(projectDir, 'material-1', zipPath);
 
     expect(manifest.files.map((file) => file.archivePath)).toEqual(['full.md', 'images/chart.png']);
-    expect(manifest.outputDir).toMatch(/extraction\/mineru\/unpacked\/material-1$/);
+    expect(manifest.outputDir).toMatch(/extraction\/mineru\/raw\/material-1$/);
     await expect(readFile(path.join(manifest.outputDir, 'full.md'), 'utf8')).resolves.toBe('# Extracted\n');
   });
 

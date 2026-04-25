@@ -4,6 +4,7 @@ import { createDslWorkOrders } from './dsl-generation.js';
 import { extractLocalSources, writeExtractionWorkOrder } from './extraction.js';
 import { normalizeExtraction } from './normalize.js';
 import { createOutlineWorkOrder } from './outline.js';
+import { createDeckPlanWorkOrder, validateDeckPlan } from './deck-plan.js';
 import { loadProject, projectRoot } from './project.js';
 import { pathExists } from './fs-utils.js';
 import { resolveMaliangDeckConfig } from './config.js';
@@ -43,6 +44,11 @@ export function runWorkflow(slugOrPath: string, formats?: OutputFormat[], option
   if (!pathExists(join(root, 'planning', 'outline-approved.md'))) {
     return { status: 'blocked', message: `Outline approval required before DSL generation: ${join(root, 'planning', 'outline-approved.md')}` };
   }
+  if (!pathExists(join(root, 'planning', 'deck-plan.json'))) {
+    createDeckPlanWorkOrder(root, 'agent');
+    return { status: 'blocked', message: `Deck plan required before DSL generation: ${join(root, 'planning', 'deck-plan.json')}` };
+  }
+  validateDeckPlan(root);
   createDslWorkOrders(root, { mode: 'agent', parallel: true });
   if (!pathExists(join(root, 'dsl', 'deck.json'))) {
     return { status: 'blocked', message: `DSL assembly required before build: ${join(root, 'dsl', 'deck.json')}` };

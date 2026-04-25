@@ -50,13 +50,25 @@ projects/<slug>/
   project.json
   requirements.md
   extraction/
-    mineru/ | docling/ | normalized/
+    mineru/
+      tasks.json
+      raw/m1/source.md
+      raw/m1/artifacts/
+    docling/
+      tasks.json
+      raw/m1/source.md
+      raw/m1/artifacts/
+    normalized/
+      materials.json
+      blocks.json
+      assets.json
   planning/
+    tasks.json
     outline-draft.md
     outline-approved.md
     deck-plan.json
   dsl/
-    work-orders/
+    tasks.json
     slides/
     deck.json
   render/html/index.html

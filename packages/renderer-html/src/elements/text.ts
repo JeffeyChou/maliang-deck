@@ -22,6 +22,7 @@ export function renderText(el: TextElement): string {
     `text-align: ${textAlign}`,
     `line-height: ${lineHeight}`,
     `white-space: pre-wrap`,
+    `overflow-wrap: anywhere`,
   ];
 
   if (el.verticalAlign === 'middle' || el.verticalAlign === 'bottom') {

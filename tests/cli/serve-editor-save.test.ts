@@ -53,7 +53,7 @@ describe('serve editor store', () => {
     expect(store.getCapability()).toMatchObject({
       canPersist: true,
       sourceKind: 'json',
-      supportedOps: ['reorderSlides', 'updateElement'],
+      supportedOps: ['reorderSlides', 'deleteSlide', 'updateElement'],
       supportedElementTypes: ['text', 'rect'],
       mjsDivergenceWarning: false,
     });
@@ -68,7 +68,7 @@ describe('serve editor store', () => {
     const response = await store.save({
       baseRevision: revision,
       ops: [
-        { op: 'updateElement', slideId: 'a', elementId: 'title', changes: { x: 44, content: 'Edited', fontSize: 42 } },
+        { op: 'updateElement', slideId: 'a', elementId: 'title', changes: { x: 44, content: 'Edited', fontSize: 42, fontWeight: 'bold', fontStyle: 'italic', fontFamily: 'serif' } },
         { op: 'updateElement', slideId: 'a', elementId: 'box', changes: { width: 150, fill: '#f00', radius: 8 } },
         { op: 'reorderSlides', slideIds: ['b', 'a'] },
       ],
@@ -79,7 +79,7 @@ describe('serve editor store', () => {
     expect(response.revision).not.toBe(revision);
     const saved = await readDeck(file);
     expect(saved.slides.map((slide) => slide.id)).toEqual(['b', 'a']);
-    expect(saved.slides[1].elements[0]).toMatchObject({ x: 44, content: 'Edited', fontSize: 42 });
+    expect(saved.slides[1].elements[0]).toMatchObject({ x: 44, content: 'Edited', fontSize: 42, fontWeight: 'bold', fontStyle: 'italic', fontFamily: 'serif' });
     expect(saved.slides[1].elements[1]).toMatchObject({ width: 150, fill: '#f00', radius: 8 });
     expect(store.html).toContain('Edited');
   });
@@ -100,6 +100,19 @@ describe('serve editor store', () => {
 
     await expectStoreError(() => store.save({ baseRevision: store.getCapability().revision, ops: [{ op: 'updateElement', slideId: 'a', elementId: 'box', changes: { content: 'nope' } }] }), 400, 'unsupported-field');
     expect(await readFile(file, 'utf-8')).toBe(before);
+  });
+
+  it('saves slide deletes', async () => {
+    const file = await createDeckFile();
+    const store = await FileBackedEditorStore.create(file);
+
+    await store.save({
+      baseRevision: store.getCapability().revision,
+      ops: [{ op: 'deleteSlide', slideId: 'a' }],
+    });
+
+    const saved = await readDeck(file);
+    expect(saved.slides.map((slide) => slide.id)).toEqual(['b']);
   });
 
   it('warns when editing assembled DSL output that may diverge from generator scripts', async () => {

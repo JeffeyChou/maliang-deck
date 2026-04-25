@@ -1230,14 +1230,18 @@
       baseRevision: null,
       capabilities: null,
       selected: null,
+      selectedItems: [],
       pendingOps: [],
       undoStack: [],
+      redoStack: [],
       toolbar: null,
+      textToolbar: null,
       status: null,
       selection: null,
       resizeHandle: null,
       reorderDrawer: null,
       slideOrder: slides.map(function(slide){ return editorSlideId(slide); }),
+      deletedSlides: [],
       drag: null,
       saving: false,
     };
@@ -1331,9 +1335,19 @@
       };
     }
 
+    function editorGroupSnapshot(items) {
+      return {
+        group: true,
+        selected: (items || []).slice(),
+        snapshots: (items || []).map(editorSnapshot),
+        pendingLength: editorState.pendingOps.length,
+      };
+    }
+
     function pushEditorUndo(el) {
       if (!el) return;
       editorState.undoStack.push(editorSnapshot(el));
+      editorState.redoStack = [];
       if (editorState.undoStack.length > 50) editorState.undoStack.shift();
       updateEditorToolbar();
     }
@@ -1350,18 +1364,46 @@
       updateEditorToolbar();
     }
 
+    function restoreEditorHistoryEntry(entry) {
+      if (!entry) return;
+      if (entry.group && Array.isArray(entry.snapshots)) {
+        entry.snapshots.forEach(function(snapshot) {
+          if (!snapshot || !snapshot.el) return;
+          snapshot.el.setAttribute('style', snapshot.style);
+          snapshot.el.innerHTML = snapshot.html;
+          if (snapshot.contentEditable == null) snapshot.el.removeAttribute('contenteditable');
+          else snapshot.el.setAttribute('contenteditable', snapshot.contentEditable);
+        });
+        editorState.pendingOps.length = entry.pendingLength;
+        setEditorSelection(entry.selected || [], false);
+        positionEditorSelection();
+        updateEditorToolbar();
+        return;
+      }
+      restoreEditorSnapshot(entry);
+    }
+
     function undoEditor() {
-      const snapshot = editorState.undoStack.pop();
-      if (!snapshot) return;
-      restoreEditorSnapshot(snapshot);
+      const entry = editorState.undoStack.pop();
+      if (!entry) return;
+      editorState.redoStack.push(editorGroupSnapshot(editorState.selectedItems.length ? editorState.selectedItems : (editorState.selected ? [editorState.selected] : [])));
+      restoreEditorHistoryEntry(entry);
       setEditorStatus('Undid unsaved edit.');
+    }
+
+    function redoEditor() {
+      const entry = editorState.redoStack.pop();
+      if (!entry) return;
+      editorState.undoStack.push(editorGroupSnapshot(editorState.selectedItems.length ? editorState.selectedItems : (editorState.selected ? [editorState.selected] : [])));
+      restoreEditorHistoryEntry(entry);
+      setEditorStatus('Redid unsaved edit.');
     }
 
     function constrainedEditorOp(el, patch) {
       const slide = el.closest('.slide') || activeSlide();
       const type = editorElementType(el);
       const safePatch = {};
-      ['x', 'y', 'width', 'height', 'content', 'fontSize', 'fill', 'stroke', 'strokeWidth', 'radius'].forEach(function(key) {
+      ['x', 'y', 'width', 'height', 'content', 'fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'fill', 'stroke', 'strokeWidth', 'radius'].forEach(function(key) {
         if (Object.prototype.hasOwnProperty.call(patch, key)) safePatch[key] = patch[key];
       });
       return {
@@ -1377,6 +1419,7 @@
       const op = constrainedEditorOp(el, patch);
       if (!Object.keys(op.changes).length) return;
       editorState.pendingOps.push(op);
+      editorState.redoStack = [];
       updateEditorToolbar();
     }
 
@@ -1386,14 +1429,23 @@
       style.id = 'maliang-deck-editor-style';
       style.textContent = `
         .maliang-deck-editor-toolbar {
-          position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
-          z-index: 3400; display: flex; align-items: center; gap: 8px;
-          max-width: min(960px, calc(100vw - 28px)); padding: 8px 10px;
-          border: 1px solid rgba(37,99,235,.24); border-radius: 14px;
+          position: fixed; left: 10px; top: 10px;
+          z-index: 3400; display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+          max-width: min(680px, calc(100vw - 20px)); padding: 8px 10px;
+          border: 1px solid rgba(37,99,235,.24); border-radius: 10px;
           background: rgba(15,23,42,.92); color: #e5e7eb;
           box-shadow: 0 18px 60px rgba(0,0,0,.34);
           font: 600 12px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
           backdrop-filter: blur(12px);
+          opacity: 0;
+          transform: translateY(-5px);
+          transition: opacity .18s ease, transform .18s ease;
+        }
+        .maliang-deck-editor-toolbar:hover,
+        .maliang-deck-editor-toolbar:focus-within,
+        .maliang-deck-editor-toolbar.show {
+          opacity: 1;
+          transform: translateY(0);
         }
         .maliang-deck-editor-toolbar button, .maliang-deck-editor-toolbar input {
           font: inherit;
@@ -1410,9 +1462,26 @@
         .maliang-deck-editor-toolbar input[type="number"] { width: 64px; }
         .maliang-deck-editor-toolbar input[type="color"] { width: 30px; height: 26px; padding: 0; border: 0; background: transparent; }
         .maliang-deck-editor-toolbar .maliang-deck-editor-status { min-width: 120px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #bfdbfe; }
+        .maliang-deck-editor-textbar {
+          position: fixed; left: 50%; top: 16px; transform: translateX(-50%);
+          z-index: 3410; display: none; align-items: center; gap: 6px;
+          max-width: min(560px, calc(100vw - 24px)); padding: 7px 9px;
+          border: 1px solid rgba(37,99,235,.24); border-radius: 10px;
+          background: rgba(15,23,42,.94); color: #e5e7eb;
+          box-shadow: 0 14px 44px rgba(0,0,0,.28);
+          font: 600 12px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        .maliang-deck-editor-textbar.show { display: flex; }
+        .maliang-deck-editor-textbar button, .maliang-deck-editor-textbar input, .maliang-deck-editor-textbar select { font: inherit; }
+        .maliang-deck-editor-textbar button, .maliang-deck-editor-textbar select {
+          border: 1px solid rgba(255,255,255,.16); border-radius: 8px;
+          background: rgba(255,255,255,.08); color: #f8fafc; padding: 5px 8px;
+        }
+        .maliang-deck-editor-textbar button[aria-pressed="true"] { background: #2563eb; border-color: #93c5fd; }
+        .maliang-deck-editor-textbar input[type="number"] { width: 62px; }
         .maliang-deck-editor-reorder {
-          position: fixed; right: 18px; top: 18px; z-index: 3380;
-          width: min(320px, calc(100vw - 36px)); max-height: calc(100vh - 36px);
+          position: fixed; right: 0; top: 0; bottom: 0; z-index: 3380;
+          width: min(300px, calc(100vw - 28px)); max-height: 100vh;
           overflow: auto; padding: 10px; border-radius: 14px;
           border: 1px solid rgba(37,99,235,.24); background: rgba(15,23,42,.94);
           color: #e5e7eb; box-shadow: 0 18px 60px rgba(0,0,0,.34);
@@ -1421,7 +1490,10 @@
         .maliang-deck-editor-reorder[hidden] { display: none !important; }
         .maliang-deck-editor-reorder h2 { font-size: 13px; margin: 0 0 8px; }
         .maliang-deck-editor-reorder ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-        .maliang-deck-editor-reorder li { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 5px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 9px; background: rgba(255,255,255,.06); }
+        .maliang-deck-editor-reorder li { display: grid; grid-template-columns: 82px 1fr auto; align-items: center; gap: 7px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 9px; background: rgba(255,255,255,.06); }
+        .maliang-deck-editor-page-thumb { width: 78px; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 5px; background: #111827; pointer-events: none; }
+        .maliang-deck-editor-page-thumb .slide { position: relative !important; visibility: visible !important; opacity: 1 !important; transform-origin: top left !important; pointer-events: none !important; }
+        .maliang-deck-editor-page-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .maliang-deck-editor-reorder button { border: 1px solid rgba(255,255,255,.16); border-radius: 8px; background: rgba(255,255,255,.08); color: #f8fafc; padding: 3px 7px; cursor: pointer; }
         .maliang-deck-editor-reorder button:disabled { opacity: .42; cursor: not-allowed; }
         .maliang-deck-editor-selection {
@@ -1441,7 +1513,8 @@
           pointer-events: auto; cursor: move;
         }
         body.maliang-deck-editor-active [data-maliang-deck-editable] { cursor: move; }
-        body.maliang-deck-editor-active [data-maliang-deck-editable][contenteditable="true"] { cursor: text; outline: none; }
+        body.maliang-deck-editor-active [data-maliang-deck-editable][contenteditable="true"] { cursor: text; outline: none; overflow-wrap: anywhere; }
+        body.maliang-deck-editor-active .maliang-deck-editor-selected { outline: 2px solid #2563eb; outline-offset: 2px; }
       `;
       document.head.appendChild(style);
     }
@@ -1455,10 +1528,11 @@
       toolbar.setAttribute('aria-label', 'Slide editor');
       toolbar.innerHTML = [
         '<button type="button" data-role="toggle" aria-pressed="false">Edit</button>',
-        '<button type="button" data-role="undo" disabled>Undo</button>',
-        '<button type="button" data-role="slides">Slides</button>',
+        '<button type="button" data-role="slides">Pages</button>',
         '<button type="button" data-role="save" disabled>Save</button>',
-        '<label class="maliang-deck-editor-font" hidden>Font <input data-role="font-size" type="number" min="1" max="300" step="1"></label>',
+        '<button type="button" data-role="undo" disabled>Undo</button>',
+        '<button type="button" data-role="redo" disabled>Redo</button>',
+        '<button type="button" data-role="done">Done</button>',
         '<label class="maliang-deck-editor-fill" hidden>Fill <input data-role="fill" type="color"></label>',
         '<label class="maliang-deck-editor-stroke" hidden>Stroke <input data-role="stroke" type="color"></label>',
         '<label class="maliang-deck-editor-stroke-width" hidden>Stroke W <input data-role="stroke-width" type="number" min="0" max="100" step="1"></label>',
@@ -1470,13 +1544,36 @@
       editorState.status = toolbar.querySelector('[data-role="status"]');
       toolbar.querySelector('[data-role="toggle"]').addEventListener('click', function(){ toggleEditorMode(); });
       toolbar.querySelector('[data-role="undo"]').addEventListener('click', undoEditor);
+      toolbar.querySelector('[data-role="redo"]').addEventListener('click', redoEditor);
+      toolbar.querySelector('[data-role="done"]').addEventListener('click', function(){ toggleEditorMode(false); });
       toolbar.querySelector('[data-role="slides"]').addEventListener('click', toggleEditorReorderDrawer);
       toolbar.querySelector('[data-role="save"]').addEventListener('click', saveEditorOps);
-      toolbar.querySelector('[data-role="font-size"]').addEventListener('change', function(e){ applyEditorFontSize(e.target.value); });
       toolbar.querySelector('[data-role="fill"]').addEventListener('input', function(e){ applyEditorRectStyle('fill', e.target.value); });
       toolbar.querySelector('[data-role="stroke"]').addEventListener('input', function(e){ applyEditorRectStyle('stroke', e.target.value); });
       toolbar.querySelector('[data-role="stroke-width"]').addEventListener('change', function(e){ applyEditorRectNumberStyle('strokeWidth', e.target.value); });
       toolbar.querySelector('[data-role="radius"]').addEventListener('change', function(e){ applyEditorRectNumberStyle('radius', e.target.value); });
+
+      const textToolbar = document.createElement('div');
+      textToolbar.className = 'maliang-deck-editor-textbar';
+      textToolbar.setAttribute('role', 'toolbar');
+      textToolbar.setAttribute('aria-label', 'Text formatting');
+      textToolbar.innerHTML = [
+        '<button type="button" data-role="bold" aria-pressed="false">B</button>',
+        '<button type="button" data-role="italic" aria-pressed="false"><i>I</i></button>',
+        '<select data-role="font-family" aria-label="Font family">',
+        '  <option value="sans-serif">Sans</option>',
+        '  <option value="serif">Serif</option>',
+        '  <option value="monospace">Mono</option>',
+        '  <option value="Inter, sans-serif">Inter</option>',
+        '</select>',
+        '<label>Size <input data-role="font-size" type="number" min="1" max="300" step="1"></label>',
+      ].join('');
+      document.body.appendChild(textToolbar);
+      editorState.textToolbar = textToolbar;
+      textToolbar.querySelector('[data-role="bold"]').addEventListener('click', function(){ toggleEditorTextStyle('fontWeight', 'bold', 'normal'); });
+      textToolbar.querySelector('[data-role="italic"]').addEventListener('click', function(){ toggleEditorTextStyle('fontStyle', 'italic', 'normal'); });
+      textToolbar.querySelector('[data-role="font-family"]').addEventListener('change', function(e){ applyEditorFontFamily(e.target.value); });
+      textToolbar.querySelector('[data-role="font-size"]').addEventListener('change', function(e){ applyEditorFontSize(e.target.value); });
 
       const selection = document.createElement('div');
       selection.className = 'maliang-deck-editor-selection';
@@ -1524,31 +1621,85 @@
       const drawer = editorState.reorderDrawer;
       if (!drawer) return;
       const items = editorState.slideOrder.map(function(slideId, index) {
-        return '<li data-slide-id="' + escapeEditorHtml(slideId) + '"><span>' + (index + 1) + '. ' + escapeEditorHtml(slideTitleForReorder(slideId)) + '</span>'
-          + '<button type="button" data-role="slide-up" data-index="' + index + '"' + (index === 0 ? ' disabled' : '') + '>↑</button>'
-          + '<button type="button" data-role="slide-down" data-index="' + index + '"' + (index === editorState.slideOrder.length - 1 ? ' disabled' : '') + '>↓</button></li>';
+        return '<li draggable="true" data-slide-id="' + escapeEditorHtml(slideId) + '" data-index="' + index + '">'
+          + '<div class="maliang-deck-editor-page-thumb" data-role="thumb" data-slide-id="' + escapeEditorHtml(slideId) + '"></div>'
+          + '<span class="maliang-deck-editor-page-title">' + (index + 1) + '. ' + escapeEditorHtml(slideTitleForReorder(slideId)) + '</span>'
+          + '<button type="button" data-role="slide-delete" data-index="' + index + '"' + (editorState.slideOrder.length <= 1 ? ' disabled' : '') + '>Delete</button></li>';
       }).join('');
-      drawer.innerHTML = '<h2>Slide order</h2><ol>' + items + '</ol>';
-      drawer.querySelectorAll('[data-role="slide-up"]').forEach(function(button) {
-        button.addEventListener('click', function(e){ moveEditorSlide(parseInt(e.currentTarget.getAttribute('data-index'), 10), -1); });
+      drawer.innerHTML = '<h2>Pages</h2><ol>' + items + '</ol>';
+      drawer.querySelectorAll('[data-role="thumb"]').forEach(function(host) {
+        renderEditorPageThumb(host, host.getAttribute('data-slide-id'));
       });
-      drawer.querySelectorAll('[data-role="slide-down"]').forEach(function(button) {
-        button.addEventListener('click', function(e){ moveEditorSlide(parseInt(e.currentTarget.getAttribute('data-index'), 10), 1); });
+      drawer.querySelectorAll('[data-role="slide-delete"]').forEach(function(button) {
+        button.addEventListener('click', function(e){ deleteEditorSlide(parseInt(e.currentTarget.getAttribute('data-index'), 10)); });
+      });
+      drawer.querySelectorAll('li[draggable="true"]').forEach(function(item) {
+        item.addEventListener('dragstart', function(e) {
+          e.dataTransfer.setData('text/plain', item.getAttribute('data-index') || '0');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        item.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+        });
+        item.addEventListener('drop', function(e) {
+          e.preventDefault();
+          reorderEditorSlide(parseInt(e.dataTransfer.getData('text/plain'), 10), parseInt(item.getAttribute('data-index'), 10));
+        });
       });
     }
 
-    function moveEditorSlide(index, direction) {
-      const nextIndex = index + direction;
-      if (index < 0 || nextIndex < 0 || index >= editorState.slideOrder.length || nextIndex >= editorState.slideOrder.length) return;
-      const order = editorState.slideOrder.slice();
-      const tmp = order[index];
-      order[index] = order[nextIndex];
-      order[nextIndex] = tmp;
-      editorState.slideOrder = order;
+    function renderEditorPageThumb(host, slideId) {
+      const slide = slides.find(function(candidate){ return editorSlideId(candidate) === slideId; });
+      if (!host || !slide) return;
+      const clone = slide.cloneNode(true);
+      clone.classList.add('is-active');
+      clone.removeAttribute('data-anim-state');
+      clone.querySelectorAll('.notes, aside.notes').forEach(function(note){ note.remove(); });
+      host.replaceChildren(clone);
+      const scale = Math.min(host.clientWidth / slideW, host.clientHeight / slideH);
+      clone.style.width = slideW + 'px';
+      clone.style.height = slideH + 'px';
+      clone.style.transform = 'scale(' + scale + ')';
+    }
+
+    function recordEditorSlideOrder() {
       editorState.pendingOps = editorState.pendingOps.filter(function(op){ return op.op !== 'reorderSlides'; });
-      editorState.pendingOps.push({ op: 'reorderSlides', slideIds: order.slice() });
+      editorState.pendingOps.push({ op: 'reorderSlides', slideIds: editorState.slideOrder.slice() });
+      editorState.redoStack = [];
+    }
+
+    function reorderEditorSlide(index, nextIndex) {
+      if (index === nextIndex || index < 0 || nextIndex < 0 || index >= editorState.slideOrder.length || nextIndex >= editorState.slideOrder.length) return;
+      const order = editorState.slideOrder.slice();
+      const moved = order.splice(index, 1)[0];
+      order.splice(nextIndex, 0, moved);
+      editorState.slideOrder = order;
+      recordEditorSlideOrder();
       renderEditorReorderDrawer();
       setEditorStatus('Slide reorder pending. Save to persist.');
+      updateEditorToolbar();
+    }
+
+    function moveEditorSlide(index, direction) {
+      reorderEditorSlide(index, index + direction);
+    }
+
+    function deleteEditorSlide(index) {
+      if (editorState.slideOrder.length <= 1) {
+        setEditorStatus('Cannot delete the final slide.');
+        return;
+      }
+      if (index < 0 || index >= editorState.slideOrder.length) return;
+      const slideId = editorState.slideOrder[index];
+      editorState.slideOrder.splice(index, 1);
+      editorState.deletedSlides.push(slideId);
+      editorState.pendingOps.push({ op: 'deleteSlide', slideId: slideId });
+      recordEditorSlideOrder();
+      const slide = slides.find(function(candidate){ return editorSlideId(candidate) === slideId; });
+      if (slide) slide.style.display = 'none';
+      renderEditorReorderDrawer();
+      setEditorStatus('Slide delete pending. Save to persist.');
       updateEditorToolbar();
     }
 
@@ -1563,25 +1714,40 @@
       const type = selected ? editorElementType(selected) : 'unknown';
       const toggle = editorState.toolbar.querySelector('[data-role="toggle"]');
       const undo = editorState.toolbar.querySelector('[data-role="undo"]');
+      const redo = editorState.toolbar.querySelector('[data-role="redo"]');
+      const done = editorState.toolbar.querySelector('[data-role="done"]');
       const save = editorState.toolbar.querySelector('[data-role="save"]');
       if (toggle) toggle.setAttribute('aria-pressed', String(editorState.enabled));
       if (undo) undo.disabled = editorState.undoStack.length === 0;
+      if (redo) redo.disabled = editorState.redoStack.length === 0;
+      if (done) done.hidden = !editorState.enabled;
       if (save) save.disabled = !editorState.canPersist || editorState.pendingOps.length === 0 || editorState.saving;
-      editorState.toolbar.querySelector('.maliang-deck-editor-font').hidden = !(editorState.enabled && selected && type === 'text');
       const showRect = !!(editorState.enabled && selected && type === 'rect');
       ['fill', 'stroke', 'stroke-width', 'radius'].forEach(function(role) {
         const label = editorState.toolbar.querySelector('.maliang-deck-editor-' + role);
         if (label) label.hidden = !showRect;
       });
       if (selected) syncEditorControls(selected);
+      if (editorState.textToolbar) {
+        editorState.textToolbar.classList.toggle('show', !!(editorState.enabled && selected && type === 'text'));
+      }
     }
 
     function syncEditorControls(el) {
       if (!editorState.toolbar || !el) return;
       const type = editorElementType(el);
       if (type === 'text') {
-        const font = editorState.toolbar.querySelector('[data-role="font-size"]');
+        const textbar = editorState.textToolbar;
+        if (!textbar) return;
+        const font = textbar.querySelector('[data-role="font-size"]');
+        const family = textbar.querySelector('[data-role="font-family"]');
+        const bold = textbar.querySelector('[data-role="bold"]');
+        const italic = textbar.querySelector('[data-role="italic"]');
+        const computed = getComputedStyle(el);
         if (font) font.value = String(Math.round(numberFromStyle(el, 'fontSize', 16)));
+        if (family) family.value = family.querySelector('option[value="' + cssEscapeSimple(el.style.fontFamily || computed.fontFamily) + '"]') ? (el.style.fontFamily || computed.fontFamily) : 'sans-serif';
+        if (bold) bold.setAttribute('aria-pressed', String((computed.fontWeight === '700' || computed.fontWeight === 'bold') || el.style.fontWeight === 'bold'));
+        if (italic) italic.setAttribute('aria-pressed', String(computed.fontStyle === 'italic' || el.style.fontStyle === 'italic'));
       } else if (type === 'rect') {
         const fill = editorState.toolbar.querySelector('[data-role="fill"]');
         const stroke = editorState.toolbar.querySelector('[data-role="stroke"]');
@@ -1601,6 +1767,10 @@
       return '#' + [m[1], m[2], m[3]].map(function(part) {
         return Math.max(0, Math.min(255, parseInt(part, 10) || 0)).toString(16).padStart(2, '0');
       }).join('');
+    }
+
+    function cssEscapeSimple(value) {
+      return String(value || '').replace(/\\/g, '\\\\').replace(/"/g, '\\"');
     }
 
     function initEditorLane() {
@@ -1664,12 +1834,12 @@
 
     function onEditorDocumentClick(e) {
       if (!editorState.enabled) return;
-      if (e.target.closest && e.target.closest('.maliang-deck-editor-toolbar, .maliang-deck-editor-selection, .maliang-deck-editor-reorder')) return;
+      if (e.target.closest && e.target.closest('.maliang-deck-editor-toolbar, .maliang-deck-editor-textbar, .maliang-deck-editor-selection, .maliang-deck-editor-reorder')) return;
       const target = e.target.closest && e.target.closest('[data-maliang-deck-editable]');
       if (editorCanSelect(target)) {
         e.preventDefault();
         e.stopPropagation();
-        selectEditorElement(target);
+        selectEditorElement(target, !!e.ctrlKey);
       } else if (!(e.target.closest && e.target.closest('[data-maliang-deck-editable]'))) {
         clearEditorSelection();
       }
@@ -1677,10 +1847,10 @@
 
     function onEditorPointerDown(e) {
       if (!editorState.enabled || e.button !== 0) return;
-      if (e.target.closest && e.target.closest('.maliang-deck-editor-toolbar, .maliang-deck-editor-selection, .maliang-deck-editor-reorder')) return;
+      if (e.target.closest && e.target.closest('.maliang-deck-editor-toolbar, .maliang-deck-editor-textbar, .maliang-deck-editor-selection, .maliang-deck-editor-reorder')) return;
       const target = e.target.closest && e.target.closest('[data-maliang-deck-editable]');
       if (!editorCanSelect(target)) return;
-      selectEditorElement(target);
+      selectEditorElement(target, !!e.ctrlKey);
       if (editorElementType(target) === 'text' && target.isContentEditable) return;
       startEditorMove(e, target);
     }
@@ -1698,7 +1868,16 @@
         if (editorState.enabled) {
           e.preventDefault();
           e.stopPropagation();
-          undoEditor();
+          if (e.shiftKey) redoEditor();
+          else undoEditor();
+        }
+        return;
+      }
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'y' || e.key === 'Y')) {
+        if (editorState.enabled) {
+          e.preventDefault();
+          e.stopPropagation();
+          redoEditor();
         }
         return;
       }
@@ -1716,44 +1895,82 @@
       }
     }
 
-    function selectEditorElement(el) {
-      if (!editorCanSelect(el)) return;
-      if (editorState.selected && editorState.selected !== el) {
-        finishTextEdit(editorState.selected);
-        editorState.selected.classList.remove('maliang-deck-editor-selected');
+    function setEditorSelection(items, additive) {
+      if (!additive) {
+        editorState.selectedItems.forEach(function(item) {
+          if (items.indexOf(item) < 0) {
+            finishTextEdit(item);
+            item.classList.remove('maliang-deck-editor-selected');
+          }
+        });
       }
-      editorState.selected = el;
-      el.classList.add('maliang-deck-editor-selected');
-      if (editorElementType(el) === 'text') enableTextEditing(el);
+      editorState.selectedItems = items.filter(function(item, index, list) {
+        return item && list.indexOf(item) === index;
+      });
+      editorState.selectedItems.forEach(function(item) {
+        item.classList.add('maliang-deck-editor-selected');
+        if (editorElementType(item) === 'text') enableTextEditing(item);
+      });
+      editorState.selected = editorState.selectedItems[editorState.selectedItems.length - 1] || null;
       positionEditorSelection();
       updateEditorToolbar();
     }
 
-    function clearEditorSelection() {
-      if (editorState.selected) {
-        finishTextEdit(editorState.selected);
-        editorState.selected.classList.remove('maliang-deck-editor-selected');
+    function selectEditorElement(el, additive) {
+      if (!editorCanSelect(el)) return;
+      if (additive) {
+        const items = editorState.selectedItems.slice();
+        const existing = items.indexOf(el);
+        if (existing >= 0) {
+          finishTextEdit(el);
+          el.classList.remove('maliang-deck-editor-selected');
+          items.splice(existing, 1);
+        } else {
+          items.push(el);
+        }
+        setEditorSelection(items, true);
+        return;
       }
+      setEditorSelection([el], false);
+    }
+
+    function clearEditorSelection() {
+      editorState.selectedItems.forEach(function(item) {
+        finishTextEdit(item);
+        item.classList.remove('maliang-deck-editor-selected');
+      });
+      editorState.selectedItems = [];
       editorState.selected = null;
       if (editorState.selection) editorState.selection.hidden = true;
       updateEditorToolbar();
     }
 
     function positionEditorSelection() {
-      if (!editorState.selection || !editorState.selected || !editorState.enabled) return;
-      const rect = editorState.selected.getBoundingClientRect();
+      if (!editorState.selection || !editorState.selectedItems.length || !editorState.enabled) return;
+      const rects = editorState.selectedItems.map(function(item){ return item.getBoundingClientRect(); });
+      const left = Math.min.apply(null, rects.map(function(rect){ return rect.left; }));
+      const top = Math.min.apply(null, rects.map(function(rect){ return rect.top; }));
+      const right = Math.max.apply(null, rects.map(function(rect){ return rect.right; }));
+      const bottom = Math.max.apply(null, rects.map(function(rect){ return rect.bottom; }));
       editorState.selection.hidden = false;
-      editorState.selection.style.left = rect.left + 'px';
-      editorState.selection.style.top = rect.top + 'px';
-      editorState.selection.style.width = rect.width + 'px';
-      editorState.selection.style.height = rect.height + 'px';
+      editorState.selection.style.left = left + 'px';
+      editorState.selection.style.top = top + 'px';
+      editorState.selection.style.width = (right - left) + 'px';
+      editorState.selection.style.height = (bottom - top) + 'px';
     }
 
     function startEditorMove(e, el) {
       const slide = el.closest('.slide') || activeSlide();
-      const startLeft = numberFromStyle(el, 'left', viewportToSlidePoint(slide, e.clientX, e.clientY).x);
-      const startTop = numberFromStyle(el, 'top', viewportToSlidePoint(slide, e.clientX, e.clientY).y);
-      editorState.drag = { type: 'move', el: el, slide: slide, clientX: e.clientX, clientY: e.clientY, startLeft: startLeft, startTop: startTop, undo: editorSnapshot(el) };
+      if (editorState.selectedItems.indexOf(el) < 0) setEditorSelection([el], false);
+      const items = editorState.selectedItems.length ? editorState.selectedItems.slice() : [el];
+      const starts = items.map(function(item) {
+        return {
+          el: item,
+          left: numberFromStyle(item, 'left', viewportToSlidePoint(slide, e.clientX, e.clientY).x),
+          top: numberFromStyle(item, 'top', viewportToSlidePoint(slide, e.clientX, e.clientY).y),
+        };
+      });
+      editorState.drag = { type: 'move', el: el, items: starts, slide: slide, clientX: e.clientX, clientY: e.clientY, undo: editorGroupSnapshot(items) };
       e.preventDefault();
       e.stopPropagation();
       try { el.setPointerCapture(e.pointerId); } catch(err) {}
@@ -1785,8 +2002,10 @@
       if (!drag) return;
       const delta = viewportToSlideDelta(drag.slide, e.clientX - drag.clientX, e.clientY - drag.clientY);
       if (drag.type === 'move') {
-        drag.el.style.left = Math.round((drag.startLeft + delta.dx) * 100) / 100 + 'px';
-        drag.el.style.top = Math.round((drag.startTop + delta.dy) * 100) / 100 + 'px';
+        drag.items.forEach(function(item) {
+          item.el.style.left = Math.round((item.left + delta.dx) * 100) / 100 + 'px';
+          item.el.style.top = Math.round((item.top + delta.dy) * 100) / 100 + 'px';
+        });
       } else if (drag.type === 'resize') {
         drag.el.style.width = Math.max(1, Math.round((drag.startWidth + delta.dx) * 100) / 100) + 'px';
         drag.el.style.height = Math.max(1, Math.round((drag.startHeight + delta.dy) * 100) / 100) + 'px';
@@ -1801,8 +2020,11 @@
       if (!drag) return;
       editorState.drag = null;
       editorState.undoStack.push(drag.undo);
+      editorState.redoStack = [];
       if (drag.type === 'move') {
-        addEditorOp(drag.el, { x: numberFromStyle(drag.el, 'left', drag.startLeft), y: numberFromStyle(drag.el, 'top', drag.startTop) });
+        drag.items.forEach(function(item) {
+          addEditorOp(item.el, { x: numberFromStyle(item.el, 'left', item.left), y: numberFromStyle(item.el, 'top', item.top) });
+        });
       } else if (drag.type === 'resize') {
         addEditorOp(drag.el, { width: numberFromStyle(drag.el, 'width', drag.startWidth), height: numberFromStyle(drag.el, 'height', drag.startHeight) });
       }
@@ -1815,7 +2037,7 @@
     function cancelEditorDrag() {
       const drag = editorState.drag;
       editorState.drag = null;
-      if (drag && drag.undo) restoreEditorSnapshot(drag.undo);
+      if (drag && drag.undo) restoreEditorHistoryEntry(drag.undo);
       removeEditorDragListeners();
     }
 
@@ -1868,6 +2090,31 @@
       el.style.fontSize = fontSize + 'px';
       addEditorOp(el, { fontSize: fontSize });
       positionEditorSelection();
+    }
+
+    function toggleEditorTextStyle(key, onValue, offValue) {
+      const el = editorState.selected;
+      if (!el || editorElementType(el) !== 'text') return;
+      const computed = getComputedStyle(el);
+      const current = key === 'fontWeight'
+        ? ((computed.fontWeight === '700' || computed.fontWeight === 'bold') ? 'bold' : 'normal')
+        : (computed.fontStyle === 'italic' ? 'italic' : 'normal');
+      const next = current === onValue ? offValue : onValue;
+      pushEditorUndo(el);
+      el.style[key] = next;
+      const patch = {};
+      patch[key] = next;
+      addEditorOp(el, patch);
+      syncEditorControls(el);
+    }
+
+    function applyEditorFontFamily(value) {
+      const el = editorState.selected;
+      if (!el || editorElementType(el) !== 'text' || !value) return;
+      pushEditorUndo(el);
+      el.style.fontFamily = value;
+      addEditorOp(el, { fontFamily: value });
+      syncEditorControls(el);
     }
 
     function applyEditorRectStyle(key, value) {

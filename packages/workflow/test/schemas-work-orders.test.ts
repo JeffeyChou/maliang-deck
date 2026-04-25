@@ -48,23 +48,19 @@ describe('workflow schemas', () => {
       outputFormats: ['html'],
       artifacts: {
         requirements: 'requirements.md',
-        mineruRequests: 'extraction/mineru/requests',
-        mineruResponses: 'extraction/mineru/responses',
-        mineruZips: 'extraction/mineru/zips',
-        mineruUnpacked: 'extraction/mineru/unpacked',
-        doclingRequests: 'extraction/docling/requests',
-        doclingResponses: 'extraction/docling/responses',
+        mineruTasks: 'extraction/mineru/tasks.json',
+        mineruRaw: 'extraction/mineru/raw',
+        doclingTasks: 'extraction/docling/tasks.json',
         doclingRaw: 'extraction/docling/raw',
-        doclingUnpacked: 'extraction/docling/unpacked',
-        doclingArtifacts: 'extraction/docling/artifacts',
         materials: 'extraction/normalized/materials.json',
         blocks: 'extraction/normalized/blocks.json',
         assets: 'extraction/normalized/assets.json',
         sourceSummary: 'extraction/normalized/source-summary.md',
         outlineDraft: 'planning/outline-draft.md',
         outlineApproval: 'planning/outline-approved.md',
+        planningTasks: 'planning/tasks.json',
         deckPlan: 'planning/deck-plan.json',
-        dslWorkOrders: 'dsl/work-orders',
+        dslTasks: 'dsl/tasks.json',
         slideSlices: 'dsl/slides',
         deck: 'dsl/deck.json',
         validationReport: 'dsl/validation-report.json',
@@ -146,7 +142,7 @@ describe('generation work orders', () => {
     expect(() => assertDisjointSlideDslWriteScopes([slideOne, slideOneOverlap])).toThrow(/Overlapping slide-dsl write scopes/);
   });
 
-  it('requires completed work-order outputs to exist', async () => {
+  it('requires done work-order outputs to exist', async () => {
     const projectRoot = await mkdtemp(join(tmpdir(), 'maliang-deck-workflow-work-order-'));
     try {
       await mkdir(join(projectRoot, 'dsl/slides'), { recursive: true });
@@ -158,7 +154,7 @@ describe('generation work orders', () => {
         constraints: ['valid DSL'],
         writeScope: ['dsl/slides/slide-1.json'],
       });
-      const completed = markWorkOrderStatus(pending, 'completed', { now: new Date('2026-01-01T00:00:00.000Z') });
+      const completed = markWorkOrderStatus(pending, 'done', { now: new Date('2026-01-01T00:00:00.000Z') });
       expect(() => assertWorkOrderOutputsExist(projectRoot, completed)).toThrow(/missing output artifact/);
       await writeFile(join(projectRoot, 'dsl/slides/slide-1.json'), '{}');
       expect(() => assertWorkOrderOutputsExist(projectRoot, completed)).not.toThrow();

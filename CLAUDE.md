@@ -137,7 +137,7 @@ pnpm --filter @maliang-deck/workflow test
 
 # CLI
 node packages/cli/dist/index.js validate examples/demo.json
-node packages/cli/dist/index.js serve examples/demo.json --port 3000
+node packages/cli/dist/index.js serve examples/dsl-upper-bound-showcase.json --port 3000
 node packages/cli/dist/index.js export examples/demo.json out.pdf
 
 # Workflow (full pipeline)

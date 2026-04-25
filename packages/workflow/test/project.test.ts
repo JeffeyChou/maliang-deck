@@ -35,22 +35,17 @@ describe('workflow project scaffolding', () => {
 
       const paths = getProjectPaths(projectsRoot, 'demo-report');
       await expect(stat(paths.sources)).resolves.toMatchObject({});
-      await expect(stat(paths.mineruRequests)).resolves.toMatchObject({});
-      await expect(stat(paths.mineruResponses)).resolves.toMatchObject({});
-      await expect(stat(paths.mineruZips)).resolves.toMatchObject({});
-      await expect(stat(paths.mineruUnpacked)).resolves.toMatchObject({});
-      await expect(stat(paths.doclingRequests)).resolves.toMatchObject({});
-      await expect(stat(paths.doclingResponses)).resolves.toMatchObject({});
+      await expect(stat(paths.mineruRaw)).resolves.toMatchObject({});
       await expect(stat(paths.doclingRaw)).resolves.toMatchObject({});
-      await expect(stat(paths.doclingUnpacked)).resolves.toMatchObject({});
-      await expect(stat(paths.doclingArtifacts)).resolves.toMatchObject({});
       await expect(stat(paths.normalized)).resolves.toMatchObject({});
       await expect(stat(paths.planning)).resolves.toMatchObject({});
       await expect(stat(paths.dslSlides)).resolves.toMatchObject({});
-      await expect(stat(paths.dslWorkOrders)).resolves.toMatchObject({});
       await expect(stat(paths.renderHtml)).resolves.toMatchObject({});
       await expect(stat(paths.exports)).resolves.toMatchObject({});
       await expect(stat(paths.review)).resolves.toMatchObject({});
+      await expect(stat(paths.mineruTasks)).rejects.toMatchObject({ code: 'ENOENT' });
+      await expect(stat(paths.doclingTasks)).rejects.toMatchObject({ code: 'ENOENT' });
+      await expect(stat(paths.dslTasks)).rejects.toMatchObject({ code: 'ENOENT' });
 
       expect(created).toMatchObject({
         id: 'project-demo',
@@ -65,7 +60,9 @@ describe('workflow project scaffolding', () => {
         assets: 'extraction/normalized/assets.json',
         outlineDraft: 'planning/outline-draft.md',
         outlineApproval: 'planning/outline-approved.md',
+        planningTasks: 'planning/tasks.json',
         deckPlan: 'planning/deck-plan.json',
+        dslTasks: 'dsl/tasks.json',
         slideSlices: 'dsl/slides',
         deck: 'dsl/deck.json',
       });

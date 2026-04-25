@@ -57,6 +57,9 @@ Live MinerU should be explicit and token-gated. The live path requests upload UR
 Review the normalized artifacts before planning:
 
 ```text
+projects/<slug>/extraction/<provider>/tasks.json
+projects/<slug>/extraction/<provider>/raw/m1/source.md
+projects/<slug>/extraction/<provider>/raw/m1/artifacts/
 projects/<slug>/extraction/normalized/materials.json
 projects/<slug>/extraction/normalized/blocks.json
 projects/<slug>/extraction/normalized/assets.json
@@ -80,7 +83,7 @@ Review coverage, provenance, warnings, and sample output before approving or sel
 
 ## 5. Outline Gate
 
-Create the outline work order:
+Create the outline task manifest:
 
 ```bash
 pnpm --dir packages/cli exec tsx src/index.ts workflow outline projects/<slug> --mode agent
@@ -102,6 +105,7 @@ pnpm --dir packages/cli exec tsx src/index.ts workflow plan-deck projects/<slug>
 ```
 
 `planning/deck-plan.json` should define each slide's purpose, source refs, candidate assets, layout intent, style, and speaker-notes intent.
+Planning task state is tracked in `planning/tasks.json`.
 
 ## 7. Slide DSL Gate
 
@@ -110,6 +114,7 @@ pnpm --dir packages/cli exec tsx src/index.ts workflow generate-dsl projects/<sl
 ```
 
 Authors write slices under `projects/<slug>/dsl/slides/`.
+Slide task state is tracked in `dsl/tasks.json`.
 
 Best practices:
 

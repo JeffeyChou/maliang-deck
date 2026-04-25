@@ -1,4 +1,4 @@
-import { mkdtempSync, mkdirSync, writeFileSync, copyFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, mkdirSync, writeFileSync, copyFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -14,6 +14,7 @@ import {
   parseMinerUTaskResult,
   defaultMinerUOptions,
   recordRetry,
+  runWorkflow,
 } from '../../packages/workflow/src/index.js';
 import { writeJson } from '../../packages/workflow/src/fs-utils.js';
 
@@ -29,7 +30,8 @@ describe('MinerU workflow contracts', () => {
   it('creates canonical project manifests and rejects unsafe slugs', () => {
     tempWorkspace();
     const manifest = createProject('demo', ['sample.pdf'], ['html', 'pdf', 'pptx']);
-    expect(manifest.currentStage).toBe('initialized');
+    expect(manifest.stage).toBe('initialized');
+    expect(manifest.currentStage).toBeUndefined();
     expect(manifest.sources[0].kind).toBe('local-file');
     expect(() => createProject('../bad', [])).toThrow(/Invalid project slug/);
   });
@@ -43,7 +45,7 @@ describe('MinerU workflow contracts', () => {
   it('normalizes content-list blocks and asset references', () => {
     tempWorkspace();
     createProject('fixture', ['fixture.zip']);
-    const materialDir = join('projects', 'fixture', 'extraction', 'mineru', 'unpacked', 'material');
+    const materialDir = join('projects', 'fixture', 'extraction', 'mineru', 'raw', 'm1');
     mkdirSync(join(materialDir, 'images'), { recursive: true });
     copyFileSync(join(__dirname, '..', 'fixtures', 'mineru', 'content-list-basic.json'), join(materialDir, 'content_list.json'));
     writeFileSync(join(materialDir, 'images', 'figure-1.png'), 'png-fixture');
@@ -66,6 +68,30 @@ describe('MinerU workflow contracts', () => {
     approveOutline('gate');
     expect(validateDeckPlan('gate').slides).toHaveLength(1);
     expect(createDslWorkOrders('gate', { parallel: true })).toHaveLength(1);
+  });
+
+  it('runWorkflow stops at deck-plan gate after outline approval', () => {
+    const workspace = tempWorkspace();
+    const preparedDir = join(workspace, 'prepared');
+    mkdirSync(preparedDir, { recursive: true });
+    writeFileSync(join(preparedDir, 'full.md'), '# Source\n\nBody');
+    createProject('run-gate', [{ id: 'source-1', kind: 'local-file', path: preparedDir }], ['html']);
+
+    expect(runWorkflow('run-gate').message).toMatch(/Outline approval required/);
+    approveOutline('run-gate');
+
+    const blocked = runWorkflow('run-gate');
+    expect(blocked).toMatchObject({ status: 'blocked' });
+    expect(blocked.message).toMatch(/Deck plan required/);
+    expect(existsSync(join('projects', 'run-gate', 'planning', 'deck-plan.json'))).toBe(false);
+    expect(existsSync(join('projects', 'run-gate', 'dsl', 'tasks.json'))).toBe(false);
+
+    writeJson(join('projects', 'run-gate', 'planning', 'deck-plan.json'), {
+      projectSlug: 'run-gate',
+      slides: [{ id: 'slide-1', title: 'Slide', sourceBlockRefs: [], candidateAssetRefs: [], layoutIntent: 'body', outputConstraints: ['html'] }],
+    });
+    expect(runWorkflow('run-gate').message).toMatch(/DSL assembly required/);
+    expect(existsSync(join('projects', 'run-gate', 'dsl', 'tasks.json'))).toBe(true);
   });
 
   it('preserves per-element PPTX animation timing and reports fallbacks', () => {

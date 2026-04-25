@@ -1,5 +1,5 @@
-import { copyFileSync, existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { basename, dirname, extname, join, relative, resolve } from 'node:path';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { basename, extname, join, relative, resolve } from 'node:path';
 import { loadProject, projectRoot, saveProject } from './project.js';
 import { resolveProjectMaliangDeckConfig, type MaliangDeckCliOverrides } from './config.js';
 import { ensureDir, writeJson, writeText } from './fs-utils.js';
@@ -138,10 +138,9 @@ export function normalizeExtraction(slugOrPath: string, options: NormalizeExtrac
   const { root, config } = resolveProjectMaliangDeckConfig(slugOrPath, { cliOverrides });
   const manifest = loadProject(root);
   const provider = options.provider ?? config.extraction.provider;
-  const unpackedRoot = options.unpackedRoot ?? join(root, 'extraction', provider, 'unpacked');
+  const unpackedRoot = options.unpackedRoot ?? join(root, 'extraction', provider, 'raw');
   const normalizedRoot = join(root, 'extraction', 'normalized');
-  const assetRoot = join(normalizedRoot, 'assets');
-  ensureDir(assetRoot);
+  ensureDir(normalizedRoot);
 
   const materialDirs = existsSync(unpackedRoot)
     ? readdirSync(unpackedRoot).map((name) => join(unpackedRoot, name)).filter((path) => statSync(path).isDirectory()).sort()
@@ -154,14 +153,15 @@ export function normalizeExtraction(slugOrPath: string, options: NormalizeExtrac
 
   materialDirs.forEach((materialDir, materialIndex) => {
     const materialId = basename(materialDir) || `material-${materialIndex + 1}`;
-    const markdown = findFiles(materialDir, (path) => basename(path).toLowerCase() === 'full.md' || extname(path).toLowerCase() === '.md')[0];
+    const markdownFiles = findFiles(materialDir, (path) => basename(path).toLowerCase() === 'full.md' || extname(path).toLowerCase() === '.md');
+    const markdown = markdownFiles.find((path) => basename(path).toLowerCase() === 'source.md') ?? markdownFiles[0];
     const contentList = findFiles(materialDir, (path) => /content[_-]?list\.json$/iu.test(basename(path)))[0];
     const materialAssetIds: string[] = [];
 
     let items: ContentItem[] = [];
     if (contentList) items = readContentItems(contentList);
     else if (markdown) items = markdownItems(markdown);
-      else warnings.push(`No full.md or content_list.json found for ${provider}/${materialId}`);
+    else warnings.push(`No source.md, full.md, or content_list.json found for ${provider}/${materialId}`);
 
     items.forEach((item, index) => {
       const kind = kindOf(item);
@@ -173,14 +173,10 @@ export function normalizeExtraction(slugOrPath: string, options: NormalizeExtrac
       if (sourceAssetRel) {
         const sourceAssetPath = join(materialDir, sourceAssetRel);
         const assetId = `${materialId}-asset-${assets.length + 1}`;
-        const normalizedPath = join(assetRoot, materialId, `${assetId}${extname(sourceAssetRel) || '.bin'}`);
         if (!isInside(materialDir, sourceAssetPath)) {
           warnings.push(`Skipped asset outside material directory: ${sourceAssetRel}`);
         } else {
-          if (existsSync(sourceAssetPath)) {
-            ensureDir(dirname(normalizedPath));
-            copyFileSync(sourceAssetPath, normalizedPath);
-          } else {
+          if (!existsSync(sourceAssetPath)) {
             warnings.push(`Missing asset ${sourceAssetRel} for ${blockId}`);
           }
           assets.push({
@@ -188,7 +184,6 @@ export function normalizeExtraction(slugOrPath: string, options: NormalizeExtrac
             materialId,
             kind: assetKindOf(kind, sourceAssetRel),
             sourcePath: relative(root, sourceAssetPath),
-            normalizedPath: relative(root, normalizedPath),
             pageIndex,
             bbox: normalizeBBox(item.bbox),
             caption: captionOf(item),

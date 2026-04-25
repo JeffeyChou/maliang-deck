@@ -53,7 +53,7 @@ export function createDslWorkOrders(slugOrPath: string, options: { mode?: 'agent
       ],
       sourceRefs: [...slide.sourceBlockRefs, ...slide.candidateAssetRefs],
       writeScope: [`dsl/slides/${slide.id}.json`],
-      status: 'open',
+      status: 'pending',
     };
 
     if (styleId && slide.design) {
@@ -75,9 +75,8 @@ export function createDslWorkOrders(slugOrPath: string, options: { mode?: 'agent
       if (scopes.has(scope)) throw new Error(`Overlapping DSL work-order write scope: ${scope}`);
       scopes.add(scope);
     }
-    writeJson(join(root, 'dsl', 'work-orders', `${order.id}.json`), order);
   }
-  writeJson(join(root, 'dsl', 'work-orders', 'index.json'), { parallel: options.parallel ?? false, orders: orders.map((order) => order.id) });
+  writeJson(join(root, 'dsl', 'tasks.json'), { parallel: options.parallel ?? false, tasks: orders });
   saveProject(root, manifest, 'dsl-work-ordered');
   return orders;
 }

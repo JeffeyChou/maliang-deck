@@ -77,16 +77,16 @@ describe('workflow hierarchical config wiring', () => {
     createProject({ slug: 'docling-config', sources: [sourcePath], config: { extraction: { provider: 'docling' } } });
 
     const extraction = extractLocalSources('docling-config', { execFile: fakeDoclingExec });
-    expect(extraction.records[0]).toMatchObject({ requestPath: 'docling/local-cli' });
+    expect(extraction.records[0]).toMatchObject({ id: 'm1', stage: 'done', markdown: 'extraction/docling/raw/m1/source.md' });
     const normalized = normalizeExtraction('docling-config');
-    expect(normalized.materials[0].contentListPath).toBe('extraction/docling/unpacked/source/content_list.json');
+    expect(normalized.materials[0].contentListPath).toBe('extraction/docling/raw/m1/content_list.json');
 
     const preparedDir = join(workspace, 'prepared-mineru');
     mkdirSync(preparedDir, { recursive: true });
     writeFileSync(join(preparedDir, 'full.md'), '# MinerU fixture\n');
     createProject({ slug: 'provider-override', sources: [{ id: 'source-1', kind: 'local-file', path: preparedDir }], config: { extraction: { provider: 'docling' } } });
     const mineru = extractLocalSources('provider-override', { provider: 'mineru' });
-    expect(mineru.records[0]).toMatchObject({ requestPath: 'fixture/local-file' });
+    expect(mineru.records[0]).toMatchObject({ id: 'm1', stage: 'done', markdown: 'extraction/mineru/raw/m1/source.md' });
   });
 
   it('uses resolved build formats and PPTX engine from project config', () => {
