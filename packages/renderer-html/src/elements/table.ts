@@ -15,16 +15,61 @@ function cssColor(value: unknown): string | undefined {
   return typeof value === 'string' && value.trim() ? value : undefined;
 }
 
-function cellStyle(cell: TableCell | undefined): string {
+interface ResolvedTableStyle {
+  headerBg: string;
+  headerColor: string;
+  borderColor: string;
+  borderWidth: number;
+  bg: string;
+  cellColor: string;
+  cellPadding: string;
+  fontSize: number;
+  fontFamily: string;
+  rowStripe: boolean;
+  stripeColor: string;
+  rounded: boolean;
+}
+
+function resolveTableStyle(el: TableElement): ResolvedTableStyle {
+  const s = el.style;
+  return {
+    headerBg: s?.headerBackground ?? 'var(--table-header-bg, #f1f5f9)',
+    headerColor: s?.headerColor ?? 'var(--table-header-color, #0f172a)',
+    borderColor: s?.borderColor ?? 'var(--table-border, #cbd5e1)',
+    borderWidth: s?.borderWidth ?? 1,
+    bg: 'var(--table-bg, #ffffff)',
+    cellColor: 'var(--table-cell-color, #0f172a)',
+    cellPadding: s?.cellPadding ?? '6px 8px',
+    fontSize: s?.fontSize ?? 13,
+    fontFamily: s?.fontFamily ?? 'var(--table-font, sans-serif)',
+    rowStripe: s?.rowStripe ?? false,
+    stripeColor: s?.stripeColor ?? 'var(--table-stripe-bg, #f8fafc)',
+    rounded: s?.rounded ?? false,
+  };
+}
+
+function cellStyle(cell: TableCell | undefined, rowIndex: number, ts: ResolvedTableStyle): string {
   const parts = [
-    'border: 1px solid #cbd5e1',
-    'padding: 6px 8px',
+    `border: ${ts.borderWidth}px solid ${ts.borderColor}`,
+    `padding: ${ts.cellPadding}`,
     'vertical-align: top',
-    'font: 13px sans-serif',
-    'color: #0f172a',
-    'background: #ffffff',
+    `font: ${ts.fontSize}px ${ts.fontFamily}`,
+    `color: ${ts.cellColor}`,
+    `background: ${ts.bg}`,
     'overflow-wrap: anywhere',
   ];
+
+  // Header row defaults (row 0) — only when cell has no explicit options
+  if (rowIndex === 0 && !isObjectCell(cell)) {
+    parts.push(`background: ${ts.headerBg}`);
+    parts.push(`color: ${ts.headerColor}`);
+    parts.push('font-weight: 700');
+  }
+
+  // Row striping (skip header row 0)
+  if (ts.rowStripe && rowIndex > 0 && rowIndex % 2 === 0 && !isObjectCell(cell)) {
+    parts.push(`background: ${ts.stripeColor}`);
+  }
 
   if (isObjectCell(cell)) {
     const fill = cssColor(cell.options?.fill ?? cell.options?.backgroundColor);
@@ -47,25 +92,27 @@ function ignoredOptionsAttr(options: Record<string, unknown> | undefined): strin
 }
 
 export function renderTable(el: TableElement): string {
+  const ts = resolveTableStyle(el);
   const maxColumns = Math.max(...el.rows.map((row) => row.length), 1);
   const rowHeight = el.height != null ? Math.max(1, el.height / el.rows.length) : undefined;
   const style = buildBaseStyle(el, [
     `overflow: hidden`,
-    `font-family: sans-serif`,
+    `font-family: ${ts.fontFamily}`,
+    ...(ts.rounded ? ['border-radius: 12px'] : []),
   ]);
   const colgroup = Array.from({ length: maxColumns }, () => `<col style="width:${100 / maxColumns}%">`).join('');
-  const rows = el.rows.map((row) => {
+  const rows = el.rows.map((row, rowIndex) => {
     const cells = Array.from({ length: maxColumns }, (_, columnIndex) => {
       const cell = row[columnIndex];
       const heightStyle = rowHeight != null ? `; height: ${rowHeight}px` : '';
-      return `<td style="${cellStyle(cell)}${heightStyle}">${escapeHtml(cellText(cell))}</td>`;
+      return `<td style="${cellStyle(cell, rowIndex, ts)}${heightStyle}">${escapeHtml(cellText(cell))}</td>`;
     }).join('');
     return `<tr>${cells}</tr>`;
   }).join('\n');
 
   return [
     `<div data-maliang-deck-element="table"${ignoredOptionsAttr(el.options)} style="${style}">`,
-    `<table style="width:100%;height:100%;border-collapse:collapse;table-layout:fixed;background:#ffffff">`,
+    `<table style="width:100%;height:100%;border-collapse:collapse;table-layout:fixed;background:${ts.bg}">`,
     `<colgroup>${colgroup}</colgroup>`,
     `<tbody>`,
     rows,

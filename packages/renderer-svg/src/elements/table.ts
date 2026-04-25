@@ -6,8 +6,22 @@ import type { RenderResult } from './index.js';
 const DEFAULT_ROW_HEIGHT = 32;
 const CELL_PADDING = 8;
 
+function resolveTableColors(el: TableElement) {
+  const s = el.style;
+  return {
+    headerBg: s?.headerBackground ?? '#f1f5f9',
+    headerColor: s?.headerColor ?? '#0f172a',
+    cellColor: '#0f172a',
+    borderColor: s?.borderColor ?? '#cbd5e1',
+    bg: '#ffffff',
+    rowStripe: s?.rowStripe ?? false,
+    stripeColor: s?.stripeColor ?? '#f8fafc',
+  };
+}
+
 export function renderTable(el: TableElement): RenderResult {
   const warnings: LayoutWarning[] = [];
+  const tc = resolveTableColors(el);
   const rowCount = el.rows.length;
   const colCount = Math.max(1, ...el.rows.map((row) => row.length));
   const height = el.height ?? rowCount * DEFAULT_ROW_HEIGHT;
@@ -31,11 +45,11 @@ export function renderTable(el: TableElement): RenderResult {
       const cell = row[colIndex];
       const text = normalizeCellText(cell);
       const isHeader = rowIndex === 0;
-      const style = cellStyle(cell, isHeader);
+      const style = cellStyle(cell, isHeader, tc, rowIndex);
       const textX = textAnchorX(x, cellWidth, style.align);
 
       return [
-        `<rect x="${n(x)}" y="${n(y)}" width="${n(cellWidth)}" height="${n(cellHeight)}" fill="${style.fill}" stroke="#d0d7de" stroke-width="1"/>`,
+        `<rect x="${n(x)}" y="${n(y)}" width="${n(cellWidth)}" height="${n(cellHeight)}" fill="${style.fill}" stroke="${tc.borderColor}" stroke-width="1"/>`,
         `<text x="${n(textX)}" y="${n(y + cellHeight / 2 + 5)}" text-anchor="${style.anchor}" font-size="14" font-family="sans-serif" font-weight="${style.weight}"${style.italic ? ' font-style="italic"' : ''} fill="${style.textColor}">${escapeXml(text)}</text>`,
       ].join('\n');
     });
@@ -74,7 +88,12 @@ function cellAlign(value: unknown): 'left' | 'center' | 'right' | undefined {
   return value === 'left' || value === 'center' || value === 'right' ? value : undefined;
 }
 
-function cellStyle(cell: TableCell | undefined, isHeader: boolean): {
+function cellStyle(
+  cell: TableCell | undefined,
+  isHeader: boolean,
+  tc: { headerBg: string; headerColor: string; cellColor: string; bg: string; rowStripe: boolean; stripeColor: string },
+  rowIndex?: number,
+): {
   fill: string;
   textColor: string;
   weight: 'bold' | 'normal';
@@ -82,8 +101,13 @@ function cellStyle(cell: TableCell | undefined, isHeader: boolean): {
   align: 'left' | 'center' | 'right';
   anchor: 'start' | 'middle' | 'end';
 } {
-  const fill = isHeader ? '#f3f6fb' : '#ffffff';
-  const textColor = isHeader ? '#1f2937' : '#111827';
+  let fill = isHeader ? tc.headerBg : tc.bg;
+  const textColor = isHeader ? tc.headerColor : tc.cellColor;
+
+  // Row striping for even non-header rows
+  if (!isHeader && tc.rowStripe && rowIndex !== undefined && rowIndex % 2 === 0) {
+    fill = tc.stripeColor;
+  }
 
   if (!isObjectCell(cell)) {
     return {

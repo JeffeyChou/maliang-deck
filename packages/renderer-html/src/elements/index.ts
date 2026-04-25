@@ -1,4 +1,4 @@
-import type { Element } from '@maliang-deck/schema';
+import type { Element, CustomHtmlElement } from '@maliang-deck/schema';
 import { buildAnimAttrs, buildAnimInitialStyle, escapeHtml } from '../utils.js';
 import { renderText } from './text.js';
 import { renderRect } from './rect.js';
@@ -12,6 +12,7 @@ import { renderGroup } from './group.js';
 import { renderChart } from './chart.js';
 import { renderTable } from './table.js';
 import { renderLayout } from './layout.js';
+import { renderCustomHtml } from './customHtml.js';
 
 export interface RenderElementContext {
   slideId?: string;
@@ -148,6 +149,9 @@ export function renderElement(el: Element, context?: RenderElementContext | numb
         break;
       case 'layout':
         html = renderLayout(el);
+        break;
+      case 'customHtml':
+        html = renderCustomHtml(el as CustomHtmlElement);
         break;
       default:
         throw new Error(`Unsupported element type: ${(el as { type: string }).type}`);

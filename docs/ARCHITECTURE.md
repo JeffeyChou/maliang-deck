@@ -83,6 +83,16 @@ projects/<slug>/
 
 Gates are explicit: extract/normalize source material, draft and approve outline, validate deck plan, author slide DSL, assemble, then build exports. Content generation is manual or agent-authored through artifacts; there is no hidden provider mode.
 
+## Chart, Table, and Custom HTML
+
+Charts and tables support typed `style` fields (`ChartStyle`, `TableStyle`) with hex-validated colors that work across all renderers. The HTML renderer also reads theme CSS variables (`--chart-*`, `--table-*`) defined in `_chart-table-base.css`, which derive from core theme variables. Color resolution is renderer-specific:
+
+- HTML: explicit `style` (hex) → theme CSS vars → hardcoded defaults
+- SVG/PDF: explicit `style` (hex) → hardcoded defaults (no CSS context)
+- pptxgenjs PPTX: explicit `style` mapped to pptxgenjs options → defaults
+
+`customHtml` is an HTML-only escape hatch for arbitrary visualizations. SVG/PDF/PPTX exporters use the `fallbackImage` field or show a placeholder. The HTML renderer strips `<script>`, `<iframe>`, `<object>`, `<embed>`, and inline event handlers. The `customHtml-usage` lint rule flags these elements for review.
+
 ## Authoring Model
 
 The implemented authoring direction is DSL-first hybrid:
@@ -90,7 +100,7 @@ The implemented authoring direction is DSL-first hybrid:
 - `layout` elements provide deterministic pixel-only grid/flex containers.
 - Component/macro authoring is planned as a compile-time layer that expands into ordinary DSL.
 - Renderers stay macro-unaware.
-- Raw HTML/CSS/JS is not accepted as authoring truth.
+- `customHtml` elements are an explicit escape hatch for HTML-only content, not authoring truth.
 
 See [Authoring](./AUTHORING.md).
 

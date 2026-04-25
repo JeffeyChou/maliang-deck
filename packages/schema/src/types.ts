@@ -138,6 +138,7 @@ export type Element =
   | ImageElement
   | ChartElement
   | TableElement
+  | CustomHtmlElement
   | GroupElement
   | LayoutElement;
 
@@ -264,6 +265,29 @@ export interface ChartElement extends BaseElement {
   chartType: ChartType;
   data: ChartSeries[];
   options?: Record<string, unknown>;
+  style?: ChartStyle;
+}
+
+// ─── Chart Style ──────────────────────────────────────────────────────────
+
+/** Hex color string (#rrggbb or #rgb). CSS vars and named colors are NOT valid
+ *  here — they would not survive SVG/PDF/PPTX export. Use theme CSS vars by
+ *  omitting the field entirely (HTML renderer reads vars automatically). */
+export type HexColor = string;
+
+export interface ChartStyle {
+  palette?: HexColor[];
+  axisColor?: HexColor;
+  gridColor?: HexColor;
+  labelColor?: HexColor;
+  backgroundColor?: HexColor;
+  strokeWidth?: number;
+  showLegend?: boolean;
+  showDataLabels?: boolean;
+  legendPosition?: 'top' | 'bottom' | 'right';
+  gridLines?: boolean;
+  rounded?: boolean;
+  areaFill?: boolean;
 }
 
 // ─── Table ──────────────────────────────────────────────────────────────────
@@ -283,6 +307,33 @@ export interface TableElement extends BaseElement {
   height?: number;
   rows: TableCell[][];
   options?: Record<string, unknown>;
+  style?: TableStyle;
+}
+
+// ─── Table Style ──────────────────────────────────────────────────────────
+
+export interface TableStyle {
+  headerBackground?: HexColor;
+  headerColor?: HexColor;
+  rowStripe?: boolean;
+  stripeColor?: HexColor;
+  borderColor?: HexColor;
+  borderWidth?: number;
+  cellPadding?: string;
+  fontSize?: number;
+  fontFamily?: string;
+  rounded?: boolean;
+}
+
+// ─── Custom HTML ────────────────────────────────────────────────────────────
+
+export interface CustomHtmlElement extends BaseElement {
+  type: 'customHtml';
+  width: number;
+  height: number;
+  html: string;
+  /** Fallback image for non-HTML renderers (data URI or relative path). */
+  fallbackImage?: string;
 }
 
 // ─── Group ───────────────────────────────────────────────────────────────────

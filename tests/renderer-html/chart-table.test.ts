@@ -43,7 +43,7 @@ describe('HTML chart/table renderer', () => {
     const cellCount = (html.match(/<td /g) ?? []).length;
     expect(rowCount).toBe(3);
     expect(cellCount).toBe(9);
-    expect(html).toContain('<td style="border: 1px solid #cbd5e1; padding: 6px 8px');
+    expect(html).toContain('<td style="border: 1px solid var(--table-border, #cbd5e1); padding: 6px 8px');
   });
 
   it('renders bar and line charts with all series and deterministic data attributes', () => {

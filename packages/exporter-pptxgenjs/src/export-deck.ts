@@ -169,6 +169,20 @@ function renderElement(element: PptxGenJsRenderableElement, context: RenderConte
     case 'layout':
       renderLayoutElement(element, context);
       break;
+    case 'customHtml': {
+      const customEl = element as { id: string; x: number; y: number; width: number; height: number; fallbackImage?: string; rotation?: number; opacity?: number };
+      if (customEl.fallbackImage) {
+        const position = offsetElementPosition(customEl as any, context.geometry, context.offset);
+        addImage(context.slide, { data: customEl.fallbackImage, ...position });
+      } else {
+        context.warnings.push({
+          code: 'pptxgenjs.customHtml.no-fallback',
+          message: `customHtml element "${customEl.id}" has no fallbackImage and cannot be rendered in PPTX.`,
+          detail: { elementId: customEl.id },
+        });
+      }
+      break;
+    }
     default:
       context.warnings.push({
         code: 'pptxgenjs.element.unsupported',
@@ -326,17 +340,38 @@ function renderImageElement(element: Extract<PptxGenJsRenderableElement, { type:
   addImage(context.slide, { path: imagePath, ...position, rotate: element.rotation, transparency: opacityToTransparency(element.opacity) });
 }
 
+function chartStyleToOptions(style: PptxGenJsChartElement['style']): Record<string, unknown> {
+  if (!style) return {};
+  const opts: Record<string, unknown> = {};
+  if (style.palette) opts.chartColors = style.palette.map((c) => c.replace('#', ''));
+  if (style.showLegend === false) opts.showLegend = false;
+  if (style.showDataLabels) opts.showValue = true;
+  if (style.backgroundColor) opts.plotArea = { fill: { color: style.backgroundColor.replace('#', '') } };
+  return opts;
+}
+
 function renderChartElement(element: PptxGenJsChartElement, context: RenderContext): void {
   const chartType = pptxChartType(element, context);
   if (!chartType) return;
   addChart(context.slide, chartType, element.data, {
+    ...chartStyleToOptions(element.style),
     ...(element.options ?? {}),
     ...offsetElementPosition(element, context.geometry, context.offset),
   });
 }
 
+function tableStyleToOptions(style: PptxGenJsTableElement['style']): Record<string, unknown> {
+  if (!style) return {};
+  const opts: Record<string, unknown> = {};
+  if (style.borderColor) opts.border = { type: 'solid', color: style.borderColor.replace('#', '') };
+  if (style.fontSize) opts.fontSize = style.fontSize;
+  if (style.fontFamily) opts.fontFace = style.fontFamily;
+  return opts;
+}
+
 function renderTableElement(element: PptxGenJsTableElement, context: RenderContext): void {
   addTable(context.slide, normalizeTableRows(element.rows), {
+    ...tableStyleToOptions(element.style),
     ...(element.options ?? {}),
     ...offsetElementPosition(element, context.geometry, context.offset),
   });

@@ -98,9 +98,34 @@ export const VALID_DSL_PATHS: ReadonlySet<string> = new Set([
   'slides[].elements[].chartType',
   'slides[].elements[].data',
   'slides[].elements[].options',
+  'slides[].elements[].style.palette',
+  'slides[].elements[].style.axisColor',
+  'slides[].elements[].style.gridColor',
+  'slides[].elements[].style.labelColor',
+  'slides[].elements[].style.backgroundColor',
+  'slides[].elements[].style.strokeWidth',
+  'slides[].elements[].style.showLegend',
+  'slides[].elements[].style.showDataLabels',
+  'slides[].elements[].style.legendPosition',
+  'slides[].elements[].style.gridLines',
+  'slides[].elements[].style.rounded',
+  'slides[].elements[].style.areaFill',
 
   // ── Table element ─────────────────────────────────────────────────────────
   'slides[].elements[].rows',
+  'slides[].elements[].style.headerBackground',
+  'slides[].elements[].style.headerColor',
+  'slides[].elements[].style.rowStripe',
+  'slides[].elements[].style.stripeColor',
+  'slides[].elements[].style.borderColor',
+  'slides[].elements[].style.borderWidth',
+  'slides[].elements[].style.cellPadding',
+  'slides[].elements[].style.fontSize',
+  'slides[].elements[].style.fontFamily',
+
+  // ── Custom HTML element ────────────────────────────────────────────────────
+  'slides[].elements[].html',
+  'slides[].elements[].fallbackImage',
 
   // ── Group element ─────────────────────────────────────────────────────────
   'slides[].elements[].elements',

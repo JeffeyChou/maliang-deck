@@ -56,6 +56,25 @@ function colorDistance(a: string, b: string): number {
   );
 }
 
+function relativeLuminance(r: number, g: number, b: number): number {
+  const [rs, gs, bs] = [r, g, b].map((c) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+}
+
+function contrastRatio(hex1: string, hex2: string): number | undefined {
+  const c1 = parseHex(hex1);
+  const c2 = parseHex(hex2);
+  if (!c1 || !c2) return undefined;
+  const l1 = relativeLuminance(c1[0], c1[1], c1[2]);
+  const l2 = relativeLuminance(c2[0], c2[1], c2[2]);
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
 /** Return all declared palette colors for a style. */
 function paletteColors(style: StyleDefinition): string[] {
   const { palette } = style.tokens;
@@ -431,6 +450,78 @@ const densityCheckRule: LintRule = {
   },
 };
 
+const chartThemeCoherenceRule: LintRule = {
+  id: 'chart-theme-coherence',
+  name: 'Chart Theme Coherence',
+  severity: 'warning',
+  check(slide, style) {
+    const results: LintResult[] = [];
+    for (const el of flattenElements(slide.elements)) {
+      if (el.type !== 'chart') continue;
+      const chart = el as { style?: { palette?: string[] }; id: string };
+      if (!chart.style?.palette) continue;
+      for (const color of chart.style.palette) {
+        if (!isInPalette(color, style)) {
+          results.push({
+            ruleId: 'chart-theme-coherence',
+            severity: 'warning',
+            message: `Chart "${el.id}" palette color "${color}" diverges from the style palette.`,
+            slideId: slide.id,
+            elementId: el.id,
+          });
+          break;
+        }
+      }
+    }
+    return results;
+  },
+};
+
+const tableHeaderContrastRule: LintRule = {
+  id: 'table-header-contrast',
+  name: 'Table Header Contrast',
+  severity: 'warning',
+  check(slide) {
+    const results: LintResult[] = [];
+    for (const el of flattenElements(slide.elements)) {
+      if (el.type !== 'table') continue;
+      const table = el as { style?: { headerBackground?: string; headerColor?: string }; id: string };
+      if (!table.style?.headerBackground || !table.style?.headerColor) continue;
+      const ratio = contrastRatio(table.style.headerBackground, table.style.headerColor);
+      if (ratio != null && ratio < 4.5) {
+        results.push({
+          ruleId: 'table-header-contrast',
+          severity: 'warning',
+          message: `Table "${el.id}" header contrast ratio ${ratio.toFixed(1)}:1 is below WCAG AA (4.5:1).`,
+          slideId: slide.id,
+          elementId: el.id,
+        });
+      }
+    }
+    return results;
+  },
+};
+
+const customHtmlUsageRule: LintRule = {
+  id: 'customHtml-usage',
+  name: 'Custom HTML Usage',
+  severity: 'error',
+  check(slide) {
+    const results: LintResult[] = [];
+    for (const el of flattenElements(slide.elements)) {
+      if (el.type !== 'customHtml') continue;
+      results.push({
+        ruleId: 'customHtml-usage',
+        severity: 'error',
+        message: `Slide "${slide.id}" uses customHtml element "${el.id}" which requires manual review for export compatibility.`,
+        slideId: slide.id,
+        elementId: el.id,
+      });
+    }
+    return results;
+  },
+};
+
 // ---------------------------------------------------------------------------
 // Built-in rule set
 // ---------------------------------------------------------------------------
@@ -444,6 +535,9 @@ export const builtInRules: LintRule[] = [
   academicCitationsRule,
   consultingAssertionTitlesRule,
   densityCheckRule,
+  chartThemeCoherenceRule,
+  tableHeaderContrastRule,
+  customHtmlUsageRule,
 ];
 
 // ---------------------------------------------------------------------------

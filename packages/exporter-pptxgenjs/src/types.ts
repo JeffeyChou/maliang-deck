@@ -35,6 +35,20 @@ export type PptxGenJsChartElement = PptxGenJsBaseElement & {
   chartType: PptxGenJsChartType;
   data: PptxGenJsChartSeries[];
   options?: Record<string, unknown>;
+  style?: {
+    palette?: string[];
+    axisColor?: string;
+    gridColor?: string;
+    labelColor?: string;
+    backgroundColor?: string;
+    strokeWidth?: number;
+    showLegend?: boolean;
+    showDataLabels?: boolean;
+    legendPosition?: 'top' | 'bottom' | 'right';
+    gridLines?: boolean;
+    rounded?: boolean;
+    areaFill?: boolean;
+  };
 };
 
 export type PptxGenJsTableElement = PptxGenJsBaseElement & {
@@ -43,6 +57,18 @@ export type PptxGenJsTableElement = PptxGenJsBaseElement & {
   height?: number;
   rows: PptxGenJsTableCellInput[][];
   options?: Record<string, unknown>;
+  style?: {
+    headerBackground?: string;
+    headerColor?: string;
+    rowStripe?: boolean;
+    stripeColor?: string;
+    borderColor?: string;
+    borderWidth?: number;
+    cellPadding?: string;
+    fontSize?: number;
+    fontFamily?: string;
+    rounded?: boolean;
+  };
 };
 
 export type PptxGenJsGroupElement = Omit<PptxGenJsBaseElement, 'type'> & {

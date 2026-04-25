@@ -67,6 +67,28 @@ For images, prefer `contain` for figures and `cover` for photos. Do not use `fil
 
 Animations and `slides[].fx` are HTML runtime features. Use them sparingly and ensure static PDF/PPTX still communicates the final state. Author animation names from [Authoring](../../AUTHORING.md); do not describe effects in notes.
 
+### Chart & Table Theming
+
+The `style` field on chart and table elements provides typed, cross-renderer styling:
+
+| Field | Chart | Table | Renderers |
+|-------|-------|-------|-----------|
+| palette / headerBackground | series colors (hex) | header bg (hex) | HTML, SVG, PPTX |
+| axisColor / headerColor | axis line color | header text color | HTML, SVG |
+| showDataLabels / rowStripe | data value labels | alternating rows | HTML, SVG |
+| rounded | bar corner radius | table border-radius | HTML only |
+| areaFill | filled area under lines | — | HTML only |
+
+**Color resolution** (renderer-specific):
+- HTML: `style` field (hex) → theme CSS vars → hardcoded defaults
+- SVG/PDF: `style` field (hex) → hardcoded defaults (no CSS)
+- PPTX: `style` field (hex) → hardcoded defaults
+
+**Rules:**
+- `style` fields accept hex colors only (#rgb or #rrggbb) — not CSS vars or named colors
+- Omit `style` entirely for automatic theme adaptation in HTML
+- `options` is for renderer/exporter-specific overrides; `style` is the stable typed API
+
 ## Forbidden Patterns
 
 | Pattern | Reason |

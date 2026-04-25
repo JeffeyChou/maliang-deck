@@ -29,6 +29,9 @@ Use this role for research papers, conference talks, technical briefings, and di
 - Prefer `image.fit: "contain"` for figures and include a caption/source element.
 - Group figure + caption, metric + label, and related annotations.
 - Avoid slide-level `fx` unless explicitly requested; academic decks should not depend on motion.
+- Set `style.showDataLabels: true` on chart elements in evidence slides for data transparency
+- Prefer the academic chart palette via `style.palette` or omit for theme defaults
+- Ensure chart axis labels include units (e.g., "Revenue (USD)", "Time (ms)")
 
 ## Layout Patterns
 

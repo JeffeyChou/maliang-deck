@@ -28,6 +28,9 @@ Items marked `error` should block assembly or delivery. Items marked `warning` s
 | warning | Text is readable, aligned, and not overcrowded. |
 | warning | Colors, fonts, and spacing match locked style tokens. |
 | warning | PDF/PPTX outputs do not rely on HTML-only motion. |
+| warning | Chart colors match the active theme palette or use explicit `style.palette` |
+| warning | Table headers have sufficient contrast (WCAG AA ≥ 4.5:1) |
+| warning | Data labels enabled on evidence and chart slides (`style.showDataLabels: true`) |
 
 ## Academic
 
@@ -38,6 +41,7 @@ Items marked `error` should block assembly or delivery. Items marked `warning` s
 | error | Every figure has a source-attributed caption. |
 | error | Data points include baseline, control, prior-period, or comparison context. |
 | warning | Statistical significance, limitations, and methods caveats are in notes when relevant. |
+| warning | Chart axes include units in series labels |
 
 ## Consulting
 
@@ -48,3 +52,5 @@ Items marked `error` should block assembly or delivery. Items marked `warning` s
 | error | Each content slide has a clear takeaway band or equivalent conclusion element. |
 | error | Every metric has benchmark, target, or prior-period context. |
 | warning | Categories are MECE where analysis claims require it. |
+| warning | KPI charts use semantic colors for positive/negative deltas |
+| warning | Comparison tables use `style.rowStripe: true` for readability |

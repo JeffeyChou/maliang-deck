@@ -39,6 +39,12 @@ Use this role for business analysis, strategy, market research, board decks, and
 | Before/after | Current state, target state, and bridging actions. |
 | Recommendation | Action, owner, timing, expected impact, risk. |
 
+## Chart & Table Rules
+
+- Use semantic colors in chart `style.palette`: success (#1b7a3e) for positive deltas, danger (#b91c1c) for negative
+- Set `style.rowStripe: true` on comparison tables for readability
+- KPI dashboard charts should use the primary color (#0a3d7c) for the main metric series
+
 ## Style Rules
 
 Use restrained color and tokenized spacing. Avoid decorative effects on analytical slides. Animations may appear on title or section slides only if they do not slow executive reading.

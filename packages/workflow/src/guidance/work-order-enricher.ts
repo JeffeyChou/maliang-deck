@@ -149,5 +149,16 @@ export function enrichDslWorkOrder(
     ...notesGuidance,
   ];
 
+  // Chart/table theming guidance
+  const chartTableGuidance = style.stageGuidance.deckPlan?.chartTableGuidance;
+  if (chartTableGuidance) {
+    guidance.checklist.push(...chartTableGuidance.map((g: string) => `Chart/table: ${g}`));
+  }
+  if (style.tokens.palette.chartPalette) {
+    guidance.checklist.push(
+      `Chart palette: use style.palette with colors [${style.tokens.palette.chartPalette.join(', ')}] or omit to inherit from theme.`,
+    );
+  }
+
   return { ...order, guidance };
 }

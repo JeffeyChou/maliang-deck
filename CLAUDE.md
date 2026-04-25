@@ -76,7 +76,7 @@ to produce publish-ready slides matching a chosen presentation style.
 - `style-registry.ts` — `registerStyle()` / `getStyle()` / `listStyles()`
 - `styles/academic.ts`, `styles/consulting.ts` — two built-in StyleDefinitions
 - `work-order-enricher.ts` — injects typed guidance at outline, deck-plan, DSL stages
-- `lint-rules.ts` — 7 DSL lints (palette, canvas-bounds, overflow, images, citations, assertions, density)
+- `lint-rules.ts` — 11 DSL lints (palette, canvas-bounds, overflow, images, citations, assertions, density, chart-theme-coherence, table-header-contrast, customHtml-usage)
 - `consistency-validator.ts` — cross-slide checks after assembly
 - `role-doc-loader.ts` — loads narrative docs with YAML frontmatter + SHA-256 digest
 - `role-doc-linter.ts` + `schema-paths.ts` — validates role docs against DSL schema
@@ -117,6 +117,18 @@ Key rules:
 
 Primary docs: `docs/TEMPLATE-EXTRACTION.md` and
 `docs/TEMPLATE-DEPENDENCY-REVIEW.md`.
+
+## Chart, Table & Custom HTML
+
+- Charts and tables support typed `style` fields (`ChartStyle`, `TableStyle`) with
+  hex-validated colors (`#rgb` or `#rrggbb`) that work across HTML, SVG, and PPTX.
+- HTML renderer reads theme CSS vars (`--chart-*`, `--table-*`) from
+  `assets/themes/_chart-table-base.css`; explicit `style` overrides theme vars.
+- `customHtml` is an HTML-only escape hatch; SVG/PDF/PPTX use `fallbackImage` or
+  placeholder. Script/iframe/event-handler stripping is applied.
+- `options` remains for renderer-specific overrides; `style` is the stable typed API.
+- Lint rules: `chart-theme-coherence` (palette drift), `table-header-contrast`
+  (WCAG AA), `customHtml-usage` (requires review).
 
 ## Text & Export
 

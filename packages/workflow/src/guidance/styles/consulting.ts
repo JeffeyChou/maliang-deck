@@ -1,0 +1,275 @@
+import type { StyleDefinition } from '../types.js';
+
+export const consultingStyle: StyleDefinition = {
+  id: 'consulting',
+  version: '1.0.0',
+  name: 'Consulting',
+  description: 'Data-driven executive deck style: clean layouts, assertion-based titles, SCQA/pyramid structure, data storytelling.',
+  recommendedTheme: 'corporate-blue',
+
+  tokens: {
+    palette: {
+      primary: '#0a3d7c',
+      secondary: '#ffffff',
+      accent: '#e8a020',
+      neutral: '#5a6475',
+      semantic: {
+        success: '#1b7a3e',
+        warning: '#d97706',
+        danger: '#b91c1c',
+        info: '#0369a1',
+      },
+      chartPalette: ['#0a3d7c', '#e8a020', '#1b7a3e', '#b91c1c', '#0369a1', '#5a6475'],
+    },
+    typography: {
+      headingFont: 'Calibri, Arial, sans-serif',
+      bodyFont: 'Arial, Helvetica, sans-serif',
+      monoFont: 'Consolas, Courier New, monospace',
+      scaleRatio: 1.2,
+    },
+    spacing: {
+      element: 16,
+      section: 32,
+      margin: { top: 40, right: 56, bottom: 40, left: 56 },
+    },
+    elevation: {
+      card: '0 2px 6px rgba(0,0,0,0.12)',
+      overlay: '0 6px 16px rgba(0,0,0,0.18)',
+    },
+    chartDefaults: {
+      showLegend: true,
+      legendPosition: 'bottom' as const,
+      gridLines: true,
+      rounded: false,
+    },
+    tableDefaults: {
+      rowStripe: true,
+      rounded: false,
+      headerContrast: 'strong' as const,
+    },
+  },
+
+  layoutPatterns: [
+    {
+      id: 'consulting-title',
+      name: 'Consulting Title Slide',
+      purpose: 'Opening slide with deck title, client name, date, and confidentiality notice.',
+      slideTypes: ['title'],
+      elementPositions: {
+        background: { x: 0,   y: 0,   w: 1280, h: 720 },
+        title:      { x: 56,  y: 180, w: 900,  h: 120 },
+        subtitle:   { x: 56,  y: 320, w: 900,  h:  60 },
+        client:     { x: 56,  y: 420, w: 400,  h:  40 },
+        date:       { x: 56,  y: 470, w: 400,  h:  40 },
+        logo:       { x: 1050, y: 40, w: 160,  h:  60 },
+      },
+      density: 'low',
+    },
+    {
+      id: 'consulting-agenda',
+      name: 'Agenda Slide',
+      purpose: 'Table of contents slide showing section breakdown.',
+      slideTypes: ['section'],
+      elementPositions: {
+        title:   { x: 56, y: 48,  w: 1168, h:  52 },
+        items:   { x: 56, y: 130, w: 1168, h: 520 },
+      },
+      density: 'low',
+    },
+    {
+      id: 'consulting-section',
+      name: 'Section Divider',
+      purpose: 'Visual break between major sections with accent color band.',
+      slideTypes: ['section'],
+      elementPositions: {
+        band:    { x: 0,  y: 280, w: 1280, h: 160 },
+        title:   { x: 56, y: 310, w: 1168, h:  80 },
+      },
+      density: 'low',
+    },
+    {
+      id: 'consulting-kpi-dashboard',
+      name: 'KPI Dashboard',
+      purpose: '4-card KPI grid for headline metrics with comparison context.',
+      slideTypes: ['chart', 'evidence'],
+      elementPositions: {
+        title:  { x: 56,  y: 48,  w: 1168, h:  52 },
+        kpi1:   { x: 56,  y: 130, w:  270, h: 200 },
+        kpi2:   { x: 358, y: 130, w:  270, h: 200 },
+        kpi3:   { x: 660, y: 130, w:  270, h: 200 },
+        kpi4:   { x: 962, y: 130, w:  270, h: 200 },
+        chart:  { x: 56,  y: 350, w: 1168, h: 310 },
+      },
+      density: 'high',
+    },
+    {
+      id: 'consulting-chart-insight',
+      name: 'Chart with Insight',
+      purpose: 'Single chart with key insight callout and comparison annotations.',
+      slideTypes: ['chart', 'evidence'],
+      elementPositions: {
+        title:   { x: 56,  y: 48,  w: 1168, h:  52 },
+        chart:   { x: 56,  y: 120, w:  780, h: 500 },
+        insight: { x: 880, y: 120, w:  344, h: 180 },
+        body:    { x: 880, y: 320, w:  344, h: 300 },
+      },
+      density: 'medium',
+    },
+    {
+      id: 'consulting-mece-tree',
+      name: 'MECE Logic Tree',
+      purpose: 'Mutually-exclusive collectively-exhaustive decomposition diagram.',
+      slideTypes: ['evidence', 'summary'],
+      elementPositions: {
+        title:  { x: 56, y: 48,  w: 1168, h:  52 },
+        body:   { x: 56, y: 120, w: 1168, h: 520 },
+      },
+      density: 'medium',
+    },
+    {
+      id: 'consulting-roadmap',
+      name: 'Strategic Roadmap',
+      purpose: 'Timeline or phased plan with milestones and owners.',
+      slideTypes: ['summary', 'closing'],
+      elementPositions: {
+        title:    { x: 56, y: 48,  w: 1168, h:  52 },
+        roadmap:  { x: 56, y: 120, w: 1168, h: 440 },
+        footnote: { x: 56, y: 580, w: 1168, h:  80 },
+      },
+      density: 'medium',
+    },
+    {
+      id: 'consulting-summary',
+      name: 'Executive Summary',
+      purpose: 'Summary slide with top findings and recommended next steps.',
+      slideTypes: ['summary', 'closing'],
+      elementPositions: {
+        title:     { x: 56, y: 48,  w: 1168, h:  52 },
+        findings:  { x: 56, y: 130, w:  560, h: 520 },
+        nextSteps: { x: 664, y: 130, w:  560, h: 520 },
+      },
+      density: 'medium',
+    },
+  ],
+
+  stageGuidance: {
+    outline: {
+      audienceAnalysis: [
+        'What is the decision the audience needs to make after this deck?',
+        'What is the audience\'s seniority level (C-suite, VP, manager, analyst)?',
+        'What prior context does the audience have on this topic?',
+        'Are there known objections or sensitivities to address?',
+        'What is the desired action or change in behavior after this presentation?',
+      ],
+      storyArc: [
+        'Apply the Pyramid Principle: lead with the answer, then prove it.',
+        'Use SCQA framing for the opener: Situation → Complication → Question → Answer.',
+        'Each section should have an assertion title that is the key takeaway, not a topic label.',
+        'Build the argument from high-level assertion to supporting evidence — not the reverse.',
+        'End with concrete next steps and clear ownership.',
+      ],
+      infoHierarchy: [
+        'The slide title is the assertion — a complete sentence stating the point.',
+        'Supporting data, charts, and bullets go on the slide body.',
+        'Detailed methodology, data tables, and caveats go in speaker notes or appendix.',
+        'Each slide must answer "so what?" — if it doesn\'t, it belongs in the appendix.',
+        'Context-setting slides belong at the beginning; proof slides follow the assertion.',
+      ],
+    },
+    deckPlan: {
+      layoutRecommendations: {
+        title:    'consulting-title',
+        section:  'consulting-section',
+        agenda:   'consulting-agenda',
+        evidence: 'consulting-chart-insight',
+        chart:    'consulting-kpi-dashboard',
+        summary:  'consulting-summary',
+        closing:  'consulting-summary',
+        roadmap:  'consulting-roadmap',
+        mece:     'consulting-mece-tree',
+      },
+      vizDefaults: {
+        comparison:   'bar',
+        trend:        'line',
+        composition:  'pie',
+        distribution: 'bar',
+        kpi:          'stat',
+        relationship: 'line',
+      },
+      chartTableGuidance: [
+        'KPI dashboard charts use bold primary color for main series.',
+        'Row-striped tables for comparison and data-heavy slides.',
+        'Chart annotations must include comparison context (prior period, benchmark, or target).',
+      ],
+    },
+    slideDsl: {
+      elementRules: [
+        'Slide title must be an assertion — a sentence stating the takeaway, not a topic label.',
+        'Use text elements with textRole="heading" for the assertion title.',
+        'Use text elements with textRole="stat" for KPI numbers and headline metrics.',
+        'Use chart elements for all data — do not recreate charts with text/rect elements.',
+        'Use rect elements for callout boxes and insight highlights.',
+        'Group related elements (e.g. KPI card = rect + stat + label) using group elements.',
+        'Annotation text next to charts must include comparison context (vs prior period, vs target).',
+      ],
+      colorRules: [
+        'Primary color #0a3d7c for title text and key data series.',
+        'Accent #e8a020 for callouts, highlights, and key insight boxes.',
+        'Neutral #5a6475 for secondary text, footnotes, and axis labels.',
+        'Use semantic colors in charts: success for positive deltas, danger for negative deltas.',
+        'Background must be white (#ffffff); use color bands only for section dividers.',
+        'Maintain WCAG AA contrast (≥4.5:1) for all body text.',
+        'Use semantic colors in chart palettes: success (#1b7a3e) for positive deltas, danger (#b91c1c) for negative.',
+        'KPI dashboard charts should use the primary color (#0a3d7c) for the main metric series.',
+      ],
+      positioningRules: [
+        'Title element must have y ≥ 40 and y ≤ 72 for cross-slide consistency.',
+        'Respect margin of 56px on left/right and 40px on top/bottom.',
+        'KPI cards must align to the 4-card grid (x: 56, 358, 660, 962).',
+        'Leave at least 16px between adjacent elements (element spacing token).',
+        'Insight callout box should be positioned to the right of the chart.',
+        'Do not let any element exceed canvas bounds (1280×720).',
+      ],
+    },
+  },
+
+  qualityRules: [
+    {
+      id: 'consulting-assertion-titles',
+      name: 'Assertion-Based Titles',
+      severity: 'warning',
+      applicableStyles: ['consulting'],
+      description: 'Slide titles must be complete sentences stating a takeaway, not descriptive topic labels.',
+    },
+    {
+      id: 'consulting-chart-annotations',
+      name: 'Chart Annotations with Context',
+      severity: 'warning',
+      applicableStyles: ['consulting'],
+      description: 'Chart slides must include an annotation or callout providing comparison context (e.g. vs prior period, vs target).',
+    },
+    {
+      id: 'consulting-insight-callout',
+      name: 'Key Insight Callout',
+      severity: 'warning',
+      applicableStyles: ['consulting'],
+      description: 'Evidence and chart slides should include a key insight callout element summarizing the main point.',
+    },
+  ],
+
+  rendererCapabilities: {
+    animations:    'none',
+    charts:        'full',
+    tables:        'full',
+    gradients:     'full',
+    clipPaths:     'partial',
+    groupElements: 'full',
+    textWrapping:  'full',
+  },
+
+  roleDocRefs: [
+    { path: 'docs/agent-guidance/roles/strategist.md',           role: 'strategist' },
+    { path: 'docs/agent-guidance/roles/executor-consulting.md',  role: 'executor' },
+    { path: 'docs/agent-guidance/standards/shared-constraints.md', role: 'shared' },
+  ],
+};

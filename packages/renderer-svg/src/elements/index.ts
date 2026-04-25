@@ -13,6 +13,7 @@ import { renderGroup } from './group.js';
 import { renderChart } from './chart.js';
 import { renderTable } from './table.js';
 import { renderLayout } from './layout.js';
+import { renderCustomHtml } from './customHtml.js';
 
 export interface RenderResult {
   svg: string;
@@ -45,6 +46,8 @@ export function renderElement(el: Element, basePath?: string, registry?: FontReg
       return renderTable(el);
     case 'layout':
       return renderLayout(el, basePath, registry);
+    case 'customHtml':
+      return renderCustomHtml(el as any);
     default:
       return {
         svg: `<g data-maliang-deck-unsupported-element="${(el as { id?: string }).id ?? 'unknown'}"></g>`,

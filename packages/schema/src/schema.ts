@@ -216,6 +216,39 @@ export const ImageElementSchema = BaseElementSchema.extend({
 
 // ─── Chart ──────────────────────────────────────────────────────────────────
 
+const HexColorSchema = z.string().regex(
+  /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/,
+  'Must be a hex color (#rgb or #rrggbb)',
+);
+
+export const ChartStyleSchema = z.object({
+  palette: z.array(HexColorSchema).min(1).max(12).optional(),
+  axisColor: HexColorSchema.optional(),
+  gridColor: HexColorSchema.optional(),
+  labelColor: HexColorSchema.optional(),
+  backgroundColor: HexColorSchema.optional(),
+  strokeWidth: z.number().nonnegative().optional(),
+  showLegend: z.boolean().optional(),
+  showDataLabels: z.boolean().optional(),
+  legendPosition: z.enum(['top', 'bottom', 'right']).optional(),
+  gridLines: z.boolean().optional(),
+  rounded: z.boolean().optional(),
+  areaFill: z.boolean().optional(),
+}).strict();
+
+export const TableStyleSchema = z.object({
+  headerBackground: HexColorSchema.optional(),
+  headerColor: HexColorSchema.optional(),
+  rowStripe: z.boolean().optional(),
+  stripeColor: HexColorSchema.optional(),
+  borderColor: HexColorSchema.optional(),
+  borderWidth: z.number().nonnegative().optional(),
+  cellPadding: z.string().optional(),
+  fontSize: z.number().positive().optional(),
+  fontFamily: z.string().optional(),
+  rounded: z.boolean().optional(),
+}).strict();
+
 export const ChartTypeSchema = z.enum(['bar', 'line', 'pie', 'doughnut']);
 
 export const ChartSeriesSchema = z
@@ -241,6 +274,7 @@ export const ChartElementSchema = BaseElementSchema.extend({
   chartType: ChartTypeSchema,
   data: z.array(ChartSeriesSchema).min(1),
   options: z.record(z.unknown()).optional(),
+  style: ChartStyleSchema.optional(),
 });
 
 // ─── Table ──────────────────────────────────────────────────────────────────
@@ -262,6 +296,17 @@ export const TableElementSchema = BaseElementSchema.extend({
   height: z.number().positive().optional(),
   rows: z.array(z.array(TableCellSchema).min(1)).min(1),
   options: z.record(z.unknown()).optional(),
+  style: TableStyleSchema.optional(),
+});
+
+// ─── Custom HTML ─────────────────────────────────────────────────────────────
+
+export const CustomHtmlElementSchema = BaseElementSchema.extend({
+  type: z.literal('customHtml'),
+  width: z.number().positive(),
+  height: z.number().positive(),
+  html: z.string().min(1),
+  fallbackImage: z.string().optional(),
 });
 
 // ─── Group (supports recursive nesting) ─────────────────────────────────────
@@ -348,6 +393,7 @@ export const ElementSchema: z.ZodType<any> = z.discriminatedUnion('type', [
   ImageElementSchema,
   ChartElementSchema,
   TableElementSchema,
+  CustomHtmlElementSchema,
   GroupElementSchema,
   LayoutElementBaseSchema,
 ]);

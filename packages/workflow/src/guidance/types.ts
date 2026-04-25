@@ -17,6 +17,8 @@ export type PaletteTokens = {
   neutral: string;
   /** Semantic colors for data visualization (success, warning, danger, info). */
   semantic?: Record<string, string>;
+  /** Chart data series palette (hex colors). */
+  chartPalette?: string[];
 };
 
 export type TypographyTokens = {
@@ -47,6 +49,19 @@ export type DesignTokens = {
   typography: TypographyTokens;
   spacing: SpacingTokens;
   elevation?: ElevationTokens;
+  /** Default chart styling for this design system. */
+  chartDefaults?: {
+    showLegend?: boolean;
+    legendPosition?: 'top' | 'bottom' | 'right';
+    gridLines?: boolean;
+    rounded?: boolean;
+  };
+  /** Default table styling for this design system. */
+  tableDefaults?: {
+    rowStripe?: boolean;
+    rounded?: boolean;
+    headerContrast?: 'strong' | 'subtle' | 'none';
+  };
 };
 
 // ---------------------------------------------------------------------------
@@ -97,6 +112,8 @@ export type DeckPlanGuidance = {
   layoutRecommendations: Record<string, string>;
   /** Default visualization type for common content categories. */
   vizDefaults: Record<string, string>;
+  /** Chart/table theming guidance for this style. */
+  chartTableGuidance?: string[];
 };
 
 export type SlideDslGuidance = {

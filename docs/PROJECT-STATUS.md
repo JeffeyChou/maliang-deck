@@ -8,16 +8,16 @@ Implemented packages and subsystems:
 
 | Area | Status |
 | --- | --- |
-| `@maliang-deck/schema` | Deck DSL, Zod validation, chart/table/group/layout elements, animation metadata, HTML runtime config. |
+| `@maliang-deck/schema` | Deck DSL, Zod validation, chart/table/group/layout/customHtml elements, typed ChartStyle/TableStyle, animation metadata, HTML runtime config. |
 | `@maliang-deck/text-measure` | Fontkit measurement, bundled fonts, CJK break opportunities, text wrapping, and DSL reflow helpers. |
-| `@maliang-deck/renderer-html` | Interactive HTML presentation with notes, themes, layout preview, chart/table preview, animations, FX, laser pointer, whiteboard, presenter mode, and slide transitions. |
+| `@maliang-deck/renderer-html` | Interactive HTML presentation with notes, themes, layout preview, theme-aware chart/table rendering, customHtml elements, animations, FX, laser pointer, whiteboard, presenter mode, and slide transitions. |
 | `@maliang-deck/renderer-svg` | Static SVG renderer for PDF/PPTX export with wrapped text, layout resolution, chart/table primitives, diagnostics, and PPTX bridge metadata. |
 | `@maliang-deck/exporter` | Shared PDF/PPTX orchestration, engine routing, export reports, and PPTX animation-plan capability reporting. |
 | `@maliang-deck/exporter-pptxgenjs` | Opt-in JavaScript PPTX backend for native chart/table output and resolved layout contents. |
 | `@maliang-deck/workflow` | Project scaffolding, requirements, extraction, normalization, outline/deck-plan/DSL gates, assembly, build orchestration, template extraction, and guidance enrichment. |
 | `@maliang-deck/cli` | `serve`, `export`, `validate`, `workflow ...`, and `template ...` commands. |
 | Python bridges | Isolated SVG-to-PDF and SVG-to-DrawingML PPTX conversion. |
-| Runtime/assets | 36 themes, 20 canvas FX modules, unified timeline engine, presenter tools, and responsive slide scaling. |
+| Runtime/assets | 37 themes (incl. chart/table base), 20 canvas FX modules, unified timeline engine, presenter tools, and responsive slide scaling. |
 
 ## Completed Milestones
 
@@ -28,6 +28,7 @@ Implemented packages and subsystems:
 - Phase 3 chart/table slice: chart/table schema, HTML/SVG/PDF static rendering, DrawingML fail-fast guards, and opt-in `pptxgenjs` native chart/table export.
 - Phase 3 template slice: deterministic PPTX/HTML/PDF/PNG draft template packs, coverage reports, sample generation, template registry behavior, and CLI.
 - Phase 3 layout slice: deterministic pixel-only `layout` element, resolver, HTML/SVG/PDF/pptxgenjs support, and layout diagnostics.
+- Phase 3 chart/table theming: theme-aware CSS variable defaults, typed `ChartStyle`/`TableStyle` DSL fields with hex-validated Zod schemas, `customHtml` escape hatch element, pptxgenjs style mapping, 3 new lint rules (chart-theme-coherence, table-header-contrast, customHtml-usage), and guidance system integration.
 
 ## Verification Snapshot
 

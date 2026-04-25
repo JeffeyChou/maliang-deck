@@ -115,6 +115,7 @@ export function renderDeckToHtml(deck: Deck): string {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
+  <link id="chart-table-base" rel="stylesheet" href="/assets/themes/_chart-table-base.css">
   <link id="theme-link" rel="stylesheet" href="/assets/themes/${theme}.css">
   <link rel="stylesheet" href="/runtime/animations.css">
   <style>
