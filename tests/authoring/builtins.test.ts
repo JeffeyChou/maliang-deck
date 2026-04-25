@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { compileAuthoringDeck } from '@vslidev/authoring';
+import { compileAuthoringDeck } from '@maliang-deck/authoring';
 import { macroDemoDeck } from './fixtures/macro-demo.js';
 
 describe('authoring built-in components', () => {

@@ -1,0 +1,29 @@
+{
+  "name": "maliang-deck",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Unified slide platform with JSON DSL, dual renderers (HTML + SVG), and editable PPTX export",
+  "scripts": {
+    "dev": "pnpm --filter @maliang-deck/cli dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint packages/*/src/**/*.ts",
+    "serve": "pnpm --filter @maliang-deck/cli serve",
+    "export": "pnpm --filter @maliang-deck/cli export",
+    "validate": "pnpm --filter @maliang-deck/cli validate",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^25.6.0",
+    "eslint": "^9.0.0",
+    "pptxgenjs": "^4.0.1",
+    "typescript": "^5.4.0",
+    "typescript-eslint": "^8.59.0",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

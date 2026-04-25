@@ -24,9 +24,9 @@ describe('export pipeline debug', () => {
     const result = renderDeckToSvg(comprehensiveTextMeasureDeck, { fontRegistry: registry });
 
     expect(result.slides).toHaveLength(2);
-    expect(result.slides[0].svg).toContain('data-vslidev-id="left-body-a"');
-    expect(result.slides[1].svg).toContain('data-vslidev-id="anim-chart"');
-    expect(result.slides[1].svg).toContain('data-vslidev-kind="table"');
+    expect(result.slides[0].svg).toContain('data-maliang-deck-id="left-body-a"');
+    expect(result.slides[1].svg).toContain('data-maliang-deck-id="anim-chart"');
+    expect(result.slides[1].svg).toContain('data-maliang-deck-kind="table"');
     expect(result.slides[1].svg).not.toContain('data-anim-enter');
     expect(new Set(result.warnings.map((warning) => warning.type))).toEqual(new Set(['layout-flattened']));
   });
@@ -43,7 +43,7 @@ describe('export pipeline debug', () => {
     expect(html).toContain('data-anim-delay="0"');
     expect(html).toContain('data-anim-easing="cubic-bezier(.2,.8,.2,1)"');
     expect(html).toContain('data-anim-final-opacity="0.7"');
-    expect(html).toContain('data-vslidev-auto-animate-id="anim-layout-grid"');
+    expect(html).toContain('data-maliang-deck-auto-animate-id="anim-layout-grid"');
     expect(html).toContain('data-fx="constellation"');
     expect(html).toContain('data-fx="firework"');
     expect(html).toContain('"transition":{"type":"slide","durationMs":450');

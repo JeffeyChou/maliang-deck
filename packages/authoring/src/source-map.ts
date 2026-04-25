@@ -1,4 +1,4 @@
-import type { Element } from '@vslidev/schema';
+import type { Element } from '@maliang-deck/schema';
 import type { AuthoringSourceMap, AuthoringSourceMapEntry } from './types.js';
 
 export function createAuthoringSourceMap(): AuthoringSourceMap {

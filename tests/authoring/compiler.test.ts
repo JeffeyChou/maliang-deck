@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { validateDeck, type Element } from '@vslidev/schema';
+import { validateDeck, type Element } from '@maliang-deck/schema';
 import {
   compileAuthoringDeck,
   createAuthoringRegistry,
   type AuthoringDeckInput,
-} from '@vslidev/authoring';
+} from '@maliang-deck/authoring';
 import { macroDemoDeck } from './fixtures/macro-demo.js';
 
 function expectCompiled(input: AuthoringDeckInput) {

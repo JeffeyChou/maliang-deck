@@ -32,7 +32,7 @@ importers:
 
   packages/authoring:
     dependencies:
-      '@vslidev/schema':
+      '@maliang-deck/schema':
         specifier: workspace:*
         version: link:../schema
       zod:
@@ -45,19 +45,19 @@ importers:
 
   packages/cli:
     dependencies:
-      '@vslidev/exporter':
+      '@maliang-deck/exporter':
         specifier: workspace:*
         version: link:../exporter
-      '@vslidev/renderer-html':
+      '@maliang-deck/renderer-html':
         specifier: workspace:*
         version: link:../renderer-html
-      '@vslidev/renderer-svg':
+      '@maliang-deck/renderer-svg':
         specifier: workspace:*
         version: link:../renderer-svg
-      '@vslidev/schema':
+      '@maliang-deck/schema':
         specifier: workspace:*
         version: link:../schema
-      '@vslidev/workflow':
+      '@maliang-deck/workflow':
         specifier: workspace:*
         version: link:../workflow
       commander:
@@ -79,16 +79,16 @@ importers:
 
   packages/exporter:
     dependencies:
-      '@vslidev/exporter-pptxgenjs':
+      '@maliang-deck/exporter-pptxgenjs':
         specifier: workspace:*
         version: link:../exporter-pptxgenjs
-      '@vslidev/renderer-svg':
+      '@maliang-deck/renderer-svg':
         specifier: workspace:*
         version: link:../renderer-svg
-      '@vslidev/schema':
+      '@maliang-deck/schema':
         specifier: workspace:*
         version: link:../schema
-      '@vslidev/text-measure':
+      '@maliang-deck/text-measure':
         specifier: workspace:*
         version: link:../text-measure
     devDependencies:
@@ -101,7 +101,7 @@ importers:
 
   packages/exporter-pptxgenjs:
     dependencies:
-      '@vslidev/schema':
+      '@maliang-deck/schema':
         specifier: workspace:*
         version: link:../schema
       pptxgenjs:
@@ -117,7 +117,7 @@ importers:
 
   packages/renderer-html:
     dependencies:
-      '@vslidev/schema':
+      '@maliang-deck/schema':
         specifier: workspace:*
         version: link:../schema
     devDependencies:
@@ -127,10 +127,10 @@ importers:
 
   packages/renderer-svg:
     dependencies:
-      '@vslidev/schema':
+      '@maliang-deck/schema':
         specifier: workspace:*
         version: link:../schema
-      '@vslidev/text-measure':
+      '@maliang-deck/text-measure':
         specifier: workspace:*
         version: link:../text-measure
     devDependencies:
@@ -156,7 +156,7 @@ importers:
 
   packages/text-measure:
     dependencies:
-      '@vslidev/schema':
+      '@maliang-deck/schema':
         specifier: workspace:*
         version: link:../schema
       fontkit:
@@ -165,13 +165,13 @@ importers:
 
   packages/workflow:
     dependencies:
-      '@vslidev/exporter':
+      '@maliang-deck/exporter':
         specifier: workspace:*
         version: link:../exporter
-      '@vslidev/renderer-html':
+      '@maliang-deck/renderer-html':
         specifier: workspace:*
         version: link:../renderer-html
-      '@vslidev/schema':
+      '@maliang-deck/schema':
         specifier: workspace:*
         version: link:../schema
       zod:

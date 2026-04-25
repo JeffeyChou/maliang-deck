@@ -1,4 +1,4 @@
-import type { Deck, Element } from '@vslidev/schema';
+import type { Deck, Element } from '@maliang-deck/schema';
 import type { ExportWarning } from './export-report.js';
 
 export type PptxAnimationPlan = {

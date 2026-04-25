@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@maliang-deck/authoring": [
+        "packages/authoring/src/index.ts"
+      ],
+      "@maliang-deck/schema": [
+        "packages/schema/src/index.ts"
+      ],
+      "@maliang-deck/renderer-html": [
+        "packages/renderer-html/src/index.ts"
+      ],
+      "@maliang-deck/renderer-svg": [
+        "packages/renderer-svg/src/index.ts"
+      ],
+      "@maliang-deck/text-measure": [
+        "packages/text-measure/src/index.ts"
+      ],
+      "@maliang-deck/exporter": [
+        "packages/exporter/src/index.ts"
+      ],
+      "@maliang-deck/workflow": [
+        "packages/workflow/src/index.ts"
+      ],
+      "@maliang-deck/exporter-pptxgenjs": [
+        "packages/exporter-pptxgenjs/src/index.ts"
+      ]
+    }
+  }
+}

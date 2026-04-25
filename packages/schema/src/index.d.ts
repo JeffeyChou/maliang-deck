@@ -1,0 +1,6 @@
+export type { Deck, DeckMeta, CanvasSize, Slide, Element, BaseElement, TextElement, RectElement, CircleElement, EllipseElement, LineElement, PathElement, PolygonElement, ImageElement, ChartType, ChartSeries, ChartElement, TablePrimitiveCell, TableObjectCell, TableCell, TableElement, GroupElement, Animation, DiagnosticSeverity, DiagnosticPhase, DiagnosticPolicy, DiagnosticFormat, MaliangDeckDiagnostic, LayoutMode, LayoutAlign, LayoutJustify, BoxPadding, GridTrack, GridPlacement, GridLayoutConfig, FlexPlacement, FlexLayoutConfig, LayoutChildPlacement, LayoutConfig, LayoutOverflow, LayoutElement, } from './types.js';
+export { DeckSchema, DeckMetaSchema, CanvasSizeSchema, SlideSchema, ElementSchema, TextElementSchema, RectElementSchema, CircleElementSchema, EllipseElementSchema, LineElementSchema, PathElementSchema, PolygonElementSchema, ImageElementSchema, ChartTypeSchema, ChartSeriesSchema, ChartElementSchema, TableCellSchema, TableElementSchema, GroupElementSchema, LayoutElementSchema, LayoutConfigSchema, LayoutPlacementSchema, validateDeck, } from './schema.js';
+export type { ValidationError, ValidationResult } from './schema.js';
+export { resolveLayoutElement, resolveLayoutChildren, cloneElementWithBox } from './layout.js';
+export type { ResolvedElementRecord, LayoutResolveContext, ElementBox } from './layout.js';
+//# sourceMappingURL=index.d.ts.map

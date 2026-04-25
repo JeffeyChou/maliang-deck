@@ -1,0 +1,1493 @@
+{
+  "id": "presentation-design-system-image-1",
+  "version": "0.1.0",
+  "name": "Presentation Design System (Image #1)",
+  "description": "Manual visual-template extraction from the provided design-system screenshot: white/blue corporate presentation system with Inter typography, wave motif, modular content layouts, tables, charts, icons, spacing, and do/don\u2019t guidance.",
+  "createdAt": "2026-04-22T13:44:31.272Z",
+  "sources": [
+    {
+      "id": "image-1",
+      "format": "png",
+      "path": "prompt://Image #1",
+      "dimensions": {
+        "width": 2048,
+        "height": 1536
+      },
+      "pageCount": 1,
+      "warnings": [
+        "Source was provided as an inline prompt image; extraction is manual/visual rather than parser-derived."
+      ]
+    }
+  ],
+  "tokens": {
+    "palette": {
+      "primary": "#0066FF",
+      "secondary": "#F3F6FB",
+      "accent": "#3399FF",
+      "neutral": "#131927",
+      "semantic": {
+        "blue50": "#EAF3FF",
+        "blue100": "#DCEAFF",
+        "gray900": "#111827",
+        "gray700": "#374151",
+        "success": "#17AA71",
+        "warning": "#F6A21A",
+        "danger": "#D9455F",
+        "purple": "#6B5BEA",
+        "pink": "#E63888",
+        "teal": "#2FAEA2"
+      }
+    },
+    "typography": {
+      "headingFont": "Inter, sans-serif",
+      "bodyFont": "Inter, sans-serif",
+      "monoFont": "JetBrains Mono, monospace",
+      "scaleRatio": 1.25
+    },
+    "spacing": {
+      "element": 14,
+      "section": 48,
+      "margin": {
+        "top": 48,
+        "right": 48,
+        "bottom": 48,
+        "left": 48
+      }
+    },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "backgrounds": [
+      "#FFFFFF",
+      "#F7F9FC",
+      "#131927"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "title-cover",
+      "name": "Title Cover",
+      "slideType": "title",
+      "purpose": "Opening slide with left title and blue wave artwork.",
+      "slots": [
+        {
+          "id": "cover-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 56,
+            "y": 76,
+            "width": 520,
+            "height": 140
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "cover-subtitle-slot",
+          "role": "subtitle",
+          "bbox": {
+            "x": 58,
+            "y": 206,
+            "width": 520,
+            "height": 52
+          },
+          "required": false,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "cover-art-slot",
+          "role": "decorative-wave",
+          "bbox": {
+            "x": 560,
+            "y": 155,
+            "width": 700,
+            "height": 500
+          },
+          "required": false,
+          "accepts": [
+            "shape"
+          ],
+          "confidence": 0.72,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.86,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "system-reference",
+      "name": "System Reference",
+      "slideType": "summary",
+      "purpose": "Dense design-system reference slide with numbered header and gridded modules.",
+      "slots": [
+        {
+          "id": "reference-header-slot",
+          "role": "header",
+          "bbox": {
+            "x": 30,
+            "y": 25,
+            "width": 860,
+            "height": 40
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "reference-content-slot",
+          "role": "content-grid",
+          "bbox": {
+            "x": 50,
+            "y": 90,
+            "width": 1120,
+            "height": 520
+          },
+          "required": true,
+          "accepts": [
+            "text",
+            "shape",
+            "table",
+            "chart"
+          ],
+          "confidence": 0.78,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.84,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "one-column-content",
+      "name": "One Column Content",
+      "slideType": "evidence",
+      "purpose": "Title, accent underline, paragraph, bullets, footer.",
+      "slots": [
+        {
+          "id": "one-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 110,
+            "y": 155,
+            "width": 520,
+            "height": 42
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "one-body-slot",
+          "role": "body",
+          "bbox": {
+            "x": 110,
+            "y": 242,
+            "width": 600,
+            "height": 130
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "one-bullet-slot",
+          "role": "bullets",
+          "bbox": {
+            "x": 115,
+            "y": 395,
+            "width": 450,
+            "height": 130
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.84,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "two-column-content",
+      "name": "Two Column Content",
+      "slideType": "evidence",
+      "purpose": "Text column paired with a large right-side media block.",
+      "slots": [
+        {
+          "id": "two-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 60,
+            "y": 150,
+            "width": 520,
+            "height": 42
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "two-copy-slot",
+          "role": "body",
+          "bbox": {
+            "x": 60,
+            "y": 235,
+            "width": 420,
+            "height": 120
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "two-media-slot",
+          "role": "media",
+          "bbox": {
+            "x": 610,
+            "y": 175,
+            "width": 520,
+            "height": 330
+          },
+          "required": true,
+          "accepts": [
+            "image",
+            "shape"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.82,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "multi-column-content",
+      "name": "Three Column Cards",
+      "slideType": "summary",
+      "purpose": "Three equal icon + heading + copy columns.",
+      "slots": [
+        {
+          "id": "multi-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 60,
+            "y": 150,
+            "width": 520,
+            "height": 42
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "multi-column-slot",
+          "role": "columns",
+          "bbox": {
+            "x": 105,
+            "y": 250,
+            "width": 965,
+            "height": 250
+          },
+          "required": true,
+          "accepts": [
+            "text",
+            "shape"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.82,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "large-media",
+      "name": "Large Media",
+      "slideType": "evidence",
+      "purpose": "Wide media band with caption below.",
+      "slots": [
+        {
+          "id": "large-media-slot",
+          "role": "hero-media",
+          "bbox": {
+            "x": 30,
+            "y": 115,
+            "width": 1192,
+            "height": 345
+          },
+          "required": true,
+          "accepts": [
+            "image",
+            "shape"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "large-caption-slot",
+          "role": "caption",
+          "bbox": {
+            "x": 60,
+            "y": 492,
+            "width": 520,
+            "height": 55
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.8,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "gallery",
+      "name": "Image Gallery",
+      "slideType": "evidence",
+      "purpose": "Six rounded media tiles in 3x2 grid.",
+      "slots": [
+        {
+          "id": "gallery-grid-slot",
+          "role": "media-gallery",
+          "bbox": {
+            "x": 50,
+            "y": 130,
+            "width": 1010,
+            "height": 390
+          },
+          "required": true,
+          "accepts": [
+            "image",
+            "shape"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.78,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "chart-table",
+      "name": "Chart or Table",
+      "slideType": "chart",
+      "purpose": "Large table or chart area with standard title/footer.",
+      "slots": [
+        {
+          "id": "chart-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 50,
+            "y": 94,
+            "width": 520,
+            "height": 36
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "chart-primary-slot",
+          "role": "data-visual",
+          "bbox": {
+            "x": 50,
+            "y": 155,
+            "width": 1110,
+            "height": 380
+          },
+          "required": true,
+          "accepts": [
+            "chart",
+            "table"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.82,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "data-text-image",
+      "name": "Data Text Image",
+      "slideType": "evidence",
+      "purpose": "Narrative, KPI/progress, and supporting image.",
+      "slots": [
+        {
+          "id": "data-copy-slot",
+          "role": "body",
+          "bbox": {
+            "x": 50,
+            "y": 150,
+            "width": 370,
+            "height": 135
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "data-kpi-slot",
+          "role": "stat",
+          "bbox": {
+            "x": 50,
+            "y": 352,
+            "width": 200,
+            "height": 120
+          },
+          "required": true,
+          "accepts": [
+            "text",
+            "chart"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "data-image-slot",
+          "role": "supporting-image",
+          "bbox": {
+            "x": 760,
+            "y": 135,
+            "width": 370,
+            "height": 430
+          },
+          "required": true,
+          "accepts": [
+            "image",
+            "shape"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.8,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "section-divider",
+      "name": "Dark Section Divider",
+      "slideType": "section",
+      "purpose": "Dark navy section break with section number, title, subtitle, and wave.",
+      "slots": [
+        {
+          "id": "section-number-slot",
+          "role": "section-number",
+          "bbox": {
+            "x": 70,
+            "y": 190,
+            "width": 210,
+            "height": 68
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "section-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 70,
+            "y": 270,
+            "width": 430,
+            "height": 95
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "section-wave-slot",
+          "role": "decorative-wave",
+          "bbox": {
+            "x": 560,
+            "y": 155,
+            "width": 700,
+            "height": 500
+          },
+          "required": false,
+          "accepts": [
+            "shape"
+          ],
+          "confidence": 0.72,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.86,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "closing",
+      "name": "Centered Closing",
+      "slideType": "closing",
+      "purpose": "Centered icon, thank-you headline, question prompt.",
+      "slots": [
+        {
+          "id": "closing-icon-slot",
+          "role": "icon",
+          "bbox": {
+            "x": 600,
+            "y": 210,
+            "width": 80,
+            "height": 80
+          },
+          "required": false,
+          "accepts": [
+            "shape"
+          ],
+          "confidence": 0.7,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "closing-title-slot",
+          "role": "title",
+          "bbox": {
+            "x": 450,
+            "y": 315,
+            "width": 380,
+            "height": 45
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        },
+        {
+          "id": "closing-body-slot",
+          "role": "body",
+          "bbox": {
+            "x": 430,
+            "y": 370,
+            "width": 420,
+            "height": 80
+          },
+          "required": true,
+          "accepts": [
+            "text"
+          ],
+          "confidence": 0.82,
+          "provenance": [
+            {
+              "sourceId": "image-1",
+              "format": "png",
+              "path": "prompt://Image #1",
+              "adapter": "manual-vision-extraction"
+            }
+          ]
+        }
+      ],
+      "confidence": 0.78,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "id": "title-cover-fragment",
+      "archetypeId": "title-cover",
+      "description": "Reusable Maliang Deck JSON fragment for Title Cover.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "title-cover-sample",
+        "layout": "title-cover",
+        "background": "#FFFFFF",
+        "elements": [
+          {
+            "type": "text",
+            "id": "cover-title-slot",
+            "x": 56,
+            "y": 76,
+            "width": 520,
+            "height": 140,
+            "fontSize": 40,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{title}}"
+          },
+          {
+            "type": "text",
+            "id": "cover-subtitle-slot",
+            "x": 58,
+            "y": 206,
+            "width": 520,
+            "height": 52,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{subtitle}}"
+          }
+        ]
+      },
+      "confidence": 0.8,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "system-reference-fragment",
+      "archetypeId": "system-reference",
+      "description": "Reusable Maliang Deck JSON fragment for System Reference.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "system-reference-sample",
+        "layout": "system-reference",
+        "background": "#FFFFFF",
+        "elements": [
+          {
+            "type": "text",
+            "id": "reference-header-slot",
+            "x": 30,
+            "y": 25,
+            "width": 860,
+            "height": 40,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{header}}"
+          },
+          {
+            "type": "text",
+            "id": "reference-content-slot",
+            "x": 50,
+            "y": 90,
+            "width": 1120,
+            "height": 520,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{content-grid}}"
+          }
+        ]
+      },
+      "confidence": 0.78,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "one-column-content-fragment",
+      "archetypeId": "one-column-content",
+      "description": "Reusable Maliang Deck JSON fragment for One Column Content.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "one-column-content-sample",
+        "layout": "one-column-content",
+        "background": "#FFFFFF",
+        "elements": [
+          {
+            "type": "text",
+            "id": "one-title-slot",
+            "x": 110,
+            "y": 155,
+            "width": 520,
+            "height": 42,
+            "fontSize": 40,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{title}}"
+          },
+          {
+            "type": "text",
+            "id": "one-body-slot",
+            "x": 110,
+            "y": 242,
+            "width": 600,
+            "height": 130,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{body}}"
+          },
+          {
+            "type": "text",
+            "id": "one-bullet-slot",
+            "x": 115,
+            "y": 395,
+            "width": 450,
+            "height": 130,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{bullets}}"
+          }
+        ]
+      },
+      "confidence": 0.78,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "two-column-content-fragment",
+      "archetypeId": "two-column-content",
+      "description": "Reusable Maliang Deck JSON fragment for Two Column Content.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "two-column-content-sample",
+        "layout": "two-column-content",
+        "background": "#FFFFFF",
+        "elements": [
+          {
+            "type": "text",
+            "id": "two-title-slot",
+            "x": 60,
+            "y": 150,
+            "width": 520,
+            "height": 42,
+            "fontSize": 40,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{title}}"
+          },
+          {
+            "type": "text",
+            "id": "two-copy-slot",
+            "x": 60,
+            "y": 235,
+            "width": 420,
+            "height": 120,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{body}}"
+          }
+        ]
+      },
+      "confidence": 0.76,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "multi-column-content-fragment",
+      "archetypeId": "multi-column-content",
+      "description": "Reusable Maliang Deck JSON fragment for Three Column Cards.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "multi-column-content-sample",
+        "layout": "multi-column-content",
+        "background": "#FFFFFF",
+        "elements": [
+          {
+            "type": "text",
+            "id": "multi-title-slot",
+            "x": 60,
+            "y": 150,
+            "width": 520,
+            "height": 42,
+            "fontSize": 40,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{title}}"
+          },
+          {
+            "type": "text",
+            "id": "multi-column-slot",
+            "x": 105,
+            "y": 250,
+            "width": 965,
+            "height": 250,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{columns}}"
+          }
+        ]
+      },
+      "confidence": 0.76,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "large-media-fragment",
+      "archetypeId": "large-media",
+      "description": "Reusable Maliang Deck JSON fragment for Large Media.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "large-media-sample",
+        "layout": "large-media",
+        "background": "#FFFFFF",
+        "elements": [
+          {
+            "type": "text",
+            "id": "large-caption-slot",
+            "x": 60,
+            "y": 492,
+            "width": 520,
+            "height": 55,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{caption}}"
+          }
+        ]
+      },
+      "confidence": 0.74,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "gallery-fragment",
+      "archetypeId": "gallery",
+      "description": "Reusable Maliang Deck JSON fragment for Image Gallery.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "gallery-sample",
+        "layout": "gallery",
+        "background": "#FFFFFF",
+        "elements": []
+      },
+      "confidence": 0.72,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "chart-table-fragment",
+      "archetypeId": "chart-table",
+      "description": "Reusable Maliang Deck JSON fragment for Chart or Table.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "chart-table-sample",
+        "layout": "chart-table",
+        "background": "#FFFFFF",
+        "elements": [
+          {
+            "type": "text",
+            "id": "chart-title-slot",
+            "x": 50,
+            "y": 94,
+            "width": 520,
+            "height": 36,
+            "fontSize": 40,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{title}}"
+          }
+        ]
+      },
+      "confidence": 0.76,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "data-text-image-fragment",
+      "archetypeId": "data-text-image",
+      "description": "Reusable Maliang Deck JSON fragment for Data Text Image.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "data-text-image-sample",
+        "layout": "data-text-image",
+        "background": "#FFFFFF",
+        "elements": [
+          {
+            "type": "text",
+            "id": "data-copy-slot",
+            "x": 50,
+            "y": 150,
+            "width": 370,
+            "height": 135,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{body}}"
+          },
+          {
+            "type": "text",
+            "id": "data-kpi-slot",
+            "x": 50,
+            "y": 352,
+            "width": 200,
+            "height": 120,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{stat}}"
+          }
+        ]
+      },
+      "confidence": 0.74,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "section-divider-fragment",
+      "archetypeId": "section-divider",
+      "description": "Reusable Maliang Deck JSON fragment for Dark Section Divider.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "section-divider-sample",
+        "layout": "section-divider",
+        "background": "#131927",
+        "elements": [
+          {
+            "type": "text",
+            "id": "section-number-slot",
+            "x": 70,
+            "y": 190,
+            "width": 210,
+            "height": 68,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#FFFFFF",
+            "content": "{{section-number}}"
+          },
+          {
+            "type": "text",
+            "id": "section-title-slot",
+            "x": 70,
+            "y": 270,
+            "width": 430,
+            "height": 95,
+            "fontSize": 40,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#FFFFFF",
+            "content": "{{title}}"
+          }
+        ]
+      },
+      "confidence": 0.8,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    },
+    {
+      "id": "closing-fragment",
+      "archetypeId": "closing",
+      "description": "Reusable Maliang Deck JSON fragment for Centered Closing.",
+      "variables": {
+        "title": "Slide title text",
+        "body": "Body or evidence copy",
+        "footer": "Company Name"
+      },
+      "slideDsl": {
+        "id": "closing-sample",
+        "layout": "closing",
+        "background": "#FFFFFF",
+        "elements": [
+          {
+            "type": "text",
+            "id": "closing-title-slot",
+            "x": 450,
+            "y": 315,
+            "width": 380,
+            "height": 45,
+            "fontSize": 40,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{title}}"
+          },
+          {
+            "type": "text",
+            "id": "closing-body-slot",
+            "x": 430,
+            "y": 370,
+            "width": 420,
+            "height": 80,
+            "fontSize": 18,
+            "fontFamily": "Inter, sans-serif",
+            "color": "#111827",
+            "content": "{{body}}"
+          }
+        ]
+      },
+      "confidence": 0.72,
+      "provenance": [
+        {
+          "sourceId": "image-1",
+          "format": "png",
+          "path": "prompt://Image #1",
+          "adapter": "manual-vision-extraction"
+        }
+      ]
+    }
+  ],
+  "guidance": {
+    "summary": "Use a clean white canvas, left-aligned Inter typography, blue accent line under titles, subtle gray dividers, and optional abstract blue wave artwork. Keep content modular across one-column, two-column, three-column, media, gallery, table/chart, data, dark section, and centered closing slides.",
+    "outline": [
+      "Build decks around concise sections with one visual purpose per slide.",
+      "Reserve dark navy slides for section dividers or high-emphasis moments.",
+      "Use the extracted system slides as an internal specification when extending the template."
+    ],
+    "deckPlan": [
+      "Start with title-cover.",
+      "Use one-column/two-column/multi-column for narrative content.",
+      "Use chart-table and data-text-image for evidence.",
+      "End with centered closing or summary guidance."
+    ],
+    "slideDsl": [
+      "Canvas is 1280x720.",
+      "Use Inter for all text.",
+      "Titles are left-aligned with a short blue underline.",
+      "Footer convention: company name bottom-left and slide number bottom-right.",
+      "Use primary blue for active/header elements, grays for structure, and accents only for status/category markers."
+    ]
+  },
+  "provenance": [
+    {
+      "sourceId": "image-1",
+      "format": "png",
+      "path": "prompt://Image #1",
+      "adapter": "manual-vision-extraction"
+    }
+  ],
+  "coverage": {
+    "templateId": "presentation-design-system-image-1",
+    "generatedAt": "2026-04-22T13:44:31.272Z",
+    "significantObservationCount": 20,
+    "assignedSlotCount": 27,
+    "metrics": {
+      "tokens": {
+        "covered": 4,
+        "total": 4,
+        "ratio": 1
+      },
+      "archetypes": {
+        "covered": 11,
+        "total": 11,
+        "ratio": 1
+      },
+      "slots": {
+        "covered": 27,
+        "total": 27,
+        "ratio": 1
+      },
+      "fragments": {
+        "covered": 11,
+        "total": 11,
+        "ratio": 1
+      }
+    },
+    "formatConfidence": {
+      "png": 0.78
+    },
+    "warnings": [
+      "Manual extraction from a composite overview image; exact pixel positions/colors are approximate.",
+      "Source image includes small text artifacts; labels were normalized into clean template names."
+    ],
+    "sampleDeck": {
+      "validates": true,
+      "formats": {
+        "html": true,
+        "pdf": false,
+        "pptx": false
+      },
+      "degraded": true,
+      "warnings": [
+        "HTML sample rendered locally. PDF/PPTX smoke export intentionally not included because the deck uses chart/table/path features with mixed exporter support."
+      ]
+    },
+    "slotCoverage": {
+      "assignedSignificantObservations": 20
+    }
+  },
+  "activation": {
+    "status": "draft"
+  },
+  "sampleDeck": {
+    "path": "dsl/deck.json",
+    "warnings": [
+      "Draft template requires human review before approving as a production style."
+    ]
+  },
+  "warnings": [
+    "Approximate visual extraction from Image #1; verify against original design files before production use."
+  ]
+}

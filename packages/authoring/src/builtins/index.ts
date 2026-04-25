@@ -1,4 +1,4 @@
-import type { Element, GroupElement, LayoutElement } from '@vslidev/schema';
+import type { Element, GroupElement, LayoutElement } from '@maliang-deck/schema';
 import { z } from 'zod';
 import { VisualTokenListSchema, visualTokenAnimation, visualTokenRectStyle } from '../effects.js';
 import { createAuthoringRegistry, type AuthoringRegistry } from '../registry.js';

@@ -1,4 +1,4 @@
-import { validateDeck, type Deck, type Element, type Slide, type VslidevDiagnostic } from '@vslidev/schema';
+import { validateDeck, type Deck, type Element, type Slide, type MaliangDeckDiagnostic } from '@maliang-deck/schema';
 import { AuthoringDeckInputSchema } from './schemas.js';
 import { createAuthoringDiagnostic, diagnosticsFromZodError } from './diagnostics.js';
 import { createDeterministicAllocator, createScopedIdFactory, invocationSeed } from './id.js';
@@ -15,7 +15,7 @@ import type {
 } from './types.js';
 
 export function compileAuthoringDeck(input: unknown, options: CompileAuthoringDeckOptions = {}): CompileAuthoringDeckResult {
-  const diagnostics: VslidevDiagnostic[] = [];
+  const diagnostics: MaliangDeckDiagnostic[] = [];
   const sourceMap = createAuthoringSourceMap();
   const parsed = AuthoringDeckInputSchema.safeParse(input);
 
@@ -66,7 +66,7 @@ function expandNodes(
   nodes: AuthoringNode[],
   path: string,
   registry: AuthoringRegistryLike,
-  diagnostics: VslidevDiagnostic[],
+  diagnostics: MaliangDeckDiagnostic[],
   sourceMap: AuthoringSourceMap,
   allocateId: (candidate: string) => string,
 ): Element[] {
@@ -83,7 +83,7 @@ function expandInvocation(
   invocation: ComponentInvocation,
   path: string,
   registry: AuthoringRegistryLike,
-  diagnostics: VslidevDiagnostic[],
+  diagnostics: MaliangDeckDiagnostic[],
   sourceMap: AuthoringSourceMap,
   allocateId: (candidate: string) => string,
 ): Element[] {

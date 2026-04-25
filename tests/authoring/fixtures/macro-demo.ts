@@ -1,4 +1,4 @@
-import type { AuthoringDeckInput } from '@vslidev/authoring';
+import type { AuthoringDeckInput } from '@maliang-deck/authoring';
 
 export const macroDemoDeck: AuthoringDeckInput = {
   meta: { title: 'Authoring macro demo', canvas: { width: 1280, height: 720 } },

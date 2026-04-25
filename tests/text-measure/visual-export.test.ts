@@ -18,7 +18,7 @@ describe('visual export with fontkit', () => {
     expect(new Set(result.warnings.map((warning) => warning.type))).toEqual(new Set(['layout-flattened']));
 
     // Write SVGs to temp dir
-    const tmpDir = join(tmpdir(), `vslidev-test-${Date.now()}`);
+    const tmpDir = join(tmpdir(), `maliang-deck-test-${Date.now()}`);
     mkdirSync(tmpDir, { recursive: true });
     const svgFiles: string[] = [];
     for (const slide of result.slides) {
@@ -28,7 +28,7 @@ describe('visual export with fontkit', () => {
     }
 
     // Export to PDF via Python bridge
-    const bridgeScript = resolve('python/vslidev_export_pdf.py');
+    const bridgeScript = resolve('python/maliang_deck_export_pdf.py');
     const outputPath = join(tmpDir, 'comprehensive-fixture.pdf');
 
     const exportArgs = JSON.stringify({
@@ -42,7 +42,7 @@ describe('visual export with fontkit', () => {
 
     // Check data attrs are present on all slides
     for (const slide of result.slides) {
-      expect(slide.svg).toContain('data-vslidev-id');
+      expect(slide.svg).toContain('data-maliang-deck-id');
       expect(slide.svg).not.toContain('data-anim-enter');
     }
 

@@ -1,4 +1,4 @@
-import type { Deck, Element, Slide, VslidevDiagnostic } from '@vslidev/schema';
+import type { Deck, Element, Slide, MaliangDeckDiagnostic } from '@maliang-deck/schema';
 import type { z } from 'zod';
 
 export type ComponentName = string;
@@ -79,11 +79,11 @@ export type CompileAuthoringDeckResult =
       success: true;
       deck: Deck;
       sourceMap: AuthoringSourceMap;
-      diagnostics: VslidevDiagnostic[];
+      diagnostics: MaliangDeckDiagnostic[];
     }
   | {
       success: false;
       sourceMap: AuthoringSourceMap;
-      diagnostics: VslidevDiagnostic[];
+      diagnostics: MaliangDeckDiagnostic[];
       deck?: Deck;
     };

@@ -1,0 +1,405 @@
+{
+  "meta": {
+    "title": "Maliang Deck Demo",
+    "theme": "minimal-white",
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "slides": [
+    {
+      "id": "slide-cover",
+      "background": "#1a1a2e",
+      "notes": "Welcome slide — introduce the Maliang Deck JSON DSL. Mention that every element on screen is defined as plain JSON and rendered to both HTML (browser) and PPTX (via ppt-master).",
+      "elements": [
+        {
+          "type": "rect",
+          "id": "cover-card-bg",
+          "x": 240,
+          "y": 180,
+          "width": 800,
+          "height": 360,
+          "fill": "#16213e",
+          "stroke": "#0f3460",
+          "strokeWidth": 2,
+          "radius": 16
+        },
+        {
+          "type": "text",
+          "id": "cover-title",
+          "x": 240,
+          "y": 250,
+          "width": 800,
+          "content": "Maliang Deck Demo",
+          "fontSize": 64,
+          "fontFamily": "Inter, sans-serif",
+          "fontWeight": "bold",
+          "color": "#e94560",
+          "align": "center",
+          "verticalAlign": "middle"
+        },
+        {
+          "type": "text",
+          "id": "cover-subtitle",
+          "x": 240,
+          "y": 360,
+          "width": 800,
+          "content": "JSON DSL → HTML + SVG → PPTX",
+          "fontSize": 28,
+          "fontFamily": "Inter, sans-serif",
+          "fontWeight": "normal",
+          "color": "#a8b2d8",
+          "align": "center",
+          "verticalAlign": "middle"
+        }
+      ]
+    },
+    {
+      "id": "slide-shapes",
+      "background": "#ffffff",
+      "notes": "Demonstrate every primitive shape type supported by the DSL: rect with rounded corners, circle, ellipse, line (dashed), and polygon (triangle). Each maps directly to a DrawingML shape in the PPTX output.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "shapes-title",
+          "x": 60,
+          "y": 40,
+          "width": 1160,
+          "content": "All Shape Types",
+          "fontSize": 48,
+          "fontFamily": "Inter, sans-serif",
+          "fontWeight": "bold",
+          "color": "#1a1a2e",
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "id": "shapes-rect",
+          "x": 80,
+          "y": 160,
+          "width": 200,
+          "height": 140,
+          "fill": "#e94560",
+          "stroke": "#c73652",
+          "strokeWidth": 2,
+          "radius": 12
+        },
+        {
+          "type": "text",
+          "id": "shapes-rect-label",
+          "x": 80,
+          "y": 318,
+          "width": 200,
+          "content": "rect",
+          "fontSize": 20,
+          "color": "#555555",
+          "align": "center"
+        },
+        {
+          "type": "circle",
+          "id": "shapes-circle",
+          "x": 430,
+          "y": 230,
+          "width": 140,
+          "height": 140,
+          "radius": 70,
+          "fill": "#0f3460",
+          "stroke": "#1a5276",
+          "strokeWidth": 2
+        },
+        {
+          "type": "text",
+          "id": "shapes-circle-label",
+          "x": 360,
+          "y": 318,
+          "width": 200,
+          "content": "circle",
+          "fontSize": 20,
+          "color": "#555555",
+          "align": "center"
+        },
+        {
+          "type": "ellipse",
+          "id": "shapes-ellipse",
+          "x": 590,
+          "y": 190,
+          "width": 220,
+          "height": 120,
+          "fill": "#16a085",
+          "stroke": "#1abc9c",
+          "strokeWidth": 2
+        },
+        {
+          "type": "text",
+          "id": "shapes-ellipse-label",
+          "x": 590,
+          "y": 318,
+          "width": 220,
+          "content": "ellipse",
+          "fontSize": 20,
+          "color": "#555555",
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "id": "shapes-line",
+          "x": 870,
+          "y": 190,
+          "x2": 1030,
+          "y2": 310,
+          "width": 160,
+          "height": 120,
+          "stroke": "#8e44ad",
+          "strokeWidth": 4,
+          "strokeDasharray": "10 4"
+        },
+        {
+          "type": "text",
+          "id": "shapes-line-label",
+          "x": 870,
+          "y": 318,
+          "width": 200,
+          "content": "line",
+          "fontSize": 20,
+          "color": "#555555",
+          "align": "center"
+        },
+        {
+          "type": "polygon",
+          "id": "shapes-polygon",
+          "x": 80,
+          "y": 420,
+          "width": 200,
+          "height": 160,
+          "points": "100,0 200,160 0,160",
+          "fill": "#e67e22",
+          "stroke": "#d35400",
+          "strokeWidth": 2
+        },
+        {
+          "type": "text",
+          "id": "shapes-polygon-label",
+          "x": 80,
+          "y": 600,
+          "width": 200,
+          "content": "polygon (triangle)",
+          "fontSize": 20,
+          "color": "#555555",
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "slide-complex",
+      "background": "#f5f5f5",
+      "elements": [
+        {
+          "type": "text",
+          "id": "complex-title",
+          "x": 60,
+          "y": 40,
+          "width": 1160,
+          "content": "Complex Elements",
+          "fontSize": 48,
+          "fontFamily": "Inter, sans-serif",
+          "fontWeight": "bold",
+          "color": "#1a1a2e",
+          "align": "center"
+        },
+        {
+          "type": "path",
+          "id": "complex-path",
+          "x": 80,
+          "y": 150,
+          "width": 300,
+          "height": 200,
+          "d": "M 0 100 C 0 0 120 0 120 80 C 120 160 240 160 260 60 L 240 60 L 280 90 L 240 120 L 240 100",
+          "fill": "none",
+          "stroke": "#e94560",
+          "strokeWidth": 3
+        },
+        {
+          "type": "text",
+          "id": "complex-path-label",
+          "x": 80,
+          "y": 370,
+          "width": 300,
+          "content": "path (curved arrow)",
+          "fontSize": 20,
+          "color": "#555555",
+          "align": "center"
+        },
+        {
+          "type": "image",
+          "id": "complex-image",
+          "x": 460,
+          "y": 150,
+          "width": 300,
+          "height": 200,
+          "src": "./assets/placeholder.png",
+          "fit": "contain"
+        },
+        {
+          "type": "text",
+          "id": "complex-image-label",
+          "x": 460,
+          "y": 370,
+          "width": 300,
+          "content": "image (placeholder)",
+          "fontSize": 20,
+          "color": "#555555",
+          "align": "center"
+        },
+        {
+          "type": "group",
+          "id": "complex-card-group",
+          "x": 840,
+          "y": 150,
+          "width": 360,
+          "height": 200,
+          "elements": [
+            {
+              "type": "rect",
+              "id": "complex-card-bg",
+              "x": 0,
+              "y": 0,
+              "width": 360,
+              "height": 200,
+              "fill": "#ffffff",
+              "stroke": "#dde1e7",
+              "strokeWidth": 1,
+              "radius": 10
+            },
+            {
+              "type": "text",
+              "id": "complex-card-heading",
+              "x": 20,
+              "y": 35,
+              "width": 320,
+              "content": "Card Component",
+              "fontSize": 24,
+              "fontWeight": "bold",
+              "color": "#1a1a2e",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "id": "complex-card-body",
+              "x": 20,
+              "y": 80,
+              "width": 320,
+              "content": "A rect + text\ngrouped together",
+              "fontSize": 18,
+              "color": "#666666",
+              "align": "center",
+              "lineHeight": 1.5
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "complex-group-label",
+          "x": 840,
+          "y": 370,
+          "width": 360,
+          "content": "group (card component)",
+          "fontSize": 20,
+          "color": "#555555",
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "slide-layout",
+      "background": "#ffffff",
+      "elements": [
+        {
+          "type": "text",
+          "id": "layout-title",
+          "x": 60,
+          "y": 40,
+          "width": 1160,
+          "content": "Layout Example",
+          "fontSize": 48,
+          "fontFamily": "Inter, sans-serif",
+          "fontWeight": "bold",
+          "color": "#1a1a2e",
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "id": "layout-col-left",
+          "x": 80,
+          "y": 140,
+          "width": 520,
+          "height": 500,
+          "fill": "#f0f4ff",
+          "stroke": "#c5d0e6",
+          "strokeWidth": 1,
+          "radius": 8
+        },
+        {
+          "type": "text",
+          "id": "layout-col-left-heading",
+          "x": 100,
+          "y": 170,
+          "width": 480,
+          "content": "Column One",
+          "fontSize": 32,
+          "fontWeight": "bold",
+          "color": "#0f3460",
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "id": "layout-col-left-body",
+          "x": 100,
+          "y": 230,
+          "width": 480,
+          "content": "This column demonstrates\na rect container with text\nnested inside for layout.",
+          "fontSize": 22,
+          "color": "#333333",
+          "align": "center",
+          "lineHeight": 1.6
+        },
+        {
+          "type": "rect",
+          "id": "layout-col-right",
+          "x": 680,
+          "y": 140,
+          "width": 520,
+          "height": 500,
+          "fill": "#fff4f0",
+          "stroke": "#e6c5c5",
+          "strokeWidth": 1,
+          "radius": 8
+        },
+        {
+          "type": "text",
+          "id": "layout-col-right-heading",
+          "x": 700,
+          "y": 170,
+          "width": 480,
+          "content": "Column Two",
+          "fontSize": 32,
+          "fontWeight": "bold",
+          "color": "#c0392b",
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "id": "layout-col-right-body",
+          "x": 700,
+          "y": 230,
+          "width": 480,
+          "content": "Two-column layouts are\nexpressed by positioning\nrect + text side by side.",
+          "fontSize": 22,
+          "color": "#333333",
+          "align": "center",
+          "lineHeight": 1.6
+        }
+      ]
+    }
+  ]
+}

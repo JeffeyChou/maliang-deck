@@ -1,4 +1,4 @@
-import { DeckMetaSchema, ElementSchema } from '@vslidev/schema';
+import { DeckMetaSchema, ElementSchema } from '@maliang-deck/schema';
 import { z } from 'zod';
 import { VisualTokenSchema, VisualTokenListSchema } from './effects.js';
 import type { AuthoringDeckInput, AuthoringNode, AuthoringSlideInput, ComponentInvocation } from './types.js';
