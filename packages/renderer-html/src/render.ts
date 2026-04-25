@@ -134,6 +134,9 @@ export function renderDeckToHtml(deck: Deck): string {
     .progress-bar span { display: block; height: 100%; background: var(--ui-bar-fill, #58a6ff); transition: width .3s ease; box-shadow: 0 0 8px var(--ui-bar-fill, #58a6ff); }
     .slide-number { position: fixed; bottom: 14px; right: 20px; font-size: clamp(14px, 2vw, 24px); font-family: 'SF Mono','JetBrains Mono',monospace; color: var(--ui-text, rgba(255,255,255,.65)); z-index: 1000; pointer-events: none; letter-spacing: .05em; text-shadow: var(--ui-shadow, 0 1px 4px rgba(0,0,0,.5)); }
     .slide-number::after { content: attr(data-current) ' / ' attr(data-total); }
+    .step-indicator { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 1000; pointer-events: none; opacity: 0; transition: opacity .3s ease; }
+    .step-indicator.is-visible { opacity: 1; }
+    .step-indicator svg { width: 28px; height: 28px; filter: drop-shadow(0 1px 3px rgba(0,0,0,.4)); }
   </style>
 </head>
 <body data-theme-base="/assets/themes/">
@@ -142,6 +145,7 @@ ${runtimeConfigScript(meta.htmlRuntime)}  <noscript><style>.slide:first-child { 
 ${slidesHtml}
   </div>
   <div class="slide-number" data-current="1" data-total="${slides.length}"></div>
+  <div class="step-indicator" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" fill="none" stroke="var(--ui-text, rgba(255,255,255,.65))" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
   <script src="/runtime/runtime.js"></script>
   <script src="/runtime/fx-runtime.js"></script>
   <script src="/runtime/timeline.js"></script>

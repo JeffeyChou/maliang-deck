@@ -6,6 +6,7 @@ export function renderText(el: TextElement): string {
   const color = el.color ?? '#000000';
   const fontWeight = el.fontWeight ?? 'normal';
   const fontStyle = el.fontStyle ?? 'normal';
+  const textDecoration = el.textDecoration ?? 'none';
   const textAlign = el.align ?? 'left';
   const lineHeight = el.lineHeight ?? 1.2;
 
@@ -18,6 +19,7 @@ export function renderText(el: TextElement): string {
     `font-family: ${fontFamily}`,
     `font-weight: ${fontWeight}`,
     `font-style: ${fontStyle}`,
+    textDecoration !== 'none' ? `text-decoration: ${textDecoration}` : '',
     `color: ${color}`,
     `text-align: ${textAlign}`,
     `line-height: ${lineHeight}`,
@@ -46,6 +48,6 @@ export function renderText(el: TextElement): string {
     parts.push(`opacity: ${el.opacity}`);
   }
 
-  const style = parts.join('; ');
+  const style = parts.filter(Boolean).join('; ');
   return `<div style="${style}">${escapeHtml(el.content)}</div>`;
 }

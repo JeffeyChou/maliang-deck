@@ -108,7 +108,7 @@
         var el = m.target;
         if (!el.classList.contains('slide')) return;
         if (el.classList.contains('is-active') && el !== activeSlide) {
-          activateSlide(el);
+          activateSlide(el, !!window.__vsliTimelineBackward);
         }
       });
     });
@@ -125,7 +125,7 @@
   }
 
   // ─── SLIDE ACTIVATION ───────────────────────────────────────────────────────
-  function activateSlide(slide) {
+  function activateSlide(slide, skipAnimation) {
     // Cancel any running animations
     cancelAllAnimations();
     activeSlide = slide;
@@ -141,9 +141,23 @@
       });
     });
 
-    // Play step 0 (auto-play elements)
+    // Show step 0 elements
     data.currentStep = 0;
-    playStep(slide, 0);
+    if (skipAnimation) {
+      // Instantly show step-0 elements without animation (backward navigation)
+      var step0 = data.steps.get(0);
+      if (step0) {
+        step0.forEach(function (el) {
+          var finalOpacity = parseFloat(el.getAttribute('data-anim-final-opacity') || '1');
+          el.style.visibility = 'visible';
+          el.style.opacity = String(finalOpacity);
+          el.style.transform = '';
+          el.style.filter = '';
+        });
+      }
+    } else {
+      playStep(slide, 0);
+    }
     broadcastStep(0, data.totalSteps);
     notifyCallbacks(0, data.totalSteps);
   }

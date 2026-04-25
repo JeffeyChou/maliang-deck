@@ -1,4 +1,4 @@
-import type { Deck, Element, RectElement, Slide, TextElement } from './types.js';
+import type { Deck, Element, ImageElement, RectElement, Slide, TextElement } from './types.js';
 import { validateDeck, type ValidationError } from './schema.js';
 
 export type EditorSaveRequest = {
@@ -35,6 +35,7 @@ export type EditorElementChanges = {
   fontFamily?: string;
   fontWeight?: 'normal' | 'bold';
   fontStyle?: 'normal' | 'italic';
+  textDecoration?: 'none' | 'underline';
   fill?: string;
   stroke?: string;
   strokeWidth?: number;
@@ -84,11 +85,13 @@ const TEXT_FIELDS = new Set<keyof EditorElementChanges>([
   'fontFamily',
   'fontWeight',
   'fontStyle',
+  'textDecoration',
 ]);
+const IMAGE_FIELDS = new Set<keyof EditorElementChanges>(['x', 'y', 'width', 'height']);
 const RECT_FIELDS = new Set<keyof EditorElementChanges>(['x', 'y', 'width', 'height', 'fill', 'stroke', 'strokeWidth', 'radius']);
 const POSITIVE_NUMBER_FIELDS = new Set<keyof EditorElementChanges>(['width', 'height', 'fontSize', 'strokeWidth']);
 const FINITE_NUMBER_FIELDS = new Set<keyof EditorElementChanges>(['x', 'y', 'width', 'height', 'fontSize', 'strokeWidth', 'radius']);
-const STRING_FIELDS = new Set<keyof EditorElementChanges>(['content', 'fontFamily', 'fontWeight', 'fontStyle', 'fill', 'stroke']);
+const STRING_FIELDS = new Set<keyof EditorElementChanges>(['content', 'fontFamily', 'fontWeight', 'fontStyle', 'textDecoration', 'fill', 'stroke']);
 const CHANGE_FIELDS = new Set<keyof EditorElementChanges>([
   'x',
   'y',
@@ -99,6 +102,7 @@ const CHANGE_FIELDS = new Set<keyof EditorElementChanges>([
   'fontFamily',
   'fontWeight',
   'fontStyle',
+  'textDecoration',
   'fill',
   'stroke',
   'strokeWidth',
@@ -229,6 +233,9 @@ function normalizeChanges(raw: Record<string, unknown>, opIndex: number): Editor
       if (field === 'fontStyle' && value !== 'normal' && value !== 'italic') {
         throw new EditorPatchError('invalid-value', 'fontStyle must be "normal" or "italic"', ['ops', opIndex, 'changes', field]);
       }
+      if (field === 'textDecoration' && value !== 'none' && value !== 'underline') {
+        throw new EditorPatchError('invalid-value', 'textDecoration must be "none" or "underline"', ['ops', opIndex, 'changes', field]);
+      }
       (normalized as Record<string, unknown>)[field] = value;
       continue;
     }
@@ -266,17 +273,17 @@ function applyDeleteSlide(deck: Deck, op: DeleteSlideOperation, opIndex: number)
   return true;
 }
 
-function assertEditableElement(element: Element, opIndex: number): asserts element is TextElement | RectElement {
+function assertEditableElement(element: Element, opIndex: number): asserts element is TextElement | RectElement | ImageElement {
   if (element.rotation !== undefined && element.rotation !== 0) {
     throw new EditorPatchError('unsupported-rotated-element', 'Rotated elements are read-only in the editor MVP', ['ops', opIndex, 'elementId']);
   }
-  if (element.type !== 'text' && element.type !== 'rect') {
+  if (element.type !== 'text' && element.type !== 'rect' && element.type !== 'image') {
     throw new EditorPatchError('unsupported-element', `Element type "${element.type}" is read-only in the editor MVP`, ['ops', opIndex, 'elementId']);
   }
 }
 
-function assertAllowedFields(element: TextElement | RectElement, changes: EditorElementChanges, opIndex: number): void {
-  const allowed = element.type === 'text' ? TEXT_FIELDS : RECT_FIELDS;
+function assertAllowedFields(element: TextElement | RectElement | ImageElement, changes: EditorElementChanges, opIndex: number): void {
+  const allowed = element.type === 'text' ? TEXT_FIELDS : element.type === 'image' ? IMAGE_FIELDS : RECT_FIELDS;
   for (const key of Object.keys(changes) as Array<keyof EditorElementChanges>) {
     if (!allowed.has(key)) {
       throw new EditorPatchError('unsupported-field', `Field "${key}" is not editable on ${element.type} elements`, ['ops', opIndex, 'changes', key]);
@@ -291,7 +298,7 @@ function applyUpdateElement(deck: Deck, op: UpdateElementOperation, opIndex: num
   assertAllowedFields(element, op.changes, opIndex);
 
   let changed = false;
-  const mutableElement = slide.elements[elementIndex] as TextElement | RectElement;
+  const mutableElement = slide.elements[elementIndex] as TextElement | RectElement | ImageElement;
   for (const [key, value] of Object.entries(op.changes)) {
     const mutableRecord = mutableElement as unknown as Record<string, unknown>;
     if (mutableRecord[key] !== value) {
@@ -332,4 +339,4 @@ export function isEditorPatchError(error: unknown): error is EditorPatchError {
 }
 
 export const EDITOR_SUPPORTED_OPS = ['reorderSlides', 'deleteSlide', 'updateElement'] as const;
-export const EDITOR_SUPPORTED_ELEMENT_TYPES = ['text', 'rect'] as const;
+export const EDITOR_SUPPORTED_ELEMENT_TYPES = ['text', 'rect', 'image'] as const;

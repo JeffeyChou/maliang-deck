@@ -43,6 +43,10 @@ export interface DeckMeta {
 
 export interface HtmlRuntimeConfig {
   transition?: HtmlRuntimeTransitionConfig;
+  /** Show progress bar at the bottom. Default: true. */
+  showProgressBar?: boolean;
+  /** Show slide number indicator. Default: true. */
+  showSlideNumber?: boolean;
 }
 
 export type HtmlRuntimeTransitionType = 'none' | 'fade' | 'slide';
@@ -161,6 +165,7 @@ export interface TextElement extends BaseElement {
   fontFamily?: string;
   fontWeight?: 'normal' | 'bold';
   fontStyle?: 'normal' | 'italic';
+  textDecoration?: 'none' | 'underline';
   color?: string;
   align?: 'left' | 'center' | 'right';
   verticalAlign?: 'top' | 'middle' | 'bottom';

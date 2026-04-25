@@ -112,6 +112,8 @@
     const total = slides.length;
     const runtimeConfig = readRuntimeConfig();
     const slideTransition = normalizeSlideTransition(runtimeConfig.transition);
+    const showProgressBar = runtimeConfig.showProgressBar !== false;
+    const showSlideNumber = runtimeConfig.showSlideNumber !== false;
     const reducedMotionQuery = window.matchMedia
       ? window.matchMedia('(prefers-reduced-motion: reduce)')
       : null;
@@ -169,6 +171,12 @@
           if (m) { r = +m[1]; g = +m[2]; b = +m[3]; }
         }
       }
+      // Fallback: read computed style when inline background is not set
+      if (!m) {
+        var computedBg = getComputedStyle(slideEl).backgroundColor || '';
+        m = computedBg.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+        if (m) { r = +m[1]; g = +m[2]; b = +m[3]; }
+      }
       // Relative luminance (sRGB)
       var lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
       var root = document.documentElement;
@@ -215,7 +223,12 @@
       bar.innerHTML = '<span></span>';
       document.body.appendChild(bar);
     }
+    if (!showProgressBar) bar.style.display = 'none';
     const barFill = bar.querySelector('span');
+
+    /* ===== slide number visibility ===== */
+    var slideNumEl = document.querySelector('.slide-number');
+    if (slideNumEl && !showSlideNumber) slideNumEl.style.display = 'none';
 
     /* ===== notes overlay (N key) ===== */
     let notes = document.querySelector('.notes-overlay');
@@ -441,11 +454,17 @@
       var direction = n >= previousIdx ? 'forward' : 'backward';
       idx = n;
 
-      function afterSlideCommit() {
+      // Update progress bar and slide number immediately (before transition)
       barFill.style.width = ((n+1)/total*100)+'%';
-      updateUIContrast(slides[n]);
-      const numEl = document.querySelector('.slide-number');
+      var numEl = document.querySelector('.slide-number');
       if (numEl) { numEl.setAttribute('data-current', n+1); numEl.setAttribute('data-total', total); }
+
+      // Signal backward direction to timeline for skip-animation on activation
+      window.__vsliTimelineBackward = (direction === 'backward');
+
+      function afterSlideCommit() {
+      window.__vsliTimelineBackward = false;
+      updateUIContrast(slides[n]);
 
       // notes (bottom overlay)
       const note = slides[n].querySelector('.notes, aside.notes, .speaker-notes');
@@ -1560,6 +1579,7 @@
       textToolbar.innerHTML = [
         '<button type="button" data-role="bold" aria-pressed="false">B</button>',
         '<button type="button" data-role="italic" aria-pressed="false"><i>I</i></button>',
+        '<button type="button" data-role="underline" aria-pressed="false"><u>U</u></button>',
         '<select data-role="font-family" aria-label="Font family">',
         '  <option value="sans-serif">Sans</option>',
         '  <option value="serif">Serif</option>',
@@ -1572,6 +1592,7 @@
       editorState.textToolbar = textToolbar;
       textToolbar.querySelector('[data-role="bold"]').addEventListener('click', function(){ toggleEditorTextStyle('fontWeight', 'bold', 'normal'); });
       textToolbar.querySelector('[data-role="italic"]').addEventListener('click', function(){ toggleEditorTextStyle('fontStyle', 'italic', 'normal'); });
+      textToolbar.querySelector('[data-role="underline"]').addEventListener('click', function(){ toggleEditorTextStyle('textDecoration', 'underline', 'none'); });
       textToolbar.querySelector('[data-role="font-family"]').addEventListener('change', function(e){ applyEditorFontFamily(e.target.value); });
       textToolbar.querySelector('[data-role="font-size"]').addEventListener('change', function(e){ applyEditorFontSize(e.target.value); });
 
@@ -1743,11 +1764,13 @@
         const family = textbar.querySelector('[data-role="font-family"]');
         const bold = textbar.querySelector('[data-role="bold"]');
         const italic = textbar.querySelector('[data-role="italic"]');
+        const underline = textbar.querySelector('[data-role="underline"]');
         const computed = getComputedStyle(el);
         if (font) font.value = String(Math.round(numberFromStyle(el, 'fontSize', 16)));
         if (family) family.value = family.querySelector('option[value="' + cssEscapeSimple(el.style.fontFamily || computed.fontFamily) + '"]') ? (el.style.fontFamily || computed.fontFamily) : 'sans-serif';
         if (bold) bold.setAttribute('aria-pressed', String((computed.fontWeight === '700' || computed.fontWeight === 'bold') || el.style.fontWeight === 'bold'));
         if (italic) italic.setAttribute('aria-pressed', String(computed.fontStyle === 'italic' || el.style.fontStyle === 'italic'));
+        if (underline) underline.setAttribute('aria-pressed', String(computed.textDecorationLine === 'underline' || el.style.textDecoration === 'underline'));
       } else if (type === 'rect') {
         const fill = editorState.toolbar.querySelector('[data-role="fill"]');
         const stroke = editorState.toolbar.querySelector('[data-role="stroke"]');
@@ -2098,6 +2121,8 @@
       const computed = getComputedStyle(el);
       const current = key === 'fontWeight'
         ? ((computed.fontWeight === '700' || computed.fontWeight === 'bold') ? 'bold' : 'normal')
+        : key === 'textDecoration'
+        ? (computed.textDecorationLine === 'underline' ? 'underline' : 'none')
         : (computed.fontStyle === 'italic' ? 'italic' : 'normal');
       const next = current === onValue ? offValue : onValue;
       pushEditorUndo(el);
@@ -2199,6 +2224,14 @@
     }
 
     initEditorLane();
+
+    /* ===== step indicator (down arrow when more animation steps remain) ===== */
+    var stepIndicator = document.querySelector('.step-indicator');
+    if (window.__vsliTimeline && stepIndicator) {
+      window.__vsliTimeline.onStepChange(function(step, total) {
+        stepIndicator.classList.toggle('is-visible', total > 0 && step < total);
+      });
+    }
 
     /* ========== PRESENTER MODE — Magnetic-card popup window ========== */
     /* Opens a new window with 4 draggable, resizable cards:

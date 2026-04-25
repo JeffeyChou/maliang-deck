@@ -50,6 +50,10 @@ function editorMetadataAttrs(
     return [typeAttr, 'data-maliang-deck-editable="geometry rect-style"'];
   }
 
+  if (isTopLevel && el.type === 'image') {
+    return [typeAttr, 'data-maliang-deck-editable="geometry"'];
+  }
+
   const readOnlyReason = !isTopLevel
     ? 'nested-element'
     : el.type === 'group' || el.type === 'layout'

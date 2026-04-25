@@ -23,6 +23,8 @@ export const HtmlRuntimeTransitionSchema = z.object({
 
 export const HtmlRuntimeConfigSchema = z.object({
   transition: HtmlRuntimeTransitionSchema.optional(),
+  showProgressBar: z.boolean().optional(),
+  showSlideNumber: z.boolean().optional(),
 });
 
 export const DeckMetaSchema = z.object({
@@ -130,6 +132,7 @@ export const TextElementSchema = BaseElementSchema.extend({
   fontFamily: z.string().optional(),
   fontWeight: z.enum(['normal', 'bold']).optional(),
   fontStyle: z.enum(['normal', 'italic']).optional(),
+  textDecoration: z.enum(['none', 'underline']).optional(),
   color: z.string().optional(),
   align: z.enum(['left', 'center', 'right']).optional(),
   verticalAlign: z.enum(['top', 'middle', 'bottom']).optional(),
