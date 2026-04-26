@@ -15,7 +15,8 @@ function baseDeck(): Deck {
         elements: [
           { type: 'text', id: 'title', x: 10, y: 20, width: 300, height: 80, fontSize: 32, content: 'Hello' },
           { type: 'rect', id: 'box', x: 100, y: 120, width: 200, height: 100, fill: '#fff', stroke: '#000', strokeWidth: 2, radius: 4 },
-          { type: 'circle', id: 'circle', x: 1, y: 2, radius: 10 },
+          { type: 'circle', id: 'circle', x: 1, y: 2, radius: 10 } as any,
+          { type: 'line', id: 'line1', x: 50, y: 50, x2: 200, y2: 150, stroke: '#000', strokeWidth: 2 } as any,
           { type: 'group', id: 'group', x: 0, y: 0, elements: [{ type: 'text', id: 'nested', x: 0, y: 0, width: 10, fontSize: 10, content: 'n' }] },
         ],
       },
@@ -80,8 +81,33 @@ describe('editor patch contract', () => {
     expectPatchError(() => normalizeEditorSaveRequest({ baseRevision: 'abc', ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'title', changes: { fontWeight: 'heavy' } }] }), 'invalid-value');
   });
 
+  it('applies textDecoration on text elements', () => {
+    const result = applyEditorPatch(baseDeck(), {
+      ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'title', changes: { textDecoration: 'underline' } }],
+    });
+    expect(result.deck.slides[0].elements[0]).toMatchObject({ textDecoration: 'underline' });
+  });
+
+  it('applies circle element updates', () => {
+    const result = applyEditorPatch(baseDeck(), {
+      ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'circle', changes: { x: 50, y: 60, radius: 25, fill: '#f00', stroke: '#0f0', strokeWidth: 3 } }],
+    });
+    expect(result.deck.slides[0].elements[2]).toMatchObject({ x: 50, y: 60, radius: 25, fill: '#f00', stroke: '#0f0', strokeWidth: 3 });
+  });
+
+  it('applies line element updates', () => {
+    const result = applyEditorPatch(baseDeck(), {
+      ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'line1', changes: { x: 60, y: 70, x2: 210, y2: 160, stroke: '#f00', strokeWidth: 4 } }],
+    });
+    expect(result.deck.slides[0].elements[3]).toMatchObject({ x: 60, y: 70, x2: 210, y2: 160, stroke: '#f00', strokeWidth: 4 });
+  });
+
+  it('rejects unsupported fields on circle and line elements', () => {
+    expectPatchError(() => applyEditorPatch(baseDeck(), { ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'circle', changes: { content: 'nope' } }] }), 'unsupported-field');
+    expectPatchError(() => applyEditorPatch(baseDeck(), { ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'line1', changes: { fontSize: 12 } }] }), 'unsupported-field');
+  });
+
   it('rejects unsupported, nested, rotated, and duplicate top-level targets', () => {
-    expectPatchError(() => applyEditorPatch(baseDeck(), { ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'circle', changes: { x: 10 } }] }), 'unsupported-element');
     expectPatchError(() => applyEditorPatch(baseDeck(), { ops: [{ op: 'updateElement', slideId: 'slide-a', elementId: 'nested', changes: { x: 10 } }] }), 'element-not-found');
 
     const rotated = baseDeck();

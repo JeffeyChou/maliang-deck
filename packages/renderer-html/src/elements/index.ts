@@ -62,6 +62,14 @@ function editorMetadataAttrs(
     return [typeAttr, 'data-maliang-deck-editable="geometry"'];
   }
 
+  if (isTopLevel && el.type === 'circle') {
+    return [typeAttr, 'data-maliang-deck-editable="geometry circle-style"'];
+  }
+
+  if (isTopLevel && el.type === 'line') {
+    return [typeAttr, 'data-maliang-deck-editable="geometry line-style"'];
+  }
+
   const readOnlyReason = !isTopLevel
     ? 'nested-element'
     : el.type === 'group' || el.type === 'layout'

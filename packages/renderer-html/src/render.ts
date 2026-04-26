@@ -138,9 +138,9 @@ export function renderDeckToHtml(deck: Deck): string {
     .slide [data-maliang-deck-auto-animate-id] { transform-origin: center center; }
     .slide > * { position: absolute; }
     aside.notes { display: none; }
-    .progress-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 6px; background: var(--ui-bar-bg, rgba(255,255,255,.15)); z-index: 1000; }
-    .progress-bar span { display: block; height: 100%; background: var(--ui-bar-fill, #58a6ff); transition: width .3s ease; box-shadow: 0 0 8px var(--ui-bar-fill, #58a6ff); }
-    .slide-number { position: fixed; bottom: 14px; right: 20px; font-size: clamp(14px, 2vw, 24px); font-family: 'SF Mono','JetBrains Mono',monospace; color: var(--ui-text, rgba(255,255,255,.65)); z-index: 1000; pointer-events: none; letter-spacing: .05em; text-shadow: var(--ui-shadow, 0 1px 4px rgba(0,0,0,.5)); }
+    .progress-bar { position: fixed; top: 0; right: 0; bottom: 0; width: 6px; background: var(--ui-bar-bg, rgba(255,255,255,.15)); z-index: 1000; }
+    .progress-bar span { display: block; width: 100%; background: var(--ui-bar-fill, #58a6ff); transition: height .3s ease; box-shadow: 0 0 8px var(--ui-bar-fill, #58a6ff); }
+    .slide-number { position: fixed; bottom: 14px; right: 28px; font-size: clamp(14px, 2vw, 24px); font-family: 'SF Mono','JetBrains Mono',monospace; color: var(--ui-text, rgba(255,255,255,.65)); z-index: 1000; pointer-events: none; letter-spacing: .05em; text-shadow: var(--ui-shadow, 0 1px 4px rgba(0,0,0,.5)); }
     .slide-number::after { content: attr(data-current) ' / ' attr(data-total); }
     .step-indicator { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 1000; pointer-events: none; opacity: 0; transition: opacity .3s ease; }
     .step-indicator.is-visible { opacity: 1; }
@@ -153,7 +153,7 @@ ${runtimeConfigScript(meta.htmlRuntime)}  <noscript><style>.slide:first-child { 
 ${slidesHtml}
   </div>
   <div class="slide-number" data-current="1" data-total="${slides.length}"></div>
-  <div class="step-indicator" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" fill="none" stroke="var(--ui-text, rgba(255,255,255,.65))" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="step-indicator" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 7l5 5-5 5" fill="none" stroke="var(--ui-text, rgba(255,255,255,.65))" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
   <script src="/runtime/runtime.js"></script>
   <script src="/assets/fx/fx-runtime.js"></script>
   <script src="/assets/animations/timeline.js"></script>

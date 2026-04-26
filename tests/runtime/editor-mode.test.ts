@@ -33,7 +33,7 @@ describe('HTML slide editor runtime lane', () => {
     expect(runtimeSource).toContain("tokens.indexOf('rect-style') >= 0");
     expect(runtimeSource).toContain('window.__maliangDeckEditorActive = editorIsActive');
     expect(runtimeSource).toContain("if (window.__maliangDeckEditorActive && window.__maliangDeckEditorActive())");
-    expect(runtimeSource).toContain("case 'ArrowRight': case 'PageDown': go(idx+1, false, { skipTimeline: true })");
+    expect(runtimeSource).toContain("case 'ArrowDown': case 'PageDown': go(idx+1, false, { skipTimeline: true })");
   });
 
   it('converts viewport movement/resizing through CSS slide scale before creating constrained ops', () => {
@@ -41,12 +41,12 @@ describe('HTML slide editor runtime lane', () => {
     expect(runtimeSource).toContain('function viewportToSlideDelta(slide, dx, dy)');
     expect(runtimeSource).toContain('dx: dx / (scale.x || 1)');
     expect(runtimeSource).toContain('dy: dy / (scale.y || 1)');
-    expect(runtimeSource).toContain("addEditorOp(item.el, { x: numberFromStyle(item.el, 'left', item.left), y: numberFromStyle(item.el, 'top', item.top) })");
+    expect(runtimeSource).toContain("addEditorOp(item.el, { x: newLeft, y: newTop })");
     expect(runtimeSource).toContain("addEditorOp(drag.el, { width: numberFromStyle(drag.el, 'width', drag.startWidth), height: numberFromStyle(drag.el, 'height', drag.startHeight) })");
   });
 
   it('creates pending text/font/rect style ops, transient undo, and save payloads with baseRevision', () => {
-    expect(runtimeSource).toContain("['x', 'y', 'width', 'height', 'content', 'fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'fill', 'stroke', 'strokeWidth', 'radius']");
+    expect(runtimeSource).toContain("['x', 'y', 'x2', 'y2', 'width', 'height', 'content', 'fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'textDecoration', 'fill', 'stroke', 'strokeWidth', 'radius']");
     expect(runtimeSource).toContain("addEditorOp(el, { content: after })");
     expect(runtimeSource).toContain("addEditorOp(el, { fontSize: fontSize })");
     expect(runtimeSource).toContain("applyEditorRectStyle('fill'");

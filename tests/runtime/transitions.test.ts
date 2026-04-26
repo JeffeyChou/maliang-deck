@@ -90,7 +90,7 @@ describe('HTML runtime transition config and lifecycle', () => {
 
     expect(transitionBlock).not.toContain('__vsliTimeline');
     expect(transitionBlock).not.toContain('.advance(');
-    expect(runtimeSource).toContain("case 'ArrowRight': case 'PageDown': go(idx+1, false, { skipTimeline: true })");
-    expect(runtimeSource).toContain("case 'ArrowDown': advanceTimelineStep('forward')");
+    expect(runtimeSource).toContain("case 'ArrowDown': case 'PageDown': go(idx+1, false, { skipTimeline: true })");
+    expect(runtimeSource).toContain("case 'ArrowRight': advanceTimelineStep('forward')");
   });
 });

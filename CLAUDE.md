@@ -133,6 +133,31 @@ Primary docs: `docs/TEMPLATE-EXTRACTION.md` and
 - Lint rules: `chart-theme-coherence` (palette drift), `table-header-contrast`
   (WCAG AA), `customHtml-usage` (requires review).
 
+## Navigation & Transitions
+
+- **Vertical navigation**: Up/Down arrows navigate slides; Left/Right arrows
+  control animation timeline steps. Space/Enter advance timeline then slide.
+- **Progress bar**: Vertical on the right edge (top = first slide, bottom = last).
+- Slide transitions use vertical scroll animation by default (`fade` type):
+  outgoing slide scrolls up and fades; incoming enters from below.
+  `withSlideTranslate()` uses `translateY`, scroll distance is 30% of slide height.
+- **FX pre-warming**: Canvas FX initialize when `is-transition-next` is set
+  (at transition start), not when `is-active` is set (after transition ends).
+  This eliminates background flash on slides with canvas effects.
+- Presenter window mirrors the same vertical key bindings.
+
+## Editor Mode
+
+- Supported element types for selection/drag: `text`, `rect`, `image`, `line`, `circle`.
+- Line elements store `data-maliang-deck-x/y/x2/y2` for endpoint recovery during drag.
+- Circle elements store `data-maliang-deck-radius` for center-from-corner computation.
+- `constrainedEditorOp()` allowlist: `x, y, x2, y2, width, height, content,
+  fontSize, fontFamily, fontWeight, fontStyle, textDecoration, fill, stroke,
+  strokeWidth, radius`.
+- Editor page thumbnails show the **last animation frame** (all steps revealed).
+- `schema.js` (stale JS copy in `packages/schema/src/`) must stay in sync with
+  `schema.ts` — Vitest resolves `.js` imports to it instead of `.ts`.
+
 ## Text & Export
 
 - HTML text wraps via CSS. SVG/PDF/PPTX use `@maliang-deck/text-measure` (fontkit).

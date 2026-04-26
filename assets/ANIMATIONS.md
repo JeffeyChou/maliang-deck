@@ -58,7 +58,7 @@ Applied via `element.animation.enter` in the DSL. Orchestrated by
 
 - **Step 0**: Elements animate automatically when the slide becomes active.
   Step-0 elements receive index-based stagger (80ms between siblings).
-- **Step N (1+)**: Elements reveal on the Nth click/down-arrow press.
+- **Step N (1+)**: Elements reveal on the Nth click/right-arrow press.
   All elements sharing the same step number animate together.
 
 ### Animation Registry
@@ -139,8 +139,8 @@ with CSS animations defined in `transitions.css`.
 | Type        | Effect                                         | Recommended For                      |
 |-------------|-------------------------------------------------|--------------------------------------|
 | `none`      | Instant cut, no animation                       | Fast-paced technical demos           |
-| `fade`      | Cross-fade between slides                       | General purpose, formal tone         |
-| `slide`     | Horizontal slide (built-in to runtime.js)       | Narrative flow, sequential content   |
+| `fade`      | Vertical scroll + cross-fade (30% slide height) | General purpose, formal tone         |
+| `slide`     | Vertical scroll with softer fade                | Narrative flow, sequential content   |
 | `dissolve`  | Cross-dissolve with subtle blur                 | Academic, reflective presentations   |
 | `zoom`      | Outgoing shrinks, incoming grows                | Section transitions, dramatic shifts |
 | `push`      | Both slides move together (directional)         | Consulting, progressive disclosure   |
@@ -170,7 +170,11 @@ which dynamically loads FX modules and ties their lifecycle to slide activation.
 ```
 
 FX layers render behind all elements (`z-index: 0`, `pointer-events: none`).
-Multiple FX can be stacked on a single slide.
+Multiple FX can be stacked on a single slide. FX are **pre-warmed** during
+slide transitions: `initFxIn()` fires when `is-transition-next` is set (at
+transition start), so the canvas is already rendering before the transition
+completes. Old slide FX keep running during the transition and stop only
+after full deactivation.
 
 ### Available Canvas FX
 

@@ -36,7 +36,7 @@ export function renderLine(el: LineElement): string {
     .join('; ');
 
   return [
-    `<div style="${containerStyle}">`,
+    `<div style="${containerStyle}" data-maliang-deck-x="${el.x}" data-maliang-deck-y="${el.y}" data-maliang-deck-x2="${el.x2}" data-maliang-deck-y2="${el.y2}">`,
     `  <svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">`,
     `    <line x1="${lx1}" y1="${ly1}" x2="${lx2}" y2="${ly2}" stroke="${stroke}" stroke-width="${strokeWidth}"${dasharrayAttr}/>`,
     `  </svg>`,

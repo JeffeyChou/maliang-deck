@@ -8,18 +8,18 @@ const runtimeSource = readFileSync(join(process.cwd(), 'runtime', 'runtime.js'),
 
 describe('reveal-style presenter controls runtime', () => {
   it('maps left/right to slide-only navigation and up/down to timeline steps', () => {
-    expect(runtimeSource).toContain("case 'ArrowRight': case 'PageDown': go(idx+1, false, { skipTimeline: true })");
-    expect(runtimeSource).toContain("case 'ArrowLeft': case 'PageUp': go(idx-1, false, { skipTimeline: true })");
-    expect(runtimeSource).toContain("case 'ArrowDown': advanceTimelineStep('forward')");
-    expect(runtimeSource).toContain("case 'ArrowUp': advanceTimelineStep('backward')");
+    expect(runtimeSource).toContain("case 'ArrowDown': case 'PageDown': go(idx+1, false, { skipTimeline: true })");
+    expect(runtimeSource).toContain("case 'ArrowUp': case 'PageUp': go(idx-1, false, { skipTimeline: true })");
+    expect(runtimeSource).toContain("case 'ArrowRight': advanceTimelineStep('forward')");
+    expect(runtimeSource).toContain("case 'ArrowLeft': advanceTimelineStep('backward')");
     expect(runtimeSource).toContain('!options.skipTimeline');
   });
 
   it('lets the presenter window send animation-step commands without changing slides', () => {
     expect(runtimeSource).toContain("{ type: 'timeline-step', direction: direction }");
     expect(runtimeSource).toContain("e.data.type === 'timeline-step'");
-    expect(runtimeSource).toContain("case 'ArrowDown': step('forward')");
-    expect(runtimeSource).toContain("case 'ArrowUp': step('backward')");
+    expect(runtimeSource).toContain("case 'ArrowRight': step('forward')");
+    expect(runtimeSource).toContain("case 'ArrowLeft': step('backward')");
   });
 
   it('ships laser pointer and popup whiteboard controls with no external runtime plugin dependency', () => {

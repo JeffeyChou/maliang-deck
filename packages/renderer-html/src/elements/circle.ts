@@ -36,5 +36,5 @@ export function renderCircle(el: CircleElement): string {
   }
 
   const style = parts.join('; ');
-  return `<div style="${style}"></div>`;
+  return `<div style="${style}" data-maliang-deck-radius="${el.radius}"></div>`;
 }

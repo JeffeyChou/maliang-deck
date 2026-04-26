@@ -54,7 +54,7 @@ describe('serve editor store', () => {
       canPersist: true,
       sourceKind: 'json',
       supportedOps: ['reorderSlides', 'deleteSlide', 'updateElement'],
-      supportedElementTypes: ['text', 'rect', 'image'],
+      supportedElementTypes: ['text', 'rect', 'image', 'line', 'circle'],
       mjsDivergenceWarning: false,
     });
     expect(store.getCapability().revision).toMatch(/^[a-f0-9]{64}$/);

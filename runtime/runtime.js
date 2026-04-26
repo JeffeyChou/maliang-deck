@@ -353,28 +353,41 @@
     }
 
     function withSlideTranslate(base, amount) {
-      return (base && base !== 'none' ? base + ' ' : '') + 'translateX(' + amount + 'px)';
+      return (base && base !== 'none' ? base + ' ' : '') + 'translateY(' + amount + 'px)';
     }
 
     function animateWholeSlides(previousSlide, nextSlide, direction, duration, easing) {
       if (slideTransition.type === 'none') return [];
+
+      // Vertical scroll distance: 30% of slide height for a natural scroll feel
+      var scrollDistance = slideH * 0.30;
+      // Forward (ArrowDown): outgoing moves UP (-Y), incoming from BELOW (+Y)
+      // Backward (ArrowUp): outgoing moves DOWN (+Y), incoming from ABOVE (-Y)
+      var sign = direction === 'backward' ? 1 : -1;
+      var previousBase = previousSlide.style.transform || '';
+      var nextBase = nextSlide.style.transform || '';
+
       if (slideTransition.type === 'fade') {
         return [
-          previousSlide.animate([{ opacity: 1 }, { opacity: 0 }], { duration: duration, easing: easing, fill: 'both' }),
-          nextSlide.animate([{ opacity: 0 }, { opacity: 1 }], { duration: duration, easing: easing, fill: 'both' }),
+          previousSlide.animate([
+            { opacity: 1, transform: previousBase || 'none' },
+            { opacity: 0, transform: withSlideTranslate(previousBase, sign * scrollDistance) },
+          ], { duration: duration, easing: easing, fill: 'both' }),
+          nextSlide.animate([
+            { opacity: 0, transform: withSlideTranslate(nextBase, -sign * scrollDistance) },
+            { opacity: 1, transform: nextBase || 'none' },
+          ], { duration: duration, easing: easing, fill: 'both' }),
         ];
       }
 
-      var offset = direction === 'backward' ? -48 : 48;
-      var previousBase = previousSlide.style.transform || '';
-      var nextBase = nextSlide.style.transform || '';
+      // 'slide' type: same vertical scroll with less opacity change on outgoing
       return [
         previousSlide.animate([
           { opacity: 1, transform: previousBase || 'none' },
-          { opacity: 0, transform: withSlideTranslate(previousBase, -offset / 2) },
+          { opacity: 0, transform: withSlideTranslate(previousBase, sign * scrollDistance * 0.5) },
         ], { duration: duration, easing: easing, fill: 'both' }),
         nextSlide.animate([
-          { opacity: 0, transform: withSlideTranslate(nextBase, offset) },
+          { opacity: 0, transform: withSlideTranslate(nextBase, -sign * scrollDistance) },
           { opacity: 1, transform: nextBase || 'none' },
         ], { duration: duration, easing: easing, fill: 'both' }),
       ];
@@ -409,6 +422,15 @@
         done();
         return;
       }
+
+      // Pre-reset animated elements on the incoming slide to prevent
+      // flash of previously-committed final states during transition.
+      nextSlide.querySelectorAll('[data-anim-enter]').forEach(function(el) {
+        el.style.opacity = '0';
+        el.style.visibility = 'hidden';
+        el.style.transform = '';
+        el.style.filter = '';
+      });
 
       stageTransitionSlides(previousSlide, nextSlide, direction);
       // Force style resolution before measurement/animation.
@@ -455,7 +477,7 @@
       idx = n;
 
       // Update progress bar and slide number immediately (before transition)
-      barFill.style.width = ((n+1)/total*100)+'%';
+      barFill.style.height = ((n+1)/total*100)+'%';
       var numEl = document.querySelector('.slide-number');
       if (numEl) { numEl.setAttribute('data-current', n+1); numEl.setAttribute('data-total', total); }
 
@@ -1291,6 +1313,8 @@
       const editable = (el.getAttribute('data-maliang-deck-editable') || '').toLowerCase();
       if (editable.indexOf('rect-style') >= 0 || editable.indexOf('rect') >= 0) return 'rect';
       if (editable.indexOf('text') >= 0) return 'text';
+      if (editable.indexOf('circle-style') >= 0 || editable.indexOf('circle') >= 0) return 'circle';
+      if (editable.indexOf('line-style') >= 0 || editable.indexOf('line') >= 0) return 'line';
       if (el.tagName && el.tagName.toLowerCase() === 'rect') return 'rect';
       return 'unknown';
     }
@@ -1306,7 +1330,7 @@
       if (!id) return false;
       const tokens = editorTokens(el);
       if (!tokens.length) return false;
-      return tokens.indexOf('geometry') >= 0 || tokens.indexOf('text') >= 0 || tokens.indexOf('rect-style') >= 0;
+      return tokens.indexOf('geometry') >= 0 || tokens.indexOf('text') >= 0 || tokens.indexOf('rect-style') >= 0 || tokens.indexOf('circle-style') >= 0 || tokens.indexOf('line-style') >= 0;
     }
 
     function numberFromStyle(el, prop, fallback) {
@@ -1422,7 +1446,7 @@
       const slide = el.closest('.slide') || activeSlide();
       const type = editorElementType(el);
       const safePatch = {};
-      ['x', 'y', 'width', 'height', 'content', 'fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'fill', 'stroke', 'strokeWidth', 'radius'].forEach(function(key) {
+      ['x', 'y', 'x2', 'y2', 'width', 'height', 'content', 'fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'textDecoration', 'fill', 'stroke', 'strokeWidth', 'radius'].forEach(function(key) {
         if (Object.prototype.hasOwnProperty.call(patch, key)) safePatch[key] = patch[key];
       });
       return {
@@ -1674,9 +1698,20 @@
       const slide = slides.find(function(candidate){ return editorSlideId(candidate) === slideId; });
       if (!host || !slide) return;
       const clone = slide.cloneNode(true);
-      clone.classList.add('is-active');
+      // Do NOT add is-active — thumbnail CSS handles visibility.
+      // This avoids triggering the MutationObserver / timeline engine.
       clone.removeAttribute('data-anim-state');
       clone.querySelectorAll('.notes, aside.notes').forEach(function(note){ note.remove(); });
+
+      // Force ALL animated elements to final visible state (last frame)
+      clone.querySelectorAll('[data-anim-enter]').forEach(function(el) {
+        var finalOpacity = el.getAttribute('data-anim-final-opacity') || '1';
+        el.style.visibility = 'visible';
+        el.style.opacity = finalOpacity;
+        el.style.transform = '';
+        el.style.filter = '';
+      });
+
       host.replaceChildren(clone);
       const scale = Math.min(host.clientWidth / slideW, host.clientHeight / slideH);
       clone.style.width = slideW + 'px';
@@ -1743,11 +1778,17 @@
       if (redo) redo.disabled = editorState.redoStack.length === 0;
       if (done) done.hidden = !editorState.enabled;
       if (save) save.disabled = !editorState.canPersist || editorState.pendingOps.length === 0 || editorState.saving;
-      const showRect = !!(editorState.enabled && selected && type === 'rect');
-      ['fill', 'stroke', 'stroke-width', 'radius'].forEach(function(role) {
-        const label = editorState.toolbar.querySelector('.maliang-deck-editor-' + role);
-        if (label) label.hidden = !showRect;
-      });
+      const showFill = !!(editorState.enabled && selected && (type === 'rect' || type === 'circle'));
+      const showStroke = !!(editorState.enabled && selected && (type === 'rect' || type === 'circle' || type === 'line'));
+      const showRadius = !!(editorState.enabled && selected && type === 'rect');
+      var fillLabel = editorState.toolbar.querySelector('.maliang-deck-editor-fill');
+      var strokeLabel = editorState.toolbar.querySelector('.maliang-deck-editor-stroke');
+      var strokeWidthLabel = editorState.toolbar.querySelector('.maliang-deck-editor-stroke-width');
+      var radiusLabel = editorState.toolbar.querySelector('.maliang-deck-editor-radius');
+      if (fillLabel) fillLabel.hidden = !showFill;
+      if (strokeLabel) strokeLabel.hidden = !showStroke;
+      if (strokeWidthLabel) strokeWidthLabel.hidden = !showStroke;
+      if (radiusLabel) radiusLabel.hidden = !showRadius;
       if (selected) syncEditorControls(selected);
       if (editorState.textToolbar) {
         editorState.textToolbar.classList.toggle('show', !!(editorState.enabled && selected && type === 'text'));
@@ -2046,7 +2087,25 @@
       editorState.redoStack = [];
       if (drag.type === 'move') {
         drag.items.forEach(function(item) {
-          addEditorOp(item.el, { x: numberFromStyle(item.el, 'left', item.left), y: numberFromStyle(item.el, 'top', item.top) });
+          var type = editorElementType(item.el);
+          var newLeft = numberFromStyle(item.el, 'left', item.left);
+          var newTop = numberFromStyle(item.el, 'top', item.top);
+          var dx = newLeft - item.left;
+          var dy = newTop - item.top;
+          if (type === 'line') {
+            // Line stores absolute coordinates; translate both endpoints by drag delta
+            var origX = parseFloat(item.el.getAttribute('data-maliang-deck-x') || '0');
+            var origY = parseFloat(item.el.getAttribute('data-maliang-deck-y') || '0');
+            var origX2 = parseFloat(item.el.getAttribute('data-maliang-deck-x2') || '0');
+            var origY2 = parseFloat(item.el.getAttribute('data-maliang-deck-y2') || '0');
+            addEditorOp(item.el, { x: origX + dx, y: origY + dy, x2: origX2 + dx, y2: origY2 + dy });
+          } else if (type === 'circle') {
+            // Circle x/y is center; container left/top is corner (center - radius)
+            var radius = parseFloat(item.el.getAttribute('data-maliang-deck-radius') || '0');
+            addEditorOp(item.el, { x: newLeft + radius, y: newTop + radius });
+          } else {
+            addEditorOp(item.el, { x: newLeft, y: newTop });
+          }
         });
       } else if (drag.type === 'resize') {
         addEditorOp(drag.el, { width: numberFromStyle(drag.el, 'width', drag.startWidth), height: numberFromStyle(drag.el, 'height', drag.startHeight) });
@@ -2503,8 +2562,8 @@
 </div>
 
 <div class="hint-bar">
-  <span><kbd>← →</kbd> 翻页</span>
-  <span><kbd>↑ ↓</kbd> 动画步骤</span>
+  <span><kbd>↑ ↓</kbd> 翻页</span>
+  <span><kbd>← →</kbd> 动画步骤</span>
   <span><kbd>R</kbd> 重置计时</span>
   <span><kbd>Esc</kbd> 关闭</span>
   <span style="color:#6e7681">拖动卡片头部移动 · 拖动右下角调整大小</span>
@@ -2824,10 +2883,10 @@
   document.addEventListener('keydown', function(e){
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     switch(e.key) {
-      case 'ArrowRight': case ' ': case 'PageDown': go(idx + 1); e.preventDefault(); break;
-      case 'ArrowLeft':  case 'PageUp':   go(idx - 1); e.preventDefault(); break;
-      case 'ArrowDown': step('forward'); e.preventDefault(); break;
-      case 'ArrowUp': step('backward'); e.preventDefault(); break;
+      case 'ArrowDown': case ' ': case 'PageDown': go(idx + 1); e.preventDefault(); break;
+      case 'ArrowUp':  case 'PageUp':   go(idx - 1); e.preventDefault(); break;
+      case 'ArrowRight': step('forward'); e.preventDefault(); break;
+      case 'ArrowLeft': step('backward'); e.preventDefault(); break;
       case 'Home': go(0); break;
       case 'End':  go(total - 1); break;
       case 'r': case 'R': resetTimer(); break;
@@ -2921,10 +2980,10 @@
       if (e.metaKey||e.ctrlKey||e.altKey) return;
       if (shouldIgnoreShortcut(e)) return;
       switch (e.key) {
-        case 'ArrowRight': case 'PageDown': go(idx+1, false, { skipTimeline: true }); e.preventDefault(); break;
-        case 'ArrowLeft': case 'PageUp': go(idx-1, false, { skipTimeline: true }); e.preventDefault(); break;
-        case 'ArrowDown': advanceTimelineStep('forward'); e.preventDefault(); break;
-        case 'ArrowUp': advanceTimelineStep('backward'); e.preventDefault(); break;
+        case 'ArrowDown': case 'PageDown': go(idx+1, false, { skipTimeline: true }); e.preventDefault(); break;
+        case 'ArrowUp': case 'PageUp': go(idx-1, false, { skipTimeline: true }); e.preventDefault(); break;
+        case 'ArrowRight': advanceTimelineStep('forward'); e.preventDefault(); break;
+        case 'ArrowLeft': advanceTimelineStep('backward'); e.preventDefault(); break;
         case ' ': case 'Enter': if (!advanceTimelineStep('forward')) go(idx+1, false, { skipTimeline: true }); e.preventDefault(); break;
         case 'Backspace': if (!advanceTimelineStep('backward')) go(idx-1, false, { skipTimeline: true }); e.preventDefault(); break;
         case 'Home': go(0, false, { skipTimeline: true }); break;

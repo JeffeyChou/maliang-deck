@@ -81,8 +81,16 @@
         const mo = new MutationObserver((muts) => {
           for (const m of muts){
             if (m.attributeName === 'class'){
-              if (sl.classList.contains('is-active')) initFxIn(sl);
-              else stopFxIn(sl);
+              // Pre-warm: start FX when slide becomes transition target or active
+              if (sl.classList.contains('is-transition-next') || sl.classList.contains('is-active')) {
+                initFxIn(sl);
+              }
+              // Stop FX only when slide is fully deactivated (no active or transition classes)
+              else if (!sl.classList.contains('is-active')
+                    && !sl.classList.contains('is-transition-prev')
+                    && !sl.classList.contains('is-transition-next')) {
+                stopFxIn(sl);
+              }
             }
           }
         });

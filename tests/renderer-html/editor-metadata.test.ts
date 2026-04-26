@@ -86,8 +86,8 @@ describe('HTML editor renderer metadata', () => {
 
     const circleAttrs = attrsFor(html, 'slide-1-unsafe-__badge');
     expect(circleAttrs).toContain('data-maliang-deck-type="circle"');
-    expect(circleAttrs).toContain('data-maliang-deck-readonly-reason="unsupported-element"');
-    expect(circleAttrs).not.toContain('data-maliang-deck-editable');
+    expect(circleAttrs).toContain('data-maliang-deck-editable="geometry circle-style"');
+    expect(circleAttrs).not.toContain('data-maliang-deck-readonly-reason');
 
     const groupAttrs = attrsFor(html, 'slide-1-unsafe-__grouped');
     expect(groupAttrs).toContain('data-maliang-deck-type="group"');
