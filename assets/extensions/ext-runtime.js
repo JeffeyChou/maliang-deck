@@ -142,6 +142,46 @@
     return false;
   }
 
+  // ─── PRESENTER SYNC ──────────────────────────────────────────────────────────
+  // BroadcastChannel for syncing extension state between presenter ↔ audience
+
+  var extBc = null;
+  try { extBc = new BroadcastChannel('maliang-deck-extensions'); } catch (e) { /* unsupported */ }
+
+  /**
+   * Broadcast an extension state change to the other window.
+   * @param {string} type - Event type (e.g., 'formula-step', 'graph-param')
+   * @param {object} data - Serializable state data
+   */
+  function broadcast(type, data) {
+    if (extBc) extBc.postMessage({ type: type, data: data });
+  }
+
+  // Listen for remote extension state changes
+  if (extBc) {
+    extBc.addEventListener('message', function (e) {
+      var msg = e.data;
+      if (!msg || !msg.type) return;
+      // Dispatch to registered handlers
+      extensionMessageHandlers.forEach(function (handler) {
+        try { handler(msg); } catch (err) { /* ignore */ }
+      });
+    });
+  }
+
+  var extensionMessageHandlers = [];
+
+  /**
+   * Register a handler for incoming extension sync messages.
+   */
+  function onExtensionMessage(handler) {
+    extensionMessageHandlers.push(handler);
+    return function () {
+      var idx = extensionMessageHandlers.indexOf(handler);
+      if (idx !== -1) extensionMessageHandlers.splice(idx, 1);
+    };
+  }
+
   // Public API
   window.__vsliExtensions = {
     register: register,
@@ -151,5 +191,7 @@
     seekAll: seekAll,
     hasExtensionElements: hasExtensionElements,
     readConfig: readConfig,
+    broadcast: broadcast,
+    onExtensionMessage: onExtensionMessage,
   };
 })();

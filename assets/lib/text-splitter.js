@@ -81,14 +81,23 @@
     return spans;
   }
 
+  // Performance: max grapheme count before falling back to word splitting
+  var MAX_GRAPHEMES = 500;
+
   /**
    * Split element content into grapheme clusters, each wrapped in a span.
+   * Falls back to word splitting if content exceeds MAX_GRAPHEMES for performance.
    * @param {HTMLElement} el
    * @returns {HTMLElement[]} Array of span elements
    */
   function graphemes(el) {
     var text = el.textContent || '';
     var units = splitGraphemes(text);
+    // Performance guard: too many graphemes causes layout thrash
+    if (units.length > MAX_GRAPHEMES) {
+      console.warn('[text-splitter] Content exceeds ' + MAX_GRAPHEMES + ' graphemes, falling back to word split');
+      return words(el);
+    }
     return wrapUnits(el, units, 'char');
   }
 

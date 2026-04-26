@@ -14,8 +14,18 @@
    */
   window.__textAnimEffects = effects;
 
+  // Reduced motion: skip all animations, show final state immediately
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   function init(el, config) {
     if (!config || !config.textAnimation) return null;
+
+    // Reduced motion: show content immediately without animation
+    if (reducedMotion) {
+      el.style.opacity = '1';
+      el.style.visibility = 'visible';
+      return { handles: [] };
+    }
 
     var anims = Array.isArray(config.textAnimation)
       ? config.textAnimation
@@ -29,6 +39,24 @@
       var pathHandle = effects.path(pathSpans, config.textAnimation[0] || config.textAnimation, el);
       if (pathHandle) handles.push(pathHandle);
       return { handles: handles };
+    }
+
+    // If morphTo exists, run the normal animation first then trigger morph
+    if (config.morphTo && effects.morph) {
+      // Morph runs after the primary animation completes
+      var morphDelay = 0;
+      anims.forEach(function (a) {
+        var d = (a.duration || 600) + ((a.stagger || 50) * el.textContent.length);
+        if (d > morphDelay) morphDelay = d;
+      });
+      setTimeout(function () {
+        if (handles.some(function (h) { return h && h.stopped; })) return;
+        var morphSpans = el.querySelectorAll('[data-char-idx], [data-word-idx]');
+        var spanArray = Array.prototype.slice.call(morphSpans);
+        if (spanArray.length === 0) spanArray = window.TextSplitter.graphemes(el);
+        var morphHandle = effects.morph(spanArray, anims[0] || {}, el);
+        if (morphHandle) handles.push(morphHandle);
+      }, morphDelay + 200);
     }
 
     anims.forEach(function (animConfig) {

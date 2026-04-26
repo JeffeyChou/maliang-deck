@@ -10,6 +10,10 @@ export function renderGraph(el: GraphElement): string {
     axes: el.axes,
     parameter: el.parameter,
     annotations: el.annotations,
+    mode: el.mode,
+    surface: el.surface,
+    zAxis: el.zAxis,
+    camera: el.camera,
   };
   const configJson = escapeJsonForScript(JSON.stringify(config));
 

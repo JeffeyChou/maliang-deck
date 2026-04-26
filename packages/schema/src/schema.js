@@ -11,7 +11,7 @@ export const CanvasSizeSchema = z.object({
     height: z.number().positive(),
 });
 export const HtmlRuntimeTransitionSchema = z.object({
-    type: z.enum(['none', 'fade', 'slide']).optional(),
+    type: z.enum(['none', 'fade', 'slide', 'dissolve', 'zoom', 'push', 'cover']).optional(),
     durationMs: z.number().nonnegative().optional(),
     easing: z.string().min(1).optional(),
     autoAnimate: z.boolean().optional(),
@@ -19,11 +19,14 @@ export const HtmlRuntimeTransitionSchema = z.object({
 });
 export const HtmlRuntimeConfigSchema = z.object({
     transition: HtmlRuntimeTransitionSchema.optional(),
+    showProgressBar: z.boolean().optional(),
+    showSlideNumber: z.boolean().optional(),
 });
 export const DeckMetaSchema = z.object({
     title: z.string().min(1),
     theme: z.string().optional(),
     canvas: CanvasSizeSchema,
+    defaultFont: z.string().min(1).optional(),
     fonts: z.record(z.string(), z.string()).optional(),
     htmlRuntime: HtmlRuntimeConfigSchema.optional(),
 });
@@ -90,6 +93,14 @@ export const LayoutConfigSchema = z.discriminatedUnion('mode', [
     GridLayoutConfigSchema,
     FlexLayoutConfigSchema,
 ]);
+// ─── Continuous Animation ────────────────────────────────────────────────────
+export const ContinuousAnimationSchema = z.object({
+    duration: z.number().positive(),
+    delay: z.number().nonnegative().optional(),
+    loop: z.union([z.boolean(), z.number().int().positive()]).optional(),
+    trigger: z.enum(['auto', 'step', 'visible']).optional(),
+    step: z.number().int().nonnegative().optional(),
+});
 // ─── Base Element ────────────────────────────────────────────────────────────
 const BaseElementSchema = z.object({
     id: z.string().min(1),
@@ -100,6 +111,7 @@ const BaseElementSchema = z.object({
     rotation: z.number().optional(),
     opacity: z.number().min(0).max(1).optional(),
     animation: AnimationSchema.optional(),
+    continuousAnimation: ContinuousAnimationSchema.optional(),
     placement: LayoutPlacementSchema.optional(),
 });
 // ─── Text ────────────────────────────────────────────────────────────────────
@@ -179,6 +191,33 @@ export const ImageElementSchema = BaseElementSchema.extend({
     fit: z.enum(['cover', 'contain', 'fill', 'none']).optional(),
 });
 // ─── Chart ──────────────────────────────────────────────────────────────────
+const HexColorSchema = z.string().regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, 'Must be a hex color (#rgb or #rrggbb)');
+export const ChartStyleSchema = z.object({
+    palette: z.array(HexColorSchema).min(1).max(12).optional(),
+    axisColor: HexColorSchema.optional(),
+    gridColor: HexColorSchema.optional(),
+    labelColor: HexColorSchema.optional(),
+    backgroundColor: HexColorSchema.optional(),
+    strokeWidth: z.number().nonnegative().optional(),
+    showLegend: z.boolean().optional(),
+    showDataLabels: z.boolean().optional(),
+    legendPosition: z.enum(['top', 'bottom', 'right']).optional(),
+    gridLines: z.boolean().optional(),
+    rounded: z.boolean().optional(),
+    areaFill: z.boolean().optional(),
+}).strict();
+export const TableStyleSchema = z.object({
+    headerBackground: HexColorSchema.optional(),
+    headerColor: HexColorSchema.optional(),
+    rowStripe: z.boolean().optional(),
+    stripeColor: HexColorSchema.optional(),
+    borderColor: HexColorSchema.optional(),
+    borderWidth: z.number().nonnegative().optional(),
+    cellPadding: z.string().optional(),
+    fontSize: z.number().positive().optional(),
+    fontFamily: z.string().optional(),
+    rounded: z.boolean().optional(),
+}).strict();
 export const ChartTypeSchema = z.enum(['bar', 'line', 'pie', 'doughnut']);
 export const ChartSeriesSchema = z
     .object({
@@ -202,6 +241,7 @@ export const ChartElementSchema = BaseElementSchema.extend({
     chartType: ChartTypeSchema,
     data: z.array(ChartSeriesSchema).min(1),
     options: z.record(z.unknown()).optional(),
+    style: ChartStyleSchema.optional(),
 });
 // ─── Table ──────────────────────────────────────────────────────────────────
 export const TableCellSchema = z.union([
@@ -220,6 +260,15 @@ export const TableElementSchema = BaseElementSchema.extend({
     height: z.number().positive().optional(),
     rows: z.array(z.array(TableCellSchema).min(1)).min(1),
     options: z.record(z.unknown()).optional(),
+    style: TableStyleSchema.optional(),
+});
+// ─── Custom HTML ─────────────────────────────────────────────────────────────
+export const CustomHtmlElementSchema = BaseElementSchema.extend({
+    type: z.literal('customHtml'),
+    width: z.number().positive(),
+    height: z.number().positive(),
+    html: z.string().min(1),
+    fallbackImage: z.string().optional(),
 });
 // ─── Group (supports recursive nesting) ─────────────────────────────────────
 export const GroupElementSchema = BaseElementSchema.extend({
@@ -285,6 +334,135 @@ function addGridPlacementIssues(layoutElement, ctx, path = []) {
 export const LayoutElementSchema = LayoutElementBaseSchema.superRefine((layoutElement, ctx) => {
     addGridPlacementIssues(layoutElement, ctx);
 });
+// ─── Animated Text ──────────────────────────────────────────────────────────
+export const TextAnimEffectSchema = z.object({
+    name: z.enum([
+        'stagger', 'wave', 'cascade', 'scramble', 'decode',
+        'typewriter', 'fade-chars', 'bounce-chars', 'rotate-chars',
+        'scale-chars', 'blur-reveal', 'glitch',
+    ]),
+    splitMode: z.enum(['char', 'word', 'line']).optional(),
+    stagger: z.number().optional(),
+    direction: z.enum(['forward', 'backward', 'center', 'edges', 'random']).optional(),
+    easing: z.string().optional(),
+    duration: z.number().positive().optional(),
+});
+export const TextPathSchema = z.object({
+    d: z.string().min(1),
+    align: z.enum(['start', 'center', 'end']).optional(),
+    offset: z.number().min(0).max(1).optional(),
+    animate: z.boolean().optional(),
+    animateDuration: z.number().positive().optional(),
+});
+export const AnimatedTextElementSchema = BaseElementSchema.extend({
+    type: z.literal('animatedText'),
+    content: z.string().min(1),
+    width: z.number().positive(),
+    height: z.number().positive().optional(),
+    fontSize: z.number().positive(),
+    fontFamily: z.string().optional(),
+    fontWeight: z.enum(['normal', 'bold', '100', '200', '300', '400', '500', '600', '700', '800', '900']).optional(),
+    color: z.string().optional(),
+    align: z.enum(['left', 'center', 'right']).optional(),
+    lineHeight: z.number().positive().optional(),
+    textAnimation: z.union([TextAnimEffectSchema, z.array(TextAnimEffectSchema).min(1)]),
+    path: TextPathSchema.optional(),
+    morphTo: z.string().optional(),
+    morphDuration: z.number().positive().optional(),
+});
+// ─── Formula ────────────────────────────────────────────────────────────────
+export const FormulaHighlightSchema = z.object({
+    symbol: z.string().min(1),
+    color: z.string().optional(),
+});
+export const FormulaMorphMapSchema = z.union([
+    z.record(z.string(), z.number().int().nonnegative()),
+    z.array(z.tuple([z.number().int().nonnegative(), z.number().int().nonnegative()])),
+    z.array(z.object({
+        source: z.number().int().nonnegative(),
+        target: z.number().int().nonnegative(),
+    })),
+]);
+export const FormulaStepSchema = z.object({
+    latex: z.string().min(1),
+    annotation: z.string().optional(),
+    highlight: z.array(FormulaHighlightSchema).optional(),
+    duration: z.number().positive().optional(),
+    morphMap: FormulaMorphMapSchema.optional(),
+});
+export const FormulaElementSchema = BaseElementSchema.extend({
+    type: z.literal('formula'),
+    width: z.number().positive(),
+    height: z.number().positive().optional(),
+    latex: z.string().min(1),
+    displayMode: z.boolean().optional(),
+    fontSize: z.number().positive().optional(),
+    color: z.string().optional(),
+    steps: z.array(FormulaStepSchema).optional(),
+    morphEasing: z.string().optional(),
+    morphDuration: z.number().positive().optional(),
+    morphMap: FormulaMorphMapSchema.optional(),
+    stepTrigger: z.enum(['auto', 'click']).optional(),
+});
+// ─── Graph ──────────────────────────────────────────────────────────────────
+export const GraphFunctionSchema = z.object({
+    expr: z.string().min(1).max(500),
+    color: z.string().optional(),
+    strokeWidth: z.number().positive().optional(),
+    domain: z.tuple([z.number(), z.number()]).optional(),
+    animate: z.enum(['draw-on', 'fade', 'none']).optional(),
+    animateDuration: z.number().positive().optional(),
+    label: z.string().optional(),
+});
+export const GraphAnnotationSchema = z.object({
+    type: z.enum(['point', 'tangent', 'area', 'vertical-line']),
+    at: z.number().optional(),
+    color: z.string().optional(),
+    label: z.string().optional(),
+    animate: z.boolean().optional(),
+});
+export const GraphAxesSchema = z.object({
+    x: z.tuple([z.number(), z.number()]),
+    y: z.tuple([z.number(), z.number()]),
+    grid: z.boolean().optional(),
+    labels: z.boolean().optional(),
+    tickInterval: z.number().positive().optional(),
+});
+export const GraphParameterSchema = z.object({
+    name: z.string().min(1),
+    range: z.tuple([z.number(), z.number()]),
+    animate: z.boolean().optional(),
+    duration: z.number().positive().optional(),
+});
+export const Graph3dCameraSchema = z.object({
+    distance: z.number().positive().optional(),
+    phi: z.number().optional(), // polar angle (0 = top, PI = bottom)
+    theta: z.number().optional(), // azimuthal angle
+    fov: z.number().positive().optional(),
+    orbit: z.boolean().optional(), // auto-orbit animation
+    orbitSpeed: z.number().optional(),
+});
+export const Graph3dSurfaceSchema = z.object({
+    expr: z.string().min(1).max(500), // f(x, y) expression
+    colorMap: z.enum(['viridis', 'plasma', 'inferno', 'coolwarm', 'rainbow', 'monochrome']).optional(),
+    wireframe: z.boolean().optional(),
+    opacity: z.number().min(0).max(1).optional(),
+    resolution: z.number().int().min(10).max(200).optional(),
+});
+export const GraphElementSchema = BaseElementSchema.extend({
+    type: z.literal('graph'),
+    width: z.number().positive(),
+    height: z.number().positive(),
+    functions: z.array(GraphFunctionSchema).min(1).max(10),
+    axes: GraphAxesSchema,
+    parameter: GraphParameterSchema.optional(),
+    annotations: z.array(GraphAnnotationSchema).max(20).optional(),
+    // 3D mode (optional — when present, renders as WebGL surface)
+    mode: z.enum(['2d', '3d']).optional(),
+    surface: Graph3dSurfaceSchema.optional(),
+    zAxis: z.tuple([z.number(), z.number()]).optional(),
+    camera: Graph3dCameraSchema.optional(),
+});
 // ─── Full element union ──────────────────────────────────────────────────────
 export const ElementSchema = z.discriminatedUnion('type', [
     TextElementSchema,
@@ -297,8 +475,12 @@ export const ElementSchema = z.discriminatedUnion('type', [
     ImageElementSchema,
     ChartElementSchema,
     TableElementSchema,
+    CustomHtmlElementSchema,
     GroupElementSchema,
     LayoutElementBaseSchema,
+    AnimatedTextElementSchema,
+    FormulaElementSchema,
+    GraphElementSchema,
 ]);
 // ─── Slide ───────────────────────────────────────────────────────────────────
 export const SlideSchema = z.object({

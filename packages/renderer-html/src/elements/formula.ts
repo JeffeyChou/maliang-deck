@@ -14,6 +14,7 @@ export function renderFormula(el: FormulaElement): string {
     steps: el.steps,
     morphEasing: el.morphEasing,
     morphDuration: el.morphDuration ?? 800,
+    morphMap: el.morphMap,
     stepTrigger: el.stepTrigger ?? 'click',
   };
   const configJson = escapeJsonForScript(JSON.stringify(config));

@@ -28,14 +28,21 @@ export interface DeckMeta {
     title: string;
     theme?: string;
     canvas: CanvasSize;
+    /** Default font family for text elements that omit fontFamily. Renderers and
+     *  text-measure fall back to this value before using the generic 'sans-serif'. */
+    defaultFont?: string;
     fonts?: Record<string, string>;
     /** HTML-only runtime options. Static SVG/PDF/PPTX exporters ignore this field. */
     htmlRuntime?: HtmlRuntimeConfig;
 }
 export interface HtmlRuntimeConfig {
     transition?: HtmlRuntimeTransitionConfig;
+    /** Show progress bar at the bottom. Default: true. */
+    showProgressBar?: boolean;
+    /** Show slide number indicator. Default: true. */
+    showSlideNumber?: boolean;
 }
-export type HtmlRuntimeTransitionType = 'none' | 'fade' | 'slide';
+export type HtmlRuntimeTransitionType = 'none' | 'fade' | 'slide' | 'dissolve' | 'zoom' | 'push' | 'cover';
 export type HtmlRuntimeUnmatchedBehavior = 'fade' | 'instant';
 export interface HtmlRuntimeTransitionConfig {
     type?: HtmlRuntimeTransitionType;
@@ -105,7 +112,7 @@ export interface FlexLayoutConfig {
 export type LayoutChildPlacement = GridPlacement | FlexPlacement;
 export type LayoutConfig = GridLayoutConfig | FlexLayoutConfig;
 export type LayoutOverflow = 'clip' | 'visible' | 'warn';
-export type Element = TextElement | RectElement | CircleElement | EllipseElement | LineElement | PathElement | PolygonElement | ImageElement | ChartElement | TableElement | GroupElement | LayoutElement;
+export type Element = TextElement | RectElement | CircleElement | EllipseElement | LineElement | PathElement | PolygonElement | ImageElement | ChartElement | TableElement | CustomHtmlElement | GroupElement | LayoutElement | AnimatedTextElement | FormulaElement | GraphElement;
 export interface BaseElement {
     type: string;
     id: string;
@@ -116,6 +123,8 @@ export interface BaseElement {
     rotation?: number;
     opacity?: number;
     animation?: Animation;
+    /** Continuous animation control (duration-based playback, separate from step-reveal). */
+    continuousAnimation?: ContinuousAnimation;
     /** Interpreted only by a parent layout container. */
     placement?: LayoutChildPlacement;
 }
@@ -127,6 +136,7 @@ export interface TextElement extends BaseElement {
     fontFamily?: string;
     fontWeight?: 'normal' | 'bold';
     fontStyle?: 'normal' | 'italic';
+    textDecoration?: 'none' | 'underline';
     color?: string;
     align?: 'left' | 'center' | 'right';
     verticalAlign?: 'top' | 'middle' | 'bottom';
@@ -199,6 +209,25 @@ export interface ChartElement extends BaseElement {
     chartType: ChartType;
     data: ChartSeries[];
     options?: Record<string, unknown>;
+    style?: ChartStyle;
+}
+/** Hex color string (#rrggbb or #rgb). CSS vars and named colors are NOT valid
+ *  here — they would not survive SVG/PDF/PPTX export. Use theme CSS vars by
+ *  omitting the field entirely (HTML renderer reads vars automatically). */
+export type HexColor = string;
+export interface ChartStyle {
+    palette?: HexColor[];
+    axisColor?: HexColor;
+    gridColor?: HexColor;
+    labelColor?: HexColor;
+    backgroundColor?: HexColor;
+    strokeWidth?: number;
+    showLegend?: boolean;
+    showDataLabels?: boolean;
+    legendPosition?: 'top' | 'bottom' | 'right';
+    gridLines?: boolean;
+    rounded?: boolean;
+    areaFill?: boolean;
 }
 export type TablePrimitiveCell = string | number | boolean | null;
 export interface TableObjectCell {
@@ -212,6 +241,27 @@ export interface TableElement extends BaseElement {
     height?: number;
     rows: TableCell[][];
     options?: Record<string, unknown>;
+    style?: TableStyle;
+}
+export interface TableStyle {
+    headerBackground?: HexColor;
+    headerColor?: HexColor;
+    rowStripe?: boolean;
+    stripeColor?: HexColor;
+    borderColor?: HexColor;
+    borderWidth?: number;
+    cellPadding?: string;
+    fontSize?: number;
+    fontFamily?: string;
+    rounded?: boolean;
+}
+export interface CustomHtmlElement extends BaseElement {
+    type: 'customHtml';
+    width: number;
+    height: number;
+    html: string;
+    /** Fallback image for non-HTML renderers (data URI or relative path). */
+    fallbackImage?: string;
 }
 export interface GroupElement extends BaseElement {
     type: 'group';
@@ -232,5 +282,137 @@ export interface Animation {
     delay?: number;
     easing?: string;
     step?: number;
+}
+export interface ContinuousAnimation {
+    duration: number;
+    delay?: number;
+    loop?: boolean | number;
+    trigger?: 'auto' | 'step' | 'visible';
+    step?: number;
+}
+export type TextAnimEffectName = 'stagger' | 'wave' | 'cascade' | 'scramble' | 'decode' | 'typewriter' | 'fade-chars' | 'bounce-chars' | 'rotate-chars' | 'scale-chars' | 'blur-reveal' | 'glitch';
+export type TextAnimSplitMode = 'char' | 'word' | 'line';
+export type TextAnimDirection = 'forward' | 'backward' | 'center' | 'edges' | 'random';
+export interface TextAnimEffect {
+    name: TextAnimEffectName;
+    splitMode?: TextAnimSplitMode;
+    stagger?: number;
+    direction?: TextAnimDirection;
+    easing?: string;
+    duration?: number;
+}
+export interface TextPath {
+    d: string;
+    align?: 'start' | 'center' | 'end';
+    offset?: number;
+    animate?: boolean;
+    animateDuration?: number;
+}
+export interface AnimatedTextElement extends BaseElement {
+    type: 'animatedText';
+    content: string;
+    width: number;
+    height?: number;
+    fontSize: number;
+    fontFamily?: string;
+    fontWeight?: 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
+    color?: string;
+    align?: 'left' | 'center' | 'right';
+    lineHeight?: number;
+    textAnimation: TextAnimEffect | TextAnimEffect[];
+    path?: TextPath;
+    morphTo?: string;
+    morphDuration?: number;
+}
+export interface FormulaHighlight {
+    symbol: string;
+    color?: string;
+}
+export interface FormulaStep {
+    latex: string;
+    annotation?: string;
+    highlight?: FormulaHighlight[];
+    duration?: number;
+    morphMap?: Record<string, number> | Array<[number, number]> | Array<{
+        source: number;
+        target: number;
+    }>;
+}
+export interface FormulaElement extends BaseElement {
+    type: 'formula';
+    width: number;
+    height?: number;
+    latex: string;
+    displayMode?: boolean;
+    fontSize?: number;
+    color?: string;
+    steps?: FormulaStep[];
+    morphEasing?: string;
+    morphDuration?: number;
+    morphMap?: Record<string, number> | Array<[number, number]> | Array<{
+        source: number;
+        target: number;
+    }>;
+    stepTrigger?: 'auto' | 'click';
+}
+export type GraphAnimateType = 'draw-on' | 'fade' | 'none';
+export type GraphAnnotationType = 'point' | 'tangent' | 'area' | 'vertical-line';
+export interface GraphFunction {
+    expr: string;
+    color?: string;
+    strokeWidth?: number;
+    domain?: [number, number];
+    animate?: GraphAnimateType;
+    animateDuration?: number;
+    label?: string;
+}
+export interface GraphParameter {
+    name: string;
+    range: [number, number];
+    animate?: boolean;
+    duration?: number;
+}
+export interface GraphAnnotation {
+    type: GraphAnnotationType;
+    at?: number;
+    color?: string;
+    label?: string;
+    animate?: boolean;
+}
+export interface GraphAxes {
+    x: [number, number];
+    y: [number, number];
+    grid?: boolean;
+    labels?: boolean;
+    tickInterval?: number;
+}
+export interface Graph3dCamera {
+    distance?: number;
+    phi?: number;
+    theta?: number;
+    fov?: number;
+    orbit?: boolean;
+    orbitSpeed?: number;
+}
+export type Graph3dColorMap = 'viridis' | 'plasma' | 'inferno' | 'coolwarm' | 'rainbow' | 'monochrome';
+export interface Graph3dSurface {
+    expr: string;
+    colorMap?: Graph3dColorMap;
+    wireframe?: boolean;
+    opacity?: number;
+    resolution?: number;
+}
+export interface GraphElement extends BaseElement {
+    type: 'graph';
+    width: number;
+    height: number;
+    functions: GraphFunction[];
+    axes: GraphAxes;
+    parameter?: GraphParameter;
+    annotations?: GraphAnnotation[];
+    mode?: '2d' | '3d';
+    surface?: Graph3dSurface;
+    zAxis?: [number, number];
+    camera?: Graph3dCamera;
 }
 //# sourceMappingURL=types.d.ts.map

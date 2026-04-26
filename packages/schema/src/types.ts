@@ -440,6 +440,7 @@ export interface FormulaStep {
   annotation?: string;
   highlight?: FormulaHighlight[];
   duration?: number;
+  morphMap?: Record<string, number> | Array<[number, number]> | Array<{ source: number; target: number }>;
 }
 
 export interface FormulaElement extends BaseElement {
@@ -453,6 +454,7 @@ export interface FormulaElement extends BaseElement {
   steps?: FormulaStep[];
   morphEasing?: string;
   morphDuration?: number;
+  morphMap?: Record<string, number> | Array<[number, number]> | Array<{ source: number; target: number }>;
   stepTrigger?: 'auto' | 'click';
 }
 
@@ -494,6 +496,25 @@ export interface GraphAxes {
   tickInterval?: number;
 }
 
+export interface Graph3dCamera {
+  distance?: number;
+  phi?: number;
+  theta?: number;
+  fov?: number;
+  orbit?: boolean;
+  orbitSpeed?: number;
+}
+
+export type Graph3dColorMap = 'viridis' | 'plasma' | 'inferno' | 'coolwarm' | 'rainbow' | 'monochrome';
+
+export interface Graph3dSurface {
+  expr: string;
+  colorMap?: Graph3dColorMap;
+  wireframe?: boolean;
+  opacity?: number;
+  resolution?: number;
+}
+
 export interface GraphElement extends BaseElement {
   type: 'graph';
   width: number;
@@ -502,4 +523,8 @@ export interface GraphElement extends BaseElement {
   axes: GraphAxes;
   parameter?: GraphParameter;
   annotations?: GraphAnnotation[];
+  mode?: '2d' | '3d';
+  surface?: Graph3dSurface;
+  zAxis?: [number, number];
+  camera?: Graph3dCamera;
 }

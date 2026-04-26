@@ -439,11 +439,21 @@ export const FormulaHighlightSchema = z.object({
   color: z.string().optional(),
 });
 
+export const FormulaMorphMapSchema = z.union([
+  z.record(z.string(), z.number().int().nonnegative()),
+  z.array(z.tuple([z.number().int().nonnegative(), z.number().int().nonnegative()])),
+  z.array(z.object({
+    source: z.number().int().nonnegative(),
+    target: z.number().int().nonnegative(),
+  })),
+]);
+
 export const FormulaStepSchema = z.object({
   latex: z.string().min(1),
   annotation: z.string().optional(),
   highlight: z.array(FormulaHighlightSchema).optional(),
   duration: z.number().positive().optional(),
+  morphMap: FormulaMorphMapSchema.optional(),
 });
 
 export const FormulaElementSchema = BaseElementSchema.extend({
@@ -457,6 +467,7 @@ export const FormulaElementSchema = BaseElementSchema.extend({
   steps: z.array(FormulaStepSchema).optional(),
   morphEasing: z.string().optional(),
   morphDuration: z.number().positive().optional(),
+  morphMap: FormulaMorphMapSchema.optional(),
   stepTrigger: z.enum(['auto', 'click']).optional(),
 });
 
@@ -495,6 +506,23 @@ export const GraphParameterSchema = z.object({
   duration: z.number().positive().optional(),
 });
 
+export const Graph3dCameraSchema = z.object({
+  distance: z.number().positive().optional(),
+  phi: z.number().optional(),     // polar angle (0 = top, PI = bottom)
+  theta: z.number().optional(),   // azimuthal angle
+  fov: z.number().positive().optional(),
+  orbit: z.boolean().optional(),  // auto-orbit animation
+  orbitSpeed: z.number().optional(),
+});
+
+export const Graph3dSurfaceSchema = z.object({
+  expr: z.string().min(1).max(500),     // f(x, y) expression
+  colorMap: z.enum(['viridis', 'plasma', 'inferno', 'coolwarm', 'rainbow', 'monochrome']).optional(),
+  wireframe: z.boolean().optional(),
+  opacity: z.number().min(0).max(1).optional(),
+  resolution: z.number().int().min(10).max(200).optional(),
+});
+
 export const GraphElementSchema = BaseElementSchema.extend({
   type: z.literal('graph'),
   width: z.number().positive(),
@@ -503,6 +531,11 @@ export const GraphElementSchema = BaseElementSchema.extend({
   axes: GraphAxesSchema,
   parameter: GraphParameterSchema.optional(),
   annotations: z.array(GraphAnnotationSchema).max(20).optional(),
+  // 3D mode (optional — when present, renders as WebGL surface)
+  mode: z.enum(['2d', '3d']).optional(),
+  surface: Graph3dSurfaceSchema.optional(),
+  zAxis: z.tuple([z.number(), z.number()]).optional(),
+  camera: Graph3dCameraSchema.optional(),
 });
 
 // ─── Full element union ──────────────────────────────────────────────────────

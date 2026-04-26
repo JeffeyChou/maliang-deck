@@ -5,6 +5,7 @@ import { validateDeck } from '@maliang-deck/schema';
 
 const runtimeSource = readFileSync(join(process.cwd(), 'runtime', 'runtime.js'), 'utf-8');
 const animationsSource = readFileSync(join(process.cwd(), 'assets', 'animations', 'animations.css'), 'utf-8');
+const mathVizSource = readFileSync(join(process.cwd(), 'assets', 'extensions', 'math-viz', 'index.js'), 'utf-8');
 
 function extractFunction(name: string, nextName: string) {
   const start = runtimeSource.indexOf(`function ${name}`);
@@ -42,7 +43,7 @@ describe('HTML runtime transition config and lifecycle', () => {
       meta: {
         title: 'invalid',
         canvas: { width: 1280, height: 720 },
-        htmlRuntime: { transition: { type: 'zoom' } },
+        htmlRuntime: { transition: { type: 'wipe' } },
       },
       slides: [{ id: 'slide-1', elements: [] }],
     });
@@ -92,5 +93,26 @@ describe('HTML runtime transition config and lifecycle', () => {
     expect(transitionBlock).not.toContain('.advance(');
     expect(runtimeSource).toContain("case 'ArrowDown': case 'PageDown': go(idx+1, false, { skipTimeline: true })");
     expect(runtimeSource).toContain("case 'ArrowRight': advanceTimelineStep('forward')");
+  });
+
+  it('tokenizes formula morphs and defers source fade until after path movement', () => {
+    expect(mathVizSource).toContain('function snapshotFormulaTokens');
+    expect(mathVizSource).toContain("span.setAttribute('data-formula-token'");
+    expect(mathVizSource).toContain('splitGraphemes(node.nodeValue');
+    expect(mathVizSource).toContain('containerRect.width / container.offsetWidth');
+    expect(mathVizSource).toContain('(rect.left - containerRect.left) / scaleX');
+    expect(mathVizSource).toContain('function structuralMatch(oldAtoms, newAtoms, explicitMap)');
+    expect(mathVizSource).toContain('function curvedBoundaryPath');
+    expect(mathVizSource).toContain('maliang-formula-annotation-layer');
+
+    const morphStart = mathVizSource.indexOf('function morphTo(targetLatex, morphMap)');
+    const phaseTwoStart = mathVizSource.indexOf('function swapTick()', morphStart);
+    const phaseOneBlock = mathVizSource.slice(morphStart, phaseTwoStart);
+    const phaseTwoBlock = mathVizSource.slice(phaseTwoStart, mathVizSource.indexOf('function advanceStep()', phaseTwoStart));
+
+    expect(phaseOneBlock).toContain('oldLayerTokens[pair.oldIdx].el.style.visibility = \'hidden\'');
+    expect(phaseOneBlock).not.toContain('oldLayer.style.opacity = String(1 -');
+    expect(phaseTwoBlock).toContain('oldLayer.style.opacity = String(1 - se)');
+    expect(phaseTwoBlock).toContain('if (newKatex) newKatex.style.opacity = String(se)');
   });
 });
