@@ -399,6 +399,10 @@
       deck.setAttribute('data-transition-direction', direction);
       previousSlide.classList.add('is-transition-prev');
       nextSlide.classList.add('is-transition-next');
+      // Pre-warm extensions on incoming slide (before it becomes active)
+      if (window.__vsliExtensions) {
+        window.__vsliExtensions.prewarmSlide(nextSlide);
+      }
     }
 
     function cleanupTransitionSlides(previousSlide, nextSlide) {
@@ -409,10 +413,18 @@
     }
 
     function commitSlideTransition(n) {
+      var previousActive = slides.find(s => s.classList.contains('is-active'));
       slides.forEach((s,i) => {
         s.classList.toggle('is-active', i===n);
         s.classList.toggle('is-prev', i<n);
       });
+      // Extension lifecycle: deactivate previous, activate new
+      if (window.__vsliExtensions) {
+        if (previousActive && previousActive !== slides[n]) {
+          window.__vsliExtensions.deactivateSlide(previousActive);
+        }
+        window.__vsliExtensions.activateSlide(slides[n]);
+      }
     }
 
     function runSlideTransition(previousSlide, nextSlide, direction, done) {

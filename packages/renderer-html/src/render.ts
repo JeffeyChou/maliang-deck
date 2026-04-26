@@ -191,6 +191,9 @@ ${slidesHtml}
   <script src="${base}runtime/runtime.js"></script>
   <script src="${base}assets/fx/fx-runtime.js"></script>
   <script src="${base}assets/animations/timeline.js"></script>
+  <script src="${base}assets/lib/interpolate.js"></script>
+  <script src="${base}assets/lib/text-splitter.js"></script>
+  <script src="${base}assets/extensions/ext-runtime.js"></script>
 </body>
 </html>`;
 }

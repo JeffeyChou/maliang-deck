@@ -109,6 +109,16 @@ export const LayoutConfigSchema = z.discriminatedUnion('mode', [
   FlexLayoutConfigSchema,
 ]);
 
+// ─── Continuous Animation ────────────────────────────────────────────────────
+
+export const ContinuousAnimationSchema = z.object({
+  duration: z.number().positive(),
+  delay: z.number().nonnegative().optional(),
+  loop: z.union([z.boolean(), z.number().int().positive()]).optional(),
+  trigger: z.enum(['auto', 'step', 'visible']).optional(),
+  step: z.number().int().nonnegative().optional(),
+});
+
 // ─── Base Element ────────────────────────────────────────────────────────────
 
 const BaseElementSchema = z.object({
@@ -120,6 +130,7 @@ const BaseElementSchema = z.object({
   rotation: z.number().optional(),
   opacity: z.number().min(0).max(1).optional(),
   animation: AnimationSchema.optional(),
+  continuousAnimation: ContinuousAnimationSchema.optional(),
   placement: LayoutPlacementSchema.optional(),
 });
 
@@ -381,6 +392,119 @@ export const LayoutElementSchema = LayoutElementBaseSchema.superRefine((layoutEl
   addGridPlacementIssues(layoutElement, ctx);
 });
 
+// ─── Animated Text ──────────────────────────────────────────────────────────
+
+export const TextAnimEffectSchema = z.object({
+  name: z.enum([
+    'stagger', 'wave', 'cascade', 'scramble', 'decode',
+    'typewriter', 'fade-chars', 'bounce-chars', 'rotate-chars',
+    'scale-chars', 'blur-reveal', 'glitch',
+  ]),
+  splitMode: z.enum(['char', 'word', 'line']).optional(),
+  stagger: z.number().optional(),
+  direction: z.enum(['forward', 'backward', 'center', 'edges', 'random']).optional(),
+  easing: z.string().optional(),
+  duration: z.number().positive().optional(),
+});
+
+export const TextPathSchema = z.object({
+  d: z.string().min(1),
+  align: z.enum(['start', 'center', 'end']).optional(),
+  offset: z.number().min(0).max(1).optional(),
+  animate: z.boolean().optional(),
+  animateDuration: z.number().positive().optional(),
+});
+
+export const AnimatedTextElementSchema = BaseElementSchema.extend({
+  type: z.literal('animatedText'),
+  content: z.string().min(1),
+  width: z.number().positive(),
+  height: z.number().positive().optional(),
+  fontSize: z.number().positive(),
+  fontFamily: z.string().optional(),
+  fontWeight: z.enum(['normal', 'bold', '100', '200', '300', '400', '500', '600', '700', '800', '900']).optional(),
+  color: z.string().optional(),
+  align: z.enum(['left', 'center', 'right']).optional(),
+  lineHeight: z.number().positive().optional(),
+  textAnimation: z.union([TextAnimEffectSchema, z.array(TextAnimEffectSchema).min(1)]),
+  path: TextPathSchema.optional(),
+  morphTo: z.string().optional(),
+  morphDuration: z.number().positive().optional(),
+});
+
+// ─── Formula ────────────────────────────────────────────────────────────────
+
+export const FormulaHighlightSchema = z.object({
+  symbol: z.string().min(1),
+  color: z.string().optional(),
+});
+
+export const FormulaStepSchema = z.object({
+  latex: z.string().min(1),
+  annotation: z.string().optional(),
+  highlight: z.array(FormulaHighlightSchema).optional(),
+  duration: z.number().positive().optional(),
+});
+
+export const FormulaElementSchema = BaseElementSchema.extend({
+  type: z.literal('formula'),
+  width: z.number().positive(),
+  height: z.number().positive().optional(),
+  latex: z.string().min(1),
+  displayMode: z.boolean().optional(),
+  fontSize: z.number().positive().optional(),
+  color: z.string().optional(),
+  steps: z.array(FormulaStepSchema).optional(),
+  morphEasing: z.string().optional(),
+  morphDuration: z.number().positive().optional(),
+  stepTrigger: z.enum(['auto', 'click']).optional(),
+});
+
+// ─── Graph ──────────────────────────────────────────────────────────────────
+
+export const GraphFunctionSchema = z.object({
+  expr: z.string().min(1).max(500),
+  color: z.string().optional(),
+  strokeWidth: z.number().positive().optional(),
+  domain: z.tuple([z.number(), z.number()]).optional(),
+  animate: z.enum(['draw-on', 'fade', 'none']).optional(),
+  animateDuration: z.number().positive().optional(),
+  label: z.string().optional(),
+});
+
+export const GraphAnnotationSchema = z.object({
+  type: z.enum(['point', 'tangent', 'area', 'vertical-line']),
+  at: z.number().optional(),
+  color: z.string().optional(),
+  label: z.string().optional(),
+  animate: z.boolean().optional(),
+});
+
+export const GraphAxesSchema = z.object({
+  x: z.tuple([z.number(), z.number()]),
+  y: z.tuple([z.number(), z.number()]),
+  grid: z.boolean().optional(),
+  labels: z.boolean().optional(),
+  tickInterval: z.number().positive().optional(),
+});
+
+export const GraphParameterSchema = z.object({
+  name: z.string().min(1),
+  range: z.tuple([z.number(), z.number()]),
+  animate: z.boolean().optional(),
+  duration: z.number().positive().optional(),
+});
+
+export const GraphElementSchema = BaseElementSchema.extend({
+  type: z.literal('graph'),
+  width: z.number().positive(),
+  height: z.number().positive(),
+  functions: z.array(GraphFunctionSchema).min(1).max(10),
+  axes: GraphAxesSchema,
+  parameter: GraphParameterSchema.optional(),
+  annotations: z.array(GraphAnnotationSchema).max(20).optional(),
+});
+
 // ─── Full element union ──────────────────────────────────────────────────────
 
 export const ElementSchema: z.ZodType<any> = z.discriminatedUnion('type', [
@@ -397,6 +521,9 @@ export const ElementSchema: z.ZodType<any> = z.discriminatedUnion('type', [
   CustomHtmlElementSchema,
   GroupElementSchema,
   LayoutElementBaseSchema,
+  AnimatedTextElementSchema,
+  FormulaElementSchema,
+  GraphElementSchema,
 ]);
 
 // ─── Slide ───────────────────────────────────────────────────────────────────

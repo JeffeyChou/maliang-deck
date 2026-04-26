@@ -143,7 +143,10 @@ export type Element =
   | TableElement
   | CustomHtmlElement
   | GroupElement
-  | LayoutElement;
+  | LayoutElement
+  | AnimatedTextElement
+  | FormulaElement
+  | GraphElement;
 
 export interface BaseElement {
   type: string;
@@ -155,6 +158,8 @@ export interface BaseElement {
   rotation?: number;
   opacity?: number;
   animation?: Animation;
+  /** Continuous animation control (duration-based playback, separate from step-reveal). */
+  continuousAnimation?: ContinuousAnimation;
   /** Interpreted only by a parent layout container. */
   placement?: LayoutChildPlacement;
 }
@@ -367,4 +372,134 @@ export interface Animation {
   delay?: number;
   easing?: string;
   step?: number;
+}
+
+// ─── Continuous Animation ───────────────────────────────────────────────────
+
+export interface ContinuousAnimation {
+  duration: number;
+  delay?: number;
+  loop?: boolean | number;
+  trigger?: 'auto' | 'step' | 'visible';
+  step?: number;
+}
+
+// ─── Animated Text ──────────────────────────────────────────────────────────
+
+export type TextAnimEffectName =
+  | 'stagger' | 'wave' | 'cascade' | 'scramble' | 'decode'
+  | 'typewriter' | 'fade-chars' | 'bounce-chars' | 'rotate-chars'
+  | 'scale-chars' | 'blur-reveal' | 'glitch';
+
+export type TextAnimSplitMode = 'char' | 'word' | 'line';
+export type TextAnimDirection = 'forward' | 'backward' | 'center' | 'edges' | 'random';
+
+export interface TextAnimEffect {
+  name: TextAnimEffectName;
+  splitMode?: TextAnimSplitMode;
+  stagger?: number;
+  direction?: TextAnimDirection;
+  easing?: string;
+  duration?: number;
+}
+
+export interface TextPath {
+  d: string;
+  align?: 'start' | 'center' | 'end';
+  offset?: number;
+  animate?: boolean;
+  animateDuration?: number;
+}
+
+export interface AnimatedTextElement extends BaseElement {
+  type: 'animatedText';
+  content: string;
+  width: number;
+  height?: number;
+  fontSize: number;
+  fontFamily?: string;
+  fontWeight?: 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
+  color?: string;
+  align?: 'left' | 'center' | 'right';
+  lineHeight?: number;
+  textAnimation: TextAnimEffect | TextAnimEffect[];
+  path?: TextPath;
+  morphTo?: string;
+  morphDuration?: number;
+}
+
+// ─── Formula ────────────────────────────────────────────────────────────────
+
+export interface FormulaHighlight {
+  symbol: string;
+  color?: string;
+}
+
+export interface FormulaStep {
+  latex: string;
+  annotation?: string;
+  highlight?: FormulaHighlight[];
+  duration?: number;
+}
+
+export interface FormulaElement extends BaseElement {
+  type: 'formula';
+  width: number;
+  height?: number;
+  latex: string;
+  displayMode?: boolean;
+  fontSize?: number;
+  color?: string;
+  steps?: FormulaStep[];
+  morphEasing?: string;
+  morphDuration?: number;
+  stepTrigger?: 'auto' | 'click';
+}
+
+// ─── Graph ──────────────────────────────────────────────────────────────────
+
+export type GraphAnimateType = 'draw-on' | 'fade' | 'none';
+export type GraphAnnotationType = 'point' | 'tangent' | 'area' | 'vertical-line';
+
+export interface GraphFunction {
+  expr: string;
+  color?: string;
+  strokeWidth?: number;
+  domain?: [number, number];
+  animate?: GraphAnimateType;
+  animateDuration?: number;
+  label?: string;
+}
+
+export interface GraphParameter {
+  name: string;
+  range: [number, number];
+  animate?: boolean;
+  duration?: number;
+}
+
+export interface GraphAnnotation {
+  type: GraphAnnotationType;
+  at?: number;
+  color?: string;
+  label?: string;
+  animate?: boolean;
+}
+
+export interface GraphAxes {
+  x: [number, number];
+  y: [number, number];
+  grid?: boolean;
+  labels?: boolean;
+  tickInterval?: number;
+}
+
+export interface GraphElement extends BaseElement {
+  type: 'graph';
+  width: number;
+  height: number;
+  functions: GraphFunction[];
+  axes: GraphAxes;
+  parameter?: GraphParameter;
+  annotations?: GraphAnnotation[];
 }

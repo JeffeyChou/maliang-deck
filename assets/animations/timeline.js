@@ -152,6 +152,16 @@
     if (bc) bc.postMessage({ type: 'step', step: step, total: total });
   }
 
+  // Listen for remote track seek commands (presenter sync)
+  if (bc) {
+    bc.addEventListener('message', function (e) {
+      var msg = e.data;
+      if (msg && msg.type === 'track-seek' && msg.id) {
+        seekTrack(msg.id, msg.elapsed || 0);
+      }
+    });
+  }
+
   // ─── INITIALIZATION ─────────────────────────────────────────────────────────
   function init() {
     var deck = document.querySelector('.deck');
@@ -200,8 +210,9 @@
 
   // ─── SLIDE ACTIVATION ───────────────────────────────────────────────────────
   function activateSlide(slide, skipAnimation) {
-    // Cancel any running animations
+    // Cancel any running step animations and stop all continuous tracks
     cancelAllAnimations();
+    stopAllTracks();
     activeSlide = slide;
 
     var data = slideData.get(slide);
@@ -234,12 +245,22 @@
     }
     broadcastStep(0, data.totalSteps);
     notifyCallbacks(0, data.totalSteps);
+
+    // Start auto-triggered continuous tracks
+    tracks.forEach(function (track) {
+      if (track.trigger === 'auto') {
+        startTrackAfterDelay(track);
+      }
+    });
   }
 
   // ─── PLAY A STEP ───────────────────────────────────────────────────────────
   function playStep(slide, stepNum) {
     var data = slideData.get(slide);
     if (!data) return;
+
+    // Trigger any continuous tracks bound to this step
+    triggerTracksForStep(stepNum);
 
     var elements = data.steps.get(stepNum);
     if (!elements) return;
@@ -358,6 +379,211 @@
     }
   }
 
+  // ─── CONTINUOUS TRACKS ──────────────────────────────────────────────────────
+  // Duration-based animation tracks that coexist with step-based reveal.
+  // Tracks can be triggered by steps or auto-play on slide activation.
+
+  var tracks = new Map(); // Map<trackId, TrackState>
+  var trackCallbacks = new Map(); // Map<trackId, Set<callback>>
+
+  /**
+   * Register a continuous animation track.
+   * @param {string} trackId - Unique identifier
+   * @param {object} config
+   * @param {number} config.duration - Track duration in ms
+   * @param {string} [config.trigger='auto'] - 'auto'|'step'|'visible'
+   * @param {number} [config.step] - Step number that triggers this track (when trigger='step')
+   * @param {boolean|number} [config.loop=false] - Loop count or true for infinite
+   * @param {number} [config.delay=0] - Delay before starting
+   * @param {function} [config.onUpdate] - Called each frame with (progress: 0-1, elapsedMs)
+   * @param {function} [config.onComplete] - Called when track finishes
+   */
+  function registerTrack(trackId, config) {
+    var track = {
+      id: trackId,
+      duration: config.duration,
+      trigger: config.trigger || 'auto',
+      step: config.step || 0,
+      loop: config.loop || false,
+      delay: config.delay || 0,
+      onUpdate: config.onUpdate || null,
+      onComplete: config.onComplete || null,
+      // Runtime state
+      state: 'idle', // 'idle' | 'playing' | 'paused' | 'complete'
+      startTime: 0,
+      elapsed: 0,
+      pausedAt: 0,
+      rafId: null,
+      loopCount: 0,
+    };
+    tracks.set(trackId, track);
+
+    // If track triggers on auto and the slide is already active, start it
+    if (track.trigger === 'auto' && activeSlide) {
+      startTrackAfterDelay(track);
+    }
+  }
+
+  function startTrackAfterDelay(track) {
+    if (reducedMotion) {
+      // Reduced motion: jump to end state
+      track.state = 'complete';
+      track.elapsed = track.duration;
+      if (track.onUpdate) track.onUpdate(1, track.duration);
+      if (track.onComplete) track.onComplete();
+      notifyTrackCallbacks(track.id, 1, track.duration);
+      return;
+    }
+
+    if (track.delay > 0) {
+      setTimeout(function () { playTrackInternal(track); }, track.delay);
+    } else {
+      playTrackInternal(track);
+    }
+  }
+
+  function playTrackInternal(track) {
+    if (track.state === 'complete' && !track.loop) return;
+    track.state = 'playing';
+    track.startTime = performance.now() - track.elapsed;
+    tickTrack(track);
+  }
+
+  function tickTrack(track) {
+    if (track.state !== 'playing') return;
+
+    track.rafId = requestAnimationFrame(function () {
+      if (track.state !== 'playing') return;
+
+      var now = performance.now();
+      track.elapsed = now - track.startTime;
+      var progress = Math.min(track.elapsed / track.duration, 1);
+
+      if (track.onUpdate) track.onUpdate(progress, track.elapsed);
+      notifyTrackCallbacks(track.id, progress, track.elapsed);
+
+      // Broadcast track progress for presenter sync
+      if (bc) {
+        bc.postMessage({ type: 'track', id: track.id, progress: progress, elapsed: track.elapsed });
+      }
+
+      if (progress >= 1) {
+        // Track completed one cycle
+        track.loopCount++;
+        var shouldLoop = track.loop === true || (typeof track.loop === 'number' && track.loopCount < track.loop);
+
+        if (shouldLoop) {
+          // Restart
+          track.elapsed = 0;
+          track.startTime = now;
+          tickTrack(track);
+        } else {
+          track.state = 'complete';
+          if (track.onComplete) track.onComplete();
+        }
+      } else {
+        tickTrack(track);
+      }
+    });
+  }
+
+  function playTrack(trackId) {
+    var track = tracks.get(trackId);
+    if (!track) return;
+    if (track.state === 'paused') {
+      track.startTime = performance.now() - track.elapsed;
+    }
+    playTrackInternal(track);
+  }
+
+  function pauseTrack(trackId) {
+    var track = tracks.get(trackId);
+    if (!track || track.state !== 'playing') return;
+    track.state = 'paused';
+    if (track.rafId) {
+      cancelAnimationFrame(track.rafId);
+      track.rafId = null;
+    }
+  }
+
+  function seekTrack(trackId, timeMs) {
+    var track = tracks.get(trackId);
+    if (!track) return;
+    track.elapsed = Math.max(0, Math.min(timeMs, track.duration));
+    var progress = track.elapsed / track.duration;
+    track.startTime = performance.now() - track.elapsed;
+    if (track.onUpdate) track.onUpdate(progress, track.elapsed);
+    notifyTrackCallbacks(track.id, progress, track.elapsed);
+  }
+
+  function stopTrack(trackId) {
+    var track = tracks.get(trackId);
+    if (!track) return;
+    track.state = 'idle';
+    track.elapsed = 0;
+    track.loopCount = 0;
+    if (track.rafId) {
+      cancelAnimationFrame(track.rafId);
+      track.rafId = null;
+    }
+  }
+
+  function stopAllTracks() {
+    tracks.forEach(function (track) {
+      track.state = 'idle';
+      track.elapsed = 0;
+      track.loopCount = 0;
+      if (track.rafId) {
+        cancelAnimationFrame(track.rafId);
+        track.rafId = null;
+      }
+    });
+  }
+
+  function removeTrack(trackId) {
+    stopTrack(trackId);
+    tracks.delete(trackId);
+    trackCallbacks.delete(trackId);
+  }
+
+  function onTrackUpdate(trackId, cb) {
+    if (!trackCallbacks.has(trackId)) trackCallbacks.set(trackId, new Set());
+    trackCallbacks.get(trackId).add(cb);
+    return function () {
+      var cbs = trackCallbacks.get(trackId);
+      if (cbs) cbs.delete(cb);
+    };
+  }
+
+  function notifyTrackCallbacks(trackId, progress, elapsed) {
+    var cbs = trackCallbacks.get(trackId);
+    if (cbs) {
+      cbs.forEach(function (cb) { cb(progress, elapsed); });
+    }
+  }
+
+  function getTrackState(trackId) {
+    var track = tracks.get(trackId);
+    if (!track) return null;
+    return {
+      state: track.state,
+      elapsed: track.elapsed,
+      progress: track.elapsed / track.duration,
+      duration: track.duration,
+    };
+  }
+
+  /**
+   * Called when a step is played — checks if any continuous tracks should trigger.
+   */
+  function triggerTracksForStep(stepNum) {
+    tracks.forEach(function (track) {
+      if (track.trigger === 'step' && track.step === stepNum && track.state === 'idle') {
+        startTrackAfterDelay(track);
+      }
+    });
+  }
+
   // ─── PUBLIC API ─────────────────────────────────────────────────────────────
   function notifyCallbacks(step, total) {
     callbacks.forEach(function (cb) { cb(step, total); });
@@ -433,6 +659,7 @@
 
   // ─── EXPOSE GLOBAL API ──────────────────────────────────────────────────────
   window.__vsliTimeline = {
+    // Step-based (legacy)
     play: play,
     pause: pause,
     seek: seek,
@@ -442,6 +669,15 @@
     shouldConsumeNavigation: shouldConsumeNavigation,
     advance: advance,
     hasTimelineElements: hasTimelineElements,
+    // Continuous tracks
+    registerTrack: registerTrack,
+    playTrack: playTrack,
+    pauseTrack: pauseTrack,
+    seekTrack: seekTrack,
+    stopTrack: stopTrack,
+    removeTrack: removeTrack,
+    onTrackUpdate: onTrackUpdate,
+    getTrackState: getTrackState,
   };
 
   // ─── BOOT ───────────────────────────────────────────────────────────────────
