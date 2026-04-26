@@ -222,6 +222,18 @@ export const consultingStyle: StyleDefinition = {
         'Use semantic colors in chart palettes: success (#1b7a3e) for positive deltas, danger (#b91c1c) for negative.',
         'KPI dashboard charts should use the primary color (#0a3d7c) for the main metric series.',
       ],
+      animationRules: [
+        'Use purposeful animations to guide the audience through the narrative arc.',
+        'Title/heading elements: use fade-up or rise-in at step 0 (auto-play) for immediate presence.',
+        'KPI stat numbers: use scale-in, zoom-pop, or bounce-in at step 1 to draw attention to key metrics.',
+        'Chart and insight callout elements: use step 1–2 for click-to-reveal to control pacing.',
+        'Use slide-from-left / slide-from-right for elements that build a left-to-right timeline or flow.',
+        'Keep durations 300–500ms for a crisp, executive-friendly pace. Avoid slow animations.',
+        'Limit to 2–3 distinct animation types per slide to avoid visual noise.',
+        'Set slide transition to "slide" or "push" with durationMs 350–450 for dynamic but professional flow.',
+        'Use canvas FX (slide.fx) only on title or section divider slides for visual impact, not data slides.',
+        'For progressive builds (e.g. MECE trees, roadmaps), use incremental steps with consistent fade-up animations.',
+      ],
       positioningRules: [
         'Title element must have y ≥ 40 and y ≤ 72 for cross-slide consistency.',
         'Respect margin of 56px on left/right and 40px on top/bottom.',
@@ -258,7 +270,7 @@ export const consultingStyle: StyleDefinition = {
   ],
 
   rendererCapabilities: {
-    animations:    'none',
+    animations:    'full',
     charts:        'full',
     tables:        'full',
     gradients:     'full',

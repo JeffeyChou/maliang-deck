@@ -14,7 +14,7 @@ export const CanvasSizeSchema = z.object({
 });
 
 export const HtmlRuntimeTransitionSchema = z.object({
-  type: z.enum(['none', 'fade', 'slide']).optional(),
+  type: z.enum(['none', 'fade', 'slide', 'dissolve', 'zoom', 'push', 'cover']).optional(),
   durationMs: z.number().nonnegative().optional(),
   easing: z.string().min(1).optional(),
   autoAnimate: z.boolean().optional(),

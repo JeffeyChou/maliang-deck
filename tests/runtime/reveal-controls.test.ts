@@ -83,7 +83,7 @@ describe('reveal-style presenter controls runtime', () => {
     const html = renderDeckToHtml(deck);
 
     expect(html).toContain('/runtime/runtime.js');
-    expect(html).toContain('/runtime/timeline.js');
+    expect(html).toContain('/assets/animations/timeline.js');
     expect(html).toContain('data-anim-enter="fade-up"');
     expect(html).toContain('data-anim-step="1"');
   });

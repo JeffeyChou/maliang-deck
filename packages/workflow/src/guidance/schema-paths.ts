@@ -32,6 +32,8 @@ export const VALID_DSL_PATHS: ReadonlySet<string> = new Set([
   'meta.fonts',
   'meta.htmlRuntime',
   'meta.htmlRuntime.transition',
+  'meta.htmlRuntime.transition.type',
+  'meta.htmlRuntime.transition.durationMs',
 
   // ── Slide top-level ────────────────────────────────────────────────────────
   'slides[].id',

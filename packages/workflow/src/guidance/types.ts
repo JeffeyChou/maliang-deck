@@ -121,6 +121,8 @@ export type SlideDslGuidance = {
   elementRules: string[];
   /** Color usage rules referencing style palette. */
   colorRules: string[];
+  /** Animation usage rules for smooth HTML slide delivery. */
+  animationRules?: string[];
   /** Positioning and spacing rules. */
   positioningRules: string[];
   /**

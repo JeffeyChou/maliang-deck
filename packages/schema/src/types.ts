@@ -49,7 +49,7 @@ export interface HtmlRuntimeConfig {
   showSlideNumber?: boolean;
 }
 
-export type HtmlRuntimeTransitionType = 'none' | 'fade' | 'slide';
+export type HtmlRuntimeTransitionType = 'none' | 'fade' | 'slide' | 'dissolve' | 'zoom' | 'push' | 'cover';
 export type HtmlRuntimeUnmatchedBehavior = 'fade' | 'instant';
 
 export interface HtmlRuntimeTransitionConfig {

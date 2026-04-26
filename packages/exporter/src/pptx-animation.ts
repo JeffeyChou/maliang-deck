@@ -56,6 +56,21 @@ export const PPTX_ANIMATION_MAPPINGS: Record<string, PptxAnimationMapping> = {
   'rise-in': { effect: 'rise-in', pptxTarget: 'fade+motion-up', fallback: 'fade', support: 'downgraded' },
   'zoom-pop': { effect: 'zoom-pop', pptxTarget: 'zoom/scale-entrance', fallback: 'fade', support: 'supported' },
   'rotate-in': { effect: 'rotate-in', pptxTarget: 'spin/rotate-entrance', fallback: 'fade', support: 'downgraded' },
+  'flip-in': { effect: 'flip-in', pptxTarget: 'fade', fallback: 'fade', support: 'downgraded' },
+  'bounce-in': { effect: 'bounce-in', pptxTarget: 'bounce', fallback: 'fade', support: 'supported' },
+  'elastic-in': { effect: 'elastic-in', pptxTarget: 'zoom/scale-entrance', fallback: 'fade', support: 'downgraded' },
+  'swing-in': { effect: 'swing-in', pptxTarget: 'swivel', fallback: 'fade', support: 'downgraded' },
+  'slide-from-top': { effect: 'slide-from-top', pptxTarget: 'fly-in-top', fallback: 'fade', support: 'supported' },
+  'slide-from-bottom': { effect: 'slide-from-bottom', pptxTarget: 'fly-in-bottom', fallback: 'fade', support: 'supported' },
+  'drop-in': { effect: 'drop-in', pptxTarget: 'fly-in-top', fallback: 'fade', support: 'downgraded' },
+  'zoom-in': { effect: 'zoom-in', pptxTarget: 'zoom/scale-entrance', fallback: 'fade', support: 'supported' },
+  'shrink-in': { effect: 'shrink-in', pptxTarget: 'zoom/scale-entrance', fallback: 'fade', support: 'downgraded' },
+  'spin-in': { effect: 'spin-in', pptxTarget: 'spin/rotate-entrance', fallback: 'fade', support: 'downgraded' },
+  'blur-zoom': { effect: 'blur-zoom', pptxTarget: 'fade', fallback: 'fade', support: 'downgraded' },
+  'skew-in': { effect: 'skew-in', pptxTarget: 'fade', fallback: 'fade', support: 'downgraded' },
+  'stretch-x': { effect: 'stretch-x', pptxTarget: 'wipe-right', fallback: 'fade', support: 'downgraded' },
+  'stretch-y': { effect: 'stretch-y', pptxTarget: 'wipe-down', fallback: 'fade', support: 'downgraded' },
+  'flash-in': { effect: 'flash-in', pptxTarget: 'flash', fallback: 'fade', support: 'supported' },
 };
 
 function collectAnimatedItems(elements: Element[], sourceOrder: { value: number }): PptxAnimationItem[] {

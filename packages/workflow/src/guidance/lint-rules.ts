@@ -502,6 +502,44 @@ const tableHeaderContrastRule: LintRule = {
   },
 };
 
+/**
+ * Rule: animation-overuse
+ * Slides with too many distinct animation effects or too many animated
+ * elements risk feeling chaotic. Flags slides exceeding thresholds.
+ * Severity: warning.
+ */
+const animationOveruseRule: LintRule = {
+  id: 'animation-overuse',
+  name: 'Animation Overuse',
+  severity: 'warning',
+  check(slide) {
+    const results: LintResult[] = [];
+    const allElements = flattenElements(slide.elements);
+    const animatedEls = allElements.filter((el) => el.animation?.enter);
+    const distinctEffects = new Set(animatedEls.map((el) => el.animation!.enter));
+
+    if (distinctEffects.size > 4) {
+      results.push({
+        ruleId: 'animation-overuse',
+        severity: 'warning',
+        message: `Slide "${slide.id}" uses ${distinctEffects.size} distinct animation effects — limit to 3–4 for visual coherence.`,
+        slideId: slide.id,
+      });
+    }
+
+    if (animatedEls.length > 12) {
+      results.push({
+        ruleId: 'animation-overuse',
+        severity: 'warning',
+        message: `Slide "${slide.id}" has ${animatedEls.length} animated elements — consider reducing to avoid overwhelming the audience.`,
+        slideId: slide.id,
+      });
+    }
+
+    return results;
+  },
+};
+
 const customHtmlUsageRule: LintRule = {
   id: 'customHtml-usage',
   name: 'Custom HTML Usage',
@@ -537,6 +575,7 @@ export const builtInRules: LintRule[] = [
   densityCheckRule,
   chartThemeCoherenceRule,
   tableHeaderContrastRule,
+  animationOveruseRule,
   customHtmlUsageRule,
 ];
 

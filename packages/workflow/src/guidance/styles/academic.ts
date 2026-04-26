@@ -192,6 +192,16 @@ export const academicStyle: StyleDefinition = {
         'Chart style.palette should use hex colors from the academic palette. Omit style.palette to inherit theme colors automatically.',
         'Table style.headerBackground should contrast with style.headerColor at WCAG AA (4.5:1) minimum.',
       ],
+      animationRules: [
+        'Use subtle, professional animations: prefer fade-up, fade-down, blur-in, or rise-in for element entrances.',
+        'Title and heading elements should use step 0 (auto-play on slide enter) with fade-up or blur-in.',
+        'Evidence elements (charts, tables, figures) should use step 1+ for click-to-reveal progressive disclosure.',
+        'Keep animation durations between 400–600ms for a measured, academic pace.',
+        'Avoid playful animations (bounce-in, spin-in, flash-in) — they undermine formal tone.',
+        'Use the same animation style consistently within a slide; do not mix more than 2 different enter effects per slide.',
+        'Set slide transition to "fade" or "dissolve" with durationMs 400–500 for smooth inter-slide flow.',
+        'Canvas FX (slide.fx) should be used sparingly — only on title or section divider slides, not evidence slides.',
+      ],
       positioningRules: [
         'Title element must have y ≥ 48 and y ≤ 80 for consistency across slides.',
         'Respect margin of 64px on left/right and 48px on top/bottom.',
@@ -227,7 +237,7 @@ export const academicStyle: StyleDefinition = {
   ],
 
   rendererCapabilities: {
-    animations:    'none',
+    animations:    'full',
     charts:        'full',
     tables:        'full',
     gradients:     'partial',

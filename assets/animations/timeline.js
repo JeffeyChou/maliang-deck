@@ -55,6 +55,80 @@
       { opacity: 0, transform: 'rotate(-10deg) scale(0.9)' },
       { opacity: 1, transform: 'rotate(0deg) scale(1)' }
     ],
+
+    // ── Component animations (extended set) ──────────────────────────────────
+    'flip-in': [
+      { opacity: 0, transform: 'perspective(600px) rotateX(90deg)' },
+      { opacity: 1, transform: 'perspective(600px) rotateX(0deg)' }
+    ],
+    'bounce-in': [
+      { opacity: 0, transform: 'scale(0.3)', offset: 0 },
+      { opacity: 1, transform: 'scale(1.05)', offset: 0.5 },
+      { opacity: 1, transform: 'scale(0.95)', offset: 0.7 },
+      { opacity: 1, transform: 'scale(1)', offset: 1 }
+    ],
+    'elastic-in': [
+      { opacity: 0, transform: 'scale(0.4)', offset: 0 },
+      { opacity: 1, transform: 'scale(1.08)', offset: 0.55 },
+      { opacity: 1, transform: 'scale(0.97)', offset: 0.75 },
+      { opacity: 1, transform: 'scale(1.01)', offset: 0.9 },
+      { opacity: 1, transform: 'scale(1)', offset: 1 }
+    ],
+    'swing-in': [
+      { opacity: 0, transform: 'rotate(-12deg)', transformOrigin: 'top center' },
+      { opacity: 1, transform: 'rotate(6deg)', transformOrigin: 'top center', offset: 0.4 },
+      { opacity: 1, transform: 'rotate(-3deg)', transformOrigin: 'top center', offset: 0.7 },
+      { opacity: 1, transform: 'rotate(0deg)', transformOrigin: 'top center', offset: 1 }
+    ],
+    'slide-from-top': [
+      { opacity: 0, transform: 'translateY(-100%)' },
+      { opacity: 1, transform: 'translateY(0)' }
+    ],
+    'slide-from-bottom': [
+      { opacity: 0, transform: 'translateY(100%)' },
+      { opacity: 1, transform: 'translateY(0)' }
+    ],
+    'drop-in': [
+      { opacity: 0, transform: 'translateY(-80px) scale(0.95)', offset: 0 },
+      { opacity: 1, transform: 'translateY(6px) scale(1)', offset: 0.65 },
+      { opacity: 1, transform: 'translateY(-2px) scale(1)', offset: 0.85 },
+      { opacity: 1, transform: 'translateY(0) scale(1)', offset: 1 }
+    ],
+    'zoom-in': [
+      { opacity: 0, transform: 'scale(0)' },
+      { opacity: 1, transform: 'scale(1)' }
+    ],
+    'shrink-in': [
+      { opacity: 0, transform: 'scale(1.6)' },
+      { opacity: 1, transform: 'scale(1)' }
+    ],
+    'spin-in': [
+      { opacity: 0, transform: 'rotate(360deg) scale(0.5)' },
+      { opacity: 1, transform: 'rotate(0deg) scale(1)' }
+    ],
+    'blur-zoom': [
+      { opacity: 0, filter: 'blur(12px)', transform: 'scale(0.7)' },
+      { opacity: 1, filter: 'blur(0px)', transform: 'scale(1)' }
+    ],
+    'skew-in': [
+      { opacity: 0, transform: 'skewX(20deg) translateX(-30px)' },
+      { opacity: 1, transform: 'skewX(0deg) translateX(0)' }
+    ],
+    'stretch-x': [
+      { opacity: 0, transform: 'scaleX(0)' },
+      { opacity: 1, transform: 'scaleX(1)' }
+    ],
+    'stretch-y': [
+      { opacity: 0, transform: 'scaleY(0)' },
+      { opacity: 1, transform: 'scaleY(1)' }
+    ],
+    'flash-in': [
+      { opacity: 0, offset: 0 },
+      { opacity: 1, offset: 0.25 },
+      { opacity: 0.4, offset: 0.5 },
+      { opacity: 1, offset: 0.75 },
+      { opacity: 1, offset: 1 }
+    ],
   };
 
   // ─── STATE ──────────────────────────────────────────────────────────────────

@@ -23,7 +23,7 @@ describe('export pipeline debug', () => {
     const registry = new FontRegistry();
     const result = renderDeckToSvg(comprehensiveTextMeasureDeck, { fontRegistry: registry });
 
-    expect(result.slides).toHaveLength(2);
+    expect(result.slides).toHaveLength(3);
     expect(result.slides[0].svg).toContain('data-maliang-deck-id="left-body-a"');
     expect(result.slides[1].svg).toContain('data-maliang-deck-id="anim-chart"');
     expect(result.slides[1].svg).toContain('data-maliang-deck-kind="table"');
@@ -50,7 +50,7 @@ describe('export pipeline debug', () => {
   });
 
   it('keeps the fixture, runtime keyframes, and PPTX mapping in sync', () => {
-    const runtimeSource = readFileSync('runtime/timeline.js', 'utf-8');
+    const runtimeSource = readFileSync('assets/animations/timeline.js', 'utf-8');
     const runtimeEffects = [...runtimeSource.matchAll(/^\s+'([^']+)':\s*\[/gm)].map((match) => match[1]).sort();
     const fixtureEffects = [...new Set(collectAnimationEffects(comprehensiveTextMeasureDeck))].sort();
     const pptxEffects = Object.keys(PPTX_ANIMATION_MAPPINGS).sort();

@@ -9,7 +9,7 @@ import {
 } from '../src/pptx-animation.js';
 
 function timelineAnimationNames(): string[] {
-  const timelinePath = fileURLToPath(new URL('../../../runtime/timeline.js', import.meta.url));
+  const timelinePath = fileURLToPath(new URL('../../../assets/animations/timeline.js', import.meta.url));
   const source = readFileSync(timelinePath, 'utf-8');
   const match = source.match(/const KEYFRAMES = \{([\s\S]*?)\n  \};/);
   if (!match) throw new Error('KEYFRAMES registry not found in runtime/timeline.js');

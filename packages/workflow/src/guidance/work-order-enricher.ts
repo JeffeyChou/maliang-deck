@@ -145,6 +145,7 @@ export function enrichDslWorkOrder(
       : []),
     ...slideDslGuidance.elementRules.map((r) => `Element rule: ${r}`),
     ...slideDslGuidance.colorRules.map((r) => `Color rule: ${r}`),
+    ...(slideDslGuidance.animationRules ?? []).map((r) => `Animation: ${r}`),
     ...slideDslGuidance.positioningRules.map((r) => `Positioning: ${r}`),
     ...notesGuidance,
   ];

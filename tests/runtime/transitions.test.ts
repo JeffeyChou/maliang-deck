@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { validateDeck } from '@maliang-deck/schema';
 
 const runtimeSource = readFileSync(join(process.cwd(), 'runtime', 'runtime.js'), 'utf-8');
-const animationsSource = readFileSync(join(process.cwd(), 'runtime', 'animations.css'), 'utf-8');
+const animationsSource = readFileSync(join(process.cwd(), 'assets', 'animations', 'animations.css'), 'utf-8');
 
 function extractFunction(name: string, nextName: string) {
   const start = runtimeSource.indexOf(`function ${name}`);

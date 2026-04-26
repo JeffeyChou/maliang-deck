@@ -105,6 +105,10 @@ export function renderDeckToHtml(deck: Deck): string {
   const title = escapeHtml(meta.title);
   const autoAnimate = meta.htmlRuntime?.transition?.autoAnimate === true;
 
+  const transitionType = meta.htmlRuntime?.transition?.type ?? 'fade';
+  const transitionDuration = meta.htmlRuntime?.transition?.durationMs ?? 500;
+  const transitionEasing = meta.htmlRuntime?.transition?.easing ?? 'ease';
+
   const slidesHtml = slides
     .map((slide) => renderSlide(slide, width, height, autoAnimate))
     .join('\n');
@@ -117,7 +121,8 @@ export function renderDeckToHtml(deck: Deck): string {
   <title>${title}</title>
   <link id="chart-table-base" rel="stylesheet" href="/assets/themes/_chart-table-base.css">
   <link id="theme-link" rel="stylesheet" href="/assets/themes/${theme}.css">
-  <link rel="stylesheet" href="/runtime/animations.css">
+  <link rel="stylesheet" href="/assets/animations/animations.css">
+  <link rel="stylesheet" href="/assets/animations/transitions.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { overflow: hidden; background: #000; }
@@ -142,14 +147,14 @@ export function renderDeckToHtml(deck: Deck): string {
 </head>
 <body data-theme-base="/assets/themes/">
 ${runtimeConfigScript(meta.htmlRuntime)}  <noscript><style>.slide:first-child { visibility: visible; opacity: 1; }</style></noscript>
-  <div class="deck" style="--slide-w:${width}px; --slide-h:${height}px;">
+  <div class="deck" data-transition="${transitionType}" style="--slide-w:${width}px; --slide-h:${height}px; --transition-duration:${transitionDuration}ms; --transition-easing:${transitionEasing};">
 ${slidesHtml}
   </div>
   <div class="slide-number" data-current="1" data-total="${slides.length}"></div>
   <div class="step-indicator" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" fill="none" stroke="var(--ui-text, rgba(255,255,255,.65))" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
   <script src="/runtime/runtime.js"></script>
-  <script src="/runtime/fx-runtime.js"></script>
-  <script src="/runtime/timeline.js"></script>
+  <script src="/assets/fx/fx-runtime.js"></script>
+  <script src="/assets/animations/timeline.js"></script>
 </body>
 </html>`;
 }

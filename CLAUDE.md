@@ -24,7 +24,10 @@ packages/renderer-svg    DSL → SVG for export (depends: schema, text-measure)
 packages/exporter        PDF/PPTX export service (depends: schema, renderer-svg, text-measure)
 packages/workflow        Document-to-slides pipeline, template extraction, agent guidance (depends: schema, renderer-html, exporter)
 packages/cli             CLI entry point (depends: all)
-runtime/                 Browser runtime, animation timeline, 20 canvas FX, 36 CSS themes
+runtime/                 Browser runtime engine (keyboard nav, presenter mode, whiteboard)
+assets/animations/       Animation timeline (26 keyframes), transitions CSS (7 types)
+assets/fx/               Canvas FX autoloader + 20 background effects
+assets/themes/           36 CSS themes + chart-table base
 python/                  PDF/PPTX bridges only (DrawingML, CairoSVG)
 ```
 
@@ -201,7 +204,8 @@ node packages/cli/dist/index.js export examples/demo.json /tmp/demo.pptx
 - `docs/WORKFLOW.md` — detailed workflow best practices
 - `docs/TEMPLATE-EXTRACTION.md` — template extraction contract, CLI, review gates
 - `docs/TEMPLATE-DEPENDENCY-REVIEW.md` — dependency posture for template extraction
-- `docs/ADDING-ANIMATIONS.md` — animation system
+- `assets/ANIMATIONS.md` — animation, transition, and canvas FX reference
+- `docs/ADDING-ANIMATIONS.md` — animation system (legacy, see assets/ANIMATIONS.md)
 - `docs/agent-guidance/README.md` — guidance system overview (how to add styles)
 - `.omc/plans/agent-guidance-system-v1.md` — guidance system implementation plan
 - `.omc/specs/deep-interview-agent-guidance.md` — guidance system requirements spec
