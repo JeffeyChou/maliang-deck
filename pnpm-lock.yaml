@@ -82,6 +82,9 @@ importers:
       '@maliang-deck/exporter-pptxgenjs':
         specifier: workspace:*
         version: link:../exporter-pptxgenjs
+      '@maliang-deck/renderer-html':
+        specifier: workspace:*
+        version: link:../renderer-html
       '@maliang-deck/renderer-svg':
         specifier: workspace:*
         version: link:../renderer-svg

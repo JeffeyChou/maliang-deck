@@ -2,6 +2,15 @@ import type { Deck, Slide, Element } from '@maliang-deck/schema';
 import { renderElement } from './elements/index.js';
 import { escapeHtml } from './utils.js';
 
+export type HtmlExportMode = 'editable' | 'readonly';
+
+export type RenderHtmlOptions = {
+  /** Base path for assets. Default '/' (absolute, for serve mode). Use './' for static export. */
+  assetBase?: string;
+  /** Export mode. When set, adds data-mode to <html> and adjusts behavior. */
+  mode?: HtmlExportMode;
+};
+
 // All available themes for the T-key cycling feature in runtime.js
 const ALL_THEMES = [
   'minimal-white',
@@ -95,10 +104,22 @@ function runtimeConfigScript(config: Deck['meta']['htmlRuntime']): string {
   return `  <script id="maliang-deck-runtime-config" type="application/json">${json}</script>\n`;
 }
 
+function escapeJsonForScript(json: string): string {
+  return json
+    .replace(/&/g, '\\u0026')
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
 /**
  * Render a complete DSL Deck to a standalone HTML document string.
+ *
+ * @param options.assetBase  Path prefix for runtime/assets references. Default '/'.
+ * @param options.mode       'editable' | 'readonly' — sets data-mode on <html> for export.
  */
-export function renderDeckToHtml(deck: Deck): string {
+export function renderDeckToHtml(deck: Deck, options?: RenderHtmlOptions): string {
   const { meta, slides } = deck;
   const { width, height } = meta.canvas;
   const theme = meta.theme ?? 'minimal-white';
@@ -111,20 +132,33 @@ export function renderDeckToHtml(deck: Deck): string {
 
   const defaultFont = meta.defaultFont;
 
+  const base = options?.assetBase ?? '/';
+  const mode = options?.mode;
+  const isExport = mode !== undefined;
+
+  // In export mode, only list the deck's own theme (no T-key cycling).
+  const themesAttr = isExport ? theme : ALL_THEMES;
+  const modeAttr = mode ? ` data-mode="${mode}"` : '';
+
   const slidesHtml = slides
     .map((slide) => renderSlide(slide, width, height, autoAnimate, defaultFont))
     .join('\n');
 
+  // Embed deck JSON source for editable export (client-side save fallback).
+  const deckSourceScript = mode === 'editable'
+    ? `  <script id="maliang-deck-source" type="application/json">${escapeJsonForScript(JSON.stringify(deck))}</script>\n`
+    : '';
+
   return `<!DOCTYPE html>
-<html lang="en" data-themes="${ALL_THEMES}">
+<html lang="en" data-themes="${themesAttr}"${modeAttr}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
-  <link id="chart-table-base" rel="stylesheet" href="/assets/themes/_chart-table-base.css">
-  <link id="theme-link" rel="stylesheet" href="/assets/themes/${theme}.css">
-  <link rel="stylesheet" href="/assets/animations/animations.css">
-  <link rel="stylesheet" href="/assets/animations/transitions.css">
+  <link id="chart-table-base" rel="stylesheet" href="${base}assets/themes/_chart-table-base.css">
+  <link id="theme-link" rel="stylesheet" href="${base}assets/themes/${theme}.css">
+  <link rel="stylesheet" href="${base}assets/animations/animations.css">
+  <link rel="stylesheet" href="${base}assets/animations/transitions.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { overflow: hidden; background: #000; }
@@ -147,16 +181,16 @@ export function renderDeckToHtml(deck: Deck): string {
     .step-indicator svg { width: 28px; height: 28px; filter: drop-shadow(0 1px 3px rgba(0,0,0,.4)); }
   </style>
 </head>
-<body data-theme-base="/assets/themes/">
-${runtimeConfigScript(meta.htmlRuntime)}  <noscript><style>.slide:first-child { visibility: visible; opacity: 1; }</style></noscript>
+<body data-theme-base="${base}assets/themes/">
+${runtimeConfigScript(meta.htmlRuntime)}${deckSourceScript}  <noscript><style>.slide:first-child { visibility: visible; opacity: 1; }</style></noscript>
   <div class="deck" data-transition="${transitionType}" style="--slide-w:${width}px; --slide-h:${height}px; --transition-duration:${transitionDuration}ms; --transition-easing:${transitionEasing};">
 ${slidesHtml}
   </div>
   <div class="slide-number" data-current="1" data-total="${slides.length}"></div>
   <div class="step-indicator" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 7l5 5-5 5" fill="none" stroke="var(--ui-text, rgba(255,255,255,.65))" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-  <script src="/runtime/runtime.js"></script>
-  <script src="/assets/fx/fx-runtime.js"></script>
-  <script src="/assets/animations/timeline.js"></script>
+  <script src="${base}runtime/runtime.js"></script>
+  <script src="${base}assets/fx/fx-runtime.js"></script>
+  <script src="${base}assets/animations/timeline.js"></script>
 </body>
 </html>`;
 }

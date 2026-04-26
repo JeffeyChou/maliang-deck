@@ -1838,6 +1838,8 @@
     }
 
     function initEditorLane() {
+      // Skip editor initialization entirely in readonly export mode.
+      if (document.documentElement.getAttribute('data-mode') === 'readonly') return;
       ensureEditorToolbar();
       setEditorStatus('Checking editor…');
       fetchEditorCapabilities();
@@ -1886,6 +1888,9 @@
     }
 
     function toggleEditorMode(force) {
+      // Readonly export: editor is disabled entirely.
+      var htmlMode = document.documentElement.getAttribute('data-mode');
+      if (htmlMode === 'readonly') return;
       const enabled = force !== undefined ? !!force : !editorState.enabled;
       editorState.enabled = enabled;
       document.body.classList.toggle('maliang-deck-editor-active', enabled);
@@ -2231,9 +2236,46 @@
       positionEditorSelection();
     }
 
+    function downloadDeckJson() {
+      // Client-side save fallback for editable export without a server.
+      var sourceEl = document.getElementById('maliang-deck-source');
+      if (!sourceEl) { setEditorStatus('No embedded deck source for download.'); return; }
+      try {
+        var deck = JSON.parse(sourceEl.textContent);
+        // Apply pending ops to the in-memory deck
+        editorState.pendingOps.forEach(function(op) {
+          if (op.op !== 'updateElement') return;
+          var slide = deck.slides && deck.slides.find(function(s){ return s.id === op.slideId; });
+          if (!slide) return;
+          var el = slide.elements && slide.elements.find(function(e){ return e.id === op.elementId; });
+          if (!el) return;
+          Object.keys(op.changes).forEach(function(k){ el[k] = op.changes[k]; });
+        });
+        var json = JSON.stringify(deck, null, 2);
+        var blob = new Blob([json], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'deck.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+        editorState.pendingOps = [];
+        editorState.undoStack = [];
+        setEditorStatus('Downloaded deck.json.');
+        updateEditorToolbar();
+      } catch(e) { setEditorStatus('Download failed: ' + e.message); }
+    }
+
     function saveEditorOps() {
       if (editorState.saving) return;
       if (!editorState.canPersist) {
+        // In editable export mode, fall back to client-side download.
+        var htmlMode = document.documentElement.getAttribute('data-mode');
+        if (htmlMode === 'editable' && editorState.pendingOps.length) {
+          downloadDeckJson();
+          return;
+        }
         setEditorStatus('Temporary edit mode: this preview cannot save.');
         return;
       }

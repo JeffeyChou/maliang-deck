@@ -21,7 +21,7 @@ packages/schema          Deck DSL types + Zod validators (no local deps)
 packages/text-measure    Fontkit text measurement, reflow (depends: schema)
 packages/renderer-html   DSL → interactive HTML (depends: schema, text-measure)
 packages/renderer-svg    DSL → SVG for export (depends: schema, text-measure)
-packages/exporter        PDF/PPTX export service (depends: schema, renderer-svg, text-measure)
+packages/exporter        PDF/PPTX/HTML export service (depends: schema, renderer-html, renderer-svg, text-measure)
 packages/workflow        Document-to-slides pipeline, template extraction, agent guidance (depends: schema, renderer-html, exporter)
 packages/cli             CLI entry point (depends: all)
 runtime/                 Browser runtime engine (keyboard nav, presenter mode, whiteboard)
@@ -179,6 +179,8 @@ pnpm --filter @maliang-deck/workflow test
 node packages/cli/dist/index.js validate examples/demo.json
 node packages/cli/dist/index.js serve examples/neon-glass-dark-showcase.json --port 3000
 node packages/cli/dist/index.js export examples/demo.json out.pdf
+node packages/cli/dist/index.js export examples/demo.json ./out/ --format html
+node packages/cli/dist/index.js export examples/demo.json ./out/ --format html --html-mode editable
 
 # Workflow (full pipeline)
 node packages/cli/dist/index.js workflow init my-paper --sources paper.pdf
@@ -210,6 +212,8 @@ pnpm -r build && pnpm -r typecheck && pnpm lint && pnpm test
 # If export changed
 node packages/cli/dist/index.js export examples/demo.json /tmp/demo.pdf
 node packages/cli/dist/index.js export examples/demo.json /tmp/demo.pptx
+node packages/cli/dist/index.js export examples/demo.json /tmp/demo-html --format html
+node packages/cli/dist/index.js export examples/demo.json /tmp/demo-html-edit --format html --html-mode editable
 ```
 
 ## Git Hygiene

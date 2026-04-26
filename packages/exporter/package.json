@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@maliang-deck/exporter-pptxgenjs": "workspace:*",
+    "@maliang-deck/renderer-html": "workspace:*",
     "@maliang-deck/schema": "workspace:*",
     "@maliang-deck/renderer-svg": "workspace:*",
     "@maliang-deck/text-measure": "workspace:*"

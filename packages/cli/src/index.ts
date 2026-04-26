@@ -26,10 +26,12 @@ program
 
 program
   .command('export <file> <output>')
-  .description('Export the deck to PPTX')
+  .description('Export the deck to PDF, PPTX, or HTML')
+  .option('--format <format>', 'Export format: pdf, pptx, or html (inferred from output if omitted)')
   .option('--pptx-engine <engine>', 'PPTX engine: drawingml (default) or pptxgenjs')
-  .action(async (file: string, output: string, opts: { pptxEngine?: string }) => {
-    await runExport(file, output, { pptxEngine: opts.pptxEngine });
+  .option('--html-mode <mode>', 'HTML export mode: readonly (default) or editable')
+  .action(async (file: string, output: string, opts: { format?: string; pptxEngine?: string; htmlMode?: string }) => {
+    await runExport(file, output, { format: opts.format, pptxEngine: opts.pptxEngine, htmlMode: opts.htmlMode });
   });
 
 registerWorkflowCommand(program);
