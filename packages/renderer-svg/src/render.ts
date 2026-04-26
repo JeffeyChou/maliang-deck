@@ -14,6 +14,8 @@ export interface RenderOptions {
   basePath?: string;
   /** Font registry for text measurement (optional, falls back to heuristic) */
   fontRegistry?: FontRegistry;
+  /** Deck-level default font family for text elements that omit fontFamily. */
+  defaultFont?: string;
 }
 
 export interface RenderDeckResult {
@@ -25,11 +27,12 @@ export function renderDeckToSvg(deck: Deck, options?: RenderOptions): RenderDeck
   const { width, height } = deck.meta.canvas;
   const basePath = options?.basePath;
   const registry = options?.fontRegistry;
+  const defaultFont = options?.defaultFont ?? deck.meta.defaultFont;
 
   const allWarnings: LayoutWarning[] = [];
 
   const slides = deck.slides.map((slide: import('../../schema/src/types.js').Slide, slideIndex: number) => {
-    const { svg, warnings } = renderSlide(slide, width, height, basePath, registry);
+    const { svg, warnings } = renderSlide(slide, width, height, basePath, registry, defaultFont);
     // Annotate warnings with slide index
     for (const w of warnings) {
       w.slideIndex = slideIndex;
@@ -51,6 +54,7 @@ function renderSlide(
   height: number,
   basePath?: string,
   registry?: FontRegistry,
+  defaultFont?: string,
 ): { svg: string; warnings: LayoutWarning[] } {
   const parts: string[] = [];
   const warnings: LayoutWarning[] = [];
@@ -64,7 +68,7 @@ function renderSlide(
 
   // Elements
   for (const el of slide.elements) {
-    const result = renderElement(el, basePath, registry);
+    const result = renderElement(el, basePath, registry, defaultFont);
     parts.push(result.svg);
     warnings.push(...result.warnings);
   }

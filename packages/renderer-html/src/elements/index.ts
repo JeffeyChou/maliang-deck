@@ -18,6 +18,13 @@ export interface RenderElementContext {
   slideId?: string;
   autoAnimate?: boolean;
   depth?: number;
+  /** Deck-level default font family for text elements that omit fontFamily. */
+  defaultFont?: string;
+}
+
+/** Return the active context's defaultFont (used by text renderer). */
+export function getActiveDefaultFont(): string | undefined {
+  return activeContext?.defaultFont;
 }
 
 let activeContext: RenderElementContext | undefined;

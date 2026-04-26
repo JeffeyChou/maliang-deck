@@ -1,0 +1,12 @@
+{
+  "validates": true,
+  "formats": {
+    "html": true,
+    "pdf": false,
+    "pptx": false
+  },
+  "degraded": true,
+  "warnings": [
+    "HTML sample rendered locally. PDF/PPTX smoke export intentionally not included because the deck uses chart/table/path features with mixed exporter support."
+  ]
+}

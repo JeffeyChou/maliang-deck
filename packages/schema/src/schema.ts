@@ -31,6 +31,7 @@ export const DeckMetaSchema = z.object({
   title: z.string().min(1),
   theme: z.string().optional(),
   canvas: CanvasSizeSchema,
+  defaultFont: z.string().min(1).optional(),
   fonts: z.record(z.string(), z.string()).optional(),
   htmlRuntime: HtmlRuntimeConfigSchema.optional(),
 });

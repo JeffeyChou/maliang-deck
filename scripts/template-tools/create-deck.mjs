@@ -5,10 +5,10 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
-const projectDir = resolve(scriptDir, '..');
+const repoRoot = resolve(scriptDir, '..', '..');
 
 function usage() {
-  console.log(`Create a new editable Maliang Deck deck from the extracted Presentation Design System pattern library.\n\nThis script reuses slides from dsl/deck.json as concrete pattern-library slides.\nIt does not edit render/html/index.html directly; render that later with render-preview.mjs.\n\nUsage:\n  node examples/presentation-design-system-template/scripts/create-deck.mjs --out <deck.json> [options]\n\nOptions:\n  --out <path>             Output deck JSON path. Required.\n  --layouts <csv>          Layouts to include. Default: title-cover,two-column-content,chart-table,closing\n  --title <text>           Main title. Default: New Presentation\n  --subtitle <text>        Subtitle/tagline. Default: Created from Presentation Design System\n  --body <text>            Body placeholder text. Default: concise reusable copy.\n  --bullets <csv>          Bullet replacements for content slides.\n  --company <text>         Footer company label. Default: Company Name\n  --author <text>          Presenter replacement. Default: Presenter Name\n  --role <text>            Presenter role replacement. Default: Job Title\n  --source-deck <path>     Pattern-library source deck. Defaults to this project\'s dsl/deck.json.\n  --template-pack <path>   Template pack used for metadata/guidance. Defaults to this project\'s template-pack.json.\n  --skip-validate          Write without validating the generated deck.\n  --help                  Show this help.\n\nAvailable layouts in the shipped pattern library include:\n  title-cover, system-reference, one-column-content, two-column-content, multi-column-content,\n  large-media, gallery, chart-table, data-text-image, section-divider, closing, summary\n\nExample:\n  node examples/presentation-design-system-template/scripts/create-deck.mjs \\\n    --out /tmp/client-deck.json \\\n    --layouts title-cover,two-column-content,chart-table,closing \\\n    --title "Quarterly Product Review" \\\n    --company "Acme"`);
+  console.log(`Create a new editable Maliang Deck deck from the extracted Corporate Wave Blue pattern library.\n\nThis script reuses slides from dsl/deck.json as concrete pattern-library slides.\nIt does not edit render/html/index.html directly; render that later with render-preview.mjs.\n\nUsage:\n  node scripts/template-tools/create-deck.mjs --out <deck.json> [options]\n\nOptions:\n  --out <path>             Output deck JSON path. Required.\n  --layouts <csv>          Layouts to include. Default: title-cover,two-column-content,chart-table,closing\n  --title <text>           Main title. Default: New Presentation\n  --subtitle <text>        Subtitle/tagline. Default: Created from Corporate Wave Blue\n  --body <text>            Body placeholder text. Default: concise reusable copy.\n  --bullets <csv>          Bullet replacements for content slides.\n  --company <text>         Footer company label. Default: Company Name\n  --author <text>          Presenter replacement. Default: Presenter Name\n  --role <text>            Presenter role replacement. Default: Job Title\n  --source-deck <path>     Pattern-library source deck. Defaults to this project\'s dsl/deck.json.\n  --template-pack <path>   Template pack used for metadata/guidance. Defaults to this project\'s template-pack.json.\n  --skip-validate          Write without validating the generated deck.\n  --help                  Show this help.\n\nAvailable layouts in the shipped pattern library include:\n  title-cover, system-reference, one-column-content, two-column-content, multi-column-content,\n  large-media, gallery, chart-table, data-text-image, section-divider, closing, summary\n\nExample:\n  node scripts/template-tools/create-deck.mjs \\\n    --out /tmp/client-deck.json \\\n    --layouts title-cover,two-column-content,chart-table,closing \\\n    --title "Quarterly Product Review" \\\n    --company "Acme"`);
 }
 
 function resolvePath(path, baseDir = process.cwd()) {
@@ -156,7 +156,7 @@ const { values } = parseArgs({
     out: { type: 'string' },
     layouts: { type: 'string' },
     title: { type: 'string', default: 'New Presentation' },
-    subtitle: { type: 'string', default: 'Created from Presentation Design System' },
+    subtitle: { type: 'string', default: 'Created from Corporate Wave Blue' },
     body: { type: 'string', default: 'Replace this concise placeholder with audience-specific evidence, narrative, or recommendations while preserving the extracted spacing and hierarchy.' },
     bullets: { type: 'string' },
     company: { type: 'string', default: 'Company Name' },
@@ -180,8 +180,9 @@ if (!values.out) {
   throw new Error('--out is required so the script does not overwrite a deck accidentally.');
 }
 
-const sourceDeckPath = values['source-deck'] ? resolvePath(values['source-deck']) : join(projectDir, 'dsl/deck.json');
-const templatePackPath = values['template-pack'] ? resolvePath(values['template-pack']) : join(projectDir, 'template-pack.json');
+const defaultExampleDir = join(repoRoot, 'examples/corporate-wave-blue');
+const sourceDeckPath = values['source-deck'] ? resolvePath(values['source-deck']) : join(defaultExampleDir, 'dsl/deck.json');
+const templatePackPath = values['template-pack'] ? resolvePath(values['template-pack']) : join(defaultExampleDir, 'template-pack.json');
 const outPath = resolvePath(values.out);
 const sourceDeck = readJson(sourceDeckPath);
 const templatePack = readJson(templatePackPath);

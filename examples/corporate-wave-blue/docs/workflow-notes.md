@@ -23,21 +23,21 @@ This document records the workflow improvements made after reviewing the initial
 2. Validate both artifacts:
 
    ```bash
-   node packages/cli/dist/index.js validate examples/presentation-design-system-template/dsl/deck.json
-   node packages/cli/dist/index.js template validate examples/presentation-design-system-template/template-pack.json
+   node packages/cli/dist/index.js validate examples/corporate-wave-blue/dsl/deck.json
+   node packages/cli/dist/index.js template validate examples/corporate-wave-blue/template-pack.json
    ```
 
 3. Regenerate HTML preview:
 
    ```bash
-   node examples/presentation-design-system-template/scripts/render-preview.mjs
+   node scripts/template-tools/render-preview.mjs
    ```
 
 4. Smoke-test reuse by creating a new starter deck:
 
    ```bash
-   node examples/presentation-design-system-template/scripts/create-deck.mjs --out /tmp/pds-starter.json
-   node examples/presentation-design-system-template/scripts/render-preview.mjs --deck /tmp/pds-starter.json --out /tmp/pds-starter.html
+   node scripts/template-tools/create-deck.mjs --out /tmp/pds-starter.json
+   node scripts/template-tools/render-preview.mjs --deck /tmp/pds-starter.json --out /tmp/pds-starter.html
    ```
 
 ## What is still not solved

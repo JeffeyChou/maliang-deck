@@ -4,7 +4,7 @@ import type { FontRegistry } from '@maliang-deck/text-measure';
 import { buildTransform, buildOpacityAttrs, n } from '../utils.js';
 import { renderElement, type RenderResult } from './index.js';
 
-export function renderGroup(el: GroupElement, basePath?: string, registry?: FontRegistry): RenderResult {
+export function renderGroup(el: GroupElement, basePath?: string, registry?: FontRegistry, defaultFont?: string): RenderResult {
   const transform = buildTransform(el, true);
   const opacityAttrs = buildOpacityAttrs(el.opacity);
 
@@ -28,7 +28,7 @@ export function renderGroup(el: GroupElement, basePath?: string, registry?: Font
     .join(' ');
 
   const childResults: RenderResult[] = el.elements.map(
-    (child: import('../../../schema/src/types.js').Element) => renderElement(child, basePath, registry),
+    (child: import('../../../schema/src/types.js').Element) => renderElement(child, basePath, registry, defaultFont),
   );
 
   const children = childResults.map((r) => r.svg).join('\n');

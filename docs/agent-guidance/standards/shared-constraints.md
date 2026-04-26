@@ -89,6 +89,24 @@ The `style` field on chart and table elements provides typed, cross-renderer sty
 - Omit `style` entirely for automatic theme adaptation in HTML
 - `options` is for renderer/exporter-specific overrides; `style` is the stable typed API
 
+### CSS naming convention for theme polish
+
+When using themes with generic selectors (e.g., `neon-glass-dark`), name element
+IDs with these suffixes to activate automatic CSS polish:
+
+| Suffix      | Effect                          | Applies to |
+|-------------|---------------------------------|------------|
+| `-glass`    | Frosted backdrop + glow         | rect       |
+| `-chip`     | Badge gradient sheen            | rect       |
+| `-kicker`   | Uppercase + letter-spacing      | text       |
+| `-title`    | Neon text-shadow glow           | text       |
+| `-connector`| Animated line glow              | line       |
+| `-orb`      | Radial gradient + screen blend  | circle     |
+| `-ring`     | Orbital spin + glow             | ellipse    |
+
+This convention eliminates per-ID CSS rules — new slides get visual polish
+automatically when element IDs follow the pattern.
+
 ## Forbidden Patterns
 
 | Pattern | Reason |

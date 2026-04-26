@@ -58,7 +58,7 @@ function slideTitle(slide: Slide): string {
 /**
  * Render a single slide to a <section> string.
  */
-function renderSlide(slide: Slide, width: number, height: number, autoAnimate: boolean): string {
+function renderSlide(slide: Slide, width: number, height: number, autoAnimate: boolean, defaultFont?: string): string {
   const title = slideTitle(slide);
   const slideId = escapeHtml(slide.id);
   const background = slide.background
@@ -71,7 +71,7 @@ function renderSlide(slide: Slide, width: number, height: number, autoAnimate: b
     .join('\n');
 
   const elements = slide.elements
-    .map((element) => renderElement(element, { slideId: slide.id, autoAnimate }))
+    .map((element) => renderElement(element, { slideId: slide.id, autoAnimate, defaultFont }))
     .join('\n    ');
   const notes = slide.notes
     ? `\n    <aside class="notes">${escapeHtml(slide.notes)}</aside>`
@@ -109,8 +109,10 @@ export function renderDeckToHtml(deck: Deck): string {
   const transitionDuration = meta.htmlRuntime?.transition?.durationMs ?? 500;
   const transitionEasing = meta.htmlRuntime?.transition?.easing ?? 'ease';
 
+  const defaultFont = meta.defaultFont;
+
   const slidesHtml = slides
-    .map((slide) => renderSlide(slide, width, height, autoAnimate))
+    .map((slide) => renderSlide(slide, width, height, autoAnimate, defaultFont))
     .join('\n');
 
   return `<!DOCTYPE html>

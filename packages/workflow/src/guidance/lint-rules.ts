@@ -560,6 +560,75 @@ const customHtmlUsageRule: LintRule = {
   },
 };
 
+/**
+ * Rule: css-naming-convention
+ * Advisory rule that suggests CSS naming convention suffixes for elements that
+ * could benefit from automatic theme polish (e.g. the neon-glass-dark theme's
+ * generic selectors).
+ *
+ * Checks:
+ * - rect elements that look like glass cards (rgba white fill + stroke + radius >= 20)
+ *   should have "-glass" in their ID.
+ * - text elements that look like kickers (fontSize <= 15, fontWeight bold, ALL CAPS)
+ *   should have "-kicker" in their ID.
+ *
+ * Severity: warning (advisory only — never blocks assembly).
+ */
+const cssNamingConventionRule: LintRule = {
+  id: 'css-naming-convention',
+  name: 'CSS Naming Convention for Theme Polish',
+  severity: 'warning',
+  check(slide) {
+    const results: LintResult[] = [];
+
+    for (const el of flattenElements(slide.elements)) {
+      if (el.type === 'rect') {
+        const fill = ('fill' in el && typeof el.fill === 'string') ? el.fill : '';
+        const stroke = ('stroke' in el && typeof el.stroke === 'string') ? el.stroke : '';
+        const radius = ('radius' in el && typeof el.radius === 'number') ? el.radius : 0;
+
+        const looksLikeGlass =
+          fill.includes('rgba(255,255,255') &&
+          stroke.includes('rgba(255,255,255') &&
+          radius >= 20;
+
+        if (looksLikeGlass && !el.id.includes('glass')) {
+          results.push({
+            ruleId: 'css-naming-convention',
+            severity: 'warning',
+            message: `Rect element "${el.id}" looks like a glass card (rgba white fill+stroke, radius ${radius}) — consider adding "-glass" to the ID to activate automatic theme polish.`,
+            slideId: slide.id,
+            elementId: el.id,
+          });
+        }
+      } else if (el.type === 'text') {
+        const fontSize = el.fontSize ?? 16;
+        const fontWeight = ('fontWeight' in el && typeof el.fontWeight === 'string') ? el.fontWeight : '';
+        const content = el.content ?? '';
+
+        const looksLikeKicker =
+          fontSize <= 15 &&
+          fontWeight === 'bold' &&
+          content.length > 0 &&
+          content === content.toUpperCase() &&
+          /[A-Z]/.test(content);
+
+        if (looksLikeKicker && !el.id.includes('kicker')) {
+          results.push({
+            ruleId: 'css-naming-convention',
+            severity: 'warning',
+            message: `Text element "${el.id}" looks like a kicker (fontSize ${fontSize}, bold, ALL CAPS) — consider adding "-kicker" to the ID to activate automatic theme polish.`,
+            slideId: slide.id,
+            elementId: el.id,
+          });
+        }
+      }
+    }
+
+    return results;
+  },
+};
+
 // ---------------------------------------------------------------------------
 // Built-in rule set
 // ---------------------------------------------------------------------------
@@ -577,6 +646,7 @@ export const builtInRules: LintRule[] = [
   tableHeaderContrastRule,
   animationOveruseRule,
   customHtmlUsageRule,
+  cssNamingConventionRule,
 ];
 
 // ---------------------------------------------------------------------------

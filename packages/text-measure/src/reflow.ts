@@ -10,6 +10,8 @@ export interface ReflowOptions {
   minGap?: number;             // px, default 8
   canvasWidth?: number;        // px, for spanning element detection
   spanningWidthRatio?: number; // default 0.6
+  /** Deck-level default font family for text elements that omit fontFamily. */
+  defaultFont?: string;
 }
 
 export interface Adjustment {
@@ -38,11 +40,11 @@ export interface ReflowReport {
  * Convert a TextElement (with optional fields) to a TextBoxInput (all required).
  * Uses the same defaults as the SVG renderer to ensure measurement consistency.
  */
-export function toTextBoxInput(el: TextElement): TextBoxInput {
+export function toTextBoxInput(el: TextElement, defaultFont?: string): TextBoxInput {
   return {
     content: el.content,
     fontSize: el.fontSize,
-    fontFamily: el.fontFamily ?? 'sans-serif',
+    fontFamily: el.fontFamily ?? defaultFont ?? 'sans-serif',
     fontWeight: el.fontWeight ?? 'normal',
     fontStyle: el.fontStyle ?? 'normal',
     lineHeight: el.lineHeight ?? 1.2,
@@ -141,7 +143,7 @@ export function reflowSlide(
       }
 
       // Measure wrapped height
-      const input = toTextBoxInput(el);
+      const input = toTextBoxInput(el, options?.defaultFont);
       const layout = layoutTextBox(input, { width: el.width }, registry);
       const measuredHeight = layout.totalHeight;
       el.height = measuredHeight;
@@ -184,6 +186,7 @@ export function reflowDeck(
   const opts: ReflowOptions = {
     ...options,
     canvasWidth: cloned.meta.canvas.width,
+    defaultFont: options?.defaultFont ?? cloned.meta.defaultFont,
   };
 
   for (let i = 0; i < cloned.slides.length; i++) {

@@ -5,10 +5,11 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
-const projectDir = resolve(scriptDir, '..');
+const repoRoot = resolve(scriptDir, '..', '..');
+const defaultExampleDir = join(repoRoot, 'examples/corporate-wave-blue');
 
 function usage() {
-  console.log(`Render the extracted Presentation Design System deck to an HTML preview.\n\nUsage:\n  node examples/presentation-design-system-template/scripts/render-preview.mjs [options]\n\nOptions:\n  --deck <path>       Deck JSON to render. Defaults to this project\'s dsl/deck.json.\n  --out <path>        HTML output path. Defaults to this project\'s render/html/index.html.\n  --skip-validate     Render without validating the deck first.\n  --help              Show this help.\n\nExamples:\n  node examples/presentation-design-system-template/scripts/render-preview.mjs\n  node examples/presentation-design-system-template/scripts/render-preview.mjs --deck /tmp/new-deck.json --out /tmp/new-deck.html`);
+  console.log(`Render the extracted Corporate Wave Blue deck to an HTML preview.\n\nUsage:\n  node scripts/template-tools/render-preview.mjs [options]\n\nOptions:\n  --deck <path>       Deck JSON to render. Defaults to this project\'s dsl/deck.json.\n  --out <path>        HTML output path. Defaults to this project\'s render/html/index.html.\n  --skip-validate     Render without validating the deck first.\n  --help              Show this help.\n\nExamples:\n  node scripts/template-tools/render-preview.mjs\n  node scripts/template-tools/render-preview.mjs --deck /tmp/new-deck.json --out /tmp/new-deck.html`);
 }
 
 function resolvePath(path, baseDir = process.cwd()) {
@@ -66,8 +67,8 @@ if (values.help) {
 }
 
 const repoRoot = findRepoRoot(projectDir);
-const deckPath = values.deck ? resolvePath(values.deck) : join(projectDir, 'dsl/deck.json');
-const outPath = values.out ? resolvePath(values.out) : join(projectDir, 'render/html/index.html');
+const deckPath = values.deck ? resolvePath(values.deck) : join(defaultExampleDir, 'dsl/deck.json');
+const outPath = values.out ? resolvePath(values.out) : join(defaultExampleDir, 'render/html/index.html');
 const deck = readJson(deckPath);
 
 if (!values['skip-validate']) {

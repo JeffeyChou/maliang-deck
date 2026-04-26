@@ -101,6 +101,42 @@ const SectionHeaderPropsSchema = BoxSchema.extend({
 
 type SectionHeaderProps = z.infer<typeof SectionHeaderPropsSchema>;
 
+const GlassCardPropsSchema = BoxSchema.extend({
+  title: z.string().optional(),
+  body: z.string().optional(),
+  accent: color.default('#48e7ff'),
+  radius: nonnegative.default(28),
+  tokens,
+}).strict();
+
+type GlassCardProps = z.infer<typeof GlassCardPropsSchema>;
+
+const ChipPropsSchema = BoxSchema.extend({
+  width: positive.default(150),
+  height: positive.default(48),
+  label: z.string().min(1),
+  accent: color.default('#48e7ff'),
+  tokens,
+}).strict();
+
+type ChipProps = z.infer<typeof ChipPropsSchema>;
+
+const ChipItemSchema = z.object({
+  label: z.string().min(1),
+  accent: color.optional(),
+}).strict();
+
+const ChipRowPropsSchema = BoxSchema.extend({
+  chips: z.array(ChipItemSchema).min(1),
+  gap: nonnegative.default(16),
+  chipWidth: positive.default(150),
+  chipHeight: positive.default(48),
+  accent: color.default('#48e7ff'),
+  tokens,
+}).strict();
+
+type ChipRowProps = z.infer<typeof ChipRowPropsSchema>;
+
 export const metricCardComponent: ComponentDefinition<MetricCardProps> = {
   name: 'metric-card',
   propsSchema: MetricCardPropsSchema,
@@ -137,6 +173,24 @@ export const sectionHeaderComponent: ComponentDefinition<SectionHeaderProps> = {
   expand: ({ props, id }) => sectionHeaderElements(props, id.forRole.bind(id)),
 };
 
+export const glassCardComponent: ComponentDefinition<GlassCardProps> = {
+  name: 'glass-card',
+  propsSchema: GlassCardPropsSchema,
+  expand: ({ props, id }) => glassCardElements(props, id.forRole.bind(id)),
+};
+
+export const chipComponent: ComponentDefinition<ChipProps> = {
+  name: 'chip',
+  propsSchema: ChipPropsSchema,
+  expand: ({ props, id }) => chipElements(props, id.forRole.bind(id)),
+};
+
+export const chipRowComponent: ComponentDefinition<ChipRowProps> = {
+  name: 'chip-row',
+  propsSchema: ChipRowPropsSchema,
+  expand: ({ props, id }) => chipRowElements(props, id.forRole.bind(id)),
+};
+
 export function registerBuiltinComponents(registry: AuthoringRegistry = createAuthoringRegistry()): AuthoringRegistry {
   registry
     .register(metricCardComponent)
@@ -149,7 +203,14 @@ export function registerBuiltinComponents(registry: AuthoringRegistry = createAu
     .register(timelineStepComponent)
     .alias('timeline-item', 'timeline-step')
     .register(sectionHeaderComponent)
-    .alias('hero', 'section-header');
+    .alias('hero', 'section-header')
+    .register(glassCardComponent)
+    .alias('frosted-card', 'glass-card')
+    .register(chipComponent)
+    .alias('tag', 'chip')
+    .alias('pill', 'chip')
+    .register(chipRowComponent)
+    .alias('tag-row', 'chip-row');
   return registry;
 }
 
@@ -579,4 +640,165 @@ function optionalText(
     align,
     textRole: 'body',
   }];
+}
+
+function hexToRgba(hex: string, alpha: number): string {
+  let h = hex.slice(1);
+  if (h.length === 3) {
+    h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+  }
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function glassCardElements(props: GlassCardProps, makeId: (role: string) => string): Element[] {
+  const titleY = 24;
+  const bodyY = props.title ? 64 : 24;
+  const group: GroupElement = {
+    type: 'group',
+    id: makeId('group'),
+    x: props.x,
+    y: props.y,
+    width: props.width,
+    height: props.height,
+    elements: [
+      ...tokenBackdrop(props, makeId, props.tokens, props.accent),
+      {
+        type: 'rect',
+        id: makeId('glass'),
+        x: 0,
+        y: 0,
+        width: props.width,
+        height: props.height,
+        fill: 'rgba(255,255,255,.08)',
+        stroke: 'rgba(255,255,255,.18)',
+        strokeWidth: 1,
+        radius: props.radius,
+        animation: visualTokenAnimation(props.tokens, 0),
+      },
+      ...optionalText(props.title, makeId('title'), 24, titleY, props.width - 48, 26, props.accent),
+      ...optionalText(props.body, makeId('body'), 24, bodyY, props.width - 48, 18, 'rgba(225,236,255,.72)'),
+    ],
+  };
+  // Apply lineHeight to body text when present
+  if (props.body) {
+    const bodyEl = group.elements[group.elements.length - 1];
+    if (bodyEl && bodyEl.type === 'text') {
+      (bodyEl as typeof bodyEl & { lineHeight?: number }).lineHeight = 1.45;
+    }
+  }
+  return [group];
+}
+
+function chipElements(props: ChipProps, makeId: (role: string) => string): Element[] {
+  const fillColor = props.accent.startsWith('#')
+    ? hexToRgba(props.accent, 0.16)
+    : props.accent;
+  const strokeColor = props.accent.startsWith('#')
+    ? hexToRgba(props.accent, 0.28)
+    : props.accent;
+  const group: GroupElement = {
+    type: 'group',
+    id: makeId('group'),
+    x: props.x,
+    y: props.y,
+    width: props.width,
+    height: props.height,
+    elements: [
+      ...tokenBackdrop(props, makeId, props.tokens, props.accent),
+      {
+        type: 'rect',
+        id: makeId('chip'),
+        x: 0,
+        y: 0,
+        width: props.width,
+        height: props.height,
+        fill: fillColor,
+        stroke: strokeColor,
+        strokeWidth: 1,
+        radius: 24,
+        animation: visualTokenAnimation(props.tokens, 0),
+      },
+      {
+        type: 'text',
+        id: makeId('label'),
+        x: 0,
+        y: Math.round((props.height - 14) / 2) - 1,
+        width: props.width,
+        content: props.label,
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#f8fbff',
+        align: 'center',
+        textRole: 'label',
+        animation: visualTokenAnimation(props.tokens, 1),
+      },
+    ],
+  };
+  return [group];
+}
+
+function chipRowElements(props: ChipRowProps, makeId: (role: string) => string): Element[] {
+  const chipGroups: GroupElement[] = props.chips.map((chip, i) => {
+    const accent = chip.accent ?? props.accent;
+    const fillColor = accent.startsWith('#')
+      ? hexToRgba(accent, 0.16)
+      : accent;
+    const strokeColor = accent.startsWith('#')
+      ? hexToRgba(accent, 0.28)
+      : accent;
+    return {
+      type: 'group',
+      id: makeId(`chip-${i + 1}`),
+      x: i * (props.chipWidth + props.gap),
+      y: 0,
+      width: props.chipWidth,
+      height: props.chipHeight,
+      elements: [
+        {
+          type: 'rect',
+          id: makeId(`chip-${i + 1}-bg`),
+          x: 0,
+          y: 0,
+          width: props.chipWidth,
+          height: props.chipHeight,
+          fill: fillColor,
+          stroke: strokeColor,
+          strokeWidth: 1,
+          radius: 24,
+          animation: visualTokenAnimation(props.tokens, i),
+        },
+        {
+          type: 'text',
+          id: makeId(`chip-${i + 1}-label`),
+          x: 0,
+          y: Math.round((props.chipHeight - 14) / 2) - 1,
+          width: props.chipWidth,
+          content: chip.label,
+          fontSize: 14,
+          fontWeight: 'bold',
+          color: '#f8fbff',
+          align: 'center',
+          textRole: 'label',
+          animation: visualTokenAnimation(props.tokens, i + 1),
+        },
+      ],
+    };
+  });
+
+  const group: GroupElement = {
+    type: 'group',
+    id: makeId('group'),
+    x: props.x,
+    y: props.y,
+    width: props.width,
+    height: props.height,
+    elements: [
+      ...tokenBackdrop(props, makeId, props.tokens, props.accent),
+      ...chipGroups,
+    ],
+  };
+  return [group];
 }

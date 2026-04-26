@@ -16,7 +16,7 @@ function diagnosticWarnings(el: LayoutElement, path: string): LayoutWarning[] {
   }];
 }
 
-export function renderLayout(el: LayoutElement, basePath?: string, registry?: FontRegistry, path = `layout#${el.id}`): RenderResult {
+export function renderLayout(el: LayoutElement, basePath?: string, registry?: FontRegistry, defaultFont?: string, path = `layout#${el.id}`): RenderResult {
   const records = resolveLayoutElement(el, { originX: 0, originY: 0, path });
   const warnings: LayoutWarning[] = diagnosticWarnings(el, path);
   const svgParts: string[] = [];
@@ -32,7 +32,7 @@ export function renderLayout(el: LayoutElement, basePath?: string, registry?: Fo
       policy: diagnostic.policy,
       detail: diagnostic.detail,
     })));
-    const rendered = renderElement(record.element, basePath, registry);
+    const rendered = renderElement(record.element, basePath, registry, defaultFont);
     svgParts.push(rendered.svg);
     warnings.push(...rendered.warnings);
   }

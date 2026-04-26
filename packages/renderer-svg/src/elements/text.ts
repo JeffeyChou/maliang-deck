@@ -4,7 +4,7 @@ import { layoutTextBox, FontRegistry } from '@maliang-deck/text-measure';
 import { buildTransform, buildOpacityAttrs, n, escapeXml } from '../utils.js';
 import type { RenderResult } from './index.js';
 
-export function renderText(el: TextElement, registry?: FontRegistry): RenderResult {
+export function renderText(el: TextElement, registry?: FontRegistry, defaultFont?: string): RenderResult {
   const anchor =
     el.align === 'center' ? 'middle' : el.align === 'right' ? 'end' : 'start';
 
@@ -18,7 +18,7 @@ export function renderText(el: TextElement, registry?: FontRegistry): RenderResu
   const fontSize = el.fontSize;
   const lineHeightFactor = el.lineHeight ?? 1.2;
 
-  const fontFamily = el.fontFamily ?? 'sans-serif';
+  const fontFamily = el.fontFamily ?? defaultFont ?? 'sans-serif';
   const fontWeight = el.fontWeight ?? 'normal';
   const fontStyle = el.fontStyle ?? 'normal';
   const fill = el.color ?? '#000000';

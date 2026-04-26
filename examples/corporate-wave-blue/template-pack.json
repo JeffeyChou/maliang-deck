@@ -1,24 +1,8 @@
 {
   "id": "presentation-design-system-image-1",
   "version": "0.1.0",
-  "name": "Presentation Design System (Image #1)",
-  "description": "Manual visual-template extraction from the provided design-system screenshot: white/blue corporate presentation system with Inter typography, wave motif, modular content layouts, tables, charts, icons, spacing, and do/don\u2019t guidance.",
-  "createdAt": "2026-04-22T13:44:31.272Z",
-  "sources": [
-    {
-      "id": "image-1",
-      "format": "png",
-      "path": "prompt://Image #1",
-      "dimensions": {
-        "width": 2048,
-        "height": 1536
-      },
-      "pageCount": 1,
-      "warnings": [
-        "Source was provided as an inline prompt image; extraction is manual/visual rather than parser-derived."
-      ]
-    }
-  ],
+  "name": "Corporate Wave Blue",
+  "description": "Clean white canvas, blue accent (#0066FF), Inter typography, abstract wave artwork. Modular content layouts for corporate/consulting presentations.",
   "tokens": {
     "palette": {
       "primary": "#0066FF",
@@ -83,15 +67,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -106,15 +81,6 @@
           "required": false,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -129,25 +95,7 @@
           "required": false,
           "accepts": [
             "shape"
-          ],
-          "confidence": 0.72,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.86,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     },
@@ -169,15 +117,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -195,25 +134,7 @@
             "shape",
             "table",
             "chart"
-          ],
-          "confidence": 0.78,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.84,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     },
@@ -235,15 +156,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -258,15 +170,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -281,25 +184,7 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.84,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     },
@@ -321,15 +206,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -344,15 +220,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -368,25 +235,7 @@
           "accepts": [
             "image",
             "shape"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.82,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     },
@@ -408,15 +257,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -432,25 +272,7 @@
           "accepts": [
             "text",
             "shape"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.82,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     },
@@ -473,15 +295,6 @@
           "accepts": [
             "image",
             "shape"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -496,25 +309,7 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.8,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     },
@@ -537,25 +332,7 @@
           "accepts": [
             "image",
             "shape"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.78,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     },
@@ -577,15 +354,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -601,25 +369,7 @@
           "accepts": [
             "chart",
             "table"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.82,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     },
@@ -641,15 +391,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -665,15 +406,6 @@
           "accepts": [
             "text",
             "chart"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -689,25 +421,7 @@
           "accepts": [
             "image",
             "shape"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.8,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     },
@@ -729,15 +443,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -752,15 +457,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -775,25 +471,7 @@
           "required": false,
           "accepts": [
             "shape"
-          ],
-          "confidence": 0.72,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.86,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     },
@@ -815,15 +493,6 @@
           "required": false,
           "accepts": [
             "shape"
-          ],
-          "confidence": 0.7,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -838,15 +507,6 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
         },
         {
@@ -861,25 +521,7 @@
           "required": true,
           "accepts": [
             "text"
-          ],
-          "confidence": 0.82,
-          "provenance": [
-            {
-              "sourceId": "image-1",
-              "format": "png",
-              "path": "prompt://Image #1",
-              "adapter": "manual-vision-extraction"
-            }
           ]
-        }
-      ],
-      "confidence": 0.78,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
         }
       ]
     }
@@ -924,16 +566,7 @@
             "content": "{{subtitle}}"
           }
         ]
-      },
-      "confidence": 0.8,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     },
     {
       "id": "system-reference-fragment",
@@ -974,16 +607,7 @@
             "content": "{{content-grid}}"
           }
         ]
-      },
-      "confidence": 0.78,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     },
     {
       "id": "one-column-content-fragment",
@@ -1036,16 +660,7 @@
             "content": "{{bullets}}"
           }
         ]
-      },
-      "confidence": 0.78,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     },
     {
       "id": "two-column-content-fragment",
@@ -1086,16 +701,7 @@
             "content": "{{body}}"
           }
         ]
-      },
-      "confidence": 0.76,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     },
     {
       "id": "multi-column-content-fragment",
@@ -1136,16 +742,7 @@
             "content": "{{columns}}"
           }
         ]
-      },
-      "confidence": 0.76,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     },
     {
       "id": "large-media-fragment",
@@ -1174,16 +771,7 @@
             "content": "{{caption}}"
           }
         ]
-      },
-      "confidence": 0.74,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     },
     {
       "id": "gallery-fragment",
@@ -1199,16 +787,7 @@
         "layout": "gallery",
         "background": "#FFFFFF",
         "elements": []
-      },
-      "confidence": 0.72,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     },
     {
       "id": "chart-table-fragment",
@@ -1237,16 +816,7 @@
             "content": "{{title}}"
           }
         ]
-      },
-      "confidence": 0.76,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     },
     {
       "id": "data-text-image-fragment",
@@ -1287,16 +857,7 @@
             "content": "{{stat}}"
           }
         ]
-      },
-      "confidence": 0.74,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     },
     {
       "id": "section-divider-fragment",
@@ -1337,16 +898,7 @@
             "content": "{{title}}"
           }
         ]
-      },
-      "confidence": 0.8,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     },
     {
       "id": "closing-fragment",
@@ -1387,16 +939,7 @@
             "content": "{{body}}"
           }
         ]
-      },
-      "confidence": 0.72,
-      "provenance": [
-        {
-          "sourceId": "image-1",
-          "format": "png",
-          "path": "prompt://Image #1",
-          "adapter": "manual-vision-extraction"
-        }
-      ]
+      }
     }
   ],
   "guidance": {
@@ -1420,74 +963,10 @@
       "Use primary blue for active/header elements, grays for structure, and accents only for status/category markers."
     ]
   },
-  "provenance": [
-    {
-      "sourceId": "image-1",
-      "format": "png",
-      "path": "prompt://Image #1",
-      "adapter": "manual-vision-extraction"
-    }
-  ],
-  "coverage": {
-    "templateId": "presentation-design-system-image-1",
-    "generatedAt": "2026-04-22T13:44:31.272Z",
-    "significantObservationCount": 20,
-    "assignedSlotCount": 27,
-    "metrics": {
-      "tokens": {
-        "covered": 4,
-        "total": 4,
-        "ratio": 1
-      },
-      "archetypes": {
-        "covered": 11,
-        "total": 11,
-        "ratio": 1
-      },
-      "slots": {
-        "covered": 27,
-        "total": 27,
-        "ratio": 1
-      },
-      "fragments": {
-        "covered": 11,
-        "total": 11,
-        "ratio": 1
-      }
-    },
-    "formatConfidence": {
-      "png": 0.78
-    },
-    "warnings": [
-      "Manual extraction from a composite overview image; exact pixel positions/colors are approximate.",
-      "Source image includes small text artifacts; labels were normalized into clean template names."
-    ],
-    "sampleDeck": {
-      "validates": true,
-      "formats": {
-        "html": true,
-        "pdf": false,
-        "pptx": false
-      },
-      "degraded": true,
-      "warnings": [
-        "HTML sample rendered locally. PDF/PPTX smoke export intentionally not included because the deck uses chart/table/path features with mixed exporter support."
-      ]
-    },
-    "slotCoverage": {
-      "assignedSignificantObservations": 20
-    }
-  },
   "activation": {
     "status": "draft"
   },
-  "sampleDeck": {
-    "path": "dsl/deck.json",
-    "warnings": [
-      "Draft template requires human review before approving as a production style."
-    ]
-  },
   "warnings": [
-    "Approximate visual extraction from Image #1; verify against original design files before production use."
+    "Approximate visual extraction from source image; verify against original design files before production use."
   ]
 }

@@ -20,12 +20,12 @@ export interface RenderResult {
   warnings: LayoutWarning[];
 }
 
-export function renderElement(el: Element, basePath?: string, registry?: FontRegistry): RenderResult {
+export function renderElement(el: Element, basePath?: string, registry?: FontRegistry, defaultFont?: string): RenderResult {
   switch (el.type) {
     case 'text':
-      return renderText(el, registry);
+      return renderText(el, registry, defaultFont);
     case 'group':
-      return renderGroup(el, basePath, registry);
+      return renderGroup(el, basePath, registry, defaultFont);
     case 'rect':
       return { svg: renderRect(el), warnings: [] };
     case 'circle':
@@ -45,7 +45,7 @@ export function renderElement(el: Element, basePath?: string, registry?: FontReg
     case 'table':
       return renderTable(el);
     case 'layout':
-      return renderLayout(el, basePath, registry);
+      return renderLayout(el, basePath, registry, defaultFont, undefined);
     case 'customHtml':
       return renderCustomHtml(el as any);
     default:

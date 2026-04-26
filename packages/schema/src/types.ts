@@ -36,6 +36,9 @@ export interface DeckMeta {
   title: string;
   theme?: string;
   canvas: CanvasSize;
+  /** Default font family for text elements that omit fontFamily. Renderers and
+   *  text-measure fall back to this value before using the generic 'sans-serif'. */
+  defaultFont?: string;
   fonts?: Record<string, string>;
   /** HTML-only runtime options. Static SVG/PDF/PPTX exporters ignore this field. */
   htmlRuntime?: HtmlRuntimeConfig;

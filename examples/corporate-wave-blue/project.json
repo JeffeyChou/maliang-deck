@@ -1,0 +1,24 @@
+{
+  "id": "corporate-wave-blue",
+  "name": "Corporate Wave Blue Template",
+  "kind": "example-template-project",
+  "source": "prompt://Image #1",
+  "createdAt": "2026-04-22T13:44:31.272Z",
+  "paths": {
+    "templatePack": "template-pack.json",
+    "deck": "dsl/deck.json",
+    "htmlPreview": "render/html/index.html",
+    "extractionNotes": "docs/extraction-notes.md",
+    "coverageReport": "coverage/sample-report.json"
+  },
+  "scripts": {
+    "createDeck": "node scripts/template-tools/create-deck.mjs --out /tmp/cwb-starter.json",
+    "renderPreview": "node scripts/template-tools/render-preview.mjs"
+  },
+  "status": "draft-manual-extraction",
+  "reuse": {
+    "sourceOfTruth": "dsl/deck.json",
+    "templateMetadata": "template-pack.json",
+    "generatedPreview": "render/html/index.html"
+  }
+}

@@ -1,8 +1,9 @@
 import type { TextElement } from '@maliang-deck/schema';
 import { buildCssTransform, escapeHtml } from '../utils.js';
+import { getActiveDefaultFont } from './index.js';
 
 export function renderText(el: TextElement): string {
-  const fontFamily = el.fontFamily ?? 'sans-serif';
+  const fontFamily = el.fontFamily ?? getActiveDefaultFont() ?? 'sans-serif';
   const color = el.color ?? '#000000';
   const fontWeight = el.fontWeight ?? 'normal';
   const fontStyle = el.fontStyle ?? 'normal';

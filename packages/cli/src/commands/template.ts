@@ -3,7 +3,9 @@ import {
   extractTemplatePack,
   listAvailableTemplateStyles,
   loadTemplatePackFile,
+  normalizeTemplatePack,
   registerTemplatePackFile,
+  TemplatePackLiteSchema,
   validateTemplatePack,
   writeTemplateSampleProject,
 } from '@maliang-deck/workflow';
@@ -29,9 +31,25 @@ export function registerTemplateCommand(program: Command): void {
     .command('validate <templatePack>')
     .description('Validate a template-pack.json file')
     .action((templatePack: string) => {
-      const pack = validateTemplatePack(JSON.parse(readFileSync(templatePack, 'utf-8')));
-      console.log(`Template pack valid: ${pack.id}@${pack.version} (${pack.activation.status})`);
-      if (pack.activation.status !== 'approved') console.warn('Draft/deprecated packs are not generation-active by default.');
+      const raw: unknown = JSON.parse(readFileSync(templatePack, 'utf-8'));
+      const fullResult = TemplatePackLiteSchema.safeParse(raw);
+      if (fullResult.success) {
+        // Try full schema first; if it passes great, otherwise check lite
+        try {
+          const pack = validateTemplatePack(raw);
+          console.log(`Template pack valid: ${pack.id}@${pack.version} (${pack.activation.status})`);
+          if (pack.activation.status !== 'approved') console.warn('Draft/deprecated packs are not generation-active by default.');
+        } catch {
+          // Full schema failed but lite passed — report as valid lite template
+          const lite = fullResult.data;
+          const normalized = normalizeTemplatePack(lite);
+          console.log(`Template pack valid (lite): ${normalized.id}@${normalized.version} (hand-crafted; audit fields filled with defaults)`);
+          if ((normalized.activation.status as string) !== 'approved') console.warn('Draft/deprecated packs are not generation-active by default.');
+        }
+      } else {
+        // Neither schema passes — try full schema for its detailed error message
+        validateTemplatePack(raw);
+      }
     });
 
   template

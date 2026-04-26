@@ -1,0 +1,1891 @@
+{
+  "meta": {
+    "title": "DSL Upper Bound — Design System Template",
+    "theme": "neon-glass-dark",
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "htmlRuntime": {
+      "transition": {
+        "type": "fade",
+        "durationMs": 520,
+        "easing": "cubic-bezier(.2,.8,.2,1)",
+        "autoAnimate": true,
+        "unmatched": "fade"
+      }
+    }
+  },
+  "slides": [
+    {
+      "id": "ub-cover",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "cover-ring-a",
+          "x": 748,
+          "y": 52,
+          "width": 430,
+          "height": 430,
+          "rotation": 18,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(72,231,255,.42)",
+          "strokeWidth": 2
+        },
+        {
+          "id": "cover-ring-b",
+          "x": 792,
+          "y": 95,
+          "width": 345,
+          "height": 345,
+          "rotation": -12,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "delay": 80,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(255,79,216,.38)",
+          "strokeWidth": 2
+        },
+        {
+          "id": "cover-ring-c",
+          "x": 846,
+          "y": 152,
+          "width": 235,
+          "height": 235,
+          "rotation": 35,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "delay": 160,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(183,255,90,.34)",
+          "strokeWidth": 2
+        },
+        {
+          "id": "cover-orb",
+          "x": 964,
+          "y": 270,
+          "opacity": 0.92,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 900,
+            "delay": 260,
+            "easing": "cubic-bezier(.2,.9,.2,1)",
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 118,
+          "fill": "#48e7ff"
+        },
+        {
+          "id": "cover-glass",
+          "x": 70,
+          "y": 82,
+          "width": 660,
+          "height": 482,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 850,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.08)",
+          "stroke": "rgba(255,255,255,.18)",
+          "strokeWidth": 1,
+          "radius": 34
+        },
+        {
+          "id": "cover-kicker",
+          "x": 116,
+          "y": 130,
+          "width": 520,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 160,
+            "step": 0
+          },
+          "type": "text",
+          "content": "CATEGORY / TOPIC",
+          "fontSize": 15,
+          "fontWeight": "bold",
+          "color": "#48e7ff"
+        },
+        {
+          "id": "cover-title",
+          "x": 112,
+          "y": 178,
+          "width": 590,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 780,
+            "delay": 260,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Presentation Title Goes Here",
+          "fontSize": 64,
+          "fontWeight": "bold",
+          "color": "#f8fbff",
+          "lineHeight": 0.96
+        },
+        {
+          "id": "cover-subtitle",
+          "x": 118,
+          "y": 390,
+          "width": 540,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 700,
+            "delay": 420,
+            "step": 0
+          },
+          "type": "text",
+          "content": "A concise subtitle that frames the topic and sets audience expectations for this presentation.",
+          "fontSize": 22,
+          "color": "rgba(225,236,255,.78)",
+          "lineHeight": 1.35
+        },
+        {
+          "id": "cover-chip-a",
+          "x": 115,
+          "y": 500,
+          "width": 150,
+          "height": 48,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 580,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(72,231,255,.16)",
+          "stroke": "rgba(72,231,255,.28)",
+          "strokeWidth": 1,
+          "radius": 24
+        },
+        {
+          "id": "cover-chip-a-label",
+          "x": 132,
+          "y": 514,
+          "width": 120,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 620,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Label A",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#f8fbff",
+          "align": "center"
+        },
+        {
+          "id": "cover-chip-b",
+          "x": 282,
+          "y": 500,
+          "width": 150,
+          "height": 48,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 700,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,79,216,.13)",
+          "stroke": "rgba(255,79,216,.28)",
+          "strokeWidth": 1,
+          "radius": 24
+        },
+        {
+          "id": "cover-chip-b-label",
+          "x": 299,
+          "y": 514,
+          "width": 120,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 740,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Label B",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#f8fbff",
+          "align": "center"
+        },
+        {
+          "id": "cover-chip-c",
+          "x": 449,
+          "y": 500,
+          "width": 150,
+          "height": 48,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 820,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(183,255,90,.14)",
+          "stroke": "rgba(183,255,90,.28)",
+          "strokeWidth": 1,
+          "radius": 24
+        },
+        {
+          "id": "cover-chip-c-label",
+          "x": 466,
+          "y": 514,
+          "width": 120,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 860,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Label C",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#f8fbff",
+          "align": "center"
+        }
+      ],
+      "notes": "ARCHETYPE: Hero Cover | ANIMATION SET: Cinematic (scale-in, zoom-pop, blur-in — 700-900ms, custom easing) | FX: gradient-blob + starfield for atmospheric depth. Glass card left + concentric rings/orb right. Chips summarize key tags. MACRO CANDIDATE: chip-row component would collapse 6 chip elements into 1 invocation.",
+      "fx": [
+        "gradient-blob",
+        "starfield"
+      ]
+    },
+    {
+      "id": "ub-section-01",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "section-bg-circle",
+          "x": 1060,
+          "y": 360,
+          "opacity": 0.12,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 160,
+          "fill": "#48e7ff"
+        },
+        {
+          "id": "section-number-glow",
+          "x": 76,
+          "y": 170,
+          "width": 300,
+          "animation": {
+            "enter": "shrink-in",
+            "duration": 800,
+            "step": 0
+          },
+          "type": "text",
+          "content": "01",
+          "fontSize": 120,
+          "fontWeight": "bold",
+          "color": "rgba(72,231,255,.18)"
+        },
+        {
+          "id": "section-accent",
+          "x": 80,
+          "y": 340,
+          "width": 80,
+          "height": 5,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 600,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "#48e7ff",
+          "radius": 3
+        },
+        {
+          "id": "section-title",
+          "x": 78,
+          "y": 370,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 650,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Section Title",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "section-subtitle",
+          "x": 80,
+          "y": 440,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 550,
+            "delay": 420,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Brief context or framing for this section of the presentation.",
+          "fontSize": 21,
+          "color": "rgba(225,236,255,.65)",
+          "lineHeight": 1.4
+        }
+      ],
+      "notes": "ARCHETYPE: Section Divider | ANIMATION SET: Cinematic (shrink-in, stretch-x, fade-up — 600-800ms) | FX: galaxy-swirl for dramatic pause. Large watermark number + accent bar + title/subtitle. Transition into this slide benefits from autoAnimate 'zoom' mood.",
+      "fx": [
+        "galaxy-swirl"
+      ]
+    },
+    {
+      "id": "ub-three-cards",
+      "background": "#08111f",
+      "elements": [
+        {
+          "id": "cards-kicker",
+          "x": 70,
+          "y": 42,
+          "width": 600,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "KEY FEATURES",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#b7ff5a"
+        },
+        {
+          "id": "cards-title",
+          "x": 68,
+          "y": 75,
+          "width": 780,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 650,
+            "delay": 80,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Three pillars of the approach",
+          "fontSize": 44,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "card-a-group",
+          "x": 70,
+          "y": 178,
+          "width": 350,
+          "height": 360,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 620,
+            "delay": 160,
+            "step": 0
+          },
+          "type": "group",
+          "elements": [
+            {
+              "id": "card-a-glass",
+              "x": 0,
+              "y": 0,
+              "width": 350,
+              "height": 360,
+              "type": "rect",
+              "fill": "rgba(255,255,255,.08)",
+              "stroke": "rgba(255,255,255,.18)",
+              "strokeWidth": 1,
+              "radius": 28
+            },
+            {
+              "id": "card-a-icon-bg",
+              "x": 28,
+              "y": 28,
+              "width": 48,
+              "height": 48,
+              "type": "rect",
+              "fill": "rgba(72,231,255,.22)",
+              "radius": 14
+            },
+            {
+              "id": "card-a-icon",
+              "x": 36,
+              "y": 38,
+              "width": 32,
+              "type": "text",
+              "content": "◆",
+              "fontSize": 24,
+              "color": "#48e7ff",
+              "align": "center"
+            },
+            {
+              "id": "card-a-heading",
+              "x": 28,
+              "y": 102,
+              "width": 295,
+              "type": "text",
+              "content": "First Pillar",
+              "fontSize": 26,
+              "fontWeight": "bold",
+              "color": "#f8fbff"
+            },
+            {
+              "id": "card-a-body",
+              "x": 28,
+              "y": 148,
+              "width": 295,
+              "type": "text",
+              "content": "Description of the first key feature or pillar. Explain what it does and why it matters to the audience.",
+              "fontSize": 18,
+              "color": "rgba(225,236,255,.72)",
+              "lineHeight": 1.45
+            }
+          ]
+        },
+        {
+          "id": "card-b-group",
+          "x": 465,
+          "y": 178,
+          "width": 350,
+          "height": 360,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 620,
+            "delay": 280,
+            "step": 0
+          },
+          "type": "group",
+          "elements": [
+            {
+              "id": "card-b-glass",
+              "x": 0,
+              "y": 0,
+              "width": 350,
+              "height": 360,
+              "type": "rect",
+              "fill": "rgba(255,255,255,.08)",
+              "stroke": "rgba(255,255,255,.18)",
+              "strokeWidth": 1,
+              "radius": 28
+            },
+            {
+              "id": "card-b-icon-bg",
+              "x": 28,
+              "y": 28,
+              "width": 48,
+              "height": 48,
+              "type": "rect",
+              "fill": "rgba(255,79,216,.18)",
+              "radius": 14
+            },
+            {
+              "id": "card-b-icon",
+              "x": 36,
+              "y": 38,
+              "width": 32,
+              "type": "text",
+              "content": "●",
+              "fontSize": 24,
+              "color": "#ff4fd8",
+              "align": "center"
+            },
+            {
+              "id": "card-b-heading",
+              "x": 28,
+              "y": 102,
+              "width": 295,
+              "type": "text",
+              "content": "Second Pillar",
+              "fontSize": 26,
+              "fontWeight": "bold",
+              "color": "#f8fbff"
+            },
+            {
+              "id": "card-b-body",
+              "x": 28,
+              "y": 148,
+              "width": 295,
+              "type": "text",
+              "content": "Description of the second key feature or pillar. Explain what it does and why it matters to the audience.",
+              "fontSize": 18,
+              "color": "rgba(225,236,255,.72)",
+              "lineHeight": 1.45
+            }
+          ]
+        },
+        {
+          "id": "card-c-group",
+          "x": 860,
+          "y": 178,
+          "width": 350,
+          "height": 360,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 620,
+            "delay": 400,
+            "step": 0
+          },
+          "type": "group",
+          "elements": [
+            {
+              "id": "card-c-glass",
+              "x": 0,
+              "y": 0,
+              "width": 350,
+              "height": 360,
+              "type": "rect",
+              "fill": "rgba(255,255,255,.08)",
+              "stroke": "rgba(255,255,255,.18)",
+              "strokeWidth": 1,
+              "radius": 28
+            },
+            {
+              "id": "card-c-icon-bg",
+              "x": 28,
+              "y": 28,
+              "width": 48,
+              "height": 48,
+              "type": "rect",
+              "fill": "rgba(183,255,90,.18)",
+              "radius": 14
+            },
+            {
+              "id": "card-c-icon",
+              "x": 36,
+              "y": 38,
+              "width": 32,
+              "type": "text",
+              "content": "▲",
+              "fontSize": 24,
+              "color": "#b7ff5a",
+              "align": "center"
+            },
+            {
+              "id": "card-c-heading",
+              "x": 28,
+              "y": 102,
+              "width": 295,
+              "type": "text",
+              "content": "Third Pillar",
+              "fontSize": 26,
+              "fontWeight": "bold",
+              "color": "#f8fbff"
+            },
+            {
+              "id": "card-c-body",
+              "x": 28,
+              "y": 148,
+              "width": 295,
+              "type": "text",
+              "content": "Description of the third key feature or pillar. Explain what it does and why it matters to the audience.",
+              "fontSize": 18,
+              "color": "rgba(225,236,255,.72)",
+              "lineHeight": 1.45
+            }
+          ]
+        }
+      ],
+      "notes": "ARCHETYPE: Three-Card Feature Layout | ANIMATION SET: Editorial (fade-down, fade-up, fade-right — 500-650ms, staggered delays) | FX: data-stream for technical ambiance. Group elements wrap each card — one animation per group, children inherit. MACRO CANDIDATE: 'feature-card' component would collapse each 5-element group into 1 invocation with props {icon, accent, heading, body}.",
+      "fx": [
+        "data-stream"
+      ]
+    },
+    {
+      "id": "ub-two-column",
+      "background": "#0b1020",
+      "elements": [
+        {
+          "id": "twocol-kicker",
+          "x": 70,
+          "y": 42,
+          "width": 500,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "DEEP DIVE",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#ff4fd8"
+        },
+        {
+          "id": "twocol-title",
+          "x": 68,
+          "y": 78,
+          "width": 520,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 80,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Key narrative point with supporting evidence",
+          "fontSize": 40,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "twocol-body",
+          "x": 70,
+          "y": 218,
+          "width": 480,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 550,
+            "delay": 180,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Supporting paragraph that provides context and evidence for the main point. This area can contain up to 3–4 sentences of explanatory text.",
+          "fontSize": 20,
+          "color": "rgba(225,236,255,.78)",
+          "lineHeight": 1.5
+        },
+        {
+          "id": "twocol-bullets",
+          "x": 70,
+          "y": 380,
+          "width": 480,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "text",
+          "content": "• First supporting detail or finding\n• Second data point or observation\n• Third actionable insight",
+          "fontSize": 19,
+          "color": "rgba(225,236,255,.72)",
+          "lineHeight": 1.65
+        },
+        {
+          "id": "twocol-connector",
+          "x": 590,
+          "y": 300,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
+          "type": "line",
+          "x2": 650,
+          "y2": 300,
+          "stroke": "#48e7ff",
+          "strokeWidth": 3,
+          "strokeDasharray": "8 8"
+        },
+        {
+          "id": "twocol-glass",
+          "x": 670,
+          "y": 130,
+          "width": 530,
+          "height": 430,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 700,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.08)",
+          "stroke": "rgba(255,255,255,.18)",
+          "strokeWidth": 1,
+          "radius": 28
+        },
+        {
+          "id": "twocol-placeholder",
+          "x": 810,
+          "y": 325,
+          "width": 250,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 600,
+            "delay": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Diagram, image,\nor code sample",
+          "fontSize": 17,
+          "color": "rgba(225,236,255,.35)",
+          "align": "center"
+        }
+      ],
+      "notes": "ARCHETYPE: Two-Column Content | ANIMATION SET: Editorial (fade-down, fade-up, fade-left — 500-700ms) | FX: constellation for subtle depth. Left: title + body + bullets. Right: glass card visual placeholder. Dashed connector bridges the two. The right glass card is intentionally a placeholder — replace with diagram, image, or code.",
+      "fx": [
+        "constellation"
+      ]
+    },
+    {
+      "id": "ub-chart",
+      "background": "#08111f",
+      "elements": [
+        {
+          "id": "chart-kicker",
+          "x": 70,
+          "y": 42,
+          "width": 500,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "DATA EVIDENCE",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#ffd166"
+        },
+        {
+          "id": "chart-title",
+          "x": 68,
+          "y": 75,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 80,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Trend reveals a clear upward trajectory",
+          "fontSize": 40,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "evidence-chart",
+          "x": 70,
+          "y": 170,
+          "width": 680,
+          "height": 420,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 700,
+            "step": 1
+          },
+          "type": "chart",
+          "chartType": "line",
+          "data": [
+            {
+              "name": "Series A",
+              "labels": [
+                "Q1",
+                "Q2",
+                "Q3",
+                "Q4",
+                "Q5"
+              ],
+              "values": [
+                28,
+                42,
+                56,
+                72,
+                91
+              ]
+            },
+            {
+              "name": "Series B",
+              "labels": [
+                "Q1",
+                "Q2",
+                "Q3",
+                "Q4",
+                "Q5"
+              ],
+              "values": [
+                85,
+                78,
+                65,
+                52,
+                48
+              ]
+            }
+          ],
+          "style": {
+            "palette": [
+              "#48e7ff",
+              "#ff4fd8"
+            ],
+            "axisColor": "#3a4060",
+            "gridColor": "#1e2540",
+            "labelColor": "#8890b0",
+            "showLegend": true,
+            "showDataLabels": true,
+            "areaFill": true
+          }
+        },
+        {
+          "id": "callout-glass",
+          "x": 810,
+          "y": 250,
+          "width": 390,
+          "height": 240,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 600,
+            "step": 2
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.08)",
+          "stroke": "rgba(255,255,255,.18)",
+          "strokeWidth": 1,
+          "radius": 24
+        },
+        {
+          "id": "callout-value",
+          "x": 844,
+          "y": 290,
+          "width": 320,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 600,
+            "delay": 120,
+            "step": 2
+          },
+          "type": "text",
+          "content": "+225%",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#48e7ff"
+        },
+        {
+          "id": "callout-caption",
+          "x": 844,
+          "y": 368,
+          "width": 320,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 200,
+            "step": 2
+          },
+          "type": "text",
+          "content": "Year-over-year growth driven by improved methodology and expanded coverage.",
+          "fontSize": 19,
+          "color": "rgba(225,236,255,.72)",
+          "lineHeight": 1.45
+        }
+      ],
+      "notes": "ARCHETYPE: Chart Evidence | ANIMATION SET: Data (step 0 = title, step 1 = chart with blur-in, step 2 = callout with zoom-pop — 500-700ms) | FX: data-stream for analytical atmosphere. Three-step narrative build: context → data → insight. ChartStyle uses typed palette for cross-renderer fidelity.",
+      "fx": [
+        "data-stream"
+      ]
+    },
+    {
+      "id": "ub-kpi",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "kpi-kicker",
+          "x": 70,
+          "y": 42,
+          "width": 500,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "KEY PERFORMANCE INDICATORS",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#48e7ff"
+        },
+        {
+          "id": "kpi-title",
+          "x": 68,
+          "y": 75,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 80,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Performance dashboard at a glance",
+          "fontSize": 40,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "kpi-a-group",
+          "x": 70,
+          "y": 178,
+          "width": 370,
+          "height": 210,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "step": 1
+          },
+          "type": "group",
+          "elements": [
+            {
+              "id": "kpi-a-glass",
+              "x": 0,
+              "y": 0,
+              "width": 370,
+              "height": 210,
+              "type": "rect",
+              "fill": "rgba(255,255,255,.08)",
+              "stroke": "rgba(255,255,255,.18)",
+              "strokeWidth": 1,
+              "radius": 24
+            },
+            {
+              "id": "kpi-a-bar",
+              "x": 0,
+              "y": 0,
+              "width": 8,
+              "height": 210,
+              "type": "rect",
+              "fill": "#48e7ff",
+              "radius": 24
+            },
+            {
+              "id": "kpi-a-label",
+              "x": 32,
+              "y": 28,
+              "width": 300,
+              "type": "text",
+              "content": "Revenue Growth",
+              "fontSize": 15,
+              "fontWeight": "bold",
+              "color": "#48e7ff"
+            },
+            {
+              "id": "kpi-a-value",
+              "x": 32,
+              "y": 68,
+              "width": 300,
+              "type": "text",
+              "content": "147%",
+              "fontSize": 52,
+              "fontWeight": "bold",
+              "color": "#f8fbff"
+            },
+            {
+              "id": "kpi-a-caption",
+              "x": 32,
+              "y": 148,
+              "width": 300,
+              "type": "text",
+              "content": "Year-over-year quarterly growth",
+              "fontSize": 16,
+              "color": "rgba(225,236,255,.6)",
+              "lineHeight": 1.35
+            }
+          ]
+        },
+        {
+          "id": "kpi-b-group",
+          "x": 468,
+          "y": 178,
+          "width": 370,
+          "height": 210,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 120,
+            "step": 1
+          },
+          "type": "group",
+          "elements": [
+            {
+              "id": "kpi-b-glass",
+              "x": 0,
+              "y": 0,
+              "width": 370,
+              "height": 210,
+              "type": "rect",
+              "fill": "rgba(255,255,255,.08)",
+              "stroke": "rgba(255,255,255,.18)",
+              "strokeWidth": 1,
+              "radius": 24
+            },
+            {
+              "id": "kpi-b-bar",
+              "x": 0,
+              "y": 0,
+              "width": 8,
+              "height": 210,
+              "type": "rect",
+              "fill": "#ff4fd8",
+              "radius": 24
+            },
+            {
+              "id": "kpi-b-label",
+              "x": 32,
+              "y": 28,
+              "width": 300,
+              "type": "text",
+              "content": "User Retention",
+              "fontSize": 15,
+              "fontWeight": "bold",
+              "color": "#ff4fd8"
+            },
+            {
+              "id": "kpi-b-value",
+              "x": 32,
+              "y": 68,
+              "width": 300,
+              "type": "text",
+              "content": "92.4%",
+              "fontSize": 52,
+              "fontWeight": "bold",
+              "color": "#f8fbff"
+            },
+            {
+              "id": "kpi-b-caption",
+              "x": 32,
+              "y": 148,
+              "width": 300,
+              "type": "text",
+              "content": "30-day retention rate across cohorts",
+              "fontSize": 16,
+              "color": "rgba(225,236,255,.6)",
+              "lineHeight": 1.35
+            }
+          ]
+        },
+        {
+          "id": "kpi-c-group",
+          "x": 866,
+          "y": 178,
+          "width": 370,
+          "height": 210,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 240,
+            "step": 1
+          },
+          "type": "group",
+          "elements": [
+            {
+              "id": "kpi-c-glass",
+              "x": 0,
+              "y": 0,
+              "width": 370,
+              "height": 210,
+              "type": "rect",
+              "fill": "rgba(255,255,255,.08)",
+              "stroke": "rgba(255,255,255,.18)",
+              "strokeWidth": 1,
+              "radius": 24
+            },
+            {
+              "id": "kpi-c-bar",
+              "x": 0,
+              "y": 0,
+              "width": 8,
+              "height": 210,
+              "type": "rect",
+              "fill": "#b7ff5a",
+              "radius": 24
+            },
+            {
+              "id": "kpi-c-label",
+              "x": 32,
+              "y": 28,
+              "width": 300,
+              "type": "text",
+              "content": "System Uptime",
+              "fontSize": 15,
+              "fontWeight": "bold",
+              "color": "#b7ff5a"
+            },
+            {
+              "id": "kpi-c-value",
+              "x": 32,
+              "y": 68,
+              "width": 300,
+              "type": "text",
+              "content": "99.97%",
+              "fontSize": 52,
+              "fontWeight": "bold",
+              "color": "#f8fbff"
+            },
+            {
+              "id": "kpi-c-caption",
+              "x": 32,
+              "y": 148,
+              "width": 300,
+              "type": "text",
+              "content": "Last 90 days across all regions",
+              "fontSize": 16,
+              "color": "rgba(225,236,255,.6)",
+              "lineHeight": 1.35
+            }
+          ]
+        },
+        {
+          "id": "kpi-trend-chart",
+          "x": 70,
+          "y": 440,
+          "width": 1166,
+          "height": 210,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 700,
+            "step": 2
+          },
+          "type": "chart",
+          "chartType": "bar",
+          "data": [
+            {
+              "name": "Monthly Active",
+              "labels": [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun"
+              ],
+              "values": [
+                4200,
+                4800,
+                5100,
+                5900,
+                6400,
+                7200
+              ]
+            }
+          ],
+          "style": {
+            "palette": [
+              "#48e7ff"
+            ],
+            "axisColor": "#3a4060",
+            "gridColor": "#1e2540",
+            "labelColor": "#8890b0",
+            "rounded": true
+          }
+        }
+      ],
+      "notes": "ARCHETYPE: KPI Dashboard | ANIMATION SET: Data (step 0 = header, step 1 = metric cards with fade-up stagger, step 2 = trend chart with blur-in) | FX: constellation for subtle ambiance. Three metric groups with accent bar + value + caption, plus a bar chart trend strip below. MACRO CANDIDATE: 'metric-card' component would collapse each 5-element group into 1 invocation with props {label, value, caption, accent}.",
+      "fx": [
+        "constellation"
+      ]
+    },
+    {
+      "id": "ub-comparison",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "compare-title",
+          "x": 80,
+          "y": 52,
+          "width": 1093.33,
+          "height": 60.25,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 650,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Weighing the strengths against the constraints",
+          "fontSize": 44,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "compare-left-glass",
+          "x": 70,
+          "y": 148,
+          "width": 540,
+          "height": 380,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 700,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.08)",
+          "stroke": "rgba(255,255,255,.18)",
+          "strokeWidth": 1,
+          "radius": 28
+        },
+        {
+          "id": "compare-left-heading",
+          "x": 110,
+          "y": 192,
+          "width": 440,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 140,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Advantages",
+          "fontSize": 28,
+          "fontWeight": "bold",
+          "color": "#b7ff5a"
+        },
+        {
+          "id": "compare-left-list",
+          "x": 112,
+          "y": 248,
+          "width": 420,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 240,
+            "step": 1
+          },
+          "type": "text",
+          "content": "• First advantage or strength\n• Second positive outcome\n• Third benefit area\n• Fourth supporting evidence",
+          "fontSize": 20,
+          "color": "rgba(248,251,255,.82)",
+          "lineHeight": 1.6
+        },
+        {
+          "id": "compare-right-glass",
+          "x": 670,
+          "y": 148,
+          "width": 540,
+          "height": 380,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 700,
+            "step": 2
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.08)",
+          "stroke": "rgba(255,255,255,.18)",
+          "strokeWidth": 1,
+          "radius": 28
+        },
+        {
+          "id": "compare-right-heading",
+          "x": 710,
+          "y": 192,
+          "width": 440,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 140,
+            "step": 2
+          },
+          "type": "text",
+          "content": "Limitations",
+          "fontSize": 28,
+          "fontWeight": "bold",
+          "color": "#ff4fd8"
+        },
+        {
+          "id": "compare-right-list",
+          "x": 712,
+          "y": 248,
+          "width": 420,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 240,
+            "step": 2
+          },
+          "type": "text",
+          "content": "• First constraint or risk\n• Second boundary condition\n• Third area for improvement\n• Fourth known limitation",
+          "fontSize": 20,
+          "color": "rgba(248,251,255,.82)",
+          "lineHeight": 1.6
+        },
+        {
+          "id": "compare-thesis",
+          "x": 120,
+          "y": 590,
+          "width": 1040,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 700,
+            "step": 3
+          },
+          "type": "text",
+          "content": "Synthesis: the advantages significantly outweigh the limitations for most practical scenarios.",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#f8fbff",
+          "align": "center"
+        }
+      ],
+      "notes": "ARCHETYPE: Side-by-Side Comparison | ANIMATION SET: Dramatic (step 0 = title, step 1 = left card, step 2 = right card, step 3 = synthesis thesis) | FX: gradient-blob for atmosphere. Two glass cards with contrasting accent colors (lime = positive, pink = constraints). Bottom thesis synthesizes the comparison. Classic 'strong vs bounded' pattern.",
+      "fx": [
+        "gradient-blob"
+      ]
+    },
+    {
+      "id": "ub-timeline",
+      "background": "#08111f",
+      "elements": [
+        {
+          "id": "timeline-title",
+          "x": 70,
+          "y": 42,
+          "width": 800,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Implementation roadmap",
+          "fontSize": 44,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "timeline-subtitle",
+          "x": 72,
+          "y": 100,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 100,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Phased rollout with gates between each stage.",
+          "fontSize": 20,
+          "color": "rgba(225,236,255,.65)"
+        },
+        {
+          "id": "timeline-connector",
+          "x": 200,
+          "y": 260,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "line",
+          "x2": 1100,
+          "y2": 260,
+          "stroke": "#ffd166",
+          "strokeWidth": 4
+        },
+        {
+          "id": "tl-node-1",
+          "x": 177,
+          "y": 232,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "circle",
+          "radius": 32,
+          "fill": "#ffd166",
+          "stroke": "#fef3c7",
+          "strokeWidth": 3
+        },
+        {
+          "id": "tl-label-1",
+          "x": 145,
+          "y": 220,
+          "width": 64,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 1
+          },
+          "type": "text",
+          "content": "1",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#111827",
+          "align": "center"
+        },
+        {
+          "id": "tl-card-1-glass",
+          "x": 116,
+          "y": 310,
+          "width": 270,
+          "height": 180,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 100,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.08)",
+          "stroke": "rgba(255,255,255,.15)",
+          "strokeWidth": 1,
+          "radius": 20
+        },
+        {
+          "id": "tl-card-1-heading",
+          "x": 140,
+          "y": 336,
+          "width": 220,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 180,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Phase One",
+          "fontSize": 20,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "tl-card-1-body",
+          "x": 140,
+          "y": 374,
+          "width": 220,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 240,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Foundation work and validation of core assumptions.",
+          "fontSize": 15,
+          "color": "rgba(225,236,255,.65)",
+          "lineHeight": 1.35
+        },
+        {
+          "id": "tl-node-2",
+          "x": 627,
+          "y": 232,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "step": 2
+          },
+          "type": "circle",
+          "radius": 32,
+          "fill": "#ffd166",
+          "stroke": "#fef3c7",
+          "strokeWidth": 3
+        },
+        {
+          "id": "tl-label-2",
+          "x": 595,
+          "y": 220,
+          "width": 64,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 2
+          },
+          "type": "text",
+          "content": "2",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#111827",
+          "align": "center"
+        },
+        {
+          "id": "tl-card-2-glass",
+          "x": 520,
+          "y": 310,
+          "width": 270,
+          "height": 180,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 100,
+            "step": 2
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.08)",
+          "stroke": "rgba(255,255,255,.15)",
+          "strokeWidth": 1,
+          "radius": 20
+        },
+        {
+          "id": "tl-card-2-heading",
+          "x": 544,
+          "y": 336,
+          "width": 220,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 180,
+            "step": 2
+          },
+          "type": "text",
+          "content": "Phase Two",
+          "fontSize": 20,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "tl-card-2-body",
+          "x": 544,
+          "y": 374,
+          "width": 220,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 240,
+            "step": 2
+          },
+          "type": "text",
+          "content": "Scale and iterate based on feedback from phase one.",
+          "fontSize": 15,
+          "color": "rgba(225,236,255,.65)",
+          "lineHeight": 1.35
+        },
+        {
+          "id": "tl-node-3",
+          "x": 1077,
+          "y": 232,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "step": 3
+          },
+          "type": "circle",
+          "radius": 32,
+          "fill": "#ffd166",
+          "stroke": "#fef3c7",
+          "strokeWidth": 3
+        },
+        {
+          "id": "tl-label-3",
+          "x": 1045,
+          "y": 220,
+          "width": 64,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 3
+          },
+          "type": "text",
+          "content": "3",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#111827",
+          "align": "center"
+        },
+        {
+          "id": "tl-card-3-glass",
+          "x": 942,
+          "y": 310,
+          "width": 270,
+          "height": 180,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 100,
+            "step": 3
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.08)",
+          "stroke": "rgba(255,255,255,.15)",
+          "strokeWidth": 1,
+          "radius": 20
+        },
+        {
+          "id": "tl-card-3-heading",
+          "x": 966,
+          "y": 336,
+          "width": 220,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 180,
+            "step": 3
+          },
+          "type": "text",
+          "content": "Phase Three",
+          "fontSize": 20,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "tl-card-3-body",
+          "x": 966,
+          "y": 374,
+          "width": 220,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 240,
+            "step": 3
+          },
+          "type": "text",
+          "content": "Full deployment with monitoring and optimization.",
+          "fontSize": 15,
+          "color": "rgba(225,236,255,.65)",
+          "lineHeight": 1.35
+        }
+      ],
+      "notes": "ARCHETYPE: Horizontal Timeline | ANIMATION SET: Editorial + Dramatic hybrid (step 0 = title + connector line, steps 1–3 = individual phase nodes + cards) | FX: sparkle-trail for progressive energy. Three-phase roadmap with numbered nodes along a horizontal connector. MACRO CANDIDATE: 'timeline-section' component (see macro-authoring-demo) would reduce 18 elements to 1 invocation.",
+      "fx": [
+        "sparkle-trail"
+      ]
+    },
+    {
+      "id": "ub-table",
+      "background": "#0b1020",
+      "elements": [
+        {
+          "id": "table-kicker",
+          "x": 70,
+          "y": 42,
+          "width": 500,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "DETAILED BREAKDOWN",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#8b5cf6"
+        },
+        {
+          "id": "table-title",
+          "x": 68,
+          "y": 75,
+          "width": 1006.02,
+          "height": 64,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 80,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Comparative analysis across dimensions",
+          "fontSize": 40,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "data-table",
+          "x": 70,
+          "y": 168,
+          "width": 1140,
+          "height": 380,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 700,
+            "step": 1
+          },
+          "type": "table",
+          "rows": [
+            [
+              {
+                "text": "Dimension",
+                "options": {
+                  "bold": true,
+                  "fill": "#1e2540",
+                  "color": "#f8fbff"
+                }
+              },
+              {
+                "text": "Metric A",
+                "options": {
+                  "bold": true,
+                  "fill": "#1e2540",
+                  "color": "#f8fbff"
+                }
+              },
+              {
+                "text": "Metric B",
+                "options": {
+                  "bold": true,
+                  "fill": "#1e2540",
+                  "color": "#f8fbff"
+                }
+              },
+              {
+                "text": "Status",
+                "options": {
+                  "bold": true,
+                  "fill": "#1e2540",
+                  "color": "#f8fbff"
+                }
+              }
+            ],
+            [
+              "Performance",
+              "94.2%",
+              "+12.3pp",
+              "On track"
+            ],
+            [
+              "Reliability",
+              "99.97%",
+              "+0.02pp",
+              "Exceeded"
+            ],
+            [
+              "Scalability",
+              "10x baseline",
+              "3x prior",
+              "On track"
+            ],
+            [
+              "Cost efficiency",
+              "$0.42/unit",
+              "−18%",
+              "Improved"
+            ],
+            [
+              "User satisfaction",
+              "4.7 / 5.0",
+              "+0.3",
+              "Exceeded"
+            ]
+          ],
+          "style": {
+            "headerBackground": "#1e2540",
+            "headerColor": "#f8fbff",
+            "rowStripe": true,
+            "stripeColor": "#111827",
+            "borderColor": "#2a3050",
+            "borderWidth": 1,
+            "cellPadding": "12px 18px",
+            "fontSize": 17,
+            "rounded": true
+          }
+        },
+        {
+          "id": "table-source",
+          "x": 70,
+          "y": 590,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 200,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Source: Internal analytics dashboard, Q4 reporting period.",
+          "fontSize": 14,
+          "color": "rgba(225,236,255,.4)"
+        }
+      ],
+      "notes": "ARCHETYPE: Data Table | ANIMATION SET: Data (step 0 = header, step 1 = table with blur-in) | FX: none (clean focus on data). TableStyle uses typed hex colors for cross-renderer fidelity. Theme CSS adds border-radius and box-shadow for HTML polish."
+    },
+    {
+      "id": "ub-closing",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "closing-orb",
+          "x": 640,
+          "y": 240,
+          "opacity": 0.85,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 900,
+            "easing": "cubic-bezier(.2,.9,.2,1)",
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 80,
+          "fill": "#48e7ff"
+        },
+        {
+          "id": "closing-title",
+          "x": 240,
+          "y": 340,
+          "width": 800,
+          "animation": {
+            "enter": "blur-zoom",
+            "duration": 800,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Thank You so much",
+          "fontSize": 56,
+          "fontWeight": "bold",
+          "fontStyle": "italic",
+          "color": "#f8fbff",
+          "align": "center"
+        },
+        {
+          "id": "closing-subtitle",
+          "x": 340,
+          "y": 430,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 420,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Questions, feedback, or next steps — let’s discuss.",
+          "fontSize": 22,
+          "color": "rgba(225,236,255,.72)",
+          "align": "center",
+          "lineHeight": 1.45
+        },
+        {
+          "id": "closing-contact",
+          "x": 390,
+          "y": 530,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 560,
+            "step": 0
+          },
+          "type": "text",
+          "content": "name@example.com  ·  @handle",
+          "fontSize": 16,
+          "color": "rgba(225,236,255,.45)",
+          "align": "center"
+        }
+      ],
+      "notes": "ARCHETYPE: Centered Closing | ANIMATION SET: Cinematic (zoom-pop, blur-zoom, fade-up — 700-900ms) | FX: gradient-blob + starfield echoing the cover for bookend symmetry. Centered composition: decorative orb → headline → subtitle → contact. The orb uses the '-orb' naming convention for CSS gradient + screen blend override.",
+      "fx": [
+        "gradient-blob",
+        "starfield"
+      ]
+    }
+  ]
+}
