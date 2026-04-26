@@ -23,6 +23,14 @@
 
     var handles = [];
 
+    // If path config exists, use the path effect (overrides normal animation flow)
+    if (config.path && config.path.d && effects.path) {
+      var pathSpans = window.TextSplitter.graphemes(el);
+      var pathHandle = effects.path(pathSpans, config.textAnimation[0] || config.textAnimation, el);
+      if (pathHandle) handles.push(pathHandle);
+      return { handles: handles };
+    }
+
     anims.forEach(function (animConfig) {
       var effectFn = effects[animConfig.name];
       if (!effectFn) {

@@ -445,6 +445,201 @@
           }
         }
       ]
+    },
+    {
+      "id": "slide-cascade-scramble",
+      "elements": [
+        {
+          "type": "text",
+          "id": "title-9",
+          "x": 100,
+          "y": 50,
+          "width": 1080,
+          "fontSize": 28,
+          "fontWeight": "bold",
+          "content": "Cascade & Scramble Effects",
+          "color": "#666",
+          "animation": { "enter": "fade-up", "step": 0 }
+        },
+        {
+          "type": "animatedText",
+          "id": "cascade-demo",
+          "x": 100,
+          "y": 180,
+          "width": 1080,
+          "fontSize": 44,
+          "fontWeight": "bold",
+          "color": "#2d3436",
+          "content": "Cascade Drop",
+          "textAnimation": { "name": "cascade", "stagger": 50, "duration": 600 }
+        },
+        {
+          "type": "animatedText",
+          "id": "scramble-demo",
+          "x": 100,
+          "y": 320,
+          "width": 1080,
+          "fontSize": 40,
+          "fontFamily": "JetBrains Mono, monospace",
+          "color": "#00b894",
+          "content": "DECRYPTING...",
+          "textAnimation": { "name": "scramble", "stagger": 60, "duration": 1200 }
+        },
+        {
+          "type": "animatedText",
+          "id": "decode-demo",
+          "x": 100,
+          "y": 460,
+          "width": 1080,
+          "fontSize": 36,
+          "fontFamily": "JetBrains Mono, monospace",
+          "color": "#6c5ce7",
+          "content": "Binary Decode Effect",
+          "textAnimation": { "name": "decode", "stagger": 45, "duration": 1000 }
+        }
+      ]
+    },
+    {
+      "id": "slide-bounce-rotate-scale",
+      "elements": [
+        {
+          "type": "text",
+          "id": "title-10",
+          "x": 100,
+          "y": 50,
+          "width": 1080,
+          "fontSize": 28,
+          "fontWeight": "bold",
+          "content": "Bounce, Rotate & Scale Effects",
+          "color": "#666",
+          "animation": { "enter": "fade-up", "step": 0 }
+        },
+        {
+          "type": "animatedText",
+          "id": "bounce-demo",
+          "x": 100,
+          "y": 170,
+          "width": 1080,
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#e17055",
+          "content": "BOUNCE!",
+          "textAnimation": { "name": "bounce-chars", "stagger": 60, "duration": 800 }
+        },
+        {
+          "type": "animatedText",
+          "id": "rotate-demo",
+          "x": 100,
+          "y": 310,
+          "width": 1080,
+          "fontSize": 44,
+          "fontWeight": "bold",
+          "color": "#0984e3",
+          "content": "Spin Into Place",
+          "textAnimation": { "name": "rotate-chars", "stagger": 45, "duration": 700 }
+        },
+        {
+          "type": "animatedText",
+          "id": "scale-demo",
+          "x": 100,
+          "y": 460,
+          "width": 1080,
+          "fontSize": 50,
+          "fontWeight": "bold",
+          "color": "#fd79a8",
+          "content": "POP!",
+          "textAnimation": { "name": "scale-chars", "stagger": 80, "duration": 600, "easing": "easeOutElastic" }
+        }
+      ]
+    },
+    {
+      "id": "slide-blur-glitch-fade",
+      "elements": [
+        {
+          "type": "text",
+          "id": "title-11",
+          "x": 100,
+          "y": 50,
+          "width": 1080,
+          "fontSize": 28,
+          "fontWeight": "bold",
+          "content": "Blur Reveal, Fade & Glitch Effects",
+          "color": "#666",
+          "animation": { "enter": "fade-up", "step": 0 }
+        },
+        {
+          "type": "animatedText",
+          "id": "blur-demo",
+          "x": 100,
+          "y": 170,
+          "width": 1080,
+          "fontSize": 44,
+          "fontWeight": "bold",
+          "color": "#2d3436",
+          "content": "Focus Into Clarity",
+          "textAnimation": { "name": "blur-reveal", "stagger": 40, "duration": 700 }
+        },
+        {
+          "type": "animatedText",
+          "id": "fade-demo",
+          "x": 100,
+          "y": 310,
+          "width": 1080,
+          "fontSize": 36,
+          "color": "#636e72",
+          "content": "Subtle fade-in character by character",
+          "textAnimation": { "name": "fade-chars", "stagger": 30, "duration": 400, "direction": "center" }
+        },
+        {
+          "type": "animatedText",
+          "id": "glitch-demo",
+          "x": 100,
+          "y": 450,
+          "width": 1080,
+          "fontSize": 52,
+          "fontWeight": "bold",
+          "fontFamily": "JetBrains Mono, monospace",
+          "color": "#d63031",
+          "content": "SYSTEM_ERROR",
+          "textAnimation": { "name": "glitch", "stagger": 30, "duration": 2000 }
+        }
+      ]
+    },
+    {
+      "id": "slide-text-path",
+      "elements": [
+        {
+          "type": "text",
+          "id": "title-12",
+          "x": 100,
+          "y": 50,
+          "width": 1080,
+          "fontSize": 28,
+          "fontWeight": "bold",
+          "content": "Text on Path (Animated)",
+          "color": "#666",
+          "animation": { "enter": "fade-up", "step": 0 }
+        },
+        {
+          "type": "animatedText",
+          "id": "path-circle",
+          "x": 200,
+          "y": 120,
+          "width": 800,
+          "height": 500,
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#e94560",
+          "content": "CIRCULAR TEXT PATH  •  MALIANG DECK  •  MOTION GRAPHICS  •  ",
+          "textAnimation": { "name": "stagger", "stagger": 0, "duration": 1 },
+          "path": {
+            "d": "M 400,250 A 200,200 0 1,1 399.9,250",
+            "align": "start",
+            "animate": true,
+            "animateDuration": 8000
+          }
+        }
+      ]
     }
   ]
 }

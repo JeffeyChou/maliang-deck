@@ -198,6 +198,16 @@ ${slidesHtml}
   <script src="${base}assets/extensions/text-anim/effects/stagger.js"></script>
   <script src="${base}assets/extensions/text-anim/effects/typewriter.js"></script>
   <script src="${base}assets/extensions/text-anim/effects/wave.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/cascade.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/scramble.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/decode.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/fade-chars.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/bounce-chars.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/rotate-chars.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/scale-chars.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/blur-reveal.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/glitch.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/path.js"></script>
   <script src="${base}assets/extensions/math-viz/index.js"></script>
 </body>
 </html>`;

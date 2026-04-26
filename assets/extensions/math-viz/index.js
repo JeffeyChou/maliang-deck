@@ -75,26 +75,175 @@
   function setupFormulaSteps(el, config, state) {
     var steps = config.steps;
     state.totalSteps = steps.length;
+    state.morphing = false;
+
+    var morphDuration = config.morphDuration || 600;
+    var I = window.MaliangInterpolate;
+    var easing = I ? I.getEasing(config.morphEasing || 'easeInOutCubic') : function (t) { return t; };
 
     // Click on the formula advances to next step
     el.style.cursor = 'pointer';
     el.title = 'Click or press → to advance formula (' + steps.length + ' steps)';
 
+    /**
+     * Snapshot KaTeX element positions for morphing.
+     * Returns array of { el, rect, text } for matchable atoms.
+     */
+    function snapshotAtoms(container) {
+      // KaTeX renders atoms as .mord, .mbin, .mrel, .mopen, .mclose, .mpunct, .mop, .minner
+      var selectors = '.mord, .mbin, .mrel, .mopen, .mclose, .mpunct, .mop, .minner, .mfrac, .msqrt, .msupsub';
+      var elements = container.querySelectorAll(selectors);
+      var containerRect = container.getBoundingClientRect();
+      var atoms = [];
+      elements.forEach(function (atomEl) {
+        var rect = atomEl.getBoundingClientRect();
+        atoms.push({
+          el: atomEl,
+          text: atomEl.textContent.trim(),
+          x: rect.left - containerRect.left,
+          y: rect.top - containerRect.top,
+          w: rect.width,
+          h: rect.height,
+        });
+      });
+      return atoms;
+    }
+
+    /**
+     * Match atoms between two snapshots by text content.
+     * Simple greedy matching: first match wins.
+     */
+    function matchAtoms(oldAtoms, newAtoms) {
+      var matched = []; // { old, new }
+      var usedNew = new Set();
+      var usedOld = new Set();
+
+      // First pass: exact text matches
+      oldAtoms.forEach(function (oldA, oi) {
+        for (var ni = 0; ni < newAtoms.length; ni++) {
+          if (usedNew.has(ni)) continue;
+          if (oldA.text === newAtoms[ni].text && oldA.text.length > 0) {
+            matched.push({ old: oldA, new: newAtoms[ni] });
+            usedOld.add(oi);
+            usedNew.add(ni);
+            break;
+          }
+        }
+      });
+
+      var unmatched_old = oldAtoms.filter(function (_, i) { return !usedOld.has(i); });
+      var unmatched_new = newAtoms.filter(function (_, i) { return !usedNew.has(i); });
+
+      return { matched: matched, removedOld: unmatched_old, addedNew: unmatched_new };
+    }
+
+    /**
+     * Animate morph transition between formula states.
+     */
+    function morphTo(targetLatex) {
+      if (state.morphing) return;
+      state.morphing = true;
+
+      // Snapshot current state
+      var oldAtoms = snapshotAtoms(el);
+      var containerRect = el.getBoundingClientRect();
+
+      // Create overlay for animation
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:10;';
+      el.style.position = 'relative';
+      el.appendChild(overlay);
+
+      // Create ghost elements for old atoms
+      oldAtoms.forEach(function (atom) {
+        var ghost = document.createElement('span');
+        ghost.textContent = atom.text;
+        ghost.style.cssText = 'position:absolute;left:' + atom.x + 'px;top:' + atom.y + 'px;font-size:inherit;color:inherit;pointer-events:none;white-space:nowrap;';
+        ghost.className = atom.el.className;
+        // Copy computed styles for proper rendering
+        var cs = getComputedStyle(atom.el);
+        ghost.style.fontSize = cs.fontSize;
+        ghost.style.fontFamily = cs.fontFamily;
+        overlay.appendChild(ghost);
+        atom.ghost = ghost;
+      });
+
+      // Hide old content, render new
+      el.style.overflow = 'hidden';
+      var katexContainer = el.querySelector('.katex');
+      if (katexContainer) katexContainer.style.opacity = '0';
+
+      // Render new formula (invisible)
+      renderFormulaLatex(el, targetLatex, config);
+      var newKatex = el.querySelector('.katex');
+      if (newKatex) newKatex.style.opacity = '0';
+
+      // Snapshot new state
+      var newAtoms = snapshotAtoms(el);
+      var result = matchAtoms(oldAtoms, newAtoms);
+
+      // Animate
+      var startTime = performance.now();
+
+      function tick() {
+        var elapsed = performance.now() - startTime;
+        var t = Math.min(elapsed / morphDuration, 1);
+        var e = easing(t);
+
+        // Animate matched atoms: move from old pos to new pos
+        result.matched.forEach(function (pair) {
+          if (pair.old.ghost) {
+            var x = pair.old.x + (pair.new.x - pair.old.x) * e;
+            var y = pair.old.y + (pair.new.y - pair.old.y) * e;
+            pair.old.ghost.style.left = x + 'px';
+            pair.old.ghost.style.top = y + 'px';
+          }
+        });
+
+        // Fade out removed atoms
+        result.removedOld.forEach(function (atom) {
+          if (atom.ghost) {
+            atom.ghost.style.opacity = String(1 - e);
+            atom.ghost.style.transform = 'scale(' + (1 - e * 0.3) + ')';
+          }
+        });
+
+        // Fade in new atoms (show in final position)
+        if (t > 0.4) {
+          var fadeT = (t - 0.4) / 0.6;
+          result.addedNew.forEach(function (atom) {
+            atom.el.style.opacity = String(fadeT);
+          });
+        }
+
+        if (t < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          // Cleanup: remove overlay, show final state
+          if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+          if (newKatex) newKatex.style.opacity = '1';
+          el.style.overflow = '';
+          state.morphing = false;
+        }
+      }
+
+      requestAnimationFrame(tick);
+    }
+
     function advanceStep() {
       if (state.currentStep >= steps.length - 1) return false;
+      if (state.morphing) return false;
       state.currentStep++;
-      renderFormulaLatex(el, steps[state.currentStep].latex, config);
+      morphTo(steps[state.currentStep].latex);
       return true;
     }
 
     function retreatStep() {
       if (state.currentStep < 0) return false;
+      if (state.morphing) return false;
       state.currentStep--;
-      if (state.currentStep < 0) {
-        renderFormulaLatex(el, config.latex, config);
-      } else {
-        renderFormulaLatex(el, steps[state.currentStep].latex, config);
-      }
+      var targetLatex = state.currentStep < 0 ? config.latex : steps[state.currentStep].latex;
+      morphTo(targetLatex);
       return true;
     }
 
@@ -102,8 +251,8 @@
     state.clickHandler = advanceStep;
     state.advance = advanceStep;
     state.retreat = retreatStep;
-    state.hasMoreSteps = function () { return state.currentStep < steps.length - 1; };
-    state.canRetreat = function () { return state.currentStep >= 0; };
+    state.hasMoreSteps = function () { return state.currentStep < steps.length - 1 && !state.morphing; };
+    state.canRetreat = function () { return state.currentStep >= 0 && !state.morphing; };
 
     // Register as active stepper
     activeFormulaSteppers.push(state);
