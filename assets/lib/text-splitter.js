@@ -27,8 +27,9 @@
   }
 
   /**
-   * Split a string into words.
+   * Split a string into words (preserving whitespace as separate segments).
    * Uses Intl.Segmenter where available, falls back to whitespace splitting.
+   * Whitespace segments are included so that spacing is preserved in the DOM.
    */
   function splitWords(text) {
     if (hasSegmenter) {
@@ -36,13 +37,11 @@
       var segments = segmenter.segment(text);
       var result = [];
       for (var seg of segments) {
-        if (seg.isWordLike || seg.segment.trim()) {
-          result.push(seg.segment);
-        }
+        result.push(seg.segment);
       }
       return result;
     }
-    // Fallback: split on whitespace boundaries, keep non-empty
+    // Fallback: split on whitespace boundaries, keep all segments including spaces
     return text.split(/(\s+)/).filter(function (s) { return s.length > 0; });
   }
 

@@ -89,3 +89,16 @@ export function escapeHtml(str: string): string {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
+
+/**
+ * Escape JSON for embedding in a <script type="application/json"> block.
+ * Prevents HTML parser from prematurely closing the script tag.
+ */
+export function escapeJsonForScript(json: string): string {
+  return json
+    .replace(/&/g, '\\u0026')
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}

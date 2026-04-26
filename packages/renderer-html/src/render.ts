@@ -194,6 +194,11 @@ ${slidesHtml}
   <script src="${base}assets/lib/interpolate.js"></script>
   <script src="${base}assets/lib/text-splitter.js"></script>
   <script src="${base}assets/extensions/ext-runtime.js"></script>
+  <script src="${base}assets/extensions/text-anim/index.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/stagger.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/typewriter.js"></script>
+  <script src="${base}assets/extensions/text-anim/effects/wave.js"></script>
+  <script src="${base}assets/extensions/math-viz/index.js"></script>
 </body>
 </html>`;
 }

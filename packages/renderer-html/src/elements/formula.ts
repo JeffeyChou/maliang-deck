@@ -1,0 +1,22 @@
+import type { FormulaElement } from '@maliang-deck/schema';
+import { buildBaseStyle, escapeHtml, escapeJsonForScript } from '../utils.js';
+
+export function renderFormula(el: FormulaElement): string {
+  const style = buildBaseStyle(el, [
+    el.fontSize ? `font-size: ${el.fontSize}px` : '',
+    el.color ? `color: ${el.color}` : '',
+  ].filter(Boolean));
+
+  // Config stored in companion <script> block
+  const config = {
+    latex: el.latex,
+    displayMode: el.displayMode ?? true,
+    steps: el.steps,
+    morphEasing: el.morphEasing,
+    morphDuration: el.morphDuration ?? 800,
+    stepTrigger: el.stepTrigger ?? 'click',
+  };
+  const configJson = escapeJsonForScript(JSON.stringify(config));
+
+  return `<div data-formula style="${style}"></div><script type="application/json" data-for="${escapeHtml(el.id)}">${configJson}</script>`;
+}

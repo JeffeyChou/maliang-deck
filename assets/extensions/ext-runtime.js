@@ -38,14 +38,18 @@
    * Pattern: <script type="application/json" data-for="element-id">...</script>
    */
   function readConfig(element) {
-    var id = element.id || element.getAttribute('data-maliang-deck-id');
-    if (!id) return null;
-    var script = document.querySelector('script[type="application/json"][data-for="' + id + '"]');
+    // data-for is written with the raw DSL element id (el.id from schema).
+    // The DOM id attribute is scoped (slideId__elemId) and will NOT match.
+    // Always prefer data-maliang-deck-id (raw DSL id) for the lookup; fall
+    // back to element.id only when the deck attribute is absent.
+    var rawId = element.getAttribute('data-maliang-deck-id') || element.id;
+    if (!rawId) return null;
+    var script = document.querySelector('script[type="application/json"][data-for="' + rawId + '"]');
     if (!script) return null;
     try {
       return JSON.parse(script.textContent);
     } catch (e) {
-      console.warn('[ext-runtime] Failed to parse config for', id, e);
+      console.warn('[ext-runtime] Failed to parse config for', rawId, e);
       return null;
     }
   }
