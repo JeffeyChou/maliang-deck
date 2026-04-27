@@ -313,6 +313,105 @@
     // CSS properties interpolated during morph transition (beyond basic FLIP)
     var MORPH_CSS_PROPS = ['backgroundColor', 'borderRadius', 'borderColor', 'color', 'fontSize'];
 
+    /**
+     * For morph transitions: when a group/layout element is matched as a morph root,
+     * exclude its descendants from the global shared element map to prevent
+     * double-animation (both group FLIP and child FLIP compounding transforms).
+     */
+    function excludeGroupDescendants(map, matchedGroups) {
+      matchedGroups.forEach(function(groupEl) {
+        var descendants = groupEl.querySelectorAll('[data-maliang-deck-auto-animate-id]');
+        descendants.forEach(function(desc) {
+          var key = desc.getAttribute('data-maliang-deck-auto-animate-id');
+          if (key) map.delete(key);
+        });
+      });
+    }
+
+    function isGroupOrLayout(el) {
+      var type = el.getAttribute('data-maliang-deck-type');
+      return type === 'group' || type === 'layout';
+    }
+
+    /**
+     * For morph transitions on matched group/layout elements: recursively match
+     * children within matched groups and animate them as a sub-unit.
+     */
+    function animateGroupChildren(prevGroup, nextGroup, duration, easing, nextScale) {
+      var prevChildren = sharedElementMap(prevGroup);
+      var nextChildren = sharedElementMap(nextGroup);
+      var animations = [];
+      var childMatched = new Set();
+
+      // Compute the parent group's own viewport delta so we can subtract it
+      // from child deltas. This prevents double-transformation when the group
+      // container itself is also being FLIP-animated.
+      var groupDelta = computeFlipDelta(
+        prevGroup.getBoundingClientRect(),
+        nextGroup.getBoundingClientRect(),
+        nextScale
+      );
+
+      nextChildren.forEach(function(nextEl, key) {
+        var prevEl = prevChildren.get(key);
+        if (!prevEl) return;
+        childMatched.add(key);
+
+        var rawDelta = computeFlipDelta(prevEl.getBoundingClientRect(), nextEl.getBoundingClientRect(), nextScale);
+        // Subtract the parent group's movement so children are relative to group-local space
+        var delta = {
+          translateX: rawDelta.translateX - groupDelta.translateX,
+          translateY: rawDelta.translateY - groupDelta.translateY,
+          scaleX: groupDelta.scaleX !== 0 ? rawDelta.scaleX / groupDelta.scaleX : rawDelta.scaleX,
+          scaleY: groupDelta.scaleY !== 0 ? rawDelta.scaleY / groupDelta.scaleY : rawDelta.scaleY,
+        };
+        var existing = baseTransform(nextEl);
+        var fromKf = {
+          transform: flipTransform(delta, existing),
+          opacity: getComputedStyle(prevEl).opacity || '1',
+        };
+        var toKf = {
+          transform: existing || 'none',
+          opacity: getComputedStyle(nextEl).opacity || '1',
+        };
+
+        // Interpolate CSS properties for children too
+        var prevStyle = getComputedStyle(prevEl);
+        var nextStyle = getComputedStyle(nextEl);
+        MORPH_CSS_PROPS.forEach(function(prop) {
+          var prevVal = prevStyle[prop];
+          var nextVal = nextStyle[prop];
+          if (prevVal && nextVal && prevVal !== nextVal) {
+            fromKf[prop] = prevVal;
+            toKf[prop] = nextVal;
+          }
+        });
+
+        animations.push(nextEl.animate([fromKf, toKf], {
+          duration: duration, easing: easing, fill: 'both',
+        }));
+      });
+
+      // Fade unmatched children within the group
+      var childDuration = Math.max(1, Math.round(duration * 0.7));
+      prevChildren.forEach(function(el, key) {
+        if (childMatched.has(key)) return;
+        animations.push(el.animate(
+          [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(0.95)' }],
+          { duration: childDuration, easing: easing, fill: 'both' }
+        ));
+      });
+      nextChildren.forEach(function(el, key) {
+        if (childMatched.has(key)) return;
+        animations.push(el.animate(
+          [{ opacity: 0, transform: 'scale(1.03)' }, { opacity: 1, transform: 'scale(1)' }],
+          { duration: childDuration, delay: Math.round(duration * 0.2), easing: easing, fill: 'both' }
+        ));
+      });
+
+      return animations;
+    }
+
     function animateSharedElements(previousSlide, nextSlide, duration, easing) {
       if (!slideTransition.autoAnimate) return [];
       var isMorph = slideTransition.type === 'morph';
@@ -321,6 +420,23 @@
       var nextScale = slideScale(nextSlide);
       var animations = [];
       var matched = new Set();
+
+      // Phase 1 (morph only): identify matched groups and exclude descendants
+      var matchedPrevGroups = [];
+      var matchedNextGroups = [];
+      if (isMorph) {
+        next.forEach(function(nextEl, key) {
+          var prevEl = previous.get(key);
+          if (!prevEl) return;
+          if (isGroupOrLayout(nextEl) && isGroupOrLayout(prevEl)) {
+            matchedPrevGroups.push(prevEl);
+            matchedNextGroups.push(nextEl);
+          }
+        });
+        // Remove descendants of matched groups from maps to prevent double-animate
+        excludeGroupDescendants(previous, matchedPrevGroups);
+        excludeGroupDescendants(next, matchedNextGroups);
+      }
 
       next.forEach(function(nextEl, key) {
         var previousEl = previous.get(key);
@@ -357,6 +473,19 @@
         });
         animations.push(animation);
       });
+
+      // Phase 3 (morph only): recursively animate children within matched groups
+      if (isMorph) {
+        for (var gi = 0; gi < matchedPrevGroups.length; gi++) {
+          var groupAnims = animateGroupChildren(
+            matchedPrevGroups[gi], matchedNextGroups[gi],
+            duration, easing, nextScale
+          );
+          for (var ga = 0; ga < groupAnims.length; ga++) {
+            animations.push(groupAnims[ga]);
+          }
+        }
+      }
 
       // Unmatched element handling
       var shouldFadeUnmatched = slideTransition.unmatched === 'fade' || isMorph;

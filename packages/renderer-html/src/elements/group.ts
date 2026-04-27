@@ -1,5 +1,5 @@
 import type { GroupElement } from '@maliang-deck/schema';
-import { buildCssTransform } from '../utils.js';
+import { buildCssTransform, escapeHtml, escapeJsonForScript } from '../utils.js';
 import { childRenderContext, renderElement } from './index.js';
 
 export function renderGroup(el: GroupElement): string {
@@ -28,8 +28,21 @@ export function renderGroup(el: GroupElement): string {
   }
 
   const style = parts.join('; ');
+  const morphAttr = el.morphSteps?.length ? ' data-component-morph' : '';
   const childContext = childRenderContext();
   const children = el.elements.map((child) => renderElement(child, childContext)).join('\n');
 
-  return `<div style="${style}">\n${children}\n</div>`;
+  let html = `<div${morphAttr} style="${style}">\n${children}\n</div>`;
+
+  if (el.morphSteps?.length) {
+    const config = {
+      elementType: 'group',
+      morphSteps: el.morphSteps,
+      morphStepTrigger: el.morphStepTrigger ?? 'click',
+    };
+    const configJson = escapeJsonForScript(JSON.stringify(config));
+    html += `<script type="application/json" data-for="${escapeHtml(el.id)}">${configJson}</script>`;
+  }
+
+  return html;
 }

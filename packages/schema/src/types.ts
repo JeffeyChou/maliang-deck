@@ -398,12 +398,33 @@ export interface CustomHtmlElement extends BaseElement {
   fallbackImage?: string;
 }
 
+// ─── Component Morph Targets ────────────────────────────────────────────────
+
+export interface ComponentMorphTarget {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  opacity?: number;
+  rotation?: number;
+}
+
+export interface ComponentMorphStep {
+  target: ComponentMorphTarget;
+  children?: Record<string, ShapeMorphTarget>;
+  duration?: number;
+  easing?: string;
+  stagger?: number;
+}
+
 // ─── Group ───────────────────────────────────────────────────────────────────
 
 export interface GroupElement extends BaseElement {
   type: 'group';
   elements: Element[];
   transform?: string;
+  morphSteps?: ComponentMorphStep[];
+  morphStepTrigger?: ShapeMorphStepTrigger;
 }
 
 // ─── Layout container ────────────────────────────────────────────────────────
@@ -415,6 +436,8 @@ export interface LayoutElement extends BaseElement {
   layout: LayoutConfig;
   elements: Element[];
   overflow?: LayoutOverflow;
+  morphSteps?: ComponentMorphStep[];
+  morphStepTrigger?: ShapeMorphStepTrigger;
 }
 
 // ─── Animation (HTML-only, ignored in SVG export) ────────────────────────────

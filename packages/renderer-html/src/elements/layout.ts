@@ -1,6 +1,6 @@
 import type { LayoutElement } from '@maliang-deck/schema';
 import { resolveLayoutElement } from '@maliang-deck/schema';
-import { buildBaseStyle } from '../utils.js';
+import { buildBaseStyle, escapeHtml, escapeJsonForScript } from '../utils.js';
 import { childRenderContext, renderElement } from './index.js';
 
 function paddingCss(value: LayoutElement['layout']['padding']): string | undefined {
@@ -67,7 +67,20 @@ export function renderLayout(el: LayoutElement): string {
     originY: -el.y,
     path: `layout#${el.id}`,
   });
+  const morphAttr = el.morphSteps?.length ? ' data-component-morph' : '';
   const childContext = childRenderContext();
   const children = records.map((record) => renderElement(record.element, childContext)).join('\n');
-  return `<div data-maliang-deck-element="layout" data-maliang-deck-layout-mode="${el.layout.mode}" style="${base}">\n${children}\n</div>`;
+  let html = `<div${morphAttr} data-maliang-deck-element="layout" data-maliang-deck-layout-mode="${el.layout.mode}" style="${base}">\n${children}\n</div>`;
+
+  if (el.morphSteps?.length) {
+    const config = {
+      elementType: 'layout',
+      morphSteps: el.morphSteps,
+      morphStepTrigger: el.morphStepTrigger ?? 'click',
+    };
+    const configJson = escapeJsonForScript(JSON.stringify(config));
+    html += `<script type="application/json" data-for="${escapeHtml(el.id)}">${configJson}</script>`;
+  }
+
+  return html;
 }

@@ -364,12 +364,43 @@ export const CustomHtmlElementSchema = BaseElementSchema.extend({
   fallbackImage: z.string().optional(),
 });
 
+// ─── Component Morph Targets ────────────────────────────────────────────────
+
+export const ComponentMorphTargetSchema = z.object({
+  x: finiteNumber.optional(),
+  y: finiteNumber.optional(),
+  width: positiveNumber.optional(),
+  height: positiveNumber.optional(),
+  opacity: z.number().min(0).max(1).optional(),
+  rotation: finiteNumber.optional(),
+});
+
+const ShapeMorphTargetUnionSchema = z.union([
+  RectMorphTargetSchema,
+  CircleMorphTargetSchema,
+  EllipseMorphTargetSchema,
+]);
+
+export const ComponentMorphStepSchema = z.object({
+  target: ComponentMorphTargetSchema,
+  children: z.record(z.string(), ShapeMorphTargetUnionSchema).optional(),
+  duration: z.number().positive().optional(),
+  easing: z.string().min(1).optional(),
+  stagger: z.number().nonnegative().optional(),
+});
+
+function componentMorphStepsSchema() {
+  return z.array(ComponentMorphStepSchema).optional();
+}
+
 // ─── Group (supports recursive nesting) ─────────────────────────────────────
 
 export const GroupElementSchema = BaseElementSchema.extend({
   type: z.literal('group'),
   elements: z.lazy(() => ElementSchema).array(),
   transform: z.string().optional(),
+  morphSteps: componentMorphStepsSchema(),
+  morphStepTrigger: ShapeMorphStepTriggerSchema.optional(),
 });
 
 // ─── Layout (recursive grid/flex container) ─────────────────────────────────
@@ -381,6 +412,8 @@ const LayoutElementBaseSchema = BaseElementSchema.extend({
   layout: LayoutConfigSchema,
   elements: z.lazy(() => ElementSchema).array(),
   overflow: z.enum(['clip', 'visible', 'warn']).optional(),
+  morphSteps: componentMorphStepsSchema(),
+  morphStepTrigger: ShapeMorphStepTriggerSchema.optional(),
 });
 
 function addGridPlacementIssues(

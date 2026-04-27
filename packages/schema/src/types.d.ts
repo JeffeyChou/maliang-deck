@@ -309,10 +309,27 @@ export interface CustomHtmlElement extends BaseElement {
     /** Fallback image for non-HTML renderers (data URI or relative path). */
     fallbackImage?: string;
 }
+export interface ComponentMorphTarget {
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+    opacity?: number;
+    rotation?: number;
+}
+export interface ComponentMorphStep {
+    target: ComponentMorphTarget;
+    children?: Record<string, ShapeMorphTarget>;
+    duration?: number;
+    easing?: string;
+    stagger?: number;
+}
 export interface GroupElement extends BaseElement {
     type: 'group';
     elements: Element[];
     transform?: string;
+    morphSteps?: ComponentMorphStep[];
+    morphStepTrigger?: ShapeMorphStepTrigger;
 }
 export interface LayoutElement extends BaseElement {
     type: 'layout';
@@ -321,6 +338,8 @@ export interface LayoutElement extends BaseElement {
     layout: LayoutConfig;
     elements: Element[];
     overflow?: LayoutOverflow;
+    morphSteps?: ComponentMorphStep[];
+    morphStepTrigger?: ShapeMorphStepTrigger;
 }
 export interface Animation {
     enter?: string;
