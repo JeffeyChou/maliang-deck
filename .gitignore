@@ -1,0 +1,10 @@
+.env
+reference/
+__pycache__/
+*.pyc
+node_modules/
+projects/
+.codex
+dist/
+build/
+*.tsbuildinfo

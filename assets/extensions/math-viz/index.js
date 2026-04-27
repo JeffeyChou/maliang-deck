@@ -107,6 +107,37 @@
     return '';
   }
 
+  /** Collect the nearest KaTeX font class from the token's ancestor chain.
+   *  These classes control font-family, italic correction, and kerning in
+   *  KaTeX CSS (e.g. `.katex .mathnormal { font-family: KaTeX_Math }`).
+   */
+  var katexFontClasses = [
+    'mathnormal', 'mathit', 'mathbf', 'mathsf', 'mathtt', 'mainit',
+    'boldsymbol', 'mathbb', 'mathcal', 'mathfrak', 'textit', 'textbf',
+    'textsf', 'texttt', 'amsrm',
+  ];
+  function getKatexFontClass(el) {
+    var node = el.parentElement;
+    while (node) {
+      if (node.className) {
+        var classes = String(node.className).split(/\s+/);
+        for (var i = 0; i < katexFontClasses.length; i++) {
+          if (classes.indexOf(katexFontClasses[i]) !== -1) return katexFontClasses[i];
+        }
+      }
+      node = node.parentElement;
+    }
+    return '';
+  }
+
+  function ghostLineHeight(token, fallback) {
+    if (token && token.role && token.h > 0 &&
+        (token.role.indexOf('frac') !== -1 || token.role.indexOf('script') !== -1)) {
+      return token.h + 'px';
+    }
+    return fallback;
+  }
+
   function wrapFormulaTextTokens(container) {
     var root = container.querySelector('.katex-html') || container.querySelector('.katex') || container;
     if (root.querySelector('[data-formula-token]')) return;
@@ -338,7 +369,7 @@
 
       // Use fixed container position as reference
       el.style.position = 'relative';
-      el.style.overflow = 'hidden';
+      el.style.overflow = 'visible';
 
       // Snapshot old tokens (positions relative to el)
       var oldAtoms = snapshotFormulaTokens(el);
@@ -352,11 +383,13 @@
       var oldHtml = el.innerHTML;
       var oldElHeight = el.offsetHeight;
       var oldLayer = document.createElement('div');
-      oldLayer.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:' + oldElHeight + 'px;z-index:1;overflow:hidden;';
+      oldLayer.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:' + oldElHeight + 'px;z-index:1;pointer-events:none;overflow:visible;';
       oldLayer.innerHTML = oldHtml;
 
       // Render new formula
       renderFormulaLatex(el, targetLatex, config);
+      var newElHeight = el.offsetHeight;
+      el.style.minHeight = Math.max(oldElHeight, newElHeight) + 'px';
 
       // New content becomes the base layer (initially hidden)
       var newKatex = el.querySelector('.katex');
@@ -368,12 +401,16 @@
       // Append old layer on top (after snapshotting new atoms to avoid duplicates)
       el.appendChild(oldLayer);
       var oldLayerTokens = snapshotFormulaTokens(oldLayer);
+      oldLayer.querySelectorAll('[class*="frac"]').forEach(function(el) {
+        el.style.opacity = '0';
+      });
 
       // Match old and new atoms
       var result = structuralMatch(oldAtoms, newAtoms, morphMap);
 
       // Create ghost layer for matched symbols that move
       var ghostLayer = document.createElement('div');
+      ghostLayer.className = 'katex';
       ghostLayer.style.cssText = 'position:absolute;inset:0;z-index:3;pointer-events:none;';
       el.appendChild(ghostLayer);
       var annotationLayer = ensureAnnotationLayer(el);
@@ -386,8 +423,9 @@
 
         var ghost = document.createElement('span');
         ghost.textContent = pair.old.text;
-        ghost.className = pair.old.el.className || '';
-        var computed = getComputedStyle(pair.old.el);
+        var liveEl = oldLayerTokens[pair.oldIdx] ? oldLayerTokens[pair.oldIdx].el : pair.old.el;
+        ghost.className = getKatexFontClass(liveEl);
+        var computed = getComputedStyle(liveEl);
         ghost.style.cssText = [
           'position:absolute',
           'display:inline-block',
@@ -397,7 +435,8 @@
           'font-size:' + computed.fontSize,
           'font-weight:' + computed.fontWeight,
           'font-style:' + computed.fontStyle,
-          'line-height:' + computed.lineHeight,
+          'line-height:' + ghostLineHeight(pair.old, computed.lineHeight),
+          'letter-spacing:' + computed.letterSpacing,
           'color:' + computed.color,
         ].join(';');
         ghost.style.left = pair.old.x + 'px';
@@ -415,54 +454,118 @@
         pair.path = path;
       });
 
+      // Fade-out ghosts for removed (unmatched old) tokens
+      var removedGhosts = [];
+      result.removed.forEach(function (token) {
+        var liveToken = oldLayerTokens[token.index];
+        if (liveToken && liveToken.text === token.text) {
+          liveToken.el.style.visibility = 'hidden';
+        }
+        var ghost = document.createElement('span');
+        ghost.textContent = token.text;
+        var sourceEl = (liveToken && liveToken.text === token.text) ? liveToken.el : token.el;
+        ghost.className = getKatexFontClass(sourceEl);
+        var computed = getComputedStyle(sourceEl);
+        ghost.style.cssText = [
+          'position:absolute', 'display:inline-block', 'pointer-events:none', 'white-space:pre',
+          'font-family:' + computed.fontFamily, 'font-size:' + computed.fontSize,
+          'font-weight:' + computed.fontWeight, 'font-style:' + computed.fontStyle,
+          'line-height:' + ghostLineHeight(token, computed.lineHeight), 'letter-spacing:' + computed.letterSpacing,
+          'color:' + computed.color,
+        ].join(';');
+        ghost.style.left = token.x + 'px';
+        ghost.style.top = token.y + 'px';
+        ghost.style.width = token.w + 'px';
+        ghost.style.height = token.h + 'px';
+        ghostLayer.appendChild(ghost);
+        removedGhosts.push(ghost);
+      });
+
+      // Fade-in ghosts for added (unmatched new) tokens
+      var addedGhosts = [];
+      result.added.forEach(function (token) {
+        token.el.style.opacity = '0';
+        var ghost = document.createElement('span');
+        ghost.textContent = token.text;
+        ghost.className = getKatexFontClass(token.el);
+        var computed = getComputedStyle(token.el);
+        ghost.style.cssText = [
+          'position:absolute', 'display:inline-block', 'pointer-events:none', 'white-space:pre',
+          'font-family:' + computed.fontFamily, 'font-size:' + computed.fontSize,
+          'font-weight:' + computed.fontWeight, 'font-style:' + computed.fontStyle,
+          'line-height:' + ghostLineHeight(token, computed.lineHeight), 'letter-spacing:' + computed.letterSpacing,
+          'color:' + computed.color, 'opacity:0',
+        ].join(';');
+        ghost.style.left = token.x + 'px';
+        ghost.style.top = token.y + 'px';
+        ghost.style.width = token.w + 'px';
+        ghost.style.height = token.h + 'px';
+        ghostLayer.appendChild(ghost);
+        addedGhosts.push(ghost);
+      });
+
+      // Keep old layer visible — matched/removed tokens are already hidden
+      // via visibility:hidden, so only structural elements (fraction bars,
+      // sqrt lines, delimiters) remain visible. We fade the old layer's
+      // opacity during Phase 1 to smoothly transition these elements.
+      // The old layer retains its fixed height, preventing layout shifts.
+
       var startTime = performance.now();
-      var swapDuration = Math.max(120, morphDuration * 0.28);
 
       function tick() {
         var elapsed = performance.now() - startTime;
         var t = Math.min(elapsed / morphDuration, 1);
         var e = easing(t);
 
-        // Phase 1: matched ghosts animate position and size. Old unmatched
-        // tokens stay at opacity 1 for the entire morph path.
+        // Matched ghosts: animate position and size
         result.matched.forEach(function (pair) {
           if (!pair.ghost) return;
           var pos = arcInterpolate(pair.old.x, pair.old.y, pair.new.x, pair.new.y, e, 0.2);
+          var currentHeight = lerp(pair.old.h, pair.new.h, e);
           pair.ghost.style.left = pos.x + 'px';
           pair.ghost.style.top = pos.y + 'px';
           pair.ghost.style.width = lerp(pair.old.w, pair.new.w, e) + 'px';
-          pair.ghost.style.height = lerp(pair.old.h, pair.new.h, e) + 'px';
+          pair.ghost.style.height = currentHeight + 'px';
+          if (pair.old.role.indexOf('frac') !== -1 || pair.new.role.indexOf('frac') !== -1 ||
+              pair.old.role.indexOf('script') !== -1 || pair.new.role.indexOf('script') !== -1) {
+            pair.ghost.style.lineHeight = currentHeight + 'px';
+          }
+        });
+
+        // Fade old layer — only structural elements (fraction bars, sqrt
+        // lines, delimiters) are still visible there; tokens are hidden.
+        oldLayer.style.opacity = String(1 - e);
+
+        // Removed tokens: fade out + slight shrink
+        removedGhosts.forEach(function (ghost) {
+          ghost.style.opacity = String(1 - e);
+          ghost.style.transform = 'scale(' + lerp(1, 0.7, e) + ')';
+        });
+
+        // Added tokens: fade in with 30% delay
+        var fadeInStart = 0.3;
+        var fadeT = t > fadeInStart ? Math.min((t - fadeInStart) / (1 - fadeInStart), 1) : 0;
+        var fadeE = easing(fadeT);
+        addedGhosts.forEach(function (ghost) {
+          ghost.style.opacity = String(fadeE);
+          ghost.style.transform = 'scale(' + lerp(0.7, 1, fadeE) + ')';
         });
 
         if (t < 1) {
           requestAnimationFrame(tick);
         } else {
-          var swapStart = performance.now();
-          function swapTick() {
-            var swapElapsed = performance.now() - swapStart;
-            var st = Math.min(swapElapsed / swapDuration, 1);
-            var se = easing(st);
-
-            oldLayerTokens.forEach(function (token) {
-              token.el.style.visibility = 'visible';
-            });
-            oldLayer.style.opacity = String(1 - se);
-            ghostLayer.style.opacity = String(1 - se);
-            if (newKatex) newKatex.style.opacity = String(se);
-
-            if (st < 1) {
-              requestAnimationFrame(swapTick);
-            } else {
-              // Cleanup
-              if (oldLayer.parentNode) oldLayer.parentNode.removeChild(oldLayer);
-              if (ghostLayer.parentNode) ghostLayer.parentNode.removeChild(ghostLayer);
-              annotationLayer.innerHTML = '';
-              if (newKatex) newKatex.style.opacity = '1';
-              el.style.overflow = '';
-              state.morphing = false;
-            }
-          }
-          requestAnimationFrame(swapTick);
+          // Instant swap: remove ghost/old layers and reveal real render.
+          // No crossfade phase — this prevents any sub-pixel position
+          // mismatch between ghosts and real KaTeX tokens from being
+          // visible as a re-alignment jump.
+          result.added.forEach(function (token) { token.el.style.opacity = '1'; });
+          if (oldLayer.parentNode) oldLayer.parentNode.removeChild(oldLayer);
+          if (ghostLayer.parentNode) ghostLayer.parentNode.removeChild(ghostLayer);
+          annotationLayer.innerHTML = '';
+          if (newKatex) newKatex.style.opacity = '1';
+          el.style.overflow = '';
+          el.style.minHeight = '';
+          state.morphing = false;
         }
       }
 
