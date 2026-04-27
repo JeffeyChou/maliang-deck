@@ -65,7 +65,7 @@ For images, prefer `contain` for figures and `cover` for photos. Do not use `fil
 
 ## Runtime Features
 
-Animations and `slides[].fx` are HTML runtime features. Use them sparingly and ensure static PDF/PPTX still communicates the final state. Author animation names from [Authoring](../../AUTHORING.md); do not describe effects in notes.
+Animations, `slides[].fx`, and `morphSteps` are HTML runtime features. Use them sparingly and ensure static PDF/PPTX still communicates the final state. SVG/PDF/PPTX exports ignore `morphSteps` and emit a diagnostic. Author animation names from [Authoring](../../AUTHORING.md); do not describe effects in notes.
 
 ### Chart & Table Theming
 

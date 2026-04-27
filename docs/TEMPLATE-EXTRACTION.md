@@ -13,8 +13,6 @@ Implemented v1:
 - `maliang-deck template extract|validate|sample|list`;
 - renderer-unaware tests and CLI smoke coverage.
 
-Known full-suite gap: `pnpm test` still needs ignored local `projects/cuszp/dsl/deck.json` for three text-measure/cuSZp tests.
-
 ## Architecture
 
 ```text

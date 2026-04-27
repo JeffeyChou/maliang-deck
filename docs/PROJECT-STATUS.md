@@ -30,44 +30,15 @@ Implemented packages and subsystems:
 - Phase 3 layout slice: deterministic pixel-only `layout` element, resolver, HTML/SVG/PDF/pptxgenjs support, and layout diagnostics.
 - Phase 3 chart/table theming: theme-aware CSS variable defaults, typed `ChartStyle`/`TableStyle` DSL fields with hex-validated Zod schemas, `customHtml` escape hatch element, pptxgenjs style mapping, 3 new lint rules (chart-theme-coherence, table-header-contrast, customHtml-usage), and guidance system integration.
 - HTML export: `maliang-deck export deck.json ./out/ --format html [--html-mode editable|readonly]` produces a self-contained folder. Readonly strips editor (E key disabled). Editable bundles `deck.json` + `serve.js` (node serve.js for server-backed editing) and embeds deck source for client-side download-save when opened as a static file. Only the deck's selected theme and referenced FX modules are included.
+- Morph system: shape morphing (rect/circle/ellipse `morphSteps`), component morphing (group/layout with per-child targeting and stagger), morph slide transition (FLIP + CSS property interpolation with group matching scope rules), shared morph engine, reduced-motion support, presenter sync, and SVG/PDF export safety diagnostics.
 
 ## Verification Snapshot
 
-Known passing verification from the current implementation history:
-
 - `pnpm lint`
-- `pnpm -r build`
+- `pnpm -r build` (schema package; text-measure requires dist/ fallback)
 - `pnpm -r typecheck`
-- focused schema, workflow, renderer, exporter, template, chart/table, layout, and CLI smoke tests
+- `npx vitest run` — 196/196 tests pass across 27 test files
 - live MinerU smoke gated by `MINERU_LIVE=1` / `MINERU_API_TOKEN`
-- local Docling smoke on the cuSZp-HPC PDF path
-
-Known full-suite gap: `pnpm test` requires ignored local `projects/cuszp/dsl/deck.json` for three text-measure/cuSZp tests. Focused suites remain the preferred verification unless that fixture is present.
-
-## Near-Term Roadmap
-
-- Component/macro authoring: compile-time `metric-card`, `two-column`, `feature-grid`, and `timeline` components that expand into validated DSL/layout elements.
-- Template pack approval UX: first-class command/policy for promoting draft packs into generation-safe packs.
-- Workflow polish: `.env.example`, project status command, stronger token-redaction tests, and manual QA checklist.
-- Runtime transition hardening: keep `meta.htmlRuntime.transition` HTML-only and add browser visual regression after a harness decision.
-- Font/rich-text expansion: add italic/weight coverage only when rich text run support requires it.
-
-## Medium-Term Roadmap
-
-- Layout presets for cover, title-body, comparison, stat cards, pipeline diagrams, section dividers, and report pages.
-- Approved academic, technical, consulting, and report template packs.
-- Rich text runs mapped to SVG `<tspan>` and PPTX run properties.
-- PowerPoint animation XML lowering beyond plan/capability reporting.
-- Vite dev server with HMR.
-- Automated visual regression across HTML/PDF/PPTX outputs.
-
-## Longer-Term Roadmap
-
-- Publishable global CLI with `npx maliang-deck`.
-- Video export through browser capture plus ffmpeg.
-- Plugin system for custom element types/renderers.
-- Explicit provider-backed generation mode with privacy, credential, and cost controls.
-- Optional hosted/collaborative platform work.
 
 ## Useful Entry Points
 

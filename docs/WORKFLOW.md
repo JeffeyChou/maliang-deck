@@ -116,14 +116,7 @@ pnpm --dir packages/cli exec tsx src/index.ts workflow generate-dsl projects/<sl
 Authors write slices under `projects/<slug>/dsl/slides/`.
 Slide task state is tracked in `dsl/tasks.json`.
 
-Best practices:
-
-- validate early against the schema;
-- reuse normalized source block IDs and asset refs;
-- keep coordinates intentional, or use `layout` for structured regions;
-- write `notes` as presenter script, not vague summaries;
-- use the locked `deckDesign` palette, typography, spacing, margins, and approved asset refs from the slide task;
-- keep `meta.htmlRuntime` and animations as HTML polish, not core content.
+Best practices: validate early against the schema, reuse normalized source block IDs and asset refs, and use the locked `deckDesign` tokens from the slide task. See [Shared Constraints](./agent-guidance/standards/shared-constraints.md) for full DSL authoring rules.
 
 ## 8. Assemble and Build
 

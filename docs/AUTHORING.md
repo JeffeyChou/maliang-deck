@@ -168,7 +168,43 @@ Slide-to-slide transitions live under `meta.htmlRuntime.transition` and are HTML
 }
 ```
 
-Supported transition types are `fade`, `slide`, and `none`. `autoAnimate` matches adjacent-slide elements by shared data keys derived from DSL IDs. Static exporters ignore `meta.htmlRuntime`.
+Supported transition types: `none`, `fade`, `slide`, `dissolve`, `zoom`, `push`, `cover`, `morph`. The `morph` type enables PowerPoint Morph-style element matching across slides by DSL ID with FLIP + CSS property interpolation; it implies `autoAnimate: true`. Static exporters ignore `meta.htmlRuntime`.
+
+## Shape and Component Morphing
+
+Shape elements (`rect`, `circle`, `ellipse`) and container elements (`group`, `layout`) support `morphSteps` for intra-slide morph sequences. Each step specifies a target state; steps are cumulative and advance on click or auto-play.
+
+```json
+{
+  "type": "rect",
+  "id": "box",
+  "x": 100, "y": 100, "width": 200, "height": 100,
+  "fill": "#3399FF",
+  "morphSteps": [
+    { "target": { "width": 400, "fill": "#FF6633" }, "duration": 800 },
+    { "target": { "x": 300, "radius": 20 }, "duration": 600 }
+  ],
+  "morphStepTrigger": "click"
+}
+```
+
+Component morphing (`group`/`layout`) adds per-child targeting with stagger:
+
+```json
+{
+  "type": "group",
+  "id": "panel",
+  "x": 80, "y": 120,
+  "morphSteps": [{
+    "target": { "x": 200, "opacity": 0.8 },
+    "children": { "child-rect": { "fill": "#00CC88" } },
+    "stagger": 100, "duration": 800
+  }],
+  "morphStepTrigger": "click"
+}
+```
+
+Morphing is HTML-only; SVG/PDF/PPTX exports ignore `morphSteps` and emit a diagnostic. See `assets/ANIMATIONS.md` Section 6 for the full morph API reference.
 
 ## Practical Guidance
 

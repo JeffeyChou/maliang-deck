@@ -118,8 +118,7 @@ Key rules:
 - The v1 adapters are deterministic and dependency-light; no parser/browser/native
   packages were added. Future parser/image dependencies require dependency review.
 
-Primary docs: `docs/TEMPLATE-EXTRACTION.md` and
-`docs/TEMPLATE-DEPENDENCY-REVIEW.md`.
+Primary docs: `docs/TEMPLATE-EXTRACTION.md`.
 
 ## Chart, Table & Custom HTML
 
@@ -145,6 +144,10 @@ Primary docs: `docs/TEMPLATE-EXTRACTION.md` and
   (at transition start), not when `is-active` is set (after transition ends).
   This eliminates background flash on slides with canvas effects.
 - Presenter window mirrors the same vertical key bindings.
+- **Morph transition**: `type: 'morph'` matches elements across slides by ID with
+  FLIP + CSS property interpolation (like PowerPoint Morph). Implies `autoAnimate`.
+- **Shape/component morphing**: `morphSteps` on rect/circle/ellipse/group/layout
+  elements define intra-slide morph sequences. See `assets/ANIMATIONS.md` Section 6.
 
 ## Editor Mode
 
@@ -223,18 +226,14 @@ node packages/cli/dist/index.js export examples/demo.json /tmp/demo-html-edit --
 - Source in `src/`, build outputs in `dist/`. Don't track generated `.js`/`.d.ts`/`.map`.
 - `pnpm lint` passes with the root ESLint 9 flat config and should be run after source changes.
 - MinerU tokens: use `MINERU_API_TOKEN` env var, never commit. Live API tests are opt-in.
-- Full `pnpm test` currently requires the ignored local `projects/cuszp/dsl/deck.json` fixture for three text-measure/cuSZp tests; report that gap explicitly when absent and include focused passing evidence.
-
 ## Where To Read More
 
 - `docs/ARCHITECTURE.md` — package boundaries and data flow
 - `docs/PROJECT-STATUS.md` — done/not-done feature state
-- `docs/ROADMAP.md` — planned phases
 - `docs/WORKFLOW.md` — detailed workflow best practices
+- `docs/AUTHORING.md` — layout, components, animations, morphing
+- `docs/CONFIGURATION.md` — hierarchical config precedence and fields
 - `docs/TEMPLATE-EXTRACTION.md` — template extraction contract, CLI, review gates
-- `docs/TEMPLATE-DEPENDENCY-REVIEW.md` — dependency posture for template extraction
-- `assets/ANIMATIONS.md` — animation, transition, and canvas FX reference
-- `docs/ADDING-ANIMATIONS.md` — animation system (legacy, see assets/ANIMATIONS.md)
+- `docs/PPTXGENJS-EXPORT.md` — opt-in pptxgenjs PPTX engine
+- `assets/ANIMATIONS.md` — animation, transition, canvas FX, and morph system reference
 - `docs/agent-guidance/README.md` — guidance system overview (how to add styles)
-- `.omc/plans/agent-guidance-system-v1.md` — guidance system implementation plan
-- `.omc/specs/deep-interview-agent-guidance.md` — guidance system requirements spec

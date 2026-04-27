@@ -118,7 +118,7 @@ Docling is an optional local PDF provider invoked as an external CLI. It stays o
 
 ## Runtime and Animation Boundary
 
-Element animations use DSL descriptors and Web Animations API keyframes in `runtime/timeline.js`. Slide FX are separate canvas modules registered under `window.HPX`. Slide transitions live under `meta.htmlRuntime.transition` and are HTML-only. SVG/PDF/PPTX exporters preserve the static final deck and ignore runtime-only presentation polish.
+Element animations use DSL descriptors and Web Animations API keyframes in `runtime/timeline.js`. Slide FX are separate canvas modules registered under `window.HPX`. Slide transitions live under `meta.htmlRuntime.transition` and are HTML-only. Shape and component morphing extensions (`assets/extensions/shape-morph/`) animate rect/circle/ellipse/group/layout elements through DSL-declared `morphSteps`. The `morph` slide transition matches elements across slides by ID with FLIP + CSS property interpolation; group matching scope rules prevent double-animation of nested elements. SVG/PDF/PPTX exporters preserve the static final deck and ignore runtime-only presentation polish, emitting diagnostics when morph fields are present.
 
 ## pptxgenjs ADR Summary
 
