@@ -1,5 +1,5 @@
 import type { RectElement } from '@maliang-deck/schema';
-import { buildBaseStyle } from '../utils.js';
+import { buildBaseStyle, escapeHtml, escapeJsonForScript } from '../utils.js';
 
 export function renderRect(el: RectElement): string {
   const fill = el.fill ?? 'transparent';
@@ -18,5 +18,18 @@ export function renderRect(el: RectElement): string {
   }
 
   const style = buildBaseStyle(el, extras);
-  return `<div style="${style}"></div>`;
+  const morphAttr = el.morphSteps?.length ? ' data-shape-morph' : '';
+  let html = `<div${morphAttr} style="${style}"></div>`;
+
+  if (el.morphSteps?.length) {
+    const config = {
+      elementType: 'rect',
+      morphSteps: el.morphSteps,
+      morphStepTrigger: el.morphStepTrigger ?? 'click',
+    };
+    const configJson = escapeJsonForScript(JSON.stringify(config));
+    html += `<script type="application/json" data-for="${escapeHtml(el.id)}">${configJson}</script>`;
+  }
+
+  return html;
 }

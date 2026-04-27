@@ -1,5 +1,5 @@
 import type { CircleElement } from '@maliang-deck/schema';
-import { buildCssTransform } from '../utils.js';
+import { buildCssTransform, escapeHtml, escapeJsonForScript } from '../utils.js';
 
 export function renderCircle(el: CircleElement): string {
   const fill = el.fill ?? 'transparent';
@@ -36,5 +36,18 @@ export function renderCircle(el: CircleElement): string {
   }
 
   const style = parts.join('; ');
-  return `<div style="${style}" data-maliang-deck-radius="${el.radius}"></div>`;
+  const morphAttr = el.morphSteps?.length ? ' data-shape-morph' : '';
+  let html = `<div${morphAttr} style="${style}" data-maliang-deck-radius="${el.radius}"></div>`;
+
+  if (el.morphSteps?.length) {
+    const config = {
+      elementType: 'circle',
+      morphSteps: el.morphSteps,
+      morphStepTrigger: el.morphStepTrigger ?? 'click',
+    };
+    const configJson = escapeJsonForScript(JSON.stringify(config));
+    html += `<script type="application/json" data-for="${escapeHtml(el.id)}">${configJson}</script>`;
+  }
+
+  return html;
 }

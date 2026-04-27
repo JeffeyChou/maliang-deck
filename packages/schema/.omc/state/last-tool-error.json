@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"ls packages/schema/tsconfig*.json 2>&1 && cat packages/schema/tsconfig.json 2>&1\",\"description\":\"Check tsconfig in schema package\"}",
+  "error": "Exit code 1\n(eval):1: no matches found: packages/schema/tsconfig*.json",
+  "timestamp": "2026-04-27T19:59:47.098Z",
+  "retry_count": 1
+}

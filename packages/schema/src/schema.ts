@@ -14,7 +14,7 @@ export const CanvasSizeSchema = z.object({
 });
 
 export const HtmlRuntimeTransitionSchema = z.object({
-  type: z.enum(['none', 'fade', 'slide', 'dissolve', 'zoom', 'push', 'cover']).optional(),
+  type: z.enum(['none', 'fade', 'slide', 'dissolve', 'zoom', 'push', 'cover', 'morph']).optional(),
   durationMs: z.number().nonnegative().optional(),
   easing: z.string().min(1).optional(),
   autoAnimate: z.boolean().optional(),
@@ -152,6 +152,43 @@ export const TextElementSchema = BaseElementSchema.extend({
   textRole: z.enum(['body', 'label', 'heading', 'stat']).optional(),
 });
 
+// ─── Shape Morph Targets ────────────────────────────────────────────────────
+
+const ShapeMorphBaseTarget = z.object({
+  x: finiteNumber.optional(),
+  y: finiteNumber.optional(),
+  fill: z.string().optional(),
+  stroke: z.string().optional(),
+  strokeWidth: nonnegativeNumber.optional(),
+  opacity: z.number().min(0).max(1).optional(),
+  rotation: finiteNumber.optional(),
+});
+
+export const RectMorphTargetSchema = ShapeMorphBaseTarget.extend({
+  width: positiveNumber.optional(),
+  height: positiveNumber.optional(),
+  radius: nonnegativeNumber.optional(),
+});
+
+export const CircleMorphTargetSchema = ShapeMorphBaseTarget.extend({
+  radius: positiveNumber.optional(),
+});
+
+export const EllipseMorphTargetSchema = ShapeMorphBaseTarget.extend({
+  width: positiveNumber.optional(),
+  height: positiveNumber.optional(),
+});
+
+const ShapeMorphStepTriggerSchema = z.enum(['auto', 'click']);
+
+function shapeMorphStepsSchema(targetSchema: z.ZodTypeAny) {
+  return z.array(z.object({
+    target: targetSchema,
+    duration: z.number().positive().optional(),
+    easing: z.string().min(1).optional(),
+  })).optional();
+}
+
 // ─── Rect ────────────────────────────────────────────────────────────────────
 
 export const RectElementSchema = BaseElementSchema.extend({
@@ -162,6 +199,8 @@ export const RectElementSchema = BaseElementSchema.extend({
   stroke: z.string().optional(),
   strokeWidth: z.number().nonnegative().optional(),
   radius: z.number().nonnegative().optional(),
+  morphSteps: shapeMorphStepsSchema(RectMorphTargetSchema),
+  morphStepTrigger: ShapeMorphStepTriggerSchema.optional(),
 });
 
 // ─── Circle ──────────────────────────────────────────────────────────────────
@@ -172,6 +211,8 @@ export const CircleElementSchema = BaseElementSchema.extend({
   fill: z.string().optional(),
   stroke: z.string().optional(),
   strokeWidth: z.number().nonnegative().optional(),
+  morphSteps: shapeMorphStepsSchema(CircleMorphTargetSchema),
+  morphStepTrigger: ShapeMorphStepTriggerSchema.optional(),
 });
 
 // ─── Ellipse ─────────────────────────────────────────────────────────────────
@@ -183,6 +224,8 @@ export const EllipseElementSchema = BaseElementSchema.extend({
   fill: z.string().optional(),
   stroke: z.string().optional(),
   strokeWidth: z.number().nonnegative().optional(),
+  morphSteps: shapeMorphStepsSchema(EllipseMorphTargetSchema),
+  morphStepTrigger: ShapeMorphStepTriggerSchema.optional(),
 });
 
 // ─── Line ────────────────────────────────────────────────────────────────────

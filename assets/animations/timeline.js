@@ -657,6 +657,130 @@
     return function () { callbacks.delete(cb); };
   }
 
+  // ─── STEP CONSUMERS ────────────────────────────────────────────────────────
+  // Extensions can register as step consumers to participate in click-to-advance
+  // navigation without monkey-patching. Each consumer owns a range of "virtual"
+  // steps that are appended after the built-in data-anim-enter steps.
+
+  var stepConsumers = new Map(); // Map<slideEl, Array<{ totalSteps, advance, seek, consumed }>>
+
+  /**
+   * Register an extension as a step consumer for a slide.
+   * @param {object} config
+   * @param {Element} config.slide - The slide element
+   * @param {number} config.totalSteps - Number of steps this consumer owns
+   * @param {function} config.advance - Called with ('forward'|'backward') to advance a step. Return true if consumed.
+   * @param {function} config.seek - Called with (stepNumber) to jump to a step (0-based within consumer)
+   */
+  function registerStepConsumer(config) {
+    if (!config || !config.slide || !config.totalSteps) return;
+    var slide = config.slide;
+
+    // Clear any stale consumers from a previous activation of this slide
+    // (ext-runtime drops handles on deactivation, so re-init re-registers)
+    var oldConsumers = stepConsumers.get(slide);
+    var oldConsumerSteps = 0;
+    if (oldConsumers) {
+      for (var oc = 0; oc < oldConsumers.length; oc++) oldConsumerSteps += oldConsumers[oc].totalSteps;
+    }
+    stepConsumers.set(slide, [{
+      totalSteps: config.totalSteps,
+      advance: config.advance,
+      seek: config.seek,
+      consumed: 0,
+    }]);
+
+    // Ensure slideData exists for morph-only slides (no data-anim-enter elements)
+    var data = slideData.get(slide);
+    if (!data) {
+      data = { steps: new Map(), totalSteps: 0, currentStep: 0 };
+      slideData.set(slide, data);
+    }
+
+    // Update total step count: remove old consumer steps, add new ones
+    data.totalSteps = data.totalSteps - oldConsumerSteps + config.totalSteps;
+  }
+
+  // Patch advance to delegate to consumers after built-in steps are exhausted.
+  var _origAdvance = advance;
+  advance = function advanceWithConsumers(direction) {
+    if (!activeSlide) return;
+    var data = slideData.get(activeSlide);
+    if (!data) return;
+    var consumers = stepConsumers.get(activeSlide);
+    if (!consumers || !consumers.length) {
+      _origAdvance(direction);
+      return;
+    }
+
+    // Calculate built-in anim step count (total minus consumer steps)
+    var consumerStepTotal = 0;
+    for (var i = 0; i < consumers.length; i++) consumerStepTotal += consumers[i].totalSteps;
+    var builtinSteps = data.totalSteps - consumerStepTotal;
+
+    if (direction === 'forward') {
+      if (data.currentStep < builtinSteps) {
+        // Still in built-in steps
+        _origAdvance(direction);
+      } else {
+        // Delegate to consumers
+        var offset = data.currentStep - builtinSteps;
+        var acc = 0;
+        for (var ci = 0; ci < consumers.length; ci++) {
+          var c = consumers[ci];
+          if (offset < acc + c.totalSteps) {
+            if (c.advance('forward')) {
+              c.consumed = Math.min(c.consumed + 1, c.totalSteps);
+              data.currentStep++;
+              broadcastStep(data.currentStep, data.totalSteps);
+              notifyCallbacks(data.currentStep, data.totalSteps);
+            }
+            return;
+          }
+          acc += c.totalSteps;
+        }
+      }
+    } else {
+      // backward
+      if (data.currentStep > builtinSteps) {
+        // In consumer step range
+        var offset = data.currentStep - builtinSteps - 1;
+        var acc = 0;
+        for (var ci = 0; ci < consumers.length; ci++) {
+          var c = consumers[ci];
+          if (offset < acc + c.totalSteps) {
+            if (c.advance('backward')) {
+              c.consumed = Math.max(c.consumed - 1, 0);
+              data.currentStep--;
+              broadcastStep(data.currentStep, data.totalSteps);
+              notifyCallbacks(data.currentStep, data.totalSteps);
+            }
+            return;
+          }
+          acc += c.totalSteps;
+        }
+      } else {
+        _origAdvance(direction);
+      }
+    }
+  };
+
+  // Patch shouldConsumeNavigation to include consumer steps
+  var _origShouldConsume = shouldConsumeNavigation;
+  shouldConsumeNavigation = function shouldConsumeWithConsumers(direction) {
+    if (_origShouldConsume(direction)) return true;
+    if (!activeSlide) return false;
+    var consumers = stepConsumers.get(activeSlide);
+    if (!consumers || !consumers.length) return false;
+    var data = slideData.get(activeSlide);
+    if (!data) return false;
+    if (direction === 'forward') {
+      return data.currentStep < data.totalSteps;
+    } else {
+      return data.currentStep > 0;
+    }
+  };
+
   // ─── EXPOSE GLOBAL API ──────────────────────────────────────────────────────
   window.__vsliTimeline = {
     // Step-based (legacy)
@@ -678,6 +802,8 @@
     removeTrack: removeTrack,
     onTrackUpdate: onTrackUpdate,
     getTrackState: getTrackState,
+    // Step consumers (extensions)
+    registerStepConsumer: registerStepConsumer,
   };
 
   // ─── BOOT ───────────────────────────────────────────────────────────────────

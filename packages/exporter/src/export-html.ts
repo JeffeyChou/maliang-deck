@@ -160,6 +160,15 @@ export function exportDeckToHtml(request: ExportHtmlRequest): ExportDeckResult {
     writeFileSync(join(fxDest, 'fx-runtime.js'), '/* no FX used */\n', 'utf-8');
   }
 
+  // --- Copy lib/ and extensions/ (referenced by <script src> in rendered HTML) ---
+  const libSrc = join(repoRoot, 'assets', 'lib');
+  const libDest = join(out, 'assets', 'lib');
+  if (existsSync(libSrc)) copyDir(libSrc, libDest);
+
+  const extSrc = join(repoRoot, 'assets', 'extensions');
+  const extDest = join(out, 'assets', 'extensions');
+  if (existsSync(extSrc)) copyDir(extSrc, extDest);
+
   // --- Copy local images ---
   const deckDir = dirname(resolvedDeckPath);
   const allLocalImages = new Set<string>();

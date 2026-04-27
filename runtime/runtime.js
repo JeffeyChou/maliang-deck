@@ -130,25 +130,26 @@
       }
     }
 
+    var VALID_TRANSITION_TYPES = new Set(['none', 'fade', 'slide', 'dissolve', 'zoom', 'push', 'cover', 'morph']);
+
     function normalizeSlideTransition(config) {
       if (!config || typeof config !== 'object') {
         return { type: 'none', durationMs: 0, easing: 'ease', autoAnimate: false, unmatched: 'fade' };
       }
-      const type = (config.type === 'fade' || config.type === 'slide' || config.type === 'none')
-        ? config.type
-        : 'fade';
-      const durationMs = Number.isFinite(config.durationMs)
+      var type = VALID_TRANSITION_TYPES.has(config.type) ? config.type : 'fade';
+      var isMorph = type === 'morph';
+      var durationMs = Number.isFinite(config.durationMs)
         ? Math.max(0, config.durationMs)
         : 420;
-      const easing = typeof config.easing === 'string' && config.easing.trim()
+      var easing = typeof config.easing === 'string' && config.easing.trim()
         ? config.easing
         : 'ease';
-      const unmatched = config.unmatched === 'instant' ? 'instant' : 'fade';
+      var unmatched = config.unmatched === 'instant' ? 'instant' : 'fade';
       return {
         type: type,
         durationMs: durationMs,
         easing: easing,
-        autoAnimate: config.autoAnimate === true,
+        autoAnimate: config.autoAnimate === true || isMorph,
         unmatched: unmatched,
       };
     }
@@ -309,8 +310,12 @@
       return parts.join(' ');
     }
 
+    // CSS properties interpolated during morph transition (beyond basic FLIP)
+    var MORPH_CSS_PROPS = ['backgroundColor', 'borderRadius', 'borderColor', 'color', 'fontSize'];
+
     function animateSharedElements(previousSlide, nextSlide, duration, easing) {
       if (!slideTransition.autoAnimate) return [];
+      var isMorph = slideTransition.type === 'morph';
       var previous = sharedElementMap(previousSlide);
       var next = sharedElementMap(nextSlide);
       var nextScale = slideScale(nextSlide);
@@ -323,26 +328,60 @@
         matched.add(key);
         var delta = computeFlipDelta(previousEl.getBoundingClientRect(), nextEl.getBoundingClientRect(), nextScale);
         var existing = baseTransform(nextEl);
-        var animation = nextEl.animate([
-          { transform: flipTransform(delta, existing), opacity: getComputedStyle(previousEl).opacity || '1' },
-          { transform: existing || 'none', opacity: getComputedStyle(nextEl).opacity || '1' },
-        ], { duration: duration, easing: easing, fill: 'both' });
+
+        var fromKeyframe = {
+          transform: flipTransform(delta, existing),
+          opacity: getComputedStyle(previousEl).opacity || '1',
+        };
+        var toKeyframe = {
+          transform: existing || 'none',
+          opacity: getComputedStyle(nextEl).opacity || '1',
+        };
+
+        // Morph transition: interpolate additional CSS properties
+        if (isMorph) {
+          var prevStyle = getComputedStyle(previousEl);
+          var nextStyle = getComputedStyle(nextEl);
+          MORPH_CSS_PROPS.forEach(function(prop) {
+            var prevVal = prevStyle[prop];
+            var nextVal = nextStyle[prop];
+            if (prevVal && nextVal && prevVal !== nextVal) {
+              fromKeyframe[prop] = prevVal;
+              toKeyframe[prop] = nextVal;
+            }
+          });
+        }
+
+        var animation = nextEl.animate([fromKeyframe, toKeyframe], {
+          duration: duration, easing: easing, fill: 'both',
+        });
         animations.push(animation);
       });
 
-      if (slideTransition.unmatched === 'fade') {
+      // Unmatched element handling
+      var shouldFadeUnmatched = slideTransition.unmatched === 'fade' || isMorph;
+      if (shouldFadeUnmatched) {
+        var unmatchedDuration = Math.max(1, Math.round(duration * 0.7));
+        // Morph: unmatched elements scale down/up slightly for polish
+        var prevUnmatchedFrom = isMorph ? { opacity: 1, transform: 'scale(1)' } : { opacity: 1 };
+        var prevUnmatchedTo = isMorph ? { opacity: 0, transform: 'scale(0.95)' } : { opacity: 0 };
+        var nextUnmatchedFrom = isMorph ? { opacity: 0, transform: 'scale(1.03)' } : { opacity: 0 };
+        var nextUnmatchedTo = isMorph ? { opacity: 1, transform: 'scale(1)' } : { opacity: 1 };
+        var unmatchedDelay = isMorph ? Math.round(duration * 0.2) : 0;
+
         previous.forEach(function(previousEl, key) {
           if (matched.has(key)) return;
-          animations.push(previousEl.animate([{ opacity: 1 }, { opacity: 0 }], {
-            duration: Math.max(1, Math.round(duration * 0.7)),
+          animations.push(previousEl.animate([prevUnmatchedFrom, prevUnmatchedTo], {
+            duration: unmatchedDuration,
             easing: easing,
             fill: 'both',
           }));
         });
         next.forEach(function(nextEl, key) {
           if (matched.has(key)) return;
-          animations.push(nextEl.animate([{ opacity: 0 }, { opacity: 1 }], {
-            duration: Math.max(1, Math.round(duration * 0.7)),
+          animations.push(nextEl.animate([nextUnmatchedFrom, nextUnmatchedTo], {
+            duration: unmatchedDuration,
+            delay: unmatchedDelay,
             easing: easing,
             fill: 'both',
           }));
@@ -357,7 +396,7 @@
     }
 
     function animateWholeSlides(previousSlide, nextSlide, direction, duration, easing) {
-      if (slideTransition.type === 'none') return [];
+      if (slideTransition.type === 'none' || slideTransition.type === 'morph') return [];
 
       // Vertical scroll distance: 30% of slide height for a natural scroll feel
       var scrollDistance = slideH * 0.30;

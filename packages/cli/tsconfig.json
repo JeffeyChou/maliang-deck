@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "types": ["node"]
+  },
+  "include": ["src/**/*"],
+  "references": [
+    { "path": "../schema" },
+    { "path": "../renderer-html" },
+    { "path": "../renderer-svg" },
+    { "path": "../exporter" },
+    { "path": "../workflow" }
+  ]
+}

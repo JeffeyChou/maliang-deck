@@ -52,7 +52,7 @@ export interface HtmlRuntimeConfig {
   showSlideNumber?: boolean;
 }
 
-export type HtmlRuntimeTransitionType = 'none' | 'fade' | 'slide' | 'dissolve' | 'zoom' | 'push' | 'cover';
+export type HtmlRuntimeTransitionType = 'none' | 'fade' | 'slide' | 'dissolve' | 'zoom' | 'push' | 'cover' | 'morph';
 export type HtmlRuntimeUnmatchedBehavior = 'fade' | 'instant';
 
 export interface HtmlRuntimeTransitionConfig {
@@ -182,6 +182,54 @@ export interface TextElement extends BaseElement {
   textRole?: 'body' | 'label' | 'heading' | 'stat';
 }
 
+// ─── Shape Morph Targets ────────────────────────────────────────────────────
+
+export interface RectMorphTarget {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  radius?: number;
+  opacity?: number;
+  rotation?: number;
+}
+
+export interface CircleMorphTarget {
+  x?: number;
+  y?: number;
+  radius?: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  opacity?: number;
+  rotation?: number;
+}
+
+export interface EllipseMorphTarget {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  opacity?: number;
+  rotation?: number;
+}
+
+export type ShapeMorphTarget = RectMorphTarget | CircleMorphTarget | EllipseMorphTarget;
+
+export interface ShapeMorphStep {
+  target: ShapeMorphTarget;
+  duration?: number;
+  easing?: string;
+}
+
+export type ShapeMorphStepTrigger = 'auto' | 'click';
+
 // ─── Rect ────────────────────────────────────────────────────────────────────
 
 export interface RectElement extends BaseElement {
@@ -192,6 +240,8 @@ export interface RectElement extends BaseElement {
   stroke?: string;
   strokeWidth?: number;
   radius?: number;
+  morphSteps?: ShapeMorphStep[];
+  morphStepTrigger?: ShapeMorphStepTrigger;
 }
 
 // ─── Circle ──────────────────────────────────────────────────────────────────
@@ -202,6 +252,8 @@ export interface CircleElement extends BaseElement {
   fill?: string;
   stroke?: string;
   strokeWidth?: number;
+  morphSteps?: ShapeMorphStep[];
+  morphStepTrigger?: ShapeMorphStepTrigger;
 }
 
 // ─── Ellipse ─────────────────────────────────────────────────────────────────
@@ -213,6 +265,8 @@ export interface EllipseElement extends BaseElement {
   fill?: string;
   stroke?: string;
   strokeWidth?: number;
+  morphSteps?: ShapeMorphStep[];
+  morphStepTrigger?: ShapeMorphStepTrigger;
 }
 
 // ─── Line ────────────────────────────────────────────────────────────────────

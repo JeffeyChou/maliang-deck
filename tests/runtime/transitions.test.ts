@@ -105,14 +105,19 @@ describe('HTML runtime transition config and lifecycle', () => {
     expect(mathVizSource).toContain('function curvedBoundaryPath');
     expect(mathVizSource).toContain('maliang-formula-annotation-layer');
 
+    // The morph uses a single unified tick() loop: token matching hides old tokens
+    // before animation starts, then tick() handles position interpolation + opacity
+    // fade in one pass (no separate swapTick phase).
     const morphStart = mathVizSource.indexOf('function morphTo(targetLatex, morphMap)');
-    const phaseTwoStart = mathVizSource.indexOf('function swapTick()', morphStart);
-    const phaseOneBlock = mathVizSource.slice(morphStart, phaseTwoStart);
-    const phaseTwoBlock = mathVizSource.slice(phaseTwoStart, mathVizSource.indexOf('function advanceStep()', phaseTwoStart));
+    const tickStart = mathVizSource.indexOf('function tick()', morphStart);
+    const advanceStart = mathVizSource.indexOf('function advanceStep()', morphStart);
+    const setupBlock = mathVizSource.slice(morphStart, tickStart);
+    const tickBlock = mathVizSource.slice(tickStart, advanceStart);
 
-    expect(phaseOneBlock).toContain('oldLayerTokens[pair.oldIdx].el.style.visibility = \'hidden\'');
-    expect(phaseOneBlock).not.toContain('oldLayer.style.opacity = String(1 -');
-    expect(phaseTwoBlock).toContain('oldLayer.style.opacity = String(1 - se)');
-    expect(phaseTwoBlock).toContain('if (newKatex) newKatex.style.opacity = String(se)');
+    // Token hiding happens during setup (before animation loop)
+    expect(setupBlock).toContain('oldLayerTokens[pair.oldIdx].el.style.visibility = \'hidden\'');
+    // Old layer opacity fade and new KaTeX reveal happen inside the unified tick loop
+    expect(tickBlock).toContain('oldLayer.style.opacity = String(1 - e)');
+    expect(tickBlock).toContain('if (newKatex) newKatex.style.opacity');
   });
 });
