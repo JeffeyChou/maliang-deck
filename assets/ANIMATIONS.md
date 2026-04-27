@@ -276,3 +276,127 @@ effect to the closest PowerPoint animation with a fallback:
 - **Downgraded** (mapped to simpler PPTX effect): fade-*, scale-in, blur-in,
   rise-in, rotate-in, flip-in, elastic-in, and others
 - Canvas FX are HTML-only; they do not appear in SVG/PDF/PPTX output.
+
+---
+
+## 6. Morph System
+
+The morph system provides three levels of morphing, all HTML-only. SVG/PDF/PPTX
+exports silently ignore morph fields and emit a `MORPH_IGNORED` diagnostic.
+
+### Directory Layout (morph-specific)
+
+```
+assets/
+  lib/
+    morph-engine.js     # Shared morph engine (read/write/interpolate/animate)
+  extensions/
+    shape-morph/
+      index.js          # Shape morph extension (rect, circle, ellipse)
+      component-morph.js# Component morph extension (group, layout)
+runtime/
+  runtime.js            # Morph slide transition + group matching scope rules
+```
+
+### 6.1 Shape Morphing (intra-slide)
+
+Animates shape elements (`rect`, `circle`, `ellipse`) through a sequence of
+morph steps. Each step specifies a target state; steps are cumulative.
+
+**DSL fields** (on `RectElement`, `CircleElement`, `EllipseElement`):
+- `morphSteps: ShapeMorphStep[]` — array of `{ target, duration?, easing? }`
+- `morphStepTrigger: 'click' | 'auto'` — default `'click'`
+
+**Morphable properties per element type**:
+
+| Element  | Properties                                                            |
+|----------|-----------------------------------------------------------------------|
+| `rect`   | x, y, width, height, fill, stroke, strokeWidth, radius, opacity, rotation |
+| `circle` | x, y, radius, fill, stroke, strokeWidth, opacity, rotation            |
+| `ellipse`| x, y, width, height, fill, stroke, strokeWidth, opacity, rotation     |
+
+**Trigger modes**:
+- `click`: Steps integrate with the timeline step system via
+  `registerStepConsumer()`. Built-in animation steps play first, then morph
+  steps advance on click/arrow-right.
+- `auto`: All steps play sequentially on slide activation with each step's
+  `duration` as the interval.
+
+### 6.2 Component Morphing (intra-slide)
+
+Animates group/layout elements as coordinated units. The container box morphs
+alongside per-child targeted morphing with optional stagger.
+
+**DSL fields** (on `GroupElement`, `LayoutElement`):
+- `morphSteps: ComponentMorphStep[]` — each step has:
+  - `target: ComponentMorphTarget` — container properties (x, y, width, height, opacity, rotation)
+  - `children?: Record<string, ShapeMorphTarget>` — per-child targets keyed by element ID
+  - `duration?: number` — ms, default 800
+  - `easing?: string` — default `'easeInOutCubic'`
+  - `stagger?: number` — ms delay between child animations
+- `morphStepTrigger: 'click' | 'auto'` — default `'click'`
+
+**Child targeting**: Children are looked up by `data-maliang-deck-id` within the
+container. Each child's target uses the same `ShapeMorphTarget` properties
+(fill, stroke, radius, etc.) mapped to CSS via `dslTargetToCss()`.
+
+### 6.3 Morph Slide Transition (cross-slide)
+
+A first-class `'morph'` transition type (like PowerPoint Morph / Keynote Magic
+Move). Set `meta.htmlRuntime.transition.type: 'morph'` in the deck DSL.
+
+**Behavior**:
+- `type: 'morph'` implies `autoAnimate: true` (no need to set both).
+- Elements are matched across slides by `data-maliang-deck-auto-animate-id`
+  (derived from the DSL element `id` field).
+- Matched elements interpolate via FLIP (position, scale) plus CSS properties:
+  `backgroundColor`, `borderRadius`, `borderColor`, `color`, `fontSize`.
+- Unmatched outgoing elements: fade out + scale(0.95).
+- Unmatched incoming elements: fade in + scale(1.03), delayed 20%.
+- No whole-slide scroll animation (morph replaces it entirely).
+
+**Group matching scope rules** (prevents double-animate):
+When a group/layout element is matched as a morph root:
+1. The group container animates (position, size, transform, opacity).
+2. Descendants are excluded from the global shared element map.
+3. Child matching runs recursively within the matched group.
+4. Child FLIP deltas are computed in group-local coordinates (subtracting the
+   parent group's delta) to prevent compounding transforms.
+5. Unmatched children within the group fade in/out independently.
+
+### 6.4 Morph Engine API
+
+`window.MaliangMorphEngine` exposes a shared, reusable animation engine:
+
+| Function | Description |
+|----------|-------------|
+| `readShapeProps(el)` | Read current visual state from DOM element |
+| `writeShapeProps(el, props)` | Apply properties to DOM element |
+| `interpolateProps(from, to, t)` | Interpolate property set (numbers, colors, snap) |
+| `animateShape(el, from, to, duration, easing, onComplete)` | rAF-based animation with cancellation |
+| `finalizeMorph(el, targetState)` | Instant snap (reduced-motion or cleanup) |
+| `cancelMorph(handle)` | Cancel running morph animation |
+| `dslTargetToCss(target, elementType)` | Map DSL field names to CSS equivalents |
+
+### 6.5 Reduced Motion
+
+All morph paths respect `prefers-reduced-motion: reduce`:
+- **Morph engine**: `animateShape()` checks the media query and snaps instantly.
+- **Runtime transitions**: `runSlideTransition()` skips all WAAPI animations.
+- **Extensions**: shape-morph and component-morph delegate to morph engine.
+
+### 6.6 Presenter Sync
+
+Morph step state changes are broadcast via the `maliang-deck-timeline`
+BroadcastChannel. The presenter window receives `{ type: 'step', step, total }`
+messages and updates the step indicator. Presenter-initiated navigation sends
+`{ type: 'timeline-step', direction }` back to the main window.
+
+### 6.7 Export Compatibility
+
+| Format | Morph Support |
+|--------|---------------|
+| HTML   | Full support (shape, component, transition) |
+| SVG    | Ignored — `MORPH_IGNORED` diagnostic emitted |
+| PDF    | Ignored — static SVG rendering |
+| PPTX   | Future: map `morph` to PowerPoint Morph XML (`<p:transition><p:morph/></p:transition>`) |

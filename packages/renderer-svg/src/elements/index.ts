@@ -68,18 +68,38 @@ function renderGraphFallback(el: { id: string; x: number; y: number; width: numb
   };
 }
 
+function morphIgnoredWarning(el: Element): LayoutWarning | null {
+  const morphable = el as { morphSteps?: unknown[] };
+  if (morphable.morphSteps && Array.isArray(morphable.morphSteps) && morphable.morphSteps.length > 0) {
+    return {
+      type: 'unsupported-feature',
+      message: `morphSteps on ${el.type} element "${el.id}" ignored in SVG/PDF export (morphing is HTML-only)`,
+      elementId: el.id,
+      phase: 'render-svg',
+      policy: 'ignore',
+    };
+  }
+  return null;
+}
+
+function withMorphWarning(result: RenderResult, el: Element): RenderResult {
+  const w = morphIgnoredWarning(el);
+  if (w) result.warnings.push(w);
+  return result;
+}
+
 export function renderElement(el: Element, basePath?: string, registry?: FontRegistry, defaultFont?: string): RenderResult {
   switch (el.type) {
     case 'text':
       return renderText(el, registry, defaultFont);
     case 'group':
-      return renderGroup(el, basePath, registry, defaultFont);
+      return withMorphWarning(renderGroup(el, basePath, registry, defaultFont), el);
     case 'rect':
-      return { svg: renderRect(el), warnings: [] };
+      return withMorphWarning({ svg: renderRect(el), warnings: [] }, el);
     case 'circle':
-      return { svg: renderCircle(el), warnings: [] };
+      return withMorphWarning({ svg: renderCircle(el), warnings: [] }, el);
     case 'ellipse':
-      return { svg: renderEllipse(el), warnings: [] };
+      return withMorphWarning({ svg: renderEllipse(el), warnings: [] }, el);
     case 'line':
       return { svg: renderLine(el), warnings: [] };
     case 'path':
@@ -93,7 +113,7 @@ export function renderElement(el: Element, basePath?: string, registry?: FontReg
     case 'table':
       return renderTable(el);
     case 'layout':
-      return renderLayout(el, basePath, registry, defaultFont, undefined);
+      return withMorphWarning(renderLayout(el, basePath, registry, defaultFont, undefined), el);
     case 'customHtml':
       return renderCustomHtml(el as any);
     case 'animatedText':
