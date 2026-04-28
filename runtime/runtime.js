@@ -592,6 +592,11 @@
         if (previousActive && previousActive !== slides[n]) {
           window.__vsliExtensions.deactivateSlide(previousActive);
         }
+        if (sameSlide) {
+          // Cancelled transition returning to same slide — force re-init
+          // so text animations replay from the start.
+          window.__vsliExtensions.deactivateSlide(slides[n]);
+        }
         window.__vsliExtensions.activateSlide(slides[n]);
       }
       // When re-committing the same slide (e.g. after a cancelled transition),

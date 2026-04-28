@@ -7,10 +7,17 @@ export function renderRect(el: RectElement): string {
   const strokeWidth = el.strokeWidth ?? 1;
   const radius = el.radius ?? 0;
 
-  const extras: string[] = [`background-color: ${fill}`];
+  // Element itself is transparent — fill is drawn by ::before pseudo (inside border)
+  // to prevent semi-transparent fill bleeding under semi-transparent stroke.
+  const extras: string[] = [`background-color: transparent`];
 
   if (stroke !== 'none') {
     extras.push(`border: ${strokeWidth}px solid ${stroke}`);
+  }
+
+  // Fill color passed via CSS var, drawn by ::before pseudo inside the border
+  if (fill !== 'transparent') {
+    extras.push(`--maliang-rect-fill: ${fill}`);
   }
 
   if (radius > 0) {

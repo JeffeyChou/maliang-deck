@@ -745,7 +745,6 @@
     {
       "id": "anim-morph-component",
       "background": "#0b1428",
-      "fx": ["chain-react"],
       "notes": "Component morphing — group with per-child targeting and stagger delay.",
       "elements": [
         {
@@ -866,7 +865,7 @@
         {
           "id": "fx-col-visual", "type": "text",
           "x": 970, "y": 180, "width": 280,
-          "content": "TEXT / VISUAL\n\n\u2022 letter-explode\n\u2022 typewriter-multi\n\u2022 word-cascade\n\u2022 sparkle-trail\n\u2022 chain-react",
+          "content": "TEXT / VISUAL\n\n\u2022 letter-explode\n\u2022 typewriter-multi\n\u2022 word-cascade\n\u2022 sparkle-trail",
           "fontSize": 15, "color": "rgba(225,236,255,.65)", "lineHeight": 1.6,
           "animation": { "enter": "skew-in", "duration": 500, "step": 4 }
         },
@@ -931,7 +930,6 @@
     {
       "id": "anim-closing",
       "background": "#050816",
-      "fx": ["word-cascade"],
       "notes": "Grand finale — bookend symmetry with cover. All step-0 auto-play.",
       "elements": [
         {

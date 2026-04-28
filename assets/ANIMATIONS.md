@@ -212,7 +212,6 @@ after full deactivation.
 |---------------------|---------------------------------------------|------------------------------------|
 | `letter-explode`   | Individual letters burst outward             | Title reveals, creative slides     |
 | `typewriter-multi` | Multi-line typewriter effect                 | Code demos, narrative reveals      |
-| `word-cascade`     | Words fall/cascade down                      | Poetry, key phrase emphasis        |
 
 #### Visual
 
@@ -220,7 +219,6 @@ after full deactivation.
 |-----------------|-----------------------------------------------|------------------------------------|
 | `gradient-blob` | Animated gradient blob morphing               | Abstract backgrounds, ambient      |
 | `sparkle-trail` | Trailing sparkles/stars                       | Celebration, achievement slides    |
-| `chain-react`   | Chain reaction/cascade effect                 | Cause-effect topics, triggers      |
 
 ### FX and Themes
 

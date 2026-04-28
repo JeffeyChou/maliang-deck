@@ -6,7 +6,8 @@ export function renderRect(el) {
     const radius = el.radius ?? 0;
     const extras = [`background-color: ${fill}`];
     if (stroke !== 'none') {
-        extras.push(`border: ${strokeWidth}px solid ${stroke}`);
+        extras.push(`--maliang-rect-stroke-width: ${strokeWidth}px`);
+        extras.push(`--maliang-rect-stroke-color: ${stroke}`);
     }
     if (radius > 0) {
         extras.push(`border-radius: ${radius}px`);

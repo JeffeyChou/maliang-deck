@@ -171,6 +171,8 @@ ${(meta.htmlRuntime?.customStylesheets ?? []).map((href: string) => `  <link rel
     .slide.is-transition-prev { opacity: 1; z-index: 3; }
     .slide.is-transition-next { opacity: 1; z-index: 4; }
     .slide [data-maliang-deck-auto-animate-id] { transform-origin: center center; }
+    .slide [data-maliang-deck-type="rect"]::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: var(--maliang-rect-fill, transparent); }
+    .slide [data-animated-text] { opacity: 0; }
     .slide > * { position: absolute; }
     .slide [data-maliang-deck-editable] { -webkit-user-select: none; user-select: none; }
     body.maliang-deck-editor-active .slide [data-maliang-deck-editable] { -webkit-user-select: auto; user-select: auto; }

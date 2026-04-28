@@ -144,6 +144,8 @@ ${(meta.htmlRuntime?.customStylesheets ?? []).map((href) => `  <link rel="styles
     .slide.is-transition-prev { opacity: 1; z-index: 3; }
     .slide.is-transition-next { opacity: 1; z-index: 4; }
     .slide [data-maliang-deck-auto-animate-id] { transform-origin: center center; }
+    .slide [data-maliang-deck-type="rect"]::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: var(--maliang-rect-fill, transparent); }
+    .slide [data-animated-text] { opacity: 0; }
     .slide > * { position: absolute; }
     aside.notes { display: none; }
     .progress-bar { position: fixed; top: 0; right: 0; bottom: 0; width: 6px; background: var(--ui-bar-bg, rgba(255,255,255,.15)); z-index: 1000; }

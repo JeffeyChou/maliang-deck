@@ -147,7 +147,7 @@
         {
           "id": "agenda-num-1-label",
           "type": "text",
-          "x": 110, "y": 172, "width": 44,
+          "x": 100, "y": 172, "width": 44,
           "content": "1", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
           "animation": { "enter": "rotate-in", "duration": 450, "step": 1 }
         },
@@ -168,7 +168,7 @@
         {
           "id": "agenda-num-2-label",
           "type": "text",
-          "x": 110, "y": 262, "width": 44,
+          "x": 100, "y": 262, "width": 44,
           "content": "2", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
           "animation": { "enter": "rotate-in", "duration": 450, "step": 2 }
         },
@@ -189,7 +189,7 @@
         {
           "id": "agenda-num-3-label",
           "type": "text",
-          "x": 110, "y": 352, "width": 44,
+          "x": 100, "y": 352, "width": 44,
           "content": "3", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
           "animation": { "enter": "rotate-in", "duration": 450, "step": 3 }
         },
@@ -210,7 +210,7 @@
         {
           "id": "agenda-num-4-label",
           "type": "text",
-          "x": 110, "y": 442, "width": 44,
+          "x": 100, "y": 442, "width": 44,
           "content": "4", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
           "animation": { "enter": "rotate-in", "duration": 450, "step": 4 }
         },
@@ -231,7 +231,7 @@
         {
           "id": "agenda-num-5-label",
           "type": "text",
-          "x": 110, "y": 532, "width": 44,
+          "x": 100, "y": 532, "width": 44,
           "content": "5", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
           "animation": { "enter": "rotate-in", "duration": 450, "step": 5 }
         },
@@ -332,7 +332,6 @@
     {
       "id": "lit-review",
       "background": "#f5f0e8",
-      "fx": ["chain-react"],
       "notes": "Literature landscape — knowledge map with connected nodes, morphSteps highlight gap.",
       "elements": [
         {

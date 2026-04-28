@@ -55,10 +55,8 @@
 
 /* Glass cards: cream card with heavy black border — sharp, architectural, NO blur */
 [data-maliang-deck-id*="-glass"] {
-  background: rgba(245, 240, 232, 0.96) !important;
-  border-color: #1a1a1a !important;
-  border-width: 3px !important;
-  border-style: solid !important;
+  background-color: rgba(245, 240, 232, 0.96) !important;
+  border: 3px solid #1a1a1a;
   box-shadow: 6px 6px 0 rgba(26, 26, 26, 0.25);
   border-radius: 0 !important;
 }

@@ -22,6 +22,13 @@
     return COLOR_RE.test(v) || RGB_RE.test(v) || v === 'transparent' || v === 'none';
   }
 
+  var RGBA_ZERO_RE = /^rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*0\s*\)$/;
+
+  function isTransparentColor(v) {
+    if (!v || v === 'transparent' || v === 'none') return true;
+    return RGBA_ZERO_RE.test(v);
+  }
+
   function normalizeColor(v) {
     if (!v || v === 'transparent' || v === 'none') return '#000000';
     if (COLOR_RE.test(v)) return v;
@@ -106,9 +113,20 @@
       if (typeof a === 'number' && typeof b === 'number') {
         result[key] = I.lerp(a, b, t);
       } else if (isColorValue(a) && isColorValue(b)) {
-        var ca = normalizeColor(a);
-        var cb = normalizeColor(b);
-        result[key] = I.lerpColor(ca, cb, t);
+        // Preserve transparency: don't interpolate transparent→transparent as black→black
+        var aTransp = isTransparentColor(a);
+        var bTransp = isTransparentColor(b);
+        if (aTransp && bTransp) {
+          result[key] = 'transparent';
+        } else if (aTransp) {
+          result[key] = t < 0.5 ? 'transparent' : b;
+        } else if (bTransp) {
+          result[key] = t < 0.5 ? a : 'transparent';
+        } else {
+          var ca = normalizeColor(a);
+          var cb = normalizeColor(b);
+          result[key] = I.lerpColor(ca, cb, t);
+        }
       } else {
         // Non-interpolatable: snap at halfway
         result[key] = t < 0.5 ? a : b;

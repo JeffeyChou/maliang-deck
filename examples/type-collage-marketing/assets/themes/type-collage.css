@@ -55,14 +55,15 @@
 
 /* ── Template-generic selectors ─────────────────────────────────────────── */
 
-/* Glass cards: dark frosted card with prominent RED accent border */
+/* Glass cards: dark frosted card with prominent RED accent border.
+ * Use CSS var override for stroke (rendered via ::before inset box-shadow)
+ * instead of CSS border to avoid double-stroke artifacts. */
 [data-maliang-deck-id*="-glass"] {
-  background: linear-gradient(135deg, rgba(230,57,70,.08), rgba(43,45,66,.15)) !important;
-  border: 1px solid rgba(230,57,70,.35) !important;
+  background-image: linear-gradient(135deg, rgba(230,57,70,.08), rgba(43,45,66,.15)) !important;
+  border: 1px solid rgba(230,57,70,.35);
   box-shadow:
     0 24px 80px rgba(0,0,0,.6),
-    inset 0 1px 0 rgba(245,240,235,.08),
-    0 0 0 1px rgba(230,57,70,.12);
+    inset 0 1px 0 rgba(245,240,235,.08);
   backdrop-filter: blur(16px) saturate(1.1);
   -webkit-backdrop-filter: blur(16px) saturate(1.1);
   border-radius: 12px;
@@ -85,10 +86,10 @@
     0 0 120px rgba(230,57,70,.06);
 }
 
-/* Chip/pill badges: red gradient — editorial tag feel */
-[data-maliang-deck-id*="-chip"] {
+/* Chip/pill badges: red gradient — editorial tag feel (rect only, not text labels) */
+[data-maliang-deck-id*="-chip"][data-maliang-deck-type="rect"] {
   background-image: linear-gradient(135deg, rgba(230,57,70,.30), rgba(230,57,70,.10)) !important;
-  border: 1px solid rgba(230,57,70,.40) !important;
+  background-clip: padding-box !important;
   box-shadow: 0 8px 28px rgba(0,0,0,.40);
 }
 
