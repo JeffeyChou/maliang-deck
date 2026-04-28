@@ -25,6 +25,8 @@ export const HtmlRuntimeConfigSchema = z.object({
   transition: HtmlRuntimeTransitionSchema.optional(),
   showProgressBar: z.boolean().optional(),
   showSlideNumber: z.boolean().optional(),
+  customStylesheets: z.array(z.string()).optional(),
+  customScripts: z.array(z.string()).optional(),
 });
 
 export const DeckMetaSchema = z.object({

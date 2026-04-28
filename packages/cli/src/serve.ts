@@ -1,6 +1,6 @@
-import { readFileSync, watchFile } from 'node:fs';
+import { existsSync, readFileSync, watchFile } from 'node:fs';
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
-import { extname, join, resolve } from 'node:path';
+import { dirname, extname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { handleEditorRoute } from './editor/http.js';
 import { FileBackedEditorStore } from './editor/store.js';
@@ -48,6 +48,7 @@ function createServeHandler(
   store: FileBackedEditorStore,
   runtimeDir: string,
   assetsDir: string,
+  deckDir: string,
 ): (req: IncomingMessage, res: ServerResponse) => void {
   return (req: IncomingMessage, res: ServerResponse) => {
     void (async () => {
@@ -70,12 +71,17 @@ function createServeHandler(
 
       if (pathname.startsWith('/assets/')) {
         const rel = pathname.slice('/assets/'.length);
-        serveStaticFile(join(assetsDir, rel), res);
-        return;
+        const globalPath = join(assetsDir, rel);
+        if (existsSync(globalPath)) {
+          serveStaticFile(globalPath, res);
+          return;
+        }
+        // Fall through to deck-local fallback below
       }
 
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      res.end('Not found');
+      // Fallback: serve from deck file's directory (project-local assets)
+      const localPath = join(deckDir, pathname.startsWith('/') ? pathname.slice(1) : pathname);
+      serveStaticFile(localPath, res);
     })().catch((error) => {
       res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({ ok: false, error: { code: 'internal-error', message: (error as Error).message } }));
@@ -98,7 +104,8 @@ export async function runServe(file: string, port: number): Promise<void> {
   const runtimeDir = join(REPO_ROOT, 'runtime');
   const assetsDir = join(REPO_ROOT, 'assets');
 
-  const server = createServer(createServeHandler(store, runtimeDir, assetsDir));
+  const deckDir = dirname(deckPath);
+  const server = createServer(createServeHandler(store, runtimeDir, assetsDir, deckDir));
 
   server.listen(port, () => {
     console.log(`maliang-deck dev server running at http://localhost:${port}`);

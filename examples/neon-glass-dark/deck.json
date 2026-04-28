@@ -268,9 +268,8 @@
           "align": "center"
         }
       ],
-      "notes": "ARCHETYPE: Hero Cover | ANIMATION SET: Cinematic (scale-in, zoom-pop, blur-in — 700-900ms, custom easing) | FX: gradient-blob + starfield for atmospheric depth. Glass card left + concentric rings/orb right. Chips summarize key tags. MACRO CANDIDATE: chip-row component would collapse 6 chip elements into 1 invocation.",
+      "notes": "ARCHETYPE: Hero Cover | ANIMATION SET: Cinematic (scale-in, zoom-pop, blur-in — 700-900ms, custom easing) | FX: starfield for atmospheric depth. Glass card left + concentric rings/orb right. Chips summarize key tags. MACRO CANDIDATE: chip-row component would collapse 6 chip elements into 1 invocation.",
       "fx": [
-        "gradient-blob",
         "starfield"
       ]
     },
@@ -1345,10 +1344,7 @@
           "align": "center"
         }
       ],
-      "notes": "ARCHETYPE: Side-by-Side Comparison | ANIMATION SET: Dramatic (step 0 = title, step 1 = left card, step 2 = right card, step 3 = synthesis thesis) | FX: gradient-blob for atmosphere. Two glass cards with contrasting accent colors (lime = positive, pink = constraints). Bottom thesis synthesizes the comparison. Classic 'strong vs bounded' pattern.",
-      "fx": [
-        "gradient-blob"
-      ]
+      "notes": "ARCHETYPE: Side-by-Side Comparison | ANIMATION SET: Dramatic (step 0 = title, step 1 = left card, step 2 = right card, step 3 = synthesis thesis) | Two glass cards with contrasting accent colors (lime = positive, pink = constraints). Bottom thesis synthesizes the comparison. Classic 'strong vs bounded' pattern.",
     },
     {
       "id": "ub-table",
@@ -1883,9 +1879,8 @@
           "align": "center"
         }
       ],
-      "notes": "ARCHETYPE: Centered Closing | ANIMATION SET: Cinematic (zoom-pop, blur-zoom, fade-up — 700-900ms) | FX: gradient-blob + starfield echoing the cover for bookend symmetry. Centered composition: decorative orb → headline → subtitle → contact. The orb uses the '-orb' naming convention for CSS gradient + screen blend override.",
+      "notes": "ARCHETYPE: Centered Closing | ANIMATION SET: Cinematic (zoom-pop, blur-zoom, fade-up — 700-900ms) | FX: starfield echoing the cover for bookend symmetry. Centered composition: decorative orb → headline → subtitle → contact. The orb uses the '-orb' naming convention for CSS gradient + screen blend override.",
       "fx": [
-        "gradient-blob",
         "starfield"
       ]
     }

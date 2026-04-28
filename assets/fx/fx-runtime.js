@@ -11,8 +11,7 @@
     '_util',
     'particle-burst','confetti-cannon','firework','starfield','matrix-rain',
     'knowledge-graph','neural-net','constellation','orbit-ring','galaxy-swirl',
-    'word-cascade','letter-explode','chain-react','magnetic-field','data-stream',
-    'gradient-blob','sparkle-trail','shockwave','typewriter-multi','counter-explosion'
+    'word-cascade','letter-explode','chain-react','magnetic-field','data-stream','sparkle-trail','typewriter-multi','counter-explosion'
   ];
 
   // Resolve base path of this script so it works from any page location.

@@ -68,7 +68,7 @@ export const comprehensiveTextMeasureDeck = {
     {
       id: 'text-edge-cases',
       background: '#f8fafc',
-      fx: ['gradient-blob', 'constellation'],
+      fx: ['constellation'],
       notes: 'Deliberately overlaps text in two independent columns for deterministic reflow coverage.',
       elements: [
         { type: 'rect', id: 'left-panel-bg', x: 64, y: 82, width: 508, height: 430, fill: '#ffffff', stroke: '#cbd5e1', strokeWidth: 2, radius: 18 },
@@ -179,7 +179,7 @@ export const comprehensiveTextMeasureDeck = {
     {
       id: 'animation-and-primitives',
       background: '#0f172a',
-      fx: ['gradient-blob', 'firework'],
+      fx: ['firework'],
       notes: 'Covers every timeline animation and every current renderable element family.',
       elements: [
         { type: 'text', id: 'anim-title', x: 64, y: 42, width: 600, fontSize: 36, fontWeight: 'bold', color: '#f8fafc', content: 'Animation + primitive matrix', animation: animated('rise-in', 8) },

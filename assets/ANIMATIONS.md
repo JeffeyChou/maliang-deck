@@ -164,7 +164,7 @@ which dynamically loads FX modules and ties their lifecycle to slide activation.
 ```json
 {
   "id": "title-slide",
-  "fx": ["constellation", "gradient-blob"],
+  "fx": ["constellation"],
   "elements": [...]
 }
 ```
@@ -187,7 +187,6 @@ after full deactivation.
 | `firework`          | Firework explosion animation                | Grand reveals, closing slides      |
 | `counter-explosion` | Numeric counter with particle burst         | KPI reveals, stats highlights      |
 | `magnetic-field`    | Magnetic attraction field visualization     | Physics, force diagrams            |
-| `shockwave`         | Radial shockwave from center                | Impact slides, disruptive content  |
 
 #### Data / Graph Visualization
 

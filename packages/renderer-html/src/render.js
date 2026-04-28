@@ -130,6 +130,7 @@ export function renderDeckToHtml(deck, options) {
   <title>${title}</title>
   <link id="chart-table-base" rel="stylesheet" href="${base}assets/themes/_chart-table-base.css">
   <link id="theme-link" rel="stylesheet" href="${base}assets/themes/${theme}.css">
+${(meta.htmlRuntime?.customStylesheets ?? []).map((href) => `  <link rel="stylesheet" href="${href}">`).join('\n')}
   <link rel="stylesheet" href="${base}assets/animations/animations.css">
   <link rel="stylesheet" href="${base}assets/animations/transitions.css">
   <style>
@@ -186,6 +187,7 @@ ${slidesHtml}
   <script src="${base}assets/extensions/shape-morph/index.js"></script>
   <script src="${base}assets/extensions/math-viz/graph3d.js"></script>
   <script src="${base}assets/extensions/math-viz/index.js"></script>
+${(meta.htmlRuntime?.customScripts ?? []).map((src) => `  <script src="${src}"></script>`).join('\n')}
 </body>
 </html>`;
 }

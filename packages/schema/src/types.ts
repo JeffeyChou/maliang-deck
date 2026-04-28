@@ -50,6 +50,10 @@ export interface HtmlRuntimeConfig {
   showProgressBar?: boolean;
   /** Show slide number indicator. Default: true. */
   showSlideNumber?: boolean;
+  /** Project-local CSS stylesheets to inject after the theme. */
+  customStylesheets?: string[];
+  /** Project-local scripts to inject after default runtime scripts. */
+  customScripts?: string[];
 }
 
 export type HtmlRuntimeTransitionType = 'none' | 'fade' | 'slide' | 'dissolve' | 'zoom' | 'push' | 'cover' | 'morph';

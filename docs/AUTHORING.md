@@ -148,7 +148,7 @@ Slide-level FX use `fx: ["effect-name"]`. FX modules register under `window.HPX`
 };
 ```
 
-Common FX: `gradient-blob`, `constellation`, `starfield`, `orbit-ring`, and `sparkle-trail`.
+Common FX: `constellation`, `starfield`, `orbit-ring`, and `sparkle-trail`.
 
 Slide-to-slide transitions live under `meta.htmlRuntime.transition` and are HTML-only:
 
