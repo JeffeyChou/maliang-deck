@@ -16,5 +16,8 @@
   "dependencies": {
     "@maliang-deck/schema": "workspace:*",
     "fontkit": "^2.0.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
   }
 }
