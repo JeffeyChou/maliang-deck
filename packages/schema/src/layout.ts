@@ -55,6 +55,19 @@ function gridGap(value: GridLayoutConfig['gap']): Gap {
   return { row: value?.row ?? 0, column: value?.column ?? 0 };
 }
 
+export function estimateFormulaHeight(element: { fontSize?: number; latex?: string; displayMode?: boolean }): number {
+  const fs = element.fontSize ?? 20;
+  const latex = element.latex ?? '';
+  // Display-mode fractions, integrals, sums, and superscripts/subscripts are
+  // significantly taller than inline single-line formulas.
+  const hasVerticalStructure = /\\frac|\\dfrac|\\sum|\\prod|\\int|\\iint|\\iiint|\\oint|\\binom|\\begin\{(matrix|pmatrix|bmatrix|cases|array)\}|\^{|_{/.test(latex);
+  if (hasVerticalStructure) return Math.ceil(fs * 2.8);
+  // Superscript/subscript shorthand (single-char) adds moderate height
+  const hasSimpleScript = /[\^_]/.test(latex);
+  if (hasSimpleScript) return Math.ceil(fs * 2.0);
+  return Math.ceil(fs * 1.6);
+}
+
 function elementSize(element: Element): { width: number; height: number } {
   switch (element.type) {
     case 'text':
@@ -65,6 +78,8 @@ function elementSize(element: Element): { width: number; height: number } {
       return { width: Math.abs(element.x2 - element.x), height: Math.abs(element.y2 - element.y) };
     case 'table':
       return { width: element.width, height: element.height ?? Math.max(element.rows.length * 28, 1) };
+    case 'formula':
+      return { width: element.width, height: element.height ?? estimateFormulaHeight(element) };
     case 'group':
     case 'layout':
     case 'rect':

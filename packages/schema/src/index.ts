@@ -125,7 +125,7 @@ export {
 
 export type { ValidationError, ValidationResult } from './schema.js';
 
-export { resolveLayoutElement, resolveLayoutChildren, cloneElementWithBox } from './layout.js';
+export { resolveLayoutElement, resolveLayoutChildren, cloneElementWithBox, estimateFormulaHeight } from './layout.js';
 export type { ResolvedElementRecord, LayoutResolveContext, ElementBox } from './layout.js';
 
 export {

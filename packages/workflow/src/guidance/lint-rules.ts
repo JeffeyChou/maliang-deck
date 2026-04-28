@@ -8,6 +8,7 @@
  * Text overflow is detected via heuristic only.
  */
 import type { Deck, Slide, Element } from '@maliang-deck/schema';
+import { estimateFormulaHeight } from '@maliang-deck/schema';
 import type { StyleDefinition, LintResult } from './types.js';
 
 // ---------------------------------------------------------------------------
@@ -186,16 +187,30 @@ const canvasBoundsRule: LintRule = {
     const results: LintResult[] = [];
 
     for (const el of flattenElements(slide.elements)) {
-      const x = el.x ?? 0;
-      const y = el.y ?? 0;
-      const w = el.width ?? 0;
-      const h = el.height ?? ('radius' in el ? (el.radius as number) * 2 : 0);
+      let left: number;
+      let top: number;
+      let w: number;
+      let h: number;
 
-      if (x < 0 || y < 0 || x + w > cw || y + h > ch) {
+      if (el.type === 'circle') {
+        // Circle x/y is the center, not the top-left corner
+        const r = el.radius ?? 0;
+        left = el.x - r;
+        top = el.y - r;
+        w = r * 2;
+        h = r * 2;
+      } else {
+        left = el.x ?? 0;
+        top = el.y ?? 0;
+        w = el.width ?? 0;
+        h = el.height ?? 0;
+      }
+
+      if (left < 0 || top < 0 || left + w > cw || top + h > ch) {
         results.push({
           ruleId: 'canvas-bounds',
           severity: 'error',
-          message: `Element "${el.id}" extends outside canvas (x:${x} y:${y} w:${w} h:${h}, canvas:${cw}×${ch}).`,
+          message: `Element "${el.id}" extends outside canvas (left:${left} top:${top} w:${w} h:${h}, canvas:${cw}×${ch}).`,
           slideId: slide.id,
           elementId: el.id,
         });
@@ -629,6 +644,108 @@ const cssNamingConventionRule: LintRule = {
   },
 };
 
+/**
+ * Rule: formula-overlap
+ * Detects formula elements whose estimated rendered height exceeds their
+ * declared height and overlaps with subsequent elements placed below them.
+ * Severity: warning (heuristic estimate may have false positives).
+ */
+const formulaOverlapRule: LintRule = {
+  id: 'formula-overlap',
+  name: 'Formula Element Overlap',
+  severity: 'warning',
+  check(slide) {
+    const results: LintResult[] = [];
+    const elements = flattenElements(slide.elements);
+
+    for (const el of elements) {
+      if (el.type !== 'formula') continue;
+      const declaredH = el.height ?? 0;
+      const estimatedH = estimateFormulaHeight(el);
+      if (declaredH > 0 && estimatedH <= declaredH) continue;
+
+      const effectiveH = Math.max(declaredH, estimatedH);
+      const formulaBottom = el.y + effectiveH;
+
+      // Find any element positioned below the formula that overlaps
+      for (const other of elements) {
+        if (other.id === el.id) continue;
+        const otherTop = other.y ?? 0;
+        // Only check elements that start within the overflow zone
+        if (otherTop >= el.y && otherTop < formulaBottom) {
+          // Skip if the other element starts above the declared height
+          // (intentional overlay, like a label on top of the formula box)
+          if (declaredH > 0 && otherTop < el.y + declaredH) continue;
+          results.push({
+            ruleId: 'formula-overlap',
+            severity: 'warning',
+            message: `Formula "${el.id}" (estimated height ${estimatedH}px, declared ${declaredH || 'none'}px) likely overlaps "${other.id}" at y=${otherTop}.`,
+            slideId: slide.id,
+            elementId: el.id,
+          });
+          break; // one warning per formula is enough
+        }
+      }
+    }
+    return results;
+  },
+};
+
+/**
+ * Rule: circle-text-centering
+ * Detects text elements that appear to be labels inside circles (same
+ * animation step, spatially overlapping, center-aligned) but whose visual
+ * center does not align with the circle center.
+ * Severity: warning.
+ */
+const circleTextCenteringRule: LintRule = {
+  id: 'circle-text-centering',
+  name: 'Circle–Text Label Centering',
+  severity: 'warning',
+  check(slide) {
+    const results: LintResult[] = [];
+    const elements = flattenElements(slide.elements);
+    const circles = elements.filter((el) => el.type === 'circle');
+    const texts = elements.filter((el) => el.type === 'text' && el.align === 'center');
+
+    for (const circle of circles) {
+      if (circle.type !== 'circle') continue;
+      const cx = circle.x;
+      const cy = circle.y;
+      const r = circle.radius;
+      const circleStep = circle.animation?.step;
+
+      for (const text of texts) {
+        if (text.type !== 'text') continue;
+        // Only check texts that share the same animation step (likely a pair)
+        const textStep = text.animation?.step;
+        if (circleStep != null && textStep != null && circleStep !== textStep) continue;
+
+        const textCenterX = text.x + text.width / 2;
+        const textCenterY = text.y + (text.fontSize ?? 16) / 2;
+
+        // Check if text is spatially inside the circle bounds
+        const dx = Math.abs(textCenterX - cx);
+        const dy = Math.abs(textCenterY - cy);
+        if (dx > r || dy > r) continue;
+
+        // The text is inside the circle — check centering accuracy
+        const TOLERANCE = 4; // 4px tolerance
+        if (Math.abs(textCenterX - cx) > TOLERANCE) {
+          results.push({
+            ruleId: 'circle-text-centering',
+            severity: 'warning',
+            message: `Text "${text.id}" visual center (x=${textCenterX}) is ${Math.round(textCenterX - cx)}px off from circle "${circle.id}" center (x=${cx}). Expected text.x=${Math.round(cx - text.width / 2)}.`,
+            slideId: slide.id,
+            elementId: text.id,
+          });
+        }
+      }
+    }
+    return results;
+  },
+};
+
 // ---------------------------------------------------------------------------
 // Built-in rule set
 // ---------------------------------------------------------------------------
@@ -647,6 +764,8 @@ export const builtInRules: LintRule[] = [
   animationOveruseRule,
   customHtmlUsageRule,
   cssNamingConventionRule,
+  formulaOverlapRule,
+  circleTextCenteringRule,
 ];
 
 // ---------------------------------------------------------------------------

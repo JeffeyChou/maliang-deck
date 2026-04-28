@@ -5,6 +5,18 @@ import { getStyle } from './style-registry.js';
 type StyleLookupOptions = { includeDrafts?: boolean };
 
 /**
+ * Positioning rules that apply to ALL styles. These prevent common spatial
+ * bugs that the assembly-time lint rules (formula-overlap, circle-text-centering,
+ * canvas-bounds) would otherwise catch only after the DSL is written.
+ */
+const SHARED_POSITIONING_RULES: string[] = [
+  'Circle x/y is the CENTER of the circle. To center a text label inside a circle, set text.x = circle.x - text.width / 2 and text.y = circle.y - fontSize / 2.',
+  'Formula elements render taller than their declared height. Estimate rendered height as 2.8 * fontSize for fractions/sums/integrals/matrices, 2.0 * fontSize for superscripts/subscripts, 1.6 * fontSize for inline formulas. Place subsequent elements below this estimated height, not the declared height.',
+  'When placing an element below another, compute the gap from the previous element y + estimated rendered height, not from its declared bounding box alone.',
+  'Circle elements have no width/height property. Their bounding box is [x - radius, y - radius] to [x + radius, y + radius]. Ensure this box stays within canvas bounds.',
+];
+
+/**
  * Build a base WorkOrderGuidance shell for a given style and stage.
  * Returns undefined if the style is not registered.
  */
@@ -147,6 +159,7 @@ export function enrichDslWorkOrder(
     ...slideDslGuidance.colorRules.map((r) => `Color rule: ${r}`),
     ...(slideDslGuidance.animationRules ?? []).map((r) => `Animation: ${r}`),
     ...slideDslGuidance.positioningRules.map((r) => `Positioning: ${r}`),
+    ...SHARED_POSITIONING_RULES.map((r) => `Positioning: ${r}`),
     ...notesGuidance,
   ];
 

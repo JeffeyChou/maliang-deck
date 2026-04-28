@@ -756,7 +756,7 @@
         {
           "id": "f2-explanation",
           "type": "text",
-          "x": 80, "y": 294, "width": 760,
+          "x": 80, "y": 320, "width": 760,
           "content": "Critical density threshold ρ_c below which collective intelligence fails to emerge. Above ρ_c, local interaction rules spontaneously produce global coordination.",
           "fontSize": 17, "color": "rgba(26,26,26,0.75)", "lineHeight": 1.5,
           "animation": { "enter": "fade-up", "duration": 550, "delay": 400, "step": 1 }
@@ -1019,7 +1019,7 @@
         {
           "id": "contrib-badge-1-text",
           "type": "text",
-          "x": 216, "y": 164, "width": 60,
+          "x": 205, "y": 167, "width": 60,
           "content": "1", "fontSize": 22, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
           "animation": { "enter": "rotate-in", "duration": 600, "delay": 300, "step": 0 }
         },
@@ -1055,7 +1055,7 @@
         {
           "id": "contrib-badge-2-text",
           "type": "text",
-          "x": 621, "y": 164, "width": 60,
+          "x": 610, "y": 167, "width": 60,
           "content": "2", "fontSize": 22, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
           "animation": { "enter": "rotate-in", "duration": 600, "delay": 420, "step": 0 }
         },
@@ -1091,7 +1091,7 @@
         {
           "id": "contrib-badge-3-text",
           "type": "text",
-          "x": 1026, "y": 164, "width": 60,
+          "x": 1015, "y": 167, "width": 60,
           "content": "3", "fontSize": 22, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
           "animation": { "enter": "rotate-in", "duration": 600, "delay": 540, "step": 0 }
         },
