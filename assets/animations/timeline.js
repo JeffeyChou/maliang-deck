@@ -182,7 +182,13 @@
         if (step > maxStep) maxStep = step;
       });
 
-      slideData.set(slide, { steps: steps, totalSteps: maxStep, currentStep: -1 });
+      // Preserve consumer steps registered before init (e.g. morph extensions on initial load)
+      var consumerSteps = 0;
+      var consumers = stepConsumers.get(slide);
+      if (consumers) {
+        for (var ci = 0; ci < consumers.length; ci++) consumerSteps += consumers[ci].totalSteps;
+      }
+      slideData.set(slide, { steps: steps, totalSteps: maxStep + consumerSteps, currentStep: -1 });
     });
 
     // MutationObserver to detect slide activation
@@ -676,19 +682,15 @@
     if (!config || !config.slide || !config.totalSteps) return;
     var slide = config.slide;
 
-    // Clear any stale consumers from a previous activation of this slide
-    // (ext-runtime drops handles on deactivation, so re-init re-registers)
-    var oldConsumers = stepConsumers.get(slide);
-    var oldConsumerSteps = 0;
-    if (oldConsumers) {
-      for (var oc = 0; oc < oldConsumers.length; oc++) oldConsumerSteps += oldConsumers[oc].totalSteps;
-    }
-    stepConsumers.set(slide, [{
+    // Append consumer to the list (multiple extensions can register on the same slide)
+    var consumers = stepConsumers.get(slide) || [];
+    consumers.push({
       totalSteps: config.totalSteps,
       advance: config.advance,
       seek: config.seek,
       consumed: 0,
-    }]);
+    });
+    stepConsumers.set(slide, consumers);
 
     // Ensure slideData exists for morph-only slides (no data-anim-enter elements)
     var data = slideData.get(slide);
@@ -697,8 +699,21 @@
       slideData.set(slide, data);
     }
 
-    // Update total step count: remove old consumer steps, add new ones
-    data.totalSteps = data.totalSteps - oldConsumerSteps + config.totalSteps;
+    // Add this consumer's steps to the total
+    data.totalSteps += config.totalSteps;
+  }
+
+  /**
+   * Clear all step consumers for a slide (called before extensions re-register on activation).
+   */
+  function clearStepConsumers(slide) {
+    var consumers = stepConsumers.get(slide);
+    if (!consumers || !consumers.length) return;
+    var totalConsumerSteps = 0;
+    for (var i = 0; i < consumers.length; i++) totalConsumerSteps += consumers[i].totalSteps;
+    stepConsumers.delete(slide);
+    var data = slideData.get(slide);
+    if (data) data.totalSteps = Math.max(0, data.totalSteps - totalConsumerSteps);
   }
 
   // Patch advance to delegate to consumers after built-in steps are exhausted.
@@ -787,6 +802,11 @@
     play: play,
     pause: pause,
     seek: seek,
+    // Force re-activation (used after cancelled transitions)
+    reactivate: function (slideEl) {
+      activeSlide = null;
+      activateSlide(slideEl, false);
+    },
     getCurrentStep: getCurrentStep,
     getTotalSteps: getTotalSteps,
     onStepChange: onStepChange,
@@ -804,6 +824,7 @@
     getTrackState: getTrackState,
     // Step consumers (extensions)
     registerStepConsumer: registerStepConsumer,
+    clearStepConsumers: clearStepConsumers,
   };
 
   // ─── BOOT ───────────────────────────────────────────────────────────────────

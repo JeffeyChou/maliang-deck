@@ -43,6 +43,22 @@
     return 0;
   }
 
+  /**
+   * Read the intended visible opacity for an element.
+   * During ext-runtime activation the timeline hasn't played step-0 yet,
+   * so the element may still have opacity:0 / visibility:hidden from the
+   * pre-animation reset.  Use data-anim-final-opacity (set by renderer)
+   * to recover the real value.
+   */
+  function intendedOpacity(el) {
+    var attr = el.getAttribute('data-anim-final-opacity');
+    if (attr != null) return parseFloat(attr);
+    var computed = parseFloat(getComputedStyle(el).opacity);
+    // If element is in pre-animation hidden state, default to fully opaque
+    if (computed === 0 && el.style.visibility === 'hidden') return 1;
+    return computed;
+  }
+
   function snapshotState(el) {
     var style = getComputedStyle(el);
     return {
@@ -50,7 +66,7 @@
       y: parseFloat(el.style.top) || 0,
       width: parseFloat(style.width) || 0,
       height: parseFloat(style.height) || 0,
-      opacity: parseFloat(style.opacity),
+      opacity: intendedOpacity(el),
       backgroundColor: style.backgroundColor || 'transparent',
       borderRadius: style.borderRadius || '0px',
       borderColor: style.borderColor || 'transparent',

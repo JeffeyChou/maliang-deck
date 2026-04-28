@@ -87,6 +87,10 @@
    * Stops all active extension handles on the slide.
    */
   function deactivateSlide(slide) {
+    // Clear step consumers so they re-register fresh on next activation
+    if (window.__vsliTimeline && window.__vsliTimeline.clearStepConsumers) {
+      window.__vsliTimeline.clearStepConsumers(slide);
+    }
     var elements = slide.querySelectorAll('*');
     elements.forEach(function (el) {
       var entry = activeHandles.get(el);

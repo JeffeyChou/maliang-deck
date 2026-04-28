@@ -36,6 +36,14 @@
     return 0;
   }
 
+  function intendedOpacity(el) {
+    var attr = el.getAttribute('data-anim-final-opacity');
+    if (attr != null) return parseFloat(attr);
+    var computed = parseFloat(getComputedStyle(el).opacity);
+    if (computed === 0 && el.style.visibility === 'hidden') return 1;
+    return computed;
+  }
+
   function snapshotContainer(el) {
     var style = getComputedStyle(el);
     return {
@@ -43,7 +51,7 @@
       y: parseFloat(el.style.top) || 0,
       width: parseFloat(style.width) || 0,
       height: parseFloat(style.height) || 0,
-      opacity: parseFloat(style.opacity),
+      opacity: intendedOpacity(el),
       rotation: parseRotation(el),
     };
   }
@@ -55,7 +63,7 @@
       y: parseFloat(el.style.top) || 0,
       width: parseFloat(style.width) || 0,
       height: parseFloat(style.height) || 0,
-      opacity: parseFloat(style.opacity),
+      opacity: intendedOpacity(el),
       backgroundColor: style.backgroundColor || 'transparent',
       borderRadius: style.borderRadius || '0px',
       borderColor: style.borderColor || 'transparent',

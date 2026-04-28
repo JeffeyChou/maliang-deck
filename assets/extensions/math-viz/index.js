@@ -627,9 +627,7 @@
     var origHasElements = tl.hasTimelineElements;
 
     tl.shouldConsumeNavigation = function (direction) {
-      // First check original timeline steps
       if (origShouldConsume(direction)) return true;
-      // Then check formula steppers
       for (var i = 0; i < activeFormulaSteppers.length; i++) {
         var s = activeFormulaSteppers[i];
         if (direction === 'forward' && s.hasMoreSteps()) return true;
@@ -639,16 +637,26 @@
     };
 
     tl.advance = function (direction) {
-      // First try original timeline steps
-      if (origShouldConsume(direction)) {
-        origAdvance(direction);
-        return;
-      }
-      // Then try formula steppers
-      for (var i = 0; i < activeFormulaSteppers.length; i++) {
-        var s = activeFormulaSteppers[i];
-        if (direction === 'forward' && s.hasMoreSteps()) { s.advance(); return; }
-        if (direction === 'backward' && s.canRetreat()) { s.retreat(); return; }
+      if (direction === 'forward') {
+        // Forward: built-in steps first, then formula steppers
+        if (origShouldConsume(direction)) {
+          origAdvance(direction);
+          return;
+        }
+        for (var i = 0; i < activeFormulaSteppers.length; i++) {
+          var s = activeFormulaSteppers[i];
+          if (s.hasMoreSteps()) { s.advance(); return; }
+        }
+      } else {
+        // Backward: formula steppers first (they come after built-in steps)
+        for (var i = 0; i < activeFormulaSteppers.length; i++) {
+          var s = activeFormulaSteppers[i];
+          if (s.canRetreat()) { s.retreat(); return; }
+        }
+        if (origShouldConsume(direction)) {
+          origAdvance(direction);
+          return;
+        }
       }
     };
 

@@ -124,9 +124,9 @@ export function renderDeckToHtml(deck: Deck, options?: RenderHtmlOptions): strin
   const { width, height } = meta.canvas;
   const theme = meta.theme ?? 'minimal-white';
   const title = escapeHtml(meta.title);
-  const autoAnimate = meta.htmlRuntime?.transition?.autoAnimate === true;
-
   const transitionType = meta.htmlRuntime?.transition?.type ?? 'fade';
+  const isMorph = transitionType === 'morph';
+  const autoAnimate = meta.htmlRuntime?.transition?.autoAnimate === true || isMorph;
   const transitionDuration = meta.htmlRuntime?.transition?.durationMs ?? 500;
   const transitionEasing = meta.htmlRuntime?.transition?.easing ?? 'ease';
 
@@ -171,6 +171,8 @@ export function renderDeckToHtml(deck: Deck, options?: RenderHtmlOptions): strin
     .slide.is-transition-next { opacity: 1; z-index: 4; }
     .slide [data-maliang-deck-auto-animate-id] { transform-origin: center center; }
     .slide > * { position: absolute; }
+    .slide [data-maliang-deck-editable] { -webkit-user-select: none; user-select: none; }
+    body.maliang-deck-editor-active .slide [data-maliang-deck-editable] { -webkit-user-select: auto; user-select: auto; }
     aside.notes { display: none; }
     .progress-bar { position: fixed; top: 0; right: 0; bottom: 0; width: 6px; background: var(--ui-bar-bg, rgba(255,255,255,.15)); z-index: 1000; }
     .progress-bar span { display: block; width: 100%; background: var(--ui-bar-fill, #58a6ff); transition: height .3s ease; box-shadow: 0 0 8px var(--ui-bar-fill, #58a6ff); }

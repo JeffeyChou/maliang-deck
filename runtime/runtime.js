@@ -108,6 +108,8 @@
       return;
     }
 
+    var VALID_TRANSITION_TYPES = new Set(['none', 'fade', 'slide', 'dissolve', 'zoom', 'push', 'cover', 'morph']);
+
     let idx = 0;
     const total = slides.length;
     const runtimeConfig = readRuntimeConfig();
@@ -129,8 +131,6 @@
         return {};
       }
     }
-
-    var VALID_TRANSITION_TYPES = new Set(['none', 'fade', 'slide', 'dissolve', 'zoom', 'push', 'cover', 'morph']);
 
     function normalizeSlideTransition(config) {
       if (!config || typeof config !== 'object') {
@@ -582,6 +582,7 @@
 
     function commitSlideTransition(n) {
       var previousActive = slides.find(s => s.classList.contains('is-active'));
+      var sameSlide = previousActive === slides[n];
       slides.forEach((s,i) => {
         s.classList.toggle('is-active', i===n);
         s.classList.toggle('is-prev', i<n);
@@ -593,9 +594,30 @@
         }
         window.__vsliExtensions.activateSlide(slides[n]);
       }
+      // When re-committing the same slide (e.g. after a cancelled transition),
+      // the MutationObserver won't fire because is-active didn't change.
+      // Force timeline re-activation so step-0 animations replay.
+      if (sameSlide && window.__vsliTimeline && window.__vsliTimeline.reactivate) {
+        window.__vsliTimeline.reactivate(slides[n]);
+      }
+    }
+
+    // Track in-flight transition so rapid slide switching can cancel it
+    var activeTransition = null;
+
+    function cancelActiveTransition() {
+      if (!activeTransition) return;
+      var t = activeTransition;
+      activeTransition = null;
+      t.cancelled = true;
+      t.animations.forEach(function(a) { try { a.cancel(); } catch(e) {} });
+      cleanupTransitionSlides(t.previousSlide, t.nextSlide);
     }
 
     function runSlideTransition(previousSlide, nextSlide, direction, done) {
+      // Cancel any in-flight transition first
+      cancelActiveTransition();
+
       var duration = slideTransition.durationMs;
       if (!transitionIsEnabled() || prefersReducedMotion() || duration <= 0 || previousSlide === nextSlide || typeof previousSlide.animate !== 'function') {
         commitSlideTransition(idx);
@@ -625,9 +647,19 @@
         return;
       }
 
+      var transition = {
+        animations: animations,
+        previousSlide: previousSlide,
+        nextSlide: nextSlide,
+        cancelled: false,
+      };
+      activeTransition = transition;
+
       Promise.all(animations.map(function(animation) {
         return animation.finished.catch(function() {});
       })).then(function() {
+        if (transition.cancelled) return; // superseded by a newer transition
+        activeTransition = null;
         animations.forEach(function(animation) {
           try { animation.cancel(); } catch (e) {}
         });
@@ -2187,6 +2219,11 @@
       editorState.selectedItems.forEach(function(item) {
         finishTextEdit(item);
         item.classList.remove('maliang-deck-editor-selected');
+        // Remove contenteditable so text isn't editable outside editor mode
+        if (item.getAttribute('contenteditable') === 'true') {
+          item.removeAttribute('contenteditable');
+          item.blur();
+        }
       });
       editorState.selectedItems = [];
       editorState.selected = null;
