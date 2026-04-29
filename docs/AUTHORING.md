@@ -150,6 +150,10 @@ Slide-level FX use `fx: ["effect-name"]`. FX modules register under `window.HPX`
 
 Common FX: `constellation`, `starfield`, `orbit-ring`, and `sparkle-trail`.
 
+Some FX fill most or all of the frame or sit in the center of the slide.
+Treat those as sparse-layout effects: use one headline, maybe one short
+subtitle, and avoid dense body copy, long bullets, or tables on the same slide.
+
 Slide-to-slide transitions live under `meta.htmlRuntime.transition` and are HTML-only:
 
 ```json
@@ -243,7 +247,8 @@ Morphing is HTML-only; SVG/PDF/PPTX exports ignore `morphSteps` and emit a diagn
 
 - Use layout for repeatable spatial structure and raw DSL for one-off geometry.
 - Use macros for known visual patterns, not custom component systems.
-- Keep animation sparse; static PDF/PPTX must still communicate the final state.
+- Keep animation and slide FX sparse; static PDF/PPTX must still communicate
+  the final state.
 - Use runtime extensions for HTML-only interactions, but keep source assets and
   fallbacks explicit in the deck.
 - Do not add raw HTML/CSS/JS as authoring truth unless a future RFC explicitly expands the boundary.

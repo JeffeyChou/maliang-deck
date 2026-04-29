@@ -65,7 +65,7 @@ For images, prefer `contain` for figures and `cover` for photos. Do not use `fil
 
 ## Runtime Features
 
-Animations, `slides[].fx`, and `morphSteps` are HTML runtime features. Use them sparingly and ensure static PDF/PPTX still communicates the final state. SVG/PDF/PPTX exports ignore `morphSteps` and emit a diagnostic. Author animation names from [Authoring](../../AUTHORING.md); do not describe effects in notes.
+Animations, `slides[].fx`, and `morphSteps` are HTML runtime features. Follow the quick reading workflow in [Animation System](../../../assets/ANIMATIONS.md): identify the DSL surface, check slide density, match the effect to the slide role, and verify reduced-motion/export behavior. Treat full-frame or center-filling FX as sparse-layout effects; use one headline and maybe one short subtitle, and avoid dense body copy, long bullets, or tables on the same slide. SVG/PDF/PPTX exports ignore `morphSteps` and emit a diagnostic. Author animation names from [Authoring](../../AUTHORING.md); do not describe effects in notes.
 
 Runtime extensions under `assets/extensions/` are also HTML-only. Use
 `customHtml` for extension mounts such as `data-gif-ascii`, keep source assets

@@ -26,6 +26,7 @@ Items marked `error` should block assembly or delivery. Items marked `warning` s
 | error | No essential element leaves the canvas safe area. |
 | error | Required citations and source refs are present in notes. |
 | warning | Text is readable, aligned, and not overcrowded. |
+| warning | Full-frame or center-filling FX leave enough room for a headline and short subtitle only. |
 | warning | Colors, fonts, and spacing match locked style tokens. |
 | warning | PDF/PPTX outputs do not rely on HTML-only motion. |
 | warning | Chart colors match the active theme palette or use explicit `style.palette` |

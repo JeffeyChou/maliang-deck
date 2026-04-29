@@ -22,6 +22,8 @@ Guidance enriches:
 - `workflow generate-dsl`: role-specific slide authoring constraints;
 - `workflow assemble`: blocking errors and non-blocking warnings.
 
+For motion-heavy slides, follow [assets/ANIMATIONS.md](../../assets/ANIMATIONS.md) first: identify the DSL surface, check slide density, match the effect to the slide role, and verify reduced-motion/export behavior before choosing an effect.
+
 ## Role Docs
 
 | Document | Role |

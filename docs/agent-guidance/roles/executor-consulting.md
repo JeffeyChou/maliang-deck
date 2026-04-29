@@ -47,7 +47,7 @@ Use this role for business analysis, strategy, market research, board decks, and
 
 ## Style Rules
 
-Use restrained color and tokenized spacing. Avoid decorative effects on analytical slides. Animations may appear on title or section slides only if they do not slow executive reading.
+Use restrained color and tokenized spacing. Avoid decorative effects on analytical slides. Full-frame FX belong on title or section slides only, and only when the final frame still reads instantly without motion.
 
 ## Notes
 

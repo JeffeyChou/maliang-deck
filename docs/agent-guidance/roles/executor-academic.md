@@ -28,7 +28,8 @@ Use this role for research papers, conference talks, technical briefings, and di
 - Use source blocks and citations for every external claim, figure, table, or metric.
 - Prefer `image.fit: "contain"` for figures and include a caption/source element.
 - Group figure + caption, metric + label, and related annotations.
-- Avoid slide-level `fx` unless explicitly requested; academic decks should not depend on motion.
+- Avoid slide-level `fx` unless explicitly requested. If you use full-frame FX,
+  keep the slide sparse and reserve it for title or section-divider slides.
 - Set `style.showDataLabels: true` on chart elements in evidence slides for data transparency
 - Prefer the academic chart palette via `style.palette` or omit for theme defaults
 - Ensure chart axis labels include units (e.g., "Revenue (USD)", "Time (ms)")

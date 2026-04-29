@@ -1,38 +1,33 @@
 # Maliang Deck Animation System
 
-Complete reference for animations, transitions, and canvas FX available in the
-HTML runtime. SVG/PDF/PPTX exporters ignore animations; PPTX receives a
-best-effort mapping via the exporter's `PPTX_ANIMATION_MAPPINGS` table.
+Reference for runtime motion in the HTML renderer. SVG/PDF/PPTX keep the
+static deck; PPTX gets the closest mapped effect available in the exporter.
 
----
+## Quick Reading Workflow
 
-## Directory Layout
+1. Identify the DSL surface first.
+   - `animation.enter` for element entrances.
+   - `meta.htmlRuntime.transition` for slide transitions.
+   - `slide.fx` for canvas FX.
+   - `textAnimation` for text-anim effects.
+   - `morphSteps` / `morphStepTrigger` for morphing.
+   - `customHtml` and extension fields for browser-only visuals.
+2. Check slide density. FX that fill most or all of the frame need sparse slides.
+3. Match the effect to the slide role: hero, divider, evidence, or interactive demo.
+4. Verify reduced-motion and export behavior before shipping.
 
-```
-assets/
-  animations/
-    timeline.js        # Web Animations API keyframe registry + step engine
-    animations.css     # will-change hints, no-JS fallback, reduced-motion
-    transitions.css    # CSS slide-to-slide transition definitions
-  fx/
-    fx-runtime.js      # Canvas FX autoloader + lifecycle manager
-    _util.js           # Shared helpers (palette, canvas, RAF loop)
-    *.js               # Individual canvas FX modules (20 effects)
-  extensions/
-    ext-runtime.js     # HTML runtime extension bootstrap helpers
-    text-anim/         # Text splitting and per-character effects
-    shape-morph/       # Shape/component morph extensions
-    math-viz/          # Three.js graph/model visualizations
-    gif-ascii/         # GIF decoder + Three.js-backed ASCII playback
-  themes/              # CSS theme files (color variables consumed by FX)
-```
+## Where Things Live
 
----
+- `assets/animations/` - element timeline, animation CSS, slide transitions.
+- `assets/fx/` - canvas FX modules loaded by `fx-runtime.js`.
+- `assets/extensions/` - text, shape, 3D, and GIF runtime extensions.
+- `assets/themes/` - CSS variables read by runtime FX.
 
-## 1. Component Animations (Element Entrance)
+## 1. Element Animations (Element Entrance)
 
-Applied via `element.animation.enter` in the DSL. Orchestrated by
-`timeline.js` using the Web Animations API for GPU-accelerated 60fps playback.
+Applied via `animation.enter` in the DSL. Orchestrated by `timeline.js`
+using the Web Animations API. Use `step: 0` for auto-play on slide enter; use
+`step: 1+` for click-to-reveal content.
 
 ### DSL Usage
 
@@ -40,7 +35,9 @@ Applied via `element.animation.enter` in the DSL. Orchestrated by
 {
   "type": "text",
   "id": "title",
-  "x": 64, "y": 48, "width": 600,
+  "x": 64,
+  "y": 48,
+  "width": 600,
   "content": "Key Finding",
   "animation": {
     "enter": "fade-up",
@@ -52,75 +49,71 @@ Applied via `element.animation.enter` in the DSL. Orchestrated by
 }
 ```
 
-| Field      | Type   | Default | Description                                    |
-|------------|--------|---------|------------------------------------------------|
-| `enter`    | string | —       | Animation name from the registry below         |
-| `duration` | number | 600     | Duration in milliseconds                       |
-| `delay`    | number | 0       | Delay before start in milliseconds             |
-| `easing`   | string | `ease`  | CSS easing function                            |
-| `step`     | number | 0       | 0 = auto-play on slide enter; N >= 1 = click   |
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `enter` | string | - | Animation name from the registry below |
+| `duration` | number | 600 | Duration in milliseconds |
+| `delay` | number | 0 | Delay before start in milliseconds |
+| `easing` | string | `ease` | CSS easing function |
+| `step` | number | 0 | `0` = auto-play on slide enter; `1+` = click |
 
 ### Step System
 
-- **Step 0**: Elements animate automatically when the slide becomes active.
-  Step-0 elements receive index-based stagger (80ms between siblings).
-- **Step N (1+)**: Elements reveal on the Nth click/right-arrow press.
-  All elements sharing the same step number animate together.
+- **Step 0**: Auto-play on slide enter. Use for the main title, lead text, or
+  the first visual.
+- **Step N (1+)**: Reveals on click/right-arrow. Use for evidence, callouts,
+  and follow-up details.
 
-### Animation Registry
+### Core Animations
 
-#### Core Animations (fade/slide family)
+| Name | Effect | Recommended for | Related field |
+| --- | --- | --- | --- |
+| `fade-up` | Fade in + move up 30px | Titles, body text, general use | `animation.enter` |
+| `fade-down` | Fade in + move down 30px | Subtitles, secondary text | `animation.enter` |
+| `fade-left` | Fade in + move left 30px | Left-aligned content reveals | `animation.enter` |
+| `fade-right` | Fade in + move right 30px | Right-aligned content reveals | `animation.enter` |
+| `rise-in` | Fade in + move up 60px | Hero statements, key findings | `animation.enter` |
+| `slide-from-left` | Fade in + enter from left edge | Timeline items, sequential flows | `animation.enter` |
+| `slide-from-right` | Fade in + enter from right edge | Timeline items, sequential flows | `animation.enter` |
+| `slide-from-top` | Fade in + enter from top edge | Headers, top panels | `animation.enter` |
+| `slide-from-bottom` | Fade in + enter from bottom edge | Footers, bottom panels | `animation.enter` |
 
-| Name               | Effect                                     | Recommended For                    |
-|--------------------|--------------------------------------------|------------------------------------|
-| `fade-up`          | Fade in + translate up 30px                | Titles, body text, general purpose |
-| `fade-down`        | Fade in + translate down 30px              | Subtitles, secondary text          |
-| `fade-left`        | Fade in + translate left 30px              | Left-aligned content reveals       |
-| `fade-right`       | Fade in + translate right 30px             | Right-aligned content reveals      |
-| `rise-in`          | Fade in + translate up 60px (larger range) | Hero statements, key findings      |
-| `slide-from-left`  | Fade in + translate from -100% X           | Timeline items, sequential flows   |
-| `slide-from-right` | Fade in + translate from +100% X           | Timeline items, sequential flows   |
-| `slide-from-top`   | Fade in + translate from -100% Y           | Dropdown reveals, headers          |
-| `slide-from-bottom`| Fade in + translate from +100% Y           | Footer reveals, bottom panels      |
+### Emphasis Animations
 
-#### Emphasis Animations (scale/rotate family)
+| Name | Effect | Recommended for | Related field |
+| --- | --- | --- | --- |
+| `scale-in` | Fade in + scale from 0.8 | Cards, thumbnails | `animation.enter` |
+| `zoom-in` | Fade in + scale from 0 | Icons, focal points | `animation.enter` |
+| `zoom-pop` | Scale 0 -> 1.1 -> 1 | KPI numbers, stat highlights | `animation.enter` |
+| `shrink-in` | Fade in + scale from 1.6 to 1 | Dramatic reveals, section titles | `animation.enter` |
+| `rotate-in` | Fade in + rotate -10deg + scale 0.9 | Decorative elements, badges | `animation.enter` |
+| `spin-in` | Fade in + rotate 360deg + scale 0.5 -> 1 | Icons, playful elements | `animation.enter` |
+| `flip-in` | Fade in + perspective rotateX 90deg -> 0 | Cards, panels, before/after reveals | `animation.enter` |
 
-| Name         | Effect                                      | Recommended For                     |
-|--------------|---------------------------------------------|-------------------------------------|
-| `scale-in`   | Fade in + scale from 0.8                    | Cards, image thumbnails             |
-| `zoom-in`    | Fade in + scale from 0                      | Focal points, icons                 |
-| `zoom-pop`   | Scale 0 → 1.1 → 1 (overshoot bounce)       | KPI numbers, stat highlights        |
-| `shrink-in`  | Fade in + scale from 1.6 down to 1          | Dramatic reveals, section titles    |
-| `rotate-in`  | Fade in + rotate -10deg + scale 0.9         | Decorative elements, badges         |
-| `spin-in`    | Fade in + rotate 360deg + scale 0.5 → 1     | Icons, playful elements             |
-| `flip-in`    | Fade in + perspective rotateX 90deg → 0      | Cards, panels, before/after reveals |
+### Dynamic Animations
 
-#### Dynamic Animations (bounce/elastic family)
+| Name | Effect | Recommended for | Related field |
+| --- | --- | --- | --- |
+| `bounce-in` | Scale 0.3 -> 1.05 -> 0.95 -> 1 | KPIs, callout badges | `animation.enter` |
+| `elastic-in` | Scale 0.4 with elastic settle | Interactive elements, emphasis | `animation.enter` |
+| `swing-in` | Pendulum rotation from -12deg to settle | Hanging labels, playful headings | `animation.enter` |
+| `drop-in` | Fall from above with subtle bounce | Alert items, notification cards | `animation.enter` |
 
-| Name         | Effect                                      | Recommended For                     |
-|--------------|---------------------------------------------|-------------------------------------|
-| `bounce-in`  | Scale 0.3 → 1.05 → 0.95 → 1 (bounce)      | KPIs, callout badges, fun decks     |
-| `elastic-in` | Scale 0.4 with elastic overshoot settle     | Interactive elements, emphasis       |
-| `swing-in`   | Pendulum rotation from -12deg to settle     | Hanging labels, playful headings     |
-| `drop-in`    | Fall from above with subtle bounce          | Alert items, notification cards      |
+### Effect Animations
 
-#### Effect Animations (blur/skew/stretch family)
-
-| Name        | Effect                                       | Recommended For                     |
-|-------------|----------------------------------------------|-------------------------------------|
-| `blur-in`   | Fade in + blur 8px → 0                       | Atmospheric reveals, backgrounds     |
-| `blur-zoom` | Fade in + blur 12px + scale 0.7 → clear 1    | Dramatic intro, section openers      |
-| `skew-in`   | Fade in + skewX 20deg + translateX → normal  | Dynamic text, modern layouts         |
-| `stretch-x` | Fade in + scaleX 0 → 1 (horizontal expand)   | Progress bars, horizontal dividers   |
-| `stretch-y` | Fade in + scaleY 0 → 1 (vertical expand)     | Vertical bars, column charts         |
-| `flash-in`  | Opacity flicker: 0 → 1 → 0.4 → 1            | Attention-grabbing highlights        |
-
----
+| Name | Effect | Recommended for | Related field |
+| --- | --- | --- | --- |
+| `blur-in` | Fade in + blur 8px -> 0 | Atmospheric reveals, backgrounds | `animation.enter` |
+| `blur-zoom` | Fade in + blur 12px + scale 0.7 -> 1 | Sparse openers, section starts | `animation.enter` |
+| `skew-in` | Fade in + skewX 20deg -> normal | Dynamic text, modern layouts | `animation.enter` |
+| `stretch-x` | Fade in + scaleX 0 -> 1 | Progress bars, horizontal dividers | `animation.enter` |
+| `stretch-y` | Fade in + scaleY 0 -> 1 | Vertical bars, column charts | `animation.enter` |
+| `flash-in` | Opacity flicker: 0 -> 1 -> 0.4 -> 1 | Attention-grabbing highlights | `animation.enter` |
 
 ## 2. Slide Transitions
 
 Applied via `meta.htmlRuntime.transition` in the DSL. Handled by `runtime.js`
-with CSS animations defined in `transitions.css`.
+with CSS animations in `transitions.css`.
 
 ### DSL Usage
 
@@ -142,28 +135,32 @@ with CSS animations defined in `transitions.css`.
 
 ### Available Transition Types
 
-| Type        | Effect                                         | Recommended For                      |
-|-------------|-------------------------------------------------|--------------------------------------|
-| `none`      | Instant cut, no animation                       | Fast-paced technical demos           |
-| `fade`      | Vertical scroll + cross-fade (30% slide height) | General purpose, formal tone         |
-| `slide`     | Vertical scroll with softer fade                | Narrative flow, sequential content   |
-| `dissolve`  | Cross-dissolve with subtle blur                 | Academic, reflective presentations   |
-| `zoom`      | Outgoing shrinks, incoming grows                | Section transitions, dramatic shifts |
-| `push`      | Both slides move together (directional)         | Consulting, progressive disclosure   |
-| `cover`     | New slide covers old with depth shadow          | Layered reveals, executive decks     |
+| Type | Effect | Recommended for | Related field |
+| --- | --- | --- | --- |
+| `none` | Instant cut, no animation | Fast demos, dense slides | `meta.htmlRuntime.transition.type` |
+| `fade` | Vertical scroll + cross-fade | General purpose, formal tone | `meta.htmlRuntime.transition.type` |
+| `slide` | Vertical scroll with softer fade | Narrative flow, sequential content | `meta.htmlRuntime.transition.type` |
+| `dissolve` | Cross-dissolve with subtle blur | Academic, reflective decks | `meta.htmlRuntime.transition.type` |
+| `zoom` | Outgoing shrinks, incoming grows | Section transitions, dramatic shifts | `meta.htmlRuntime.transition.type` |
+| `push` | Both slides move together | Consulting, progressive disclosure | `meta.htmlRuntime.transition.type` |
+| `cover` | New slide covers old with depth shadow | Layered reveals, executive decks | `meta.htmlRuntime.transition.type` |
+| `morph` | Shared-element morph between slides; implies `autoAnimate` | Repeated structure, visual continuity | `meta.htmlRuntime.transition.type` |
 
 ### Auto-Animate
 
 When `autoAnimate: true`, elements with matching `id` values across consecutive
-slides smoothly interpolate position, size, and style. The `unmatched` field
-controls non-matching elements: `"fade"` (cross-fade) or `"instant"` (snap).
-
----
+slides interpolate position, size, and style. Use `unmatched: "fade"` for
+leftover elements or `unmatched: "instant"` to snap them.
 
 ## 3. Canvas FX (Background Effects)
 
-Applied via `slide.fx` (string array) in the DSL. Managed by `fx-runtime.js`,
-which dynamically loads FX modules and ties their lifecycle to slide activation.
+Applied via `slide.fx` string arrays. Managed by `fx-runtime.js`, which
+pre-warms FX during transitions and stops them when the slide deactivates.
+
+FX render behind all content. Some are light ambience; others fill most or all
+of the frame or sit in the center of the slide. Treat those as sparse-layout
+effects: use one headline, maybe one short subtitle, and avoid dense body copy,
+long bullets, or tables on the same slide.
 
 ### DSL Usage
 
@@ -176,344 +173,206 @@ which dynamically loads FX modules and ties their lifecycle to slide activation.
 ```
 
 FX layers render behind all elements (`z-index: 0`, `pointer-events: none`).
-Multiple FX can be stacked on a single slide. FX are **pre-warmed** during
-slide transitions: `initFxIn()` fires when `is-transition-next` is set (at
-transition start), so the canvas is already rendering before the transition
-completes. Old slide FX keep running during the transition and stop only
-after full deactivation.
+Multiple FX can be stacked on one slide. Old slide FX keep running during the
+transition and stop only after full deactivation.
 
-### Available Canvas FX
+### Particle / Accent
 
-#### Particle / Physics
+| Name | Effect | Recommended for | Related field |
+| --- | --- | --- | --- |
+| `particle-burst` | Center burst of particles with gravity | Title slides, celebrations, minimal copy | `slide.fx` |
+| `confetti-cannon` | Corner confetti burst with motion | Achievement slides, milestones, sparse layouts | `slide.fx` |
+| `firework` | Repeating firework launches and bursts | Grand reveals, closing slides, dark sparse layouts | `slide.fx` |
+| `counter-explosion` | Centered count-up with particle burst | KPI moments, one metric per slide | `slide.fx` |
+| `sparkle-trail` | Cursor-follow sparkles across the slide | Live demos, playful accents, sparse layouts | `slide.fx` |
 
-| Name                | Effect                                      | Recommended For                    |
-|---------------------|---------------------------------------------|------------------------------------|
-| `particle-burst`    | 90 particles burst from center with gravity | Title slides, celebrations         |
-| `confetti-cannon`   | Colorful confetti burst                     | Achievement slides, milestones     |
-| `firework`          | Firework explosion animation                | Grand reveals, closing slides      |
-| `counter-explosion` | Numeric counter with particle burst         | KPI reveals, stats highlights      |
-| `magnetic-field`    | Magnetic attraction field visualization     | Physics, force diagrams            |
+### Data / Network
 
-#### Data / Graph Visualization
+| Name | Effect | Recommended for | Related field |
+| --- | --- | --- | --- |
+| `knowledge-graph` | Connected node graph with labels | Concept maps, relationship slides, light copy | `slide.fx` |
+| `neural-net` | Layered network topology with pulses | AI/ML topics, architecture slides, small text blocks | `slide.fx` |
+| `data-stream` | Flowing data text and particle streams | Pipelines, streaming topics, sparse layouts | `slide.fx` |
+| `magnetic-field` | Flowing line field across the canvas | Physics, force diagrams, sparse layouts | `slide.fx` |
 
-| Name              | Effect                                        | Recommended For                    |
-|-------------------|-----------------------------------------------|------------------------------------|
-| `knowledge-graph` | Connected node visualization                  | Concept maps, relationship slides  |
-| `neural-net`      | Neural network topology animation             | AI/ML topics, architecture slides  |
-| `data-stream`     | Flowing data particle streams                 | Data pipeline, streaming topics    |
-| `constellation`   | Connected star points with gentle drift       | Abstract backgrounds, networking   |
+### Ambient / Space
 
-#### Space / Ambient
+| Name | Effect | Recommended for | Related field |
+| --- | --- | --- | --- |
+| `starfield` | Full-frame starfield with depth drift | Space themes, dark title slides, sparse content | `slide.fx` |
+| `galaxy-swirl` | Swirling galaxy spiral across the frame | Grand openers, section dividers, sparse content | `slide.fx` |
+| `orbit-ring` | Orbiting rings around a center point | Science or planetary concepts, short copy | `slide.fx` |
+| `constellation` | Connected star points with gentle drift | Abstract backgrounds, networking slides, moderate content | `slide.fx` |
+| `matrix-rain` | Full-frame falling characters | Tech/hacker themes, title slides only | `slide.fx` |
 
-| Name           | Effect                                         | Recommended For                    |
-|----------------|------------------------------------------------|------------------------------------|
-| `starfield`    | Static twinkling starfield                     | Space themes, dark backgrounds     |
-| `galaxy-swirl` | Swirling galaxy spiral                         | Cosmic themes, grand openings      |
-| `orbit-ring`   | Orbiting rings around center point             | Planetary, orbital concepts        |
-| `matrix-rain`  | Matrix-style falling characters                | Tech/hacker themes, code topics    |
+### Text / Takeover
 
-#### Text / Typography
-
-| Name               | Effect                                      | Recommended For                    |
-|---------------------|---------------------------------------------|------------------------------------|
-| `letter-explode`   | Individual letters burst outward             | Title reveals, creative slides     |
-| `typewriter-multi` | Multi-line typewriter effect                 | Code demos, narrative reveals      |
-
-#### Visual
-
-| Name            | Effect                                        | Recommended For                    |
-|-----------------|-----------------------------------------------|------------------------------------|
-| `gradient-blob` | Animated gradient blob morphing               | Abstract backgrounds, ambient      |
-| `sparkle-trail` | Trailing sparkles/stars                       | Celebration, achievement slides    |
+| Name | Effect | Recommended for | Related field |
+| --- | --- | --- | --- |
+| `letter-explode` | Letters burst outward from a headline | Title reveals, creative openers, headline-sized text only | `slide.fx` |
+| `typewriter-multi` | Centered terminal-style multi-line type | Code demos, narrative openers, one short block of text | `slide.fx` |
 
 ### FX and Themes
 
 Canvas FX read CSS variables from the active theme:
-- `--accent` / `--accent-2` — primary effect colors
-- `--text-1` — text effect color
-- `--ok`, `--warn`, `--danger` — palette for multi-color effects
+
+- `--accent` / `--accent-2` - primary effect colors
+- `--text-1` - text effect color
+- `--ok`, `--warn`, `--danger` - palette for multi-color effects
 
 Switching themes (T key) dynamically recolors active FX.
 
----
-
-## 4. Best Practices
-
-### Animation Pacing Strategy
-
-1. **Step 0 (auto-play)**: Title, heading, and primary visual elements.
-   These appear immediately on slide enter with stagger.
-2. **Step 1**: Key evidence — the chart, figure, or KPI that supports the title.
-3. **Step 2+**: Supporting details — annotations, callouts, secondary data.
-
-### Style-Appropriate Animation Choices
-
-| Style       | Recommended Enter Effects                         | Transition   | FX Usage        |
-|-------------|---------------------------------------------------|--------------|-----------------|
-| Academic    | fade-up, fade-down, blur-in, rise-in              | fade/dissolve| Title slides only|
-| Consulting  | fade-up, rise-in, scale-in, zoom-pop, bounce-in   | slide/push   | Section dividers |
-| Creative    | flip-in, elastic-in, swing-in, spin-in            | zoom/cover   | Freely           |
-| Technical   | fade-up, slide-from-left, stretch-x               | slide/none   | Sparingly        |
-
-### Performance
-
-- All element animations use the Web Animations API (GPU-composited).
-- Canvas FX use `requestAnimationFrame` with DPR-aware canvas sizing.
-- FX auto-stop when a slide loses focus to prevent background CPU usage.
-- `will-change: opacity, transform, filter` hints are set via `animations.css`.
-
-### Accessibility
-
-- The `prefers-reduced-motion: reduce` media query disables all animations:
-  element animations show instantly, slide transitions snap, FX are suppressed.
-- This is handled automatically in `timeline.js`, `animations.css`, and
-  `transitions.css`. No DSL changes needed.
-
-### PPTX Export Compatibility
-
-Not all HTML animations have native PPTX equivalents. The exporter maps each
-effect to the closest PowerPoint animation with a fallback:
-
-- **Supported**: slide-from-left/right, zoom-pop, bounce-in, zoom-in, flash-in,
-  slide-from-top/bottom
-- **Downgraded** (mapped to simpler PPTX effect): fade-*, scale-in, blur-in,
-  rise-in, rotate-in, flip-in, elastic-in, and others
-- Canvas FX are HTML-only; they do not appear in SVG/PDF/PPTX output.
-
----
-
-## 5. Runtime Visualization Extensions
+## 4. Runtime Extensions
 
 Runtime extensions live under `assets/extensions/` and are loaded by the HTML
-renderer. They are for interactive or browser-only visuals that do not belong in
-the static DSL/export path. Use them through `customHtml` or extension-specific
-DSL fields, and provide `fallbackImage` when PDF/PPTX needs a static substitute.
+renderer. Use them when the slide needs browser-only behavior that the static
+DSL cannot express. If the visual must survive PDF/PPTX export, author the
+fallback first.
 
-### 5.1 Three.js Math Visualization
+| Extension | Use when | Related field | Export note |
+| --- | --- | --- | --- |
+| `text-anim/` | Text needs per-character, word, or line motion | `textAnimation` | HTML-only; keep final text readable in static export |
+| `shape-morph/` | Rect/circle/ellipse/group/layout need step-based morphing | `morphSteps`, `morphStepTrigger` | HTML-only; static exporters ignore morph fields |
+| `math-viz/graph3d.js` | Need interactive 3D surface, curve, scatter, vector field, or model visuals | `type: "graph"` or `customHtml` | HTML-only; provide `fallbackImage` |
+| `gif-ascii/index.js` | Need an animated GIF shown as a terminal-style ASCII filter | `customHtml` with `data-gif-ascii` | HTML-only; provide `fallbackImage` |
 
-`assets/extensions/math-viz/graph3d.js` renders WebGL surfaces, parametric
-surfaces, scatter plots, curves, and vector fields. It lazy-loads Three.js and
-uses local orbit controls so the graph remains interactive even when the CDN
-OrbitControls helper is unavailable.
+## 5. Morph System
 
-Interaction behavior:
-
-- left-drag rotates the camera; horizontal mouse movement follows the visual
-  direction and vertical movement controls elevation;
-- mouse wheel zooms in/out within the renderer's distance bounds;
-- graph pointer and wheel events stop propagation so deck navigation does not
-  consume the interaction;
-- after manual interaction, camera keyframes no longer overwrite the user's
-  orbit state.
-
-Resolution controls are graph-specific. Increase surface/parametric
-`resolution` only as far as the target machine can sustain:
-
-```jsonc
-{
-  "type": "graph",
-  "id": "surface",
-  "x": 120,
-  "y": 96,
-  "width": 640,
-  "height": 420,
-  "mode": "3d",
-  "surface": {
-    "expr": "sin(sqrt(x*x+y*y))",
-    "resolution": 96,
-    "colorMap": "viridis",
-    "wireframe": false
-  },
-  "axes": { "x": [-6, 6], "y": [-6, 6], "grid": true },
-  "camera": {
-    "distance": 10,
-    "phi": 1.05,
-    "theta": 0.8,
-    "orbit": false
-  }
-}
-```
-
-Agent notes:
-
-- Raising `surface.resolution` or `parametric.resolution` improves geometric
-  detail but increases vertex and index-buffer cost.
-- A larger element size or higher browser DPR improves perceived sharpness.
-- Keep a static fallback for exports; WebGL is HTML-only.
-
-### 5.2 GIF-to-ASCII Extension
-
-`assets/extensions/gif-ascii/index.js` turns an animated GIF into a live ASCII
-filter. It decodes GIF frames in the browser, composites disposal modes,
-extracts the black/white ink bounds across all frames, converts each frame into
-glyph-density points, projects those points with `THREE.Vector3`, and plays the
-ASCII buffers with `requestAnimationFrame` using GIF frame delays.
-
-Minimal `customHtml` usage:
-
-```html
-<div
-  data-gif-ascii
-  data-src="./assets/attachment/horse.gif"
-  data-label="horse.gif"
-  data-cols="150"
-  data-rows="52"
-  data-threshold="220"
-  data-density-threshold="0.12"
-  data-chars=".:+*#@">
-</div>
-```
-
-Supported attributes:
-
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `data-src` | — | Relative or absolute GIF URL. Required for real playback. |
-| `data-cols` | `150` | Width of the ASCII buffer in glyphs. |
-| `data-rows` | `52` | Height of the ASCII buffer in glyphs. |
-| `data-threshold` | `220` | Luminance cutoff; lower values keep only darker ink. |
-| `data-density-threshold` | `0.12` | Minimum ink density per glyph cell. Lower keeps finer detail. |
-| `data-chars` | `.:+*#@` | Density ramp from light to dark. |
-| `data-label` | `GIF` | Status-line source label. |
-| `data-title` | `three.ascii.gif :: decoded GIF frames` | Top-left terminal label. |
-| `data-meta` | `threshold=ink frame-playback=gif-delay` | Top-right terminal label. |
-
-Styling hooks:
-
-- `--gif-ascii-bg`
-- `--gif-ascii-border`
-- `--gif-ascii-color`
-- `--gif-ascii-font`
-
-Agent notes:
-
-- Increase `data-cols`/`data-rows` for more glyph detail, then reduce font size
-  with `--gif-ascii-font` if the content clips.
-- Tune `data-threshold` and `data-density-threshold` per asset; hand-drawn black
-  figures usually need a high threshold and low density cutoff.
-- GIF decoding is browser-only. Static exporters need a fallback image or a
-  normal image element elsewhere in the slide.
-
----
-
-## 6. Morph System
-
-The morph system provides three levels of morphing, all HTML-only. SVG/PDF/PPTX
-exports silently ignore morph fields and emit a `MORPH_IGNORED` diagnostic.
-
-### Directory Layout (morph-specific)
+Morphing is HTML-only. SVG/PDF/PPTX ignore morph fields and emit diagnostics,
+so the final static state must still communicate the slide.
 
 ```
 assets/
   lib/
-    morph-engine.js     # Shared morph engine (read/write/interpolate/animate)
+    morph-engine.js     # Shared morph engine
   extensions/
     shape-morph/
-      index.js          # Shape morph extension (rect, circle, ellipse)
-      component-morph.js# Component morph extension (group, layout)
+      index.js          # Shape morph extension
+        component-morph.js    # Component morph extension
 runtime/
-  runtime.js            # Morph slide transition + group matching scope rules
+  runtime.js            # Morph transition + group matching scope rules
 ```
 
-### 6.1 Shape Morphing (intra-slide)
+### 5.1 Shape Morphing (intra-slide)
 
-Animates shape elements (`rect`, `circle`, `ellipse`) through a sequence of
-morph steps. Each step specifies a target state; steps are cumulative.
+Applies to `rect`, `circle`, and `ellipse`.
 
-**DSL fields** (on `RectElement`, `CircleElement`, `EllipseElement`):
-- `morphSteps: ShapeMorphStep[]` — array of `{ target, duration?, easing? }`
-- `morphStepTrigger: 'click' | 'auto'` — default `'click'`
+**DSL fields**
 
-**Morphable properties per element type**:
+- `morphSteps: ShapeMorphStep[]` - array of `{ target, duration?, easing? }`
+- `morphStepTrigger: 'click' | 'auto'` - default `'click'`
 
-| Element  | Properties                                                            |
-|----------|-----------------------------------------------------------------------|
-| `rect`   | x, y, width, height, fill, stroke, strokeWidth, radius, opacity, rotation |
-| `circle` | x, y, radius, fill, stroke, strokeWidth, opacity, rotation            |
-| `ellipse`| x, y, width, height, fill, stroke, strokeWidth, opacity, rotation     |
+**Morphable properties**
 
-**Trigger modes**:
-- `click`: Steps integrate with the timeline step system via
-  `registerStepConsumer()`. Built-in animation steps play first, then morph
-  steps advance on click/arrow-right.
-- `auto`: All steps play sequentially on slide activation with each step's
-  `duration` as the interval.
+| Element | Properties |
+| --- | --- |
+| `rect` | x, y, width, height, fill, stroke, strokeWidth, radius, opacity, rotation |
+| `circle` | x, y, radius, fill, stroke, strokeWidth, opacity, rotation |
+| `ellipse` | x, y, width, height, fill, stroke, strokeWidth, opacity, rotation |
 
-### 6.2 Component Morphing (intra-slide)
+`click` integrates with the timeline step system; built-in animation steps play
+first, then morph steps advance on click/arrow-right. `auto` plays sequentially
+on slide activation using each step's duration.
 
-Animates group/layout elements as coordinated units. The container box morphs
-alongside per-child targeted morphing with optional stagger.
+### 5.2 Component Morphing (intra-slide)
 
-**DSL fields** (on `GroupElement`, `LayoutElement`):
-- `morphSteps: ComponentMorphStep[]` — each step has:
-  - `target: ComponentMorphTarget` — container properties (x, y, width, height, opacity, rotation)
-  - `children?: Record<string, ShapeMorphTarget>` — per-child targets keyed by element ID
-  - `duration?: number` — ms, default 800
-  - `easing?: string` — default `'easeInOutCubic'`
-  - `stagger?: number` — ms delay between child animations
-- `morphStepTrigger: 'click' | 'auto'` — default `'click'`
+Applies to `group` and `layout`.
 
-**Child targeting**: Children are looked up by `data-maliang-deck-id` within the
-container. Each child's target uses the same `ShapeMorphTarget` properties
-(fill, stroke, radius, etc.) mapped to CSS via `dslTargetToCss()`.
+**DSL fields**
 
-### 6.3 Morph Slide Transition (cross-slide)
+- `morphSteps: ComponentMorphStep[]`
+- `morphStepTrigger: 'click' | 'auto'` - default `'click'`
 
-A first-class `'morph'` transition type (like PowerPoint Morph / Keynote Magic
-Move). Set `meta.htmlRuntime.transition.type: 'morph'` in the deck DSL.
+Each step can target the container (`x`, `y`, `width`, `height`, `opacity`,
+`rotation`) and children by element ID. `stagger` offsets child animations.
 
-**Behavior**:
-- `type: 'morph'` implies `autoAnimate: true` (no need to set both).
-- Elements are matched across slides by `data-maliang-deck-auto-animate-id`
-  (derived from the DSL element `id` field).
-- Matched elements interpolate via FLIP (position, scale) plus CSS properties:
+### 5.3 Morph Slide Transition (cross-slide)
+
+Set `meta.htmlRuntime.transition.type: 'morph'` for PowerPoint-style morphing.
+
+**Behavior**
+
+- `type: 'morph'` implies `autoAnimate: true`.
+- Elements match by `data-maliang-deck-auto-animate-id` (from the DSL `id`).
+- Matched elements interpolate via FLIP plus CSS properties:
   `backgroundColor`, `borderRadius`, `borderColor`, `color`, `fontSize`.
-- Unmatched outgoing elements: fade out + scale(0.95).
-- Unmatched incoming elements: fade in + scale(1.03), delayed 20%.
-- No whole-slide scroll animation (morph replaces it entirely).
+- Unmatched outgoing elements fade out + scale(0.95).
+- Unmatched incoming elements fade in + scale(1.03), delayed 20%.
+- Group matching scope rules prevent double-animating nested descendants.
 
-**Group matching scope rules** (prevents double-animate):
-When a group/layout element is matched as a morph root:
-1. The group container animates (position, size, transform, opacity).
-2. Descendants are excluded from the global shared element map.
-3. Child matching runs recursively within the matched group.
-4. Child FLIP deltas are computed in group-local coordinates (subtracting the
-   parent group's delta) to prevent compounding transforms.
-5. Unmatched children within the group fade in/out independently.
+### 5.4 Morph Engine API
 
-### 6.4 Morph Engine API
-
-`window.MaliangMorphEngine` exposes a shared, reusable animation engine:
+`window.MaliangMorphEngine` exposes a shared animation engine.
 
 | Function | Description |
-|----------|-------------|
-| `readShapeProps(el)` | Read current visual state from DOM element |
-| `writeShapeProps(el, props)` | Apply properties to DOM element |
-| `interpolateProps(from, to, t)` | Interpolate property set (numbers, colors, snap) |
+| --- | --- |
+| `readShapeProps(el)` | Read current visual state from a DOM element |
+| `writeShapeProps(el, props)` | Apply properties to a DOM element |
+| `interpolateProps(from, to, t)` | Interpolate numbers, colors, and snap values |
 | `animateShape(el, from, to, duration, easing, onComplete)` | rAF-based animation with cancellation |
-| `finalizeMorph(el, targetState)` | Instant snap (reduced-motion or cleanup) |
-| `cancelMorph(handle)` | Cancel running morph animation |
-| `dslTargetToCss(target, elementType)` | Map DSL field names to CSS equivalents |
+| `finalizeMorph(el, targetState)` | Instant snap for reduced motion or cleanup |
+| `cancelMorph(handle)` | Cancel a running morph animation |
+| `dslTargetToCss(target, elementType)` | Map DSL fields to CSS properties |
 
-### 6.5 Reduced Motion
+### 5.5 Reduced Motion
 
 All morph paths respect `prefers-reduced-motion: reduce`:
-- **Morph engine**: `animateShape()` checks the media query and snaps instantly.
-- **Runtime transitions**: `runSlideTransition()` skips all WAAPI animations.
-- **Extensions**: shape-morph and component-morph delegate to morph engine.
 
-### 6.6 Presenter Sync
+- The morph engine snaps instantly.
+- Runtime transitions skip WAAPI animations.
+- Shape-morph and component-morph delegate to the shared morph engine.
+
+### 5.6 Presenter Sync
 
 Morph step state changes are broadcast via the `maliang-deck-timeline`
-BroadcastChannel. The presenter window receives `{ type: 'step', step, total }`
-messages and updates the step indicator. Presenter-initiated navigation sends
+`BroadcastChannel`. The presenter window receives `{ type: 'step', step, total }`
+messages and updates the step indicator. Presenter navigation sends
 `{ type: 'timeline-step', direction }` back to the main window.
 
-### 6.7 Export Compatibility
+### 5.7 Export Compatibility
 
 | Format | Morph Support |
-|--------|---------------|
-| HTML   | Full support (shape, component, transition) |
-| SVG    | Ignored — `MORPH_IGNORED` diagnostic emitted |
-| PDF    | Ignored — static SVG rendering |
-| PPTX   | Future: map `morph` to PowerPoint Morph XML (`<p:transition><p:morph/></p:transition>`) |
+| --- | --- |
+| HTML | Full support (shape, component, transition) |
+| SVG | Ignored - `MORPH_IGNORED` diagnostic emitted |
+| PDF | Ignored - static SVG rendering |
+| PPTX | Future: map `morph` to PowerPoint Morph XML |
+
+## 6. Best Practices
+
+### Animation Pacing
+
+1. Step 0: Title, heading, and the first visual.
+2. Step 1: Evidence that supports the title.
+3. Step 2+: Supporting details, annotations, and secondary data.
+
+### Style Fit
+
+| Style | Recommended enter effects | Transition | FX usage |
+| --- | --- | --- | --- |
+| Academic | `fade-up`, `fade-down`, `blur-in`, `rise-in` | `fade` / `dissolve` | Title or divider slides only |
+| Consulting | `fade-up`, `rise-in`, `scale-in`, `zoom-pop`, `bounce-in` | `slide` / `push` | Section dividers |
+| Creative | `flip-in`, `elastic-in`, `swing-in`, `spin-in` | `zoom` / `cover` | Freely, but keep content readable |
+| Technical | `fade-up`, `slide-from-left`, `stretch-x` | `slide` / `none` | Sparingly |
+
+### Performance
+
+- Element animations use the Web Animations API.
+- Canvas FX use `requestAnimationFrame` with DPR-aware canvas sizing.
+- FX stop when a slide loses focus to avoid background CPU usage.
+- `will-change: opacity, transform, filter` hints are set in `animations.css`.
+
+### Accessibility
+
+- `prefers-reduced-motion: reduce` snaps element animations, slide transitions,
+  text-anim, and morph paths to their final state.
+- Canvas FX are separate decorative layers; keep them optional and avoid using
+  them to carry critical content.
+
+### PPTX Export Compatibility
+
+- Supported natively or near-natively: `slide-from-left/right`, `zoom-pop`,
+  `bounce-in`, `zoom-in`, `flash-in`, `slide-from-top/bottom`.
+- Downgraded to simpler PPTX effects: `fade-*`, `scale-in`, `blur-in`,
+  `rise-in`, `rotate-in`, `flip-in`, `elastic-in`, and similar.
+- Canvas FX are HTML-only and do not appear in SVG/PDF/PPTX output.
