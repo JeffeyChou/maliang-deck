@@ -131,8 +131,7 @@
   }
 
   function ghostLineHeight(token, fallback) {
-    if (token && token.role && token.h > 0 &&
-        (token.role.indexOf('frac') !== -1 || token.role.indexOf('script') !== -1)) {
+    if (token && tokenType(token) === 'text' && token.h > 0) {
       return token.h + 'px';
     }
     return fallback;
@@ -546,7 +545,7 @@
         if (liveToken && sameLayerToken(liveToken, pair.old)) liveToken.el.style.visibility = 'hidden';
 
         var sourceEl = pair.new.el || (liveToken ? liveToken.el : pair.old.el);
-        var ghost = createTokenGhost(pair.new, sourceEl, pair.old.text, 1);
+        var ghost = createTokenGhost(pair.old, sourceEl, pair.old.text, 1);
         setGhostBox(ghost, pair.old.x, pair.old.y, pair.old.w, pair.old.h);
         ghostLayer.appendChild(ghost);
         pair.ghost = ghost;
@@ -596,10 +595,12 @@
         // Matched ghosts: animate position and size
         result.matched.forEach(function (pair) {
           if (!pair.ghost) return;
-          var pos = arcInterpolate(pair.old.x, pair.old.y, pair.new.x, pair.new.y, e, 0.2);
+          var currentWidth = lerp(pair.old.w, pair.new.w, e);
           var currentHeight = lerp(pair.old.h, pair.new.h, e);
-          setGhostBox(pair.ghost, pos.x, pos.y, lerp(pair.old.w, pair.new.w, e), currentHeight);
-          if (pair.old.role.indexOf('frac') !== -1 || pair.new.role.indexOf('frac') !== -1 ||
+          var pos = arcInterpolate(pair.old.x, pair.old.y, pair.new.x, pair.new.y, e, 0.2);
+          setGhostBox(pair.ghost, pos.x, pos.y, currentWidth, currentHeight);
+          if (tokenType(pair.old) === 'text' || tokenType(pair.new) === 'text' ||
+              pair.old.role.indexOf('frac') !== -1 || pair.new.role.indexOf('frac') !== -1 ||
               pair.old.role.indexOf('script') !== -1 || pair.new.role.indexOf('script') !== -1) {
             pair.ghost.style.lineHeight = currentHeight + 'px';
           }
@@ -632,7 +633,8 @@
           result.matched.forEach(function (pair) {
             if (!pair.ghost) return;
             setGhostBox(pair.ghost, pair.new.x, pair.new.y, pair.new.w, pair.new.h);
-            if (pair.old.role.indexOf('frac') !== -1 || pair.new.role.indexOf('frac') !== -1 ||
+            if (tokenType(pair.old) === 'text' || tokenType(pair.new) === 'text' ||
+                pair.old.role.indexOf('frac') !== -1 || pair.new.role.indexOf('frac') !== -1 ||
                 pair.old.role.indexOf('script') !== -1 || pair.new.role.indexOf('script') !== -1) {
               pair.ghost.style.lineHeight = pair.new.h + 'px';
             }

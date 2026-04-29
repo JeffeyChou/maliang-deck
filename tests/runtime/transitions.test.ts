@@ -101,6 +101,7 @@ describe('HTML runtime transition config and lifecycle', () => {
     expect(mathVizSource).toContain('splitGraphemes(node.nodeValue');
     expect(mathVizSource).toContain('containerRect.width / container.offsetWidth');
     expect(mathVizSource).toContain('(rect.left - containerRect.left) / scaleX');
+    expect(mathVizSource).toContain("tokenType(token) === 'text' && token.h > 0");
     expect(mathVizSource).toContain('function structuralMatch(oldAtoms, newAtoms, explicitMap)');
     expect(mathVizSource).toContain("container.querySelectorAll('.frac-line, .sqrt-line')");
     expect(mathVizSource).toContain("type: 'structure'");
@@ -125,6 +126,8 @@ describe('HTML runtime transition config and lifecycle', () => {
     expect(setupBlock).toContain('if (liveToken && sameLayerToken(liveToken, pair.old)) liveToken.el.style.visibility = \'hidden\'');
     // Old layer opacity fade and new KaTeX reveal happen inside the unified tick loop
     expect(tickBlock).toContain('oldLayer.style.opacity = String(1 - e)');
+    expect(tickBlock).toContain('arcInterpolate(pair.old.x, pair.old.y, pair.new.x, pair.new.y, e, 0.2)');
+    expect(tickBlock).toContain("tokenType(pair.old) === 'text' || tokenType(pair.new) === 'text'");
     expect(tickBlock).toContain('setGhostBox(pair.ghost, pair.new.x, pair.new.y, pair.new.w, pair.new.h)');
     expect(tickBlock).toContain('requestAnimationFrame(function ()');
     expect(tickBlock).toContain('if (newKatex) newKatex.style.opacity');
