@@ -58,7 +58,7 @@
           "id": "cover-author",
           "type": "text",
           "x": 80, "y": 440, "width": 700,
-          "content": "Kai Zhang", "fontSize": 24, "fontWeight": "bold", "color": "#3a5a7c",
+          "content": "Guest Researcher", "fontSize": 24, "fontWeight": "bold", "color": "#3a5a7c",
           "animation": { "enter": "fade-up", "duration": 550, "delay": 600, "step": 0 }
         },
         {
@@ -81,7 +81,7 @@
           "id": "cover-committee",
           "type": "text",
           "x": 80, "y": 556, "width": 700,
-          "content": "Committee: Prof. Johnson (Chair), Prof. Li, Prof. Patel, Dr. Torres",
+          "content": "Committee: Prof. A (Chair), Prof. B, Prof. C, Dr. D",
           "fontSize": 12, "color": "rgba(26,26,26,0.45)",
           "animation": { "enter": "fade-up", "duration": 400, "delay": 920, "step": 0 }
         },
@@ -1196,7 +1196,7 @@
           "id": "concl-contact",
           "type": "text",
           "x": 80, "y": 450, "width": 700,
-          "content": "kai.zhang@stanford.edu", "fontSize": 14, "color": "rgba(26,26,26,0.55)",
+          "content": "speaker@example.edu", "fontSize": 14, "color": "rgba(26,26,26,0.55)",
           "animation": { "enter": "fade-up", "duration": 420, "delay": 1100, "step": 0 }
         }
       ]

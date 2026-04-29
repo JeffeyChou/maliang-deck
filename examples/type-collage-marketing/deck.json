@@ -467,7 +467,7 @@
         {
           "id": "testimonial-attribution", "type": "text",
           "x": 110, "y": 396, "width": 600,
-          "content": "\u2014 Sarah Chen, Creative Director at Pixelworks", "fontSize": 18, "color": "rgba(245,240,235,0.55)", "fontStyle": "italic",
+          "content": "\u2014 Creative Director, Pixelworks", "fontSize": 18, "color": "rgba(245,240,235,0.55)", "fontStyle": "italic",
           "animation": { "enter": "fade-up", "duration": 500, "step": 1 }
         },
         {

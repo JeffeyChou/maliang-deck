@@ -135,7 +135,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Lecture 12 — Prof. Elena Vasquez",
+          "content": "Lecture 12 — Course Instructor",
           "fontSize": 20,
           "color": "rgba(241,245,249,0.55)"
         },
@@ -1602,7 +1602,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Prof. Elena Vasquez · Department of Physics · Spring 2026",
+          "content": "Instructor · Department of Physics · Spring 2026",
           "fontSize": 15,
           "color": "rgba(196,181,253,0.35)",
           "align": "center"

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "kai@dev ~ portfolio",
+    "title": "demo@demo ~ portfolio",
     "theme": "minimal-white",
     "canvas": {
       "width": 1280,
@@ -181,7 +181,7 @@
           "y": 80,
           "width": 600,
           "type": "animatedText",
-          "content": "kai@dev:~$ whoami",
+          "content": "demo@demo:~$ whoami",
           "fontSize": 18,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -202,7 +202,7 @@
             "step": 0
           },
           "type": "animatedText",
-          "content": "Kai Chen",
+          "content": "Demo User",
           "fontSize": 64,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "fontWeight": "bold",
@@ -396,7 +396,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "github.com/kaichen",
+          "content": "github.com/demo-user",
           "fontSize": 14,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -436,7 +436,7 @@
           "y": 52,
           "width": 700,
           "type": "animatedText",
-          "content": "kai@dev:~$ cat skills.json",
+          "content": "demo@demo:~$ cat skills.json",
           "fontSize": 16,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -1093,7 +1093,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "kai@dev:~$ ls projects/flux-cli",
+          "content": "demo@demo:~$ ls projects/flux-cli",
           "fontSize": 15,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -1410,7 +1410,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "kai@dev:~$ ls projects/neuraldb",
+          "content": "demo@demo:~$ ls projects/neuraldb",
           "fontSize": 15,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -1727,7 +1727,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "kai@dev:~$ ls projects/pixelflow",
+          "content": "demo@demo:~$ ls projects/pixelflow",
           "fontSize": 15,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -2044,7 +2044,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "kai@dev:~$ git log --stat --since=2016-01-01",
+          "content": "demo@demo:~$ git log --stat --since=2016-01-01",
           "fontSize": 15,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -2894,7 +2894,7 @@
           "y": 80,
           "width": 700,
           "type": "animatedText",
-          "content": "kai@dev:~$ cat contact.txt",
+          "content": "demo@demo:~$ cat contact.txt",
           "fontSize": 18,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -2964,7 +2964,7 @@
             "step": 1
           },
           "type": "text",
-          "content": "github.com/kaichen",
+          "content": "github.com/demo-user",
           "fontSize": 22,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -3014,7 +3014,7 @@
             "step": 2
           },
           "type": "text",
-          "content": "kai@devtools.io",
+          "content": "hello@demo.dev",
           "fontSize": 22,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -3064,7 +3064,7 @@
             "step": 3
           },
           "type": "text",
-          "content": "twitter.com/kai_dev",
+          "content": "twitter.com/demo-user",
           "fontSize": 22,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -3114,7 +3114,7 @@
             "step": 4
           },
           "type": "text",
-          "content": "kaichen.dev",
+          "content": "example.dev",
           "fontSize": 22,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -3206,7 +3206,7 @@
           "y": 52,
           "width": 760,
           "type": "animatedText",
-          "content": "kai@dev:~$ three-ascii --input horse.gif --mode gallop",
+          "content": "demo@demo:~$ three-ascii --input horse.gif --mode gallop",
           "fontSize": 16,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -3383,7 +3383,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "kai@dev:~$ _",
+          "content": "demo@demo:~$ _",
           "fontSize": 18,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -3458,7 +3458,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "kai@dev ~ portfolio  ·  v3.2.1  ·  built with maliang-deck",
+          "content": "demo@demo ~ portfolio  ·  v3.2.1  ·  built with maliang-deck",
           "fontSize": 12,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "rgba(139,148,158,0.4)",

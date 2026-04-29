@@ -26,6 +26,18 @@ describe('HTML slide editor runtime lane', () => {
     expect(runtimeSource.indexOf('initEditorLane();')).toBeGreaterThan(previewEnd);
   });
 
+  it('replays extension lifecycle and final-frame timeline state in preview mode', () => {
+    const previewStart = runtimeSource.indexOf('if (isPreviewMode)');
+    const previewEnd = runtimeSource.indexOf('return;\n    }', previewStart);
+    const previewBlock = runtimeSource.slice(previewStart, previewEnd);
+
+    expect(previewBlock).toContain('let activePreviewSlide = null;');
+    expect(previewBlock).toContain('window.__vsliExtensions.deactivateSlide(activePreviewSlide);');
+    expect(previewBlock).toContain('window.__vsliExtensions.activateSlide(nextSlide);');
+    expect(previewBlock).toContain('typeof timeline.reactivate === \'function\'');
+    expect(previewBlock).toContain('timeline.seek(totalSteps);');
+  });
+
   it('selects only explicitly editable text/rect-like targets and suppresses navigation while editing', () => {
     expect(runtimeSource).toContain("closest('[data-maliang-deck-editable]')");
     expect(runtimeSource).toContain("tokens.indexOf('geometry') >= 0");

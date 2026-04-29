@@ -51,7 +51,45 @@
 
     /* ===== Preview-only mode: show one slide, hide everything else ===== */
     if (isPreviewMode) {
+      let activePreviewSlide = null;
+      const PREVIEW_TIMELINE_SYNC_ATTEMPTS = 120;
+
+      function syncPreviewTimeline(slide) {
+        if (!window.__vsliTimeline || !slide) return;
+
+        var timeline = window.__vsliTimeline;
+        try {
+          if (typeof timeline.reactivate === 'function') timeline.reactivate(slide);
+          if (typeof timeline.getTotalSteps === 'function' && typeof timeline.seek === 'function') {
+            var totalSteps = timeline.getTotalSteps();
+            if (Number.isFinite(totalSteps) && totalSteps >= 0) {
+              timeline.seek(totalSteps);
+            }
+          }
+        } catch (e) {}
+      }
+
+      function ensurePreviewTimelineFinalFrame(slide) {
+        var attempts = 0;
+        function attempt() {
+          if (!slide) return;
+          if (window.__vsliTimeline) {
+            syncPreviewTimeline(slide);
+            return;
+          }
+          attempts += 1;
+          if (attempts < PREVIEW_TIMELINE_SYNC_ATTEMPTS) {
+            setTimeout(attempt, 25);
+          }
+        }
+        attempt();
+      }
+
       function showSlide(i) {
+        const nextSlide = slides[i];
+
+        if (!nextSlide) return;
+
         slides.forEach((s, j) => {
           const active = (j === i);
           s.classList.toggle('is-active', active);
@@ -62,6 +100,25 @@
             s.style.pointerEvents = 'auto';
           }
         });
+
+        // Recycle extension/animation state so 3D, KaTeX, and text-anim rerender
+        // correctly in preview cards without iframe reloads.
+        if (window.__vsliExtensions) {
+          if (activePreviewSlide) {
+            try {
+              window.__vsliExtensions.deactivateSlide(activePreviewSlide);
+            } catch (e) {}
+          }
+          try {
+            window.__vsliExtensions.activateSlide(nextSlide);
+          } catch (e) {}
+        }
+
+        activePreviewSlide = nextSlide;
+
+        // Force timeline-backed elements to their final frame so the preview shows
+        // the settled state instead of reveal-step start states.
+        ensurePreviewTimelineFinalFrame(nextSlide);
       }
       showSlide(previewOnlyIdx);
       /* Hide chrome that the presenter shouldn't see in preview */
@@ -3021,7 +3078,7 @@
     /* Opens a new window with 4 draggable, resizable cards:
      *   CURRENT  — iframe(?preview=N)   pixel-perfect preview of current slide
      *   NEXT     — iframe(?preview=N+1) pixel-perfect preview of next slide
-     *   SCRIPT   — large speaker notes (逐字稿)
+     *   SCRIPT   — large speaker notes
      *   TIMER    — elapsed timer + page counter + controls
      * Cards remember position/size in localStorage.
      * Two windows sync via BroadcastChannel.
@@ -3252,7 +3309,7 @@
   <div class="pcard pcard-notes" id="card-notes" style="--dot-color:#f0883e">
     <div class="pcard-head" data-drag>
       <span class="pcard-dot"></span>
-      <span class="pcard-title">SPEAKER SCRIPT · 逐字稿</span>
+      <span class="pcard-title">SPEAKER SCRIPT </span>
     </div>
     <div class="pcard-body" id="notes-body"></div>
     <div class="pcard-resize" data-resize></div>
@@ -3534,7 +3591,7 @@
 
     /* Notes */
     var note = slideMeta[n].notes;
-    notesBody.innerHTML = note || '<span class="empty">（这一页还没有逐字稿）</span>';
+    notesBody.innerHTML = note || '<span class="empty"></span>';
 
     /* Timer count + progress */
     timerCount.textContent = (n + 1) + ' / ' + total;
@@ -3632,7 +3689,7 @@
   iframeCur.src = deckUrl + '?preview=' + (idx + 1);
   if (idx + 1 < total) iframeNxt.src = deckUrl + '?preview=' + (idx + 2);
   /* Initialize notes/timer/count without touching iframes */
-  notesBody.innerHTML = slideMeta[idx].notes || '<span class="empty">（这一页还没有逐字稿）</span>';
+  notesBody.innerHTML = slideMeta[idx].notes || '<span class="empty"></span>';
   timerCount.textContent = (idx + 1) + ' / ' + total;
 })();
 </` + `script>
