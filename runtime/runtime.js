@@ -1840,6 +1840,7 @@
         body.maliang-deck-editor-active [data-maliang-deck-editable] { cursor: move; }
         body.maliang-deck-editor-active [data-maliang-deck-editable][contenteditable="true"] { cursor: text; outline: none; overflow-wrap: anywhere; }
         body.maliang-deck-editor-active .maliang-deck-editor-selected { outline: 2px solid #2563eb; outline-offset: 2px; }
+        body.maliang-deck-editor-active [data-maliang-deck-type="formula"].maliang-deck-editor-selected { outline: none; }
       `;
       document.head.appendChild(style);
     }
@@ -2535,9 +2536,66 @@
       updateEditorToolbar();
     }
 
+    function editorUnionRect(rects) {
+      if (!rects.length) return null;
+      const left = Math.min.apply(null, rects.map(function(rect){ return rect.left; }));
+      const top = Math.min.apply(null, rects.map(function(rect){ return rect.top; }));
+      const right = Math.max.apply(null, rects.map(function(rect){ return rect.right; }));
+      const bottom = Math.max.apply(null, rects.map(function(rect){ return rect.bottom; }));
+      return {
+        left: left,
+        top: top,
+        right: right,
+        bottom: bottom,
+        width: right - left,
+        height: bottom - top,
+      };
+    }
+
+    function editorFormulaNodeHasVisualBounds(node) {
+      if (!node || !node.getBoundingClientRect) return false;
+      if (node.closest && node.closest('.katex-mathml, math, annotation, script, style')) return false;
+      const style = getComputedStyle(node);
+      return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+    }
+
+    function editorFormulaVisualRect(el) {
+      const rects = [];
+      el.querySelectorAll('.katex, .katex-html, .katex-html *, .maliang-formula-annotation-layer, .maliang-formula-annotation-layer *').forEach(function(node) {
+        if (!editorFormulaNodeHasVisualBounds(node)) return;
+        Array.prototype.forEach.call(node.getClientRects(), function(rect) {
+          if (rect.width > 0 && rect.height > 0) rects.push(rect);
+        });
+      });
+      return editorUnionRect(rects) || el.getBoundingClientRect();
+    }
+
+    function editorElementVisualRect(el) {
+      if (editorElementType(el) === 'formula') return editorFormulaVisualRect(el);
+      return el.getBoundingClientRect();
+    }
+
+    function editorElementVisualBounds(el) {
+      if (!el || !el.closest) return null;
+      const slide = el.closest('.slide');
+      if (!slide) return null;
+      const rect = editorElementVisualRect(el);
+      const slideRect = slide.getBoundingClientRect();
+      const scale = slideSpaceScale(slide);
+      return {
+        x: (rect.left - slideRect.left) / (scale.x || 1),
+        y: (rect.top - slideRect.top) / (scale.y || 1),
+        width: rect.width / (scale.x || 1),
+        height: rect.height / (scale.y || 1),
+        source: editorElementType(el) === 'formula' && el.querySelector('.katex, .katex-html') ? 'rendered' : 'declared',
+      };
+    }
+
+    window.__maliangDeckMeasureElementBounds = editorElementVisualBounds;
+
     function positionEditorSelection() {
       if (!editorState.selection || !editorState.selectedItems.length || !editorState.enabled) return;
-      const rects = editorState.selectedItems.map(function(item){ return item.getBoundingClientRect(); });
+      const rects = editorState.selectedItems.map(function(item){ return editorElementVisualRect(item); });
       const left = Math.min.apply(null, rects.map(function(rect){ return rect.left; }));
       const top = Math.min.apply(null, rects.map(function(rect){ return rect.top; }));
       const right = Math.max.apply(null, rects.map(function(rect){ return rect.right; }));

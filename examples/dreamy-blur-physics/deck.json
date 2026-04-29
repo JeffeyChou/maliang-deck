@@ -354,8 +354,8 @@
         },
         {
           "id": "wp-formula-glass",
-          "x": 70,
-          "y": 300,
+          "x": 70.73,
+          "y": 294.11,
           "width": 780,
           "height": 170,
           "animation": {
@@ -389,9 +389,10 @@
         },
         {
           "id": "wp-formula-label-e",
-          "x": 110,
-          "y": 408,
-          "width": 320,
+          "x": 175.47,
+          "y": 430.44,
+          "width": 169.93,
+          "height": 22.31,
           "animation": {
             "enter": "fade-up",
             "duration": 400,
@@ -405,8 +406,8 @@
         },
         {
           "id": "wp-formula-debroglie",
-          "x": 463.34,
-          "y": 318,
+          "x": 498.28,
+          "y": 296.3,
           "width": 340,
           "height": 80,
           "animation": {
@@ -422,9 +423,10 @@
         },
         {
           "id": "wp-formula-label-l",
-          "x": 460,
-          "y": 408,
-          "width": 340,
+          "x": 599.03,
+          "y": 442.57,
+          "width": 148,
+          "height": 18.26,
           "animation": {
             "enter": "fade-up",
             "duration": 400,
@@ -542,8 +544,8 @@
         },
         {
           "id": "schrodinger-main-formula",
-          "x": 90,
-          "y": 148,
+          "x": 92.21,
+          "y": 126.3,
           "width": 1100,
           "height": 100,
           "animation": {
@@ -786,8 +788,8 @@
         },
         {
           "id": "prob-formula-born",
-          "x": 329.2,
-          "y": 607.79,
+          "x": 327.36,
+          "y": 596.39,
           "width": 640,
           "height": 70,
           "animation": {

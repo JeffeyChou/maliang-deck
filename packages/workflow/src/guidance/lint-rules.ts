@@ -20,7 +20,19 @@ export interface LintRule {
   name: string;
   severity: 'error' | 'warning';
   /** Run against a single slide. Returns zero or more lint results. */
-  check: (slide: Slide, style: StyleDefinition, deck: Deck) => LintResult[];
+  check: (slide: Slide, style: StyleDefinition, deck: Deck, context: LintContext) => LintResult[];
+}
+
+export interface ElementBounds {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  source?: 'declared' | 'estimated' | 'rendered';
+}
+
+export interface LintContext {
+  elementBounds?: (slide: Slide, element: Element, deck: Deck) => ElementBounds | undefined;
 }
 
 // ---------------------------------------------------------------------------
@@ -121,6 +133,62 @@ function flattenElements(elements: Element[]): Element[] {
   }
   return result;
 }
+
+function fallbackElementBounds(el: Element): ElementBounds {
+  if (el.type === 'circle') {
+    return {
+      x: el.x - el.radius,
+      y: el.y - el.radius,
+      width: el.radius * 2,
+      height: el.radius * 2,
+      source: 'declared',
+    };
+  }
+
+  if (el.type === 'line') {
+    return {
+      x: Math.min(el.x, el.x2),
+      y: Math.min(el.y, el.y2),
+      width: Math.abs(el.x2 - el.x),
+      height: Math.abs(el.y2 - el.y),
+      source: 'declared',
+    };
+  }
+
+  if (el.type === 'formula') {
+    const declaredH = el.height ?? 0;
+    const estimatedH = estimateFormulaHeight(el);
+    return {
+      x: el.x,
+      y: el.y,
+      width: el.width,
+      height: Math.max(declaredH, estimatedH),
+      source: declaredH >= estimatedH ? 'declared' : 'estimated',
+    };
+  }
+
+  const sized = el as Element & { width?: number; height?: number; fontSize?: number; lineHeight?: number };
+  return {
+    x: el.x,
+    y: el.y,
+    width: sized.width ?? 0,
+    height: sized.height ?? (sized.fontSize != null ? sized.fontSize * (sized.lineHeight ?? 1.2) : 0),
+    source: 'declared',
+  };
+}
+
+function elementBounds(slide: Slide, el: Element, deck: Deck, context: LintContext): ElementBounds {
+  return context.elementBounds?.(slide, el, deck) ?? fallbackElementBounds(el);
+}
+
+function boxesOverlap(a: ElementBounds, b: ElementBounds): boolean {
+  return a.x < b.x + b.width &&
+    a.x + a.width > b.x &&
+    a.y < b.y + b.height &&
+    a.y + a.height > b.y;
+}
+
+const DEFAULT_LINT_CONTEXT: LintContext = {};
 
 const MIN_SPEAKER_NOTE_SENTENCES = 4;
 
@@ -646,15 +714,16 @@ const cssNamingConventionRule: LintRule = {
 
 /**
  * Rule: formula-overlap
- * Detects formula elements whose estimated rendered height exceeds their
- * declared height and overlaps with subsequent elements placed below them.
- * Severity: warning (heuristic estimate may have false positives).
+ * Detects formula elements that likely overlap other elements. Browser callers
+ * can provide rendered bounds for KaTeX descendants; assembly falls back to the
+ * schema-level formula height estimate.
+ * Severity: warning (fallback estimates may have false positives).
  */
 const formulaOverlapRule: LintRule = {
   id: 'formula-overlap',
   name: 'Formula Element Overlap',
   severity: 'warning',
-  check(slide) {
+  check(slide, _style, deck, context) {
     const results: LintResult[] = [];
     const elements = flattenElements(slide.elements);
 
@@ -662,24 +731,27 @@ const formulaOverlapRule: LintRule = {
       if (el.type !== 'formula') continue;
       const declaredH = el.height ?? 0;
       const estimatedH = estimateFormulaHeight(el);
-      if (declaredH > 0 && estimatedH <= declaredH) continue;
+      const formulaBox = elementBounds(slide, el, deck, context);
+      const hasRenderedBounds = formulaBox.source === 'rendered';
+      if (!hasRenderedBounds && declaredH > 0 && estimatedH <= declaredH) continue;
 
-      const effectiveH = Math.max(declaredH, estimatedH);
-      const formulaBottom = el.y + effectiveH;
+      const fallbackBox = fallbackElementBounds(el);
+      const declaredBox = { ...fallbackBox, height: declaredH || fallbackBox.height };
 
-      // Find any element positioned below the formula that overlaps
+      // Find any element whose box intersects the formula overflow region.
       for (const other of elements) {
         if (other.id === el.id) continue;
-        const otherTop = other.y ?? 0;
-        // Only check elements that start within the overflow zone
-        if (otherTop >= el.y && otherTop < formulaBottom) {
-          // Skip if the other element starts above the declared height
-          // (intentional overlay, like a label on top of the formula box)
-          if (declaredH > 0 && otherTop < el.y + declaredH) continue;
+        const otherBox = elementBounds(slide, other, deck, context);
+        if (boxesOverlap(formulaBox, otherBox)) {
+          // Preserve the old intent for fallback estimates: warn only about
+          // overflow beyond the declared box, not deliberate content inside it.
+          if (!hasRenderedBounds && declaredH > 0 && boxesOverlap(declaredBox, otherBox)) continue;
           results.push({
             ruleId: 'formula-overlap',
             severity: 'warning',
-            message: `Formula "${el.id}" (estimated height ${estimatedH}px, declared ${declaredH || 'none'}px) likely overlaps "${other.id}" at y=${otherTop}.`,
+            message: hasRenderedBounds
+              ? `Formula "${el.id}" (rendered KaTeX bounds ${Math.round(formulaBox.width)}x${Math.round(formulaBox.height)}px) overlaps "${other.id}".`
+              : `Formula "${el.id}" (estimated height ${estimatedH}px, declared ${declaredH || 'none'}px) likely overlaps "${other.id}" at y=${otherBox.y}.`,
             slideId: slide.id,
             elementId: el.id,
           });
@@ -782,6 +854,7 @@ export function lintSlide(
   style: StyleDefinition,
   deck: Deck,
   rules: LintRule[] = builtInRules,
+  context: LintContext = DEFAULT_LINT_CONTEXT,
 ): LintResult[] {
   const results: LintResult[] = [];
   for (const rule of rules) {
@@ -790,7 +863,7 @@ export function lintSlide(
     if (qualityRule && qualityRule.applicableStyles.length > 0) {
       if (!qualityRule.applicableStyles.includes(style.id)) continue;
     }
-    results.push(...rule.check(slide, style, deck));
+    results.push(...rule.check(slide, style, deck, context));
   }
   return results;
 }
@@ -803,10 +876,11 @@ export function lintDeck(
   deck: Deck,
   style: StyleDefinition,
   rules: LintRule[] = builtInRules,
+  context: LintContext = DEFAULT_LINT_CONTEXT,
 ): LintResult[] {
   const results: LintResult[] = [];
   for (const slide of deck.slides) {
-    results.push(...lintSlide(slide, style, deck, rules));
+    results.push(...lintSlide(slide, style, deck, rules, context));
   }
   return results;
 }

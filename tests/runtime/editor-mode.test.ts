@@ -120,4 +120,17 @@ describe('HTML slide editor runtime lane', () => {
     expect(runtimeSource).toContain('editorStructuralSnapshot');
     expect(runtimeSource).toContain('applyEditorOpsToDeck(deck, editorState.pendingOps)');
   });
+
+  it('measures formula selection boxes from rendered KaTeX content rather than the wrapper', () => {
+    expect(runtimeSource).toContain('function editorFormulaVisualRect(el)');
+    expect(runtimeSource).toContain("el.querySelectorAll('.katex, .katex-html, .katex-html *, .maliang-formula-annotation-layer, .maliang-formula-annotation-layer *')");
+    expect(runtimeSource).toContain("node.closest('.katex-mathml, math, annotation, script, style')");
+    expect(runtimeSource).toContain('function editorElementVisualRect(el)');
+    expect(runtimeSource).toContain('function editorElementVisualBounds(el)');
+    expect(runtimeSource).toContain('return editorUnionRect(rects) || el.getBoundingClientRect();');
+    expect(runtimeSource).toContain('window.__maliangDeckMeasureElementBounds = editorElementVisualBounds;');
+    expect(runtimeSource).toContain("source: editorElementType(el) === 'formula' && el.querySelector('.katex, .katex-html') ? 'rendered' : 'declared'");
+    expect(runtimeSource).toContain('editorState.selectedItems.map(function(item){ return editorElementVisualRect(item); })');
+    expect(runtimeSource).toContain('body.maliang-deck-editor-active [data-maliang-deck-type="formula"].maliang-deck-editor-selected { outline: none; }');
+  });
 });

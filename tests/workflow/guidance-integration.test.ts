@@ -16,6 +16,7 @@ import {
   enrichDslWorkOrder,
   validateConsistency,
   lintDeck,
+  builtInRules,
   academicStyle,
   consultingStyle,
 } from '../../packages/workflow/src/guidance/index.js';
@@ -583,6 +584,35 @@ describe('DSL lint rules', () => {
 
     const results = lintDeck(deck as never, academicStyle);
     expect(results.filter((result) => result.ruleId === 'speaker-notes-detail')).toEqual([]);
+  });
+
+  it('uses rendered formula bounds when provided for overlap checks', () => {
+    const deck = {
+      meta: { title: 'test', canvas: { width: 1280, height: 720 } },
+      slides: [
+        {
+          id: 's1',
+          elements: [
+            { type: 'formula', id: 'eq', x: 100, y: 100, width: 120, height: 40, fontSize: 28, latex: '\\int_a^b f(x) dx' },
+            { type: 'text', id: 'caption', x: 350, y: 120, width: 120, height: 24, fontSize: 18, content: 'Caption' },
+          ],
+        },
+      ],
+    };
+
+    const fallbackResults = lintDeck(deck as never, academicStyle);
+    expect(fallbackResults.filter((result) => result.ruleId === 'formula-overlap')).toEqual([]);
+
+    const renderedResults = lintDeck(deck as never, academicStyle, builtInRules, {
+      elementBounds: (_slide, element) => element.id === 'eq'
+        ? { x: 100, y: 96, width: 280, height: 72, source: 'rendered' }
+        : undefined,
+    });
+
+    const formulaResults = renderedResults.filter((result) => result.ruleId === 'formula-overlap');
+    expect(formulaResults).toHaveLength(1);
+    expect(formulaResults[0]?.message).toContain('rendered KaTeX bounds');
+    expect(formulaResults[0]?.message).toContain('caption');
   });
 });
 
