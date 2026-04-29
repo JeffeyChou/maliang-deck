@@ -138,6 +138,24 @@
     return fallback;
   }
 
+  function tokenType(token) {
+    return token && token.type ? token.type : 'text';
+  }
+
+  function sameTokenType(a, b) {
+    return tokenType(a) === tokenType(b);
+  }
+
+  function sameLayerToken(a, b) {
+    return sameTokenType(a, b) && a.text === b.text && a.role === b.role;
+  }
+
+  function structureRole(el) {
+    if (el.classList && el.classList.contains('frac-line')) return 'frac-bar';
+    if (el.classList && el.classList.contains('sqrt-line')) return 'sqrt-line';
+    return 'structure';
+  }
+
   function wrapFormulaTextTokens(container) {
     var root = container.querySelector('.katex-html') || container.querySelector('.katex') || container;
     if (root.querySelector('[data-formula-token]')) return;
@@ -174,10 +192,27 @@
     });
   }
 
+  function tokenBoxFromRect(rect, containerRect, scaleX, scaleY) {
+    var x = (rect.left - containerRect.left) / scaleX;
+    var y = (rect.top - containerRect.top) / scaleY;
+    var w = rect.width / scaleX;
+    var h = rect.height / scaleY;
+    return {
+      x: x,
+      y: y,
+      w: w,
+      h: h,
+      cx: x + w / 2,
+      cy: y + h / 2,
+    };
+  }
+
   /**
    * Snapshot individually addressable rendered math tokens.
    * Each token is a rendered grapheme, so superscripts/subscripts keep their
    * measured visual size and position instead of being flattened into text.
+   * Fraction and square-root rules are appended as structure tokens after text
+   * tokens so existing morphMap text indices remain stable.
    */
   function snapshotFormulaTokens(container) {
     wrapFormulaTextTokens(container);
@@ -191,21 +226,48 @@
     nodes.forEach(function (node, index) {
       var rect = node.getBoundingClientRect();
       var text = node.textContent || '';
+      var box = tokenBoxFromRect(rect, containerRect, scaleX, scaleY);
       node.setAttribute('data-formula-token-index', String(index));
       node.setAttribute('data-formula-token-id', 'formula-token-' + index + '-' + text.charCodeAt(0));
       tokens.push({
         el: node,
         id: node.getAttribute('data-formula-token-id'),
+        type: 'text',
         text: text,
         tokenClass: tokenClass(node),
         role: tokenRole(node),
         index: index,
-        x: (rect.left - containerRect.left) / scaleX,
-        y: (rect.top - containerRect.top) / scaleY,
-        w: rect.width / scaleX,
-        h: rect.height / scaleY,
-        cx: (rect.left - containerRect.left + rect.width / 2) / scaleX,
-        cy: (rect.top - containerRect.top + rect.height / 2) / scaleY,
+        x: box.x,
+        y: box.y,
+        w: box.w,
+        h: box.h,
+        cx: box.cx,
+        cy: box.cy,
+      });
+    });
+    container.querySelectorAll('.frac-line, .sqrt-line').forEach(function (node) {
+      var rect = node.getBoundingClientRect();
+      if (!rect.width && !rect.height) return;
+      var role = structureRole(node);
+      var index = tokens.length;
+      var box = tokenBoxFromRect(rect, containerRect, scaleX, scaleY);
+      node.setAttribute('data-formula-structure-token', role);
+      node.setAttribute('data-formula-token-index', String(index));
+      node.setAttribute('data-formula-token-id', 'formula-token-' + index + '-' + role);
+      tokens.push({
+        el: node,
+        id: node.getAttribute('data-formula-token-id'),
+        type: 'structure',
+        text: role,
+        tokenClass: 'structure',
+        role: role,
+        index: index,
+        x: box.x,
+        y: box.y,
+        w: box.w,
+        h: box.h,
+        cx: box.cx,
+        cy: box.cy,
       });
     });
     return tokens;
@@ -227,7 +289,7 @@
 
   /**
    * Structural matching: optional explicit source-index -> target-index map,
-   * then same text/class/role, then same text fallback.
+   * then same text/class/role or same structure role, then same text fallback.
    */
   function structuralMatch(oldAtoms, newAtoms, explicitMap) {
     var matched = [];
@@ -237,19 +299,25 @@
     normalizeMorphMap(explicitMap).forEach(function (newIdx, oldIdx) {
       if (!Number.isFinite(oldIdx) || !Number.isFinite(newIdx)) return;
       if (!oldAtoms[oldIdx] || !newAtoms[newIdx]) return;
+      if (!sameTokenType(oldAtoms[oldIdx], newAtoms[newIdx])) return;
       matched.push({ old: oldAtoms[oldIdx], new: newAtoms[newIdx], oldIdx: oldIdx, newIdx: newIdx });
       usedOld.add(oldIdx);
       usedNew.add(newIdx);
     });
 
     // Pass 1: exact match (same text + same class + same visual role)
+    // or same structural line role.
     oldAtoms.forEach(function (oa, oi) {
       if (usedOld.has(oi)) return;
       var bestNi = -1;
       var bestDist = Infinity;
       newAtoms.forEach(function (na, ni) {
         if (usedNew.has(ni)) return;
-        if (oa.text === na.text && oa.tokenClass === na.tokenClass && oa.role === na.role) {
+        var exactText = tokenType(oa) === 'text' && tokenType(na) === 'text' &&
+          oa.text === na.text && oa.tokenClass === na.tokenClass && oa.role === na.role;
+        var exactStructure = tokenType(oa) === 'structure' && tokenType(na) === 'structure' &&
+          oa.role === na.role;
+        if (exactText || exactStructure) {
           // Prefer positionally closest match
           var dist = Math.abs(oa.cx - na.cx) + Math.abs(oa.cy - na.cy);
           if (dist < bestDist) { bestDist = dist; bestNi = ni; }
@@ -265,10 +333,12 @@
     // Pass 2: text-only match for remaining
     oldAtoms.forEach(function (oa, oi) {
       if (usedOld.has(oi)) return;
+      if (tokenType(oa) !== 'text') return;
       var bestNi = -1;
       var bestDist = Infinity;
       newAtoms.forEach(function (na, ni) {
         if (usedNew.has(ni)) return;
+        if (tokenType(na) !== 'text') return;
         if (oa.text === na.text) {
           var dist = Math.abs(oa.cx - na.cx) + Math.abs(oa.cy - na.cy);
           if (dist < bestDist) { bestDist = dist; bestNi = ni; }
@@ -284,6 +354,62 @@
     var removed = oldAtoms.filter(function (_, i) { return !usedOld.has(i); });
     var added = newAtoms.filter(function (_, i) { return !usedNew.has(i); });
     return { matched: matched, removed: removed, added: added };
+  }
+
+  function setGhostBox(ghost, x, y, w, h) {
+    ghost.style.left = x + 'px';
+    ghost.style.top = y + 'px';
+    ghost.style.width = w + 'px';
+    ghost.style.height = h + 'px';
+  }
+
+  function createTextGhost(token, sourceEl, text, opacity) {
+    var ghost = document.createElement('span');
+    ghost.textContent = text;
+    ghost.className = getKatexFontClass(sourceEl);
+    var computed = getComputedStyle(sourceEl);
+    ghost.style.cssText = [
+      'position:absolute',
+      'display:inline-block',
+      'pointer-events:none',
+      'white-space:pre',
+      'font-family:' + computed.fontFamily,
+      'font-size:' + computed.fontSize,
+      'font-weight:' + computed.fontWeight,
+      'font-style:' + computed.fontStyle,
+      'line-height:' + ghostLineHeight(token, computed.lineHeight),
+      'letter-spacing:' + computed.letterSpacing,
+      'color:' + computed.color,
+      'opacity:' + opacity,
+    ].join(';');
+    setGhostBox(ghost, token.x, token.y, token.w, token.h);
+    return ghost;
+  }
+
+  function createStructureGhost(token, sourceEl, opacity) {
+    var ghost = document.createElement('div');
+    ghost.setAttribute('data-formula-structure-ghost', token.role);
+    var computed = getComputedStyle(sourceEl);
+    ghost.style.cssText = [
+      'position:absolute',
+      'display:block',
+      'pointer-events:none',
+      'box-sizing:border-box',
+      'background:' + computed.backgroundColor,
+      'border-top:' + computed.borderTopWidth + ' ' + computed.borderTopStyle + ' ' + computed.borderTopColor,
+      'border-right:' + computed.borderRightWidth + ' ' + computed.borderRightStyle + ' ' + computed.borderRightColor,
+      'border-bottom:' + computed.borderBottomWidth + ' ' + computed.borderBottomStyle + ' ' + computed.borderBottomColor,
+      'border-left:' + computed.borderLeftWidth + ' ' + computed.borderLeftStyle + ' ' + computed.borderLeftColor,
+      'color:' + computed.color,
+      'opacity:' + opacity,
+    ].join(';');
+    setGhostBox(ghost, token.x, token.y, token.w, token.h);
+    return ghost;
+  }
+
+  function createTokenGhost(token, sourceEl, text, opacity) {
+    if (tokenType(token) === 'structure') return createStructureGhost(token, sourceEl, opacity);
+    return createTextGhost(token, sourceEl, text, opacity);
   }
 
   /**
@@ -401,9 +527,6 @@
       // Append old layer on top (after snapshotting new atoms to avoid duplicates)
       el.appendChild(oldLayer);
       var oldLayerTokens = snapshotFormulaTokens(oldLayer);
-      oldLayer.querySelectorAll('[class*="frac"]').forEach(function(el) {
-        el.style.opacity = '0';
-      });
 
       // Match old and new atoms
       var result = structuralMatch(oldAtoms, newAtoms, morphMap);
@@ -419,30 +542,12 @@
       // During Phase 1 the old layer remains visible. Hide matched source
       // tokens there so their visual clone is the only moving copy.
       result.matched.forEach(function (pair) {
-        if (oldLayerTokens[pair.oldIdx]) oldLayerTokens[pair.oldIdx].el.style.visibility = 'hidden';
+        var liveToken = oldLayerTokens[pair.oldIdx];
+        if (liveToken && sameLayerToken(liveToken, pair.old)) liveToken.el.style.visibility = 'hidden';
 
-        var ghost = document.createElement('span');
-        ghost.textContent = pair.old.text;
-        var liveEl = oldLayerTokens[pair.oldIdx] ? oldLayerTokens[pair.oldIdx].el : pair.old.el;
-        ghost.className = getKatexFontClass(liveEl);
-        var computed = getComputedStyle(liveEl);
-        ghost.style.cssText = [
-          'position:absolute',
-          'display:inline-block',
-          'pointer-events:none',
-          'white-space:pre',
-          'font-family:' + computed.fontFamily,
-          'font-size:' + computed.fontSize,
-          'font-weight:' + computed.fontWeight,
-          'font-style:' + computed.fontStyle,
-          'line-height:' + ghostLineHeight(pair.old, computed.lineHeight),
-          'letter-spacing:' + computed.letterSpacing,
-          'color:' + computed.color,
-        ].join(';');
-        ghost.style.left = pair.old.x + 'px';
-        ghost.style.top = pair.old.y + 'px';
-        ghost.style.width = pair.old.w + 'px';
-        ghost.style.height = pair.old.h + 'px';
+        var sourceEl = pair.new.el || (liveToken ? liveToken.el : pair.old.el);
+        var ghost = createTokenGhost(pair.new, sourceEl, pair.old.text, 1);
+        setGhostBox(ghost, pair.old.x, pair.old.y, pair.old.w, pair.old.h);
         ghostLayer.appendChild(ghost);
         pair.ghost = ghost;
 
@@ -458,25 +563,11 @@
       var removedGhosts = [];
       result.removed.forEach(function (token) {
         var liveToken = oldLayerTokens[token.index];
-        if (liveToken && liveToken.text === token.text) {
+        if (liveToken && sameLayerToken(liveToken, token)) {
           liveToken.el.style.visibility = 'hidden';
         }
-        var ghost = document.createElement('span');
-        ghost.textContent = token.text;
-        var sourceEl = (liveToken && liveToken.text === token.text) ? liveToken.el : token.el;
-        ghost.className = getKatexFontClass(sourceEl);
-        var computed = getComputedStyle(sourceEl);
-        ghost.style.cssText = [
-          'position:absolute', 'display:inline-block', 'pointer-events:none', 'white-space:pre',
-          'font-family:' + computed.fontFamily, 'font-size:' + computed.fontSize,
-          'font-weight:' + computed.fontWeight, 'font-style:' + computed.fontStyle,
-          'line-height:' + ghostLineHeight(token, computed.lineHeight), 'letter-spacing:' + computed.letterSpacing,
-          'color:' + computed.color,
-        ].join(';');
-        ghost.style.left = token.x + 'px';
-        ghost.style.top = token.y + 'px';
-        ghost.style.width = token.w + 'px';
-        ghost.style.height = token.h + 'px';
+        var sourceEl = (liveToken && sameLayerToken(liveToken, token)) ? liveToken.el : token.el;
+        var ghost = createTokenGhost(token, sourceEl, token.text, 1);
         ghostLayer.appendChild(ghost);
         removedGhosts.push(ghost);
       });
@@ -485,29 +576,14 @@
       var addedGhosts = [];
       result.added.forEach(function (token) {
         token.el.style.opacity = '0';
-        var ghost = document.createElement('span');
-        ghost.textContent = token.text;
-        ghost.className = getKatexFontClass(token.el);
-        var computed = getComputedStyle(token.el);
-        ghost.style.cssText = [
-          'position:absolute', 'display:inline-block', 'pointer-events:none', 'white-space:pre',
-          'font-family:' + computed.fontFamily, 'font-size:' + computed.fontSize,
-          'font-weight:' + computed.fontWeight, 'font-style:' + computed.fontStyle,
-          'line-height:' + ghostLineHeight(token, computed.lineHeight), 'letter-spacing:' + computed.letterSpacing,
-          'color:' + computed.color, 'opacity:0',
-        ].join(';');
-        ghost.style.left = token.x + 'px';
-        ghost.style.top = token.y + 'px';
-        ghost.style.width = token.w + 'px';
-        ghost.style.height = token.h + 'px';
+        var ghost = createTokenGhost(token, token.el, token.text, 0);
         ghostLayer.appendChild(ghost);
         addedGhosts.push(ghost);
       });
 
-      // Keep old layer visible — matched/removed tokens are already hidden
-      // via visibility:hidden, so only structural elements (fraction bars,
-      // sqrt lines, delimiters) remain visible. We fade the old layer's
-      // opacity during Phase 1 to smoothly transition these elements.
+      // Keep old layer visible. Matched/removed text and structure tokens are
+      // hidden there so their visual clones are the only moving copies; any
+      // unsupported residual KaTeX structure fades with the layer.
       // The old layer retains its fixed height, preventing layout shifts.
 
       var startTime = performance.now();
@@ -522,18 +598,15 @@
           if (!pair.ghost) return;
           var pos = arcInterpolate(pair.old.x, pair.old.y, pair.new.x, pair.new.y, e, 0.2);
           var currentHeight = lerp(pair.old.h, pair.new.h, e);
-          pair.ghost.style.left = pos.x + 'px';
-          pair.ghost.style.top = pos.y + 'px';
-          pair.ghost.style.width = lerp(pair.old.w, pair.new.w, e) + 'px';
-          pair.ghost.style.height = currentHeight + 'px';
+          setGhostBox(pair.ghost, pos.x, pos.y, lerp(pair.old.w, pair.new.w, e), currentHeight);
           if (pair.old.role.indexOf('frac') !== -1 || pair.new.role.indexOf('frac') !== -1 ||
               pair.old.role.indexOf('script') !== -1 || pair.new.role.indexOf('script') !== -1) {
             pair.ghost.style.lineHeight = currentHeight + 'px';
           }
         });
 
-        // Fade old layer — only structural elements (fraction bars, sqrt
-        // lines, delimiters) are still visible there; tokens are hidden.
+        // Fade old layer. Text tokens and captured structure rules are hidden
+        // there; unsupported residual KaTeX structure fades as a fallback.
         oldLayer.style.opacity = String(1 - e);
 
         // Removed tokens: fade out + slight shrink
@@ -554,18 +627,35 @@
         if (t < 1) {
           requestAnimationFrame(tick);
         } else {
-          // Instant swap: remove ghost/old layers and reveal real render.
-          // No crossfade phase — this prevents any sub-pixel position
-          // mismatch between ghosts and real KaTeX tokens from being
-          // visible as a re-alignment jump.
-          result.added.forEach(function (token) { token.el.style.opacity = '1'; });
-          if (oldLayer.parentNode) oldLayer.parentNode.removeChild(oldLayer);
-          if (ghostLayer.parentNode) ghostLayer.parentNode.removeChild(ghostLayer);
-          annotationLayer.innerHTML = '';
-          if (newKatex) newKatex.style.opacity = '1';
-          el.style.overflow = '';
-          el.style.minHeight = '';
-          state.morphing = false;
+          // Settle every ghost exactly onto its measured target box, then let
+          // the browser paint one final frame before revealing real KaTeX.
+          result.matched.forEach(function (pair) {
+            if (!pair.ghost) return;
+            setGhostBox(pair.ghost, pair.new.x, pair.new.y, pair.new.w, pair.new.h);
+            if (pair.old.role.indexOf('frac') !== -1 || pair.new.role.indexOf('frac') !== -1 ||
+                pair.old.role.indexOf('script') !== -1 || pair.new.role.indexOf('script') !== -1) {
+              pair.ghost.style.lineHeight = pair.new.h + 'px';
+            }
+          });
+          oldLayer.style.opacity = '0';
+          removedGhosts.forEach(function (ghost) {
+            ghost.style.opacity = '0';
+            ghost.style.transform = 'scale(0.7)';
+          });
+          addedGhosts.forEach(function (ghost) {
+            ghost.style.opacity = '1';
+            ghost.style.transform = 'scale(1)';
+          });
+          requestAnimationFrame(function () {
+            result.added.forEach(function (token) { token.el.style.opacity = '1'; });
+            if (oldLayer.parentNode) oldLayer.parentNode.removeChild(oldLayer);
+            if (ghostLayer.parentNode) ghostLayer.parentNode.removeChild(ghostLayer);
+            annotationLayer.innerHTML = '';
+            if (newKatex) newKatex.style.opacity = '1';
+            el.style.overflow = '';
+            el.style.minHeight = '';
+            state.morphing = false;
+          });
         }
       }
 

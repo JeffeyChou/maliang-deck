@@ -102,8 +102,15 @@ describe('HTML runtime transition config and lifecycle', () => {
     expect(mathVizSource).toContain('containerRect.width / container.offsetWidth');
     expect(mathVizSource).toContain('(rect.left - containerRect.left) / scaleX');
     expect(mathVizSource).toContain('function structuralMatch(oldAtoms, newAtoms, explicitMap)');
+    expect(mathVizSource).toContain("container.querySelectorAll('.frac-line, .sqrt-line')");
+    expect(mathVizSource).toContain("type: 'structure'");
+    expect(mathVizSource).toContain("role = structureRole(node)");
+    expect(mathVizSource).toContain('if (!sameTokenType(oldAtoms[oldIdx], newAtoms[newIdx])) return;');
+    expect(mathVizSource).toContain('tokenType(oa) === \'structure\' && tokenType(na) === \'structure\'');
+    expect(mathVizSource).toContain("ghost.setAttribute('data-formula-structure-ghost', token.role)");
     expect(mathVizSource).toContain('function curvedBoundaryPath');
     expect(mathVizSource).toContain('maliang-formula-annotation-layer');
+    expect(mathVizSource).not.toContain('querySelectorAll(\'[class*="frac"]\')');
 
     // The morph uses a single unified tick() loop: token matching hides old tokens
     // before animation starts, then tick() handles position interpolation + opacity
@@ -115,9 +122,11 @@ describe('HTML runtime transition config and lifecycle', () => {
     const tickBlock = mathVizSource.slice(tickStart, advanceStart);
 
     // Token hiding happens during setup (before animation loop)
-    expect(setupBlock).toContain('oldLayerTokens[pair.oldIdx].el.style.visibility = \'hidden\'');
+    expect(setupBlock).toContain('if (liveToken && sameLayerToken(liveToken, pair.old)) liveToken.el.style.visibility = \'hidden\'');
     // Old layer opacity fade and new KaTeX reveal happen inside the unified tick loop
     expect(tickBlock).toContain('oldLayer.style.opacity = String(1 - e)');
+    expect(tickBlock).toContain('setGhostBox(pair.ghost, pair.new.x, pair.new.y, pair.new.w, pair.new.h)');
+    expect(tickBlock).toContain('requestAnimationFrame(function ()');
     expect(tickBlock).toContain('if (newKatex) newKatex.style.opacity');
   });
 });
