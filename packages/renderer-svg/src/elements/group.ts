@@ -1,10 +1,10 @@
 import type { GroupElement } from '@maliang-deck/schema';
 import type { LayoutWarning } from '@maliang-deck/text-measure';
 import type { FontRegistry } from '@maliang-deck/text-measure';
-import { buildTransform, buildOpacityAttrs, n } from '../utils.js';
-import { renderElement, type RenderResult } from './index.js';
+import { animationDataAttrs, buildTransform, buildOpacityAttrs, n } from '../utils.js';
+import { renderElement, type RenderResult, type SvgElementRenderOptions } from './index.js';
 
-export function renderGroup(el: GroupElement, basePath?: string, registry?: FontRegistry, defaultFont?: string): RenderResult {
+export function renderGroup(el: GroupElement, basePath?: string, registry?: FontRegistry, defaultFont?: string, options?: SvgElementRenderOptions): RenderResult {
   const transform = buildTransform(el, true);
   const opacityAttrs = buildOpacityAttrs(el.opacity);
 
@@ -21,6 +21,7 @@ export function renderGroup(el: GroupElement, basePath?: string, registry?: Font
     .join(' ');
 
   const attrs = [
+    ...animationDataAttrs(el),
     combinedTransform ? `transform="${combinedTransform}"` : '',
     opacityAttrs,
   ]
@@ -28,7 +29,7 @@ export function renderGroup(el: GroupElement, basePath?: string, registry?: Font
     .join(' ');
 
   const childResults: RenderResult[] = el.elements.map(
-    (child: import('../../../schema/src/types.js').Element) => renderElement(child, basePath, registry, defaultFont),
+    (child: import('../../../schema/src/types.js').Element) => renderElement(child, basePath, registry, defaultFont, options),
   );
 
   const children = childResults.map((r) => r.svg).join('\n');

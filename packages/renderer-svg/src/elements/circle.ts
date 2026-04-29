@@ -1,5 +1,5 @@
 import type { CircleElement } from '../../../schema/src/types.js';
-import { buildTransform, buildOpacityAttrs, n } from '../utils.js';
+import { animationDataAttrs, buildTransform, buildOpacityAttrs, n } from '../utils.js';
 
 export function renderCircle(el: CircleElement): string {
     const fill = el.fill ?? 'none';
@@ -12,6 +12,7 @@ export function renderCircle(el: CircleElement): string {
         `cy="${n(el.y)}"`,
         `r="${n(el.radius)}"`,
         `fill="${fill}"`,
+        ...animationDataAttrs(el),
         stroke !== 'none' ? `stroke="${stroke}"` : '',
         stroke !== 'none' ? `stroke-width="${strokeWidth}"` : '',
         opacityAttrs,

@@ -1,7 +1,7 @@
 import type { TextElement } from '@maliang-deck/schema';
 import type { LayoutWarning } from '@maliang-deck/text-measure';
 import { layoutTextBox, FontRegistry } from '@maliang-deck/text-measure';
-import { buildTransform, buildOpacityAttrs, n, escapeXml } from '../utils.js';
+import { animationDataAttrs, buildTransform, buildOpacityAttrs, n, escapeXml } from '../utils.js';
 import type { RenderResult } from './index.js';
 
 export function renderText(el: TextElement, registry?: FontRegistry, defaultFont?: string): RenderResult {
@@ -61,7 +61,7 @@ export function renderText(el: TextElement, registry?: FontRegistry, defaultFont
   const contentEncoding = el.content.length > 200 ? 'base64' : 'plain';
 
   const dataAttrs = [
-    `data-maliang-deck-id="${escapeXml(el.id)}"`,
+    ...animationDataAttrs(el),
     `data-text-role="${textRole}"`,
     `data-box-x="${n(el.x)}"`,
     `data-box-y="${n(el.y)}"`,

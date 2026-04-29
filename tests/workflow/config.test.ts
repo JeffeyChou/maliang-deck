@@ -25,7 +25,6 @@ describe('hierarchical workflow configuration resolver', () => {
 
     expect(result.config.extraction.provider).toBe('mineru');
     expect(result.config.outputs.formats).toEqual(['html', 'pdf', 'pptx']);
-    expect(result.config.export.pptxEngine).toBe('drawingml');
     expect(getConfigValueSource(result.report, 'extraction.provider')?.kind).toBe('built-in');
     expect(getConfigValueSource(result.report, 'outputs.formats')?.label).toBe('built-in defaults');
   });
@@ -56,13 +55,13 @@ describe('hierarchical workflow configuration resolver', () => {
       },
       requirements: { outputFormats: ['pptx'], theme: 'requirements-theme' },
       deckMeta: { canvas: { width: 1024, height: 768 } },
-      cliOverrides: { provider: 'docling', pptxEngine: 'pptxgenjs' },
+      cliOverrides: { provider: 'docling' },
     });
 
     expect(result.config).toMatchObject({
       extraction: { provider: 'docling' },
       outputs: { formats: ['pptx'] },
-      export: { pptxEngine: 'pptxgenjs', overflowPolicy: 'fail', overflowTolerance: 4 },
+      export: { overflowPolicy: 'fail', overflowTolerance: 4 },
       styleId: 'alias-style',
       styleVersion: 'manifest-version',
       theme: 'requirements-theme',
@@ -76,7 +75,6 @@ describe('hierarchical workflow configuration resolver', () => {
     expect(getConfigValueSource(result.report, 'outputs.formats')?.kind).toBe('requirements');
     expect(getConfigValueSource(result.report, 'canvas.width')?.kind).toBe('deck-meta');
     expect(getConfigValueSource(result.report, 'extraction.provider')?.kind).toBe('cli');
-    expect(getConfigValueSource(result.report, 'export.pptxEngine')?.kind).toBe('cli');
   });
 
   it('deep-merges objects but replaces arrays from later sources', () => {
@@ -101,7 +99,7 @@ describe('hierarchical workflow configuration resolver', () => {
     expect(getConfigValueSource(result.report, 'tokens.palette.secondary')?.kind).toBe('workspace');
   });
 
-  it('treats flat explicit CLI provider, formats, and PPTX engine as final overrides', () => {
+  it('treats flat explicit CLI provider and formats as final overrides', () => {
     const root = tempDir();
     const result = resolveMaliangDeckConfig({
       projectRoot: root,
@@ -110,15 +108,13 @@ describe('hierarchical workflow configuration resolver', () => {
         config: {
           extraction: { provider: 'docling' },
           outputs: { formats: ['html'] },
-          export: { pptxEngine: 'pptxgenjs' },
         },
       },
-      cliOverrides: { provider: 'mineru', formats: ['pdf', 'pptx'], pptxEngine: 'drawingml' },
+      cliOverrides: { provider: 'mineru', formats: ['pdf', 'pptx'] },
     });
 
     expect(result.config.extraction.provider).toBe('mineru');
     expect(result.config.outputs.formats).toEqual(['pdf', 'pptx']);
-    expect(result.config.export.pptxEngine).toBe('drawingml');
     expect(getConfigValueSource(result.report, 'outputs.formats')?.kind).toBe('cli');
   });
 
@@ -136,8 +132,9 @@ describe('hierarchical workflow configuration resolver', () => {
     writeJson(workspacePath, { outputs: { formats: ['keynote'] } });
     expect(() => resolveMaliangDeckConfig({ homeDir: home, projectRoot: root })).toThrow(/workspace config .*outputs\.formats\.0/);
 
-    writeJson(workspacePath, { export: { pptxEngine: 'bad-engine' } });
-    expect(() => resolveMaliangDeckConfig({ homeDir: home, projectRoot: root })).toThrow(/export\.pptxEngine/);
+    const removedPptxEngineKey = 'pptx' + 'Engine';
+    writeJson(workspacePath, { export: { [removedPptxEngineKey]: 'drawingml' } });
+    expect(() => resolveMaliangDeckConfig({ homeDir: home, projectRoot: root })).toThrow(/Unrecognized key/);
 
     writeJson(workspacePath, { tokens: { palette: { primary: 123 } } });
     expect(() => resolveMaliangDeckConfig({ homeDir: home, projectRoot: root })).toThrow(/tokens\.palette\.primary/);

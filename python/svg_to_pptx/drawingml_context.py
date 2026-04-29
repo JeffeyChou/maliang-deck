@@ -13,6 +13,8 @@ class ShapeResult:
 
     xml: str
     bounds_emu: tuple[int, int, int, int] | None = None
+    element_id: str | None = None
+    shape_ids: list[int] = field(default_factory=list)
 
 
 @dataclass
@@ -32,6 +34,7 @@ class ConvertContext:
     scale_y: float = 1.0
     filter_id: str | None = None
     media_files: dict[str, bytes] = field(default_factory=dict)
+    chart_files: dict[str, str] = field(default_factory=dict)
     rel_entries: list[dict[str, str]] = field(default_factory=list)
     rel_id_counter: int = 2  # rId1 reserved for slideLayout
     svg_dir: Path | None = None
@@ -98,6 +101,7 @@ class ConvertContext:
             scale_y=self.scale_y * sy,
             filter_id=filter_id or self.filter_id,
             media_files=self.media_files,
+            chart_files=self.chart_files,
             rel_entries=self.rel_entries,
             rel_id_counter=self.rel_id_counter,
             svg_dir=self.svg_dir,

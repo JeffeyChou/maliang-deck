@@ -72,11 +72,59 @@ def write_capability_report(plan_path: str | Path, report_path: str | Path) -> d
     return report
 
 
-def animation_xml_for_slide(_slide_id: str, _plan_value: Any) -> str:
+def _fallback_effect(effect: str) -> str:
+    mapping = MAPPINGS.get(effect)
+    if mapping is None:
+        return 'fade'
+    target = mapping.get('pptxTarget', '')
+    if 'fly' in target:
+        return 'fly'
+    if 'zoom' in target or 'scale' in target:
+        return 'zoom'
+    return mapping.get('fallback', 'fade')
+
+
+def _anim_effect_xml(effect: str, shape_id: int, duration_ms: int, delay_ms: int, ctn_id: int) -> str:
+    fallback = _fallback_effect(effect)
+    if fallback == 'appear':
+        return f'''<p:set><p:cBhvr><p:cTn id="{ctn_id}" dur="1" fill="hold"><p:stCondLst><p:cond delay="{delay_ms}"/></p:stCondLst></p:cTn><p:tgtEl><p:spTgt spid="{shape_id}"/></p:tgtEl><p:attrNameLst><p:attrName>style.visibility</p:attrName></p:attrNameLst></p:cBhvr><p:to><p:strVal val="visible"/></p:to></p:set>'''
+    filter_attr = 'fade'
+    pr_attr = ''
+    if fallback == 'fly':
+        filter_attr = 'fly'
+        pr_attr = ' prLst="from(b)"'
+    elif fallback == 'zoom':
+        filter_attr = 'zoom'
+        pr_attr = ' prLst="in"'
+    return f'''<p:set><p:cBhvr><p:cTn id="{ctn_id}" dur="1" fill="hold"><p:stCondLst><p:cond delay="{delay_ms}"/></p:stCondLst></p:cTn><p:tgtEl><p:spTgt spid="{shape_id}"/></p:tgtEl><p:attrNameLst><p:attrName>style.visibility</p:attrName></p:attrNameLst></p:cBhvr><p:to><p:strVal val="visible"/></p:to></p:set>
+<p:animEffect transition="in" filter="{filter_attr}"{pr_attr}><p:cBhvr><p:cTn id="{ctn_id + 1}" dur="{duration_ms}"/><p:tgtEl><p:spTgt spid="{shape_id}"/></p:tgtEl></p:cBhvr></p:animEffect>'''
+
+
+def animation_xml_for_slide(slide_id: str, plan_value: Any, shape_id_map: dict[str, list[int]] | None = None) -> str:
     """Return animation XML for a slide.
 
-    Shape-level mapping is intentionally not emitted yet because the existing
-    static exporter does not preserve stable DSL element IDs into PPTX shape IDs.
-    The capability report is the enforced bridge contract for this milestone.
+    Targets are resolved from SVG data-maliang-deck-id metadata preserved by the
+    DrawingML converter. Unknown element IDs are skipped so static export stays
+    valid while the capability report records unsupported effects.
     """
-    return ''
+    plans = parse_animation_plan(plan_value)
+    slide = next((item for item in plans if item.slideId == slide_id), None)
+    if slide is None or not shape_id_map:
+        return ''
+
+    fragments: list[str] = []
+    ctn_id = 10
+    for step in slide.steps:
+        step_items: list[str] = []
+        for item in step.items:
+            for shape_id in shape_id_map.get(item.elementId, []):
+                step_items.append(_anim_effect_xml(item.effect, shape_id, item.durationMs, item.delayMs, ctn_id))
+                ctn_id += 3
+        if step_items:
+            fragments.append(f'''<p:par><p:cTn id="{ctn_id}" fill="hold"><p:stCondLst><p:cond delay="0"/></p:stCondLst><p:childTnLst>{''.join(step_items)}</p:childTnLst></p:cTn></p:par>''')
+            ctn_id += 1
+
+    if not fragments:
+        return ''
+
+    return f'''<p:timing><p:tnLst><p:par><p:cTn id="1" dur="indefinite" nodeType="tmRoot"><p:childTnLst><p:seq concurrent="1" nextAc="seek"><p:cTn id="2" dur="indefinite" nodeType="mainSeq"><p:childTnLst>{''.join(fragments)}</p:childTnLst></p:cTn></p:seq></p:childTnLst></p:cTn></p:par></p:tnLst></p:timing>'''

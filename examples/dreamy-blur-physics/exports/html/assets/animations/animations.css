@@ -1,0 +1,45 @@
+/**
+ * Maliang Deck Animation Layer — CSS Fallback & Reduced-Motion Overrides
+ *
+ * This file does NOT define @keyframes for element.animate().
+ * Keyframes live as JS objects in timeline.js (KEYFRAMES registry).
+ *
+ * This file provides:
+ * 1. will-change hints for animated elements
+ * 2. prefers-reduced-motion: make all animated elements immediately visible
+ * 3. no-JS fallback: elements visible when timeline.js doesn't execute
+ */
+
+/* ─── Performance hints ──────────────────────────────────────────────────── */
+
+[data-anim-enter] {
+  will-change: opacity, transform, filter;
+}
+
+/* ─── No-JS fallback ─────────────────────────────────────────────────────── */
+
+.no-js [data-anim-enter] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* ─── Reduced motion: skip all animations ────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .slide,
+  .slide.is-transition-prev,
+  .slide.is-transition-next {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  [data-anim-enter] {
+    opacity: var(--anim-final-opacity, 1) !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}

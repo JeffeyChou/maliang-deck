@@ -16,9 +16,6 @@
       "path": "../schema"
     },
     {
-      "path": "../exporter-pptxgenjs"
-    },
-    {
       "path": "../renderer-html"
     },
     {

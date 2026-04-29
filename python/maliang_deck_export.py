@@ -36,6 +36,7 @@ def main():
         use_native_shapes=True,
         notes=notes,
         enable_notes=bool(notes),
+        animation_plan=animation_plan,
     )
 
     if success:

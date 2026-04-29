@@ -16,6 +16,8 @@ export interface RenderOptions {
   fontRegistry?: FontRegistry;
   /** Deck-level default font family for text elements that omit fontFamily. */
   defaultFont?: string;
+  /** Static SVG mode: final PDF frame or PPTX step/metadata export. */
+  mode?: 'pdf-final' | 'pptx-steps';
 }
 
 export interface RenderDeckResult {
@@ -28,11 +30,12 @@ export function renderDeckToSvg(deck: Deck, options?: RenderOptions): RenderDeck
   const basePath = options?.basePath;
   const registry = options?.fontRegistry;
   const defaultFont = options?.defaultFont ?? deck.meta.defaultFont;
+  const mode = options?.mode ?? 'pdf-final';
 
   const allWarnings: LayoutWarning[] = [];
 
   const slides = deck.slides.map((slide: import('../../schema/src/types.js').Slide, slideIndex: number) => {
-    const { svg, warnings } = renderSlide(slide, width, height, basePath, registry, defaultFont);
+    const { svg, warnings } = renderSlide(slide, width, height, basePath, registry, defaultFont, mode);
     // Annotate warnings with slide index
     for (const w of warnings) {
       w.slideIndex = slideIndex;
@@ -55,6 +58,7 @@ function renderSlide(
   basePath?: string,
   registry?: FontRegistry,
   defaultFont?: string,
+  mode: RenderOptions['mode'] = 'pdf-final',
 ): { svg: string; warnings: LayoutWarning[] } {
   const parts: string[] = [];
   const warnings: LayoutWarning[] = [];
@@ -68,7 +72,7 @@ function renderSlide(
 
   // Elements
   for (const el of slide.elements) {
-    const result = renderElement(el, basePath, registry, defaultFont);
+    const result = renderElement(el, basePath, registry, defaultFont, { mode });
     parts.push(result.svg);
     warnings.push(...result.warnings);
   }

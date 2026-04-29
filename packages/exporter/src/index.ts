@@ -5,10 +5,6 @@ export type {
   ExportDeckAsyncDependencies,
   ExportDeckDependencies,
   ExportDeckRequest,
-  PptxEngine,
-  PptxgenjsExportAsyncHandler,
-  PptxgenjsExportHandler,
-  PptxgenjsExportRequest,
 } from './export-deck.js';
 export { createExportReport } from './export-report.js';
 export type { ExportDeckResult, ExportFormat, ExportReport, ExportWarning } from './export-report.js';

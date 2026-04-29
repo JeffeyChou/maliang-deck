@@ -172,10 +172,21 @@ def ctx_h(val: float, ctx: ConvertContext) -> float:
 # ---------------------------------------------------------------------------
 
 def parse_hex_color(color_str: str) -> str | None:
-    """Parse '#RRGGBB' or '#RGB' to 'RRGGBB'. Returns None on failure."""
+    """Parse CSS hex/rgb/rgba color to 'RRGGBB'. Returns None on failure."""
     if not color_str:
         return None
     color_str = color_str.strip()
+    rgb_match = re.match(
+        r'rgba?\(\s*([0-9.]+)\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)(?:\s*,\s*([0-9.]+))?\s*\)',
+        color_str,
+        re.IGNORECASE,
+    )
+    if rgb_match:
+        try:
+            vals = [max(0, min(255, int(float(rgb_match.group(i))))) for i in (1, 2, 3)]
+            return ''.join(f'{v:02X}' for v in vals)
+        except ValueError:
+            return None
     if color_str.startswith('#'):
         color_str = color_str[1:]
     if len(color_str) == 3:
@@ -183,6 +194,24 @@ def parse_hex_color(color_str: str) -> str | None:
     if len(color_str) == 6 and all(c in '0123456789abcdefABCDEF' for c in color_str):
         return color_str.upper()
     return None
+
+
+def parse_css_color_alpha(color_str: str) -> float | None:
+    """Return rgba()/rgb() alpha when present and less than 1."""
+    if not color_str:
+        return None
+    match = re.match(
+        r'rgba\(\s*[0-9.]+\s*,\s*[0-9.]+\s*,\s*[0-9.]+\s*,\s*([0-9.]+)\s*\)',
+        color_str.strip(),
+        re.IGNORECASE,
+    )
+    if not match:
+        return None
+    try:
+        alpha = max(0.0, min(1.0, float(match.group(1))))
+        return alpha if alpha < 1.0 else None
+    except ValueError:
+        return None
 
 
 def parse_stop_style(style_str: str) -> tuple[str | None, float]:

@@ -2,8 +2,8 @@ import type { LayoutElement } from '@maliang-deck/schema';
 import { resolveLayoutElement } from '@maliang-deck/schema';
 import type { LayoutWarning } from '@maliang-deck/text-measure';
 import type { FontRegistry } from '@maliang-deck/text-measure';
-import { buildTransform, escapeXml, n } from '../utils.js';
-import { renderElement, type RenderResult } from './index.js';
+import { animationDataAttrs, buildTransform, escapeXml, n } from '../utils.js';
+import { renderElement, type RenderResult, type SvgElementRenderOptions } from './index.js';
 
 function diagnosticWarnings(el: LayoutElement, path: string): LayoutWarning[] {
   return [{
@@ -16,7 +16,7 @@ function diagnosticWarnings(el: LayoutElement, path: string): LayoutWarning[] {
   }];
 }
 
-export function renderLayout(el: LayoutElement, basePath?: string, registry?: FontRegistry, defaultFont?: string, path = `layout#${el.id}`): RenderResult {
+export function renderLayout(el: LayoutElement, basePath?: string, registry?: FontRegistry, defaultFont?: string, path = `layout#${el.id}`, options?: SvgElementRenderOptions): RenderResult {
   const records = resolveLayoutElement(el, { originX: 0, originY: 0, path });
   const warnings: LayoutWarning[] = diagnosticWarnings(el, path);
   const svgParts: string[] = [];
@@ -32,7 +32,7 @@ export function renderLayout(el: LayoutElement, basePath?: string, registry?: Fo
       policy: diagnostic.policy,
       detail: diagnostic.detail,
     })));
-    const rendered = renderElement(record.element, basePath, registry, defaultFont);
+    const rendered = renderElement(record.element, basePath, registry, defaultFont, options);
     svgParts.push(rendered.svg);
     warnings.push(...rendered.warnings);
   }
@@ -44,6 +44,7 @@ export function renderLayout(el: LayoutElement, basePath?: string, registry?: Fo
   const attrs = [
     `data-maliang-deck-layout-id="${escapeXml(el.id)}"`,
     `data-maliang-deck-layout-mode="${el.layout.mode}"`,
+    ...animationDataAttrs(el),
     buildTransform(el),
     el.opacity != null && el.opacity !== 1 ? `opacity="${n(el.opacity)}"` : '',
     el.overflow === 'clip' ? `clip-path="url(#${escapeXml(clipId)})"` : '',

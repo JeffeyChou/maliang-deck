@@ -16,7 +16,10 @@
   },
   "dependencies": {
     "@maliang-deck/schema": "workspace:*",
-    "@maliang-deck/text-measure": "workspace:*"
+    "@maliang-deck/text-measure": "workspace:*",
+    "katex": "^0.16.45",
+    "playwright-core": "^1.59.1",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",

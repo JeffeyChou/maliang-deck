@@ -34,9 +34,6 @@
       ],
       "@maliang-deck/workflow": [
         "packages/workflow/src/index.ts"
-      ],
-      "@maliang-deck/exporter-pptxgenjs": [
-        "packages/exporter-pptxgenjs/src/index.ts"
       ]
     }
   }

@@ -10,7 +10,7 @@ from .drawingml_context import ConvertContext
 from .drawingml_utils import (
     SVG_NS, ANGLE_UNIT, DASH_PRESETS,
     px_to_emu, _f, _get_attr,
-    parse_hex_color, parse_stop_style, resolve_url_id,
+    parse_hex_color, parse_stop_style, resolve_url_id, parse_css_color_alpha,
 )
 
 
@@ -507,6 +507,11 @@ def get_fill_opacity(
         except ValueError:
             pass
 
+    fill = _get_attr(elem, 'fill', ctx) if ctx else elem.get('fill')
+    css_alpha = parse_css_color_alpha(fill or '')
+    if css_alpha is not None:
+        base *= css_alpha
+
     return base if base < 1.0 else None
 
 
@@ -534,5 +539,10 @@ def get_stroke_opacity(
             base *= float(stroke_op)
         except ValueError:
             pass
+
+    stroke = _get_attr(elem, 'stroke', ctx) if ctx else elem.get('stroke')
+    css_alpha = parse_css_color_alpha(stroke or '')
+    if css_alpha is not None:
+        base *= css_alpha
 
     return base if base < 1.0 else None

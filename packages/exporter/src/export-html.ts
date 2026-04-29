@@ -1,5 +1,5 @@
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { basename, dirname, extname, isAbsolute, join, resolve } from 'node:path';
+import { basename, dirname, extname, isAbsolute, join, relative, resolve } from 'node:path';
 import { renderDeckToHtml, type HtmlExportMode } from '@maliang-deck/renderer-html';
 import { validateDeck, type Deck } from '@maliang-deck/schema';
 import type { ExportDeckResult, ExportWarning } from './export-report.js';
@@ -66,6 +66,42 @@ function copyFile(src: string, dest: string): void {
   copyFileSync(src, dest);
 }
 
+function firstExisting(paths: string[]): string | undefined {
+  return paths.find((path) => existsSync(path));
+}
+
+function copyDeckRelativeAsset(
+  assetPath: string,
+  deckDir: string,
+  outDir: string,
+  warnings: ExportWarning[],
+): void {
+  if (
+    !assetPath
+    || isAbsolute(assetPath)
+    || assetPath.startsWith('http://')
+    || assetPath.startsWith('https://')
+    || assetPath.startsWith('data:')
+  ) {
+    return;
+  }
+
+  const src = resolve(deckDir, assetPath);
+  if (!existsSync(src)) {
+    warnings.push({ code: 'asset-not-found', message: `Custom asset "${assetPath}" not found` });
+    return;
+  }
+
+  const dest = resolve(outDir, assetPath);
+  const rel = relative(outDir, dest);
+  if (rel.startsWith('..') || isAbsolute(rel)) {
+    warnings.push({ code: 'asset-unsafe-path', message: `Custom asset "${assetPath}" resolves outside the export directory` });
+    return;
+  }
+
+  copyFile(src, dest);
+}
+
 export function exportDeckToHtml(request: ExportHtmlRequest): ExportDeckResult {
   const { deckPath, outputDir, mode, repoRoot } = request;
   const warnings: ExportWarning[] = [];
@@ -91,6 +127,7 @@ export function exportDeckToHtml(request: ExportHtmlRequest): ExportDeckResult {
     return { format: 'html', outputPath: outputDir, success: false, warnings, error: 'Deck validation failed' };
   }
   const deck = result.data;
+  const deckDir = dirname(resolvedDeckPath);
 
   // --- Render HTML with relative asset paths ---
   const html = renderDeckToHtml(deck, { assetBase: './', mode });
@@ -119,22 +156,28 @@ export function exportDeckToHtml(request: ExportHtmlRequest): ExportDeckResult {
   // --- Copy only the deck's theme ---
   const theme = deck.meta.theme ?? 'minimal-white';
   const themesSrc = join(repoRoot, 'assets', 'themes');
+  const deckThemesSrc = join(deckDir, 'assets', 'themes');
   const themesDest = join(out, 'assets', 'themes');
   ensureDir(themesDest);
   // Always copy the chart-table base
   const chartTableBase = join(themesSrc, '_chart-table-base.css');
   if (existsSync(chartTableBase)) copyFile(chartTableBase, join(themesDest, '_chart-table-base.css'));
   // Copy the selected theme
-  const themeCss = join(themesSrc, `${theme}.css`);
-  if (existsSync(themeCss)) {
+  const themeCss = firstExisting([join(themesSrc, `${theme}.css`), join(deckThemesSrc, `${theme}.css`)]);
+  if (themeCss) {
     copyFile(themeCss, join(themesDest, `${theme}.css`));
   } else {
     warnings.push({ code: 'theme-not-found', message: `Theme "${theme}" CSS not found, presentation may lack styling` });
   }
 
+  for (const stylesheet of deck.meta.htmlRuntime?.customStylesheets ?? []) {
+    copyDeckRelativeAsset(stylesheet, deckDir, out, warnings);
+  }
+
   // --- Copy only referenced FX modules ---
   const usedFx = collectUsedFx(deck);
   const fxSrc = join(repoRoot, 'assets', 'fx');
+  const deckFxSrc = join(deckDir, 'assets', 'fx');
   const fxDest = join(out, 'assets', 'fx');
   if (usedFx.size > 0) {
     ensureDir(fxDest);
@@ -144,8 +187,8 @@ export function exportDeckToHtml(request: ExportHtmlRequest): ExportDeckResult {
     if (existsSync(utilSrc)) copyFile(utilSrc, join(fxDest, '_util.js'));
     // Copy each referenced FX module
     for (const fxName of usedFx) {
-      const fxFile = join(fxSrc, `${fxName}.js`);
-      if (existsSync(fxFile)) {
+      const fxFile = firstExisting([join(fxSrc, `${fxName}.js`), join(deckFxSrc, `${fxName}.js`)]);
+      if (fxFile) {
         copyFile(fxFile, join(fxDest, `${fxName}.js`));
       } else {
         warnings.push({ code: 'fx-not-found', message: `FX module "${fxName}" not found, effect will not render` });
@@ -160,6 +203,10 @@ export function exportDeckToHtml(request: ExportHtmlRequest): ExportDeckResult {
     writeFileSync(join(fxDest, 'fx-runtime.js'), '/* no FX used */\n', 'utf-8');
   }
 
+  for (const script of deck.meta.htmlRuntime?.customScripts ?? []) {
+    copyDeckRelativeAsset(script, deckDir, out, warnings);
+  }
+
   // --- Copy lib/ and extensions/ (referenced by <script src> in rendered HTML) ---
   const libSrc = join(repoRoot, 'assets', 'lib');
   const libDest = join(out, 'assets', 'lib');
@@ -170,7 +217,6 @@ export function exportDeckToHtml(request: ExportHtmlRequest): ExportDeckResult {
   if (existsSync(extSrc)) copyDir(extSrc, extDest);
 
   // --- Copy local images ---
-  const deckDir = dirname(resolvedDeckPath);
   const allLocalImages = new Set<string>();
   for (const slide of deck.slides) {
     for (const p of collectLocalImages(slide.elements)) {

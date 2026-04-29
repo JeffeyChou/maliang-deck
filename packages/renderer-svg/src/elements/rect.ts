@@ -1,5 +1,5 @@
 import type { RectElement } from '../../../schema/src/types.js';
-import { buildTransform, buildOpacityAttrs, n } from '../utils.js';
+import { animationDataAttrs, buildTransform, buildOpacityAttrs, n } from '../utils.js';
 
 export function renderRect(el: RectElement): string {
     const fill = el.fill ?? 'none';
@@ -12,6 +12,7 @@ export function renderRect(el: RectElement): string {
         `fill="${fill}"`,
         stroke !== 'none' ? `stroke="${stroke}"` : '',
         stroke !== 'none' ? `stroke-width="${strokeWidth}"` : '',
+        ...animationDataAttrs(el),
         opacityAttrs,
         transform ? `transform="${transform}"` : '',
     ]

@@ -1,13 +1,12 @@
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { exportDeckAsync, exportDeckToHtml, type ExportFormat, type PptxEngine } from '@maliang-deck/exporter';
+import { exportDeckAsync, exportDeckToHtml, type ExportFormat } from '@maliang-deck/exporter';
 import type { HtmlExportMode } from '@maliang-deck/renderer-html';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const REPO_ROOT = resolve(__dirname, '..', '..', '..');
 
 export type RunExportOptions = {
-  pptxEngine?: string;
   format?: string;
   htmlMode?: string;
 };
@@ -25,12 +24,6 @@ function inferFormat(output: string, explicit?: string): ExportFormat {
 function parseHtmlMode(mode?: string): HtmlExportMode {
   if (mode === 'editable') return 'editable';
   return 'readonly';
-}
-
-export function parsePptxEngine(engine?: string): PptxEngine | undefined {
-  if (engine == null) return undefined;
-  if (engine === 'drawingml' || engine === 'pptxgenjs') return engine;
-  throw new Error(`invalid PPTX engine "${engine}" (expected "drawingml" or "pptxgenjs")`);
 }
 
 export async function runExport(file: string, output: string, options: RunExportOptions = {}): Promise<void> {
@@ -62,7 +55,6 @@ export async function runExport(file: string, output: string, options: RunExport
     deckPath,
     outputPath,
     format,
-    pptxEngine: parsePptxEngine(options.pptxEngine),
   });
   if (!result.success) {
     console.error(`Export failed: ${result.error ?? 'unknown error'}`);

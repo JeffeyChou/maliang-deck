@@ -38,10 +38,9 @@ Renderer behavior is intentionally bounded:
 | --- | --- |
 | HTML | Keeps layout containers and previews with CSS Grid/Flex. |
 | SVG/PDF | Resolves static geometry and emits layout diagnostics. |
-| DrawingML PPTX | Uses SVG/Python path; chart/table content still fails fast. |
-| `pptxgenjs` PPTX | Resolves children natively where supported; warns on unsupported layout clip/rotation/opacity. |
+| DrawingML PPTX | Uses SVG/Python path with native metadata for table, chart, formula, and animation targets where supported. |
 
-Important diagnostics: `layout-flattened`, `layout-overflow`, `renderer-unsupported-element`, `pptxgenjs.layout.transform-unsupported`, `pptxgenjs.layout.opacity-unsupported`, and `pptxgenjs.layout.clip-unsupported`.
+Important diagnostics: `layout-flattened`, `layout-overflow`, and `renderer-unsupported-element`.
 
 ## Component/Macro Layer
 

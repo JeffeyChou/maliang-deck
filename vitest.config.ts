@@ -46,7 +46,6 @@ export default defineConfig({
       '@maliang-deck/renderer-svg': resolve(__dirname, 'packages/renderer-svg/src/index.ts'),
       '@maliang-deck/text-measure': resolve(__dirname, 'packages/text-measure/src/index.ts'),
       '@maliang-deck/exporter': resolve(__dirname, 'packages/exporter/src/index.ts'),
-      '@maliang-deck/exporter-pptxgenjs': resolve(__dirname, 'packages/exporter-pptxgenjs/src/index.ts'),
       '@maliang-deck/workflow': resolve(__dirname, 'packages/workflow/src/index.ts'),
     },
   },

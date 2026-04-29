@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Quantum Mechanics — Wave Functions & Measurement",
-    "theme": "minimal-white",
+    "theme": "dreamy-blur",
     "canvas": {
       "width": 1280,
       "height": 720
@@ -12,9 +12,6 @@
         "durationMs": 600,
         "easing": "ease-in-out"
       },
-      "customStylesheets": [
-        "./assets/themes/dreamy-blur.css"
-      ],
       "customScripts": [
         "./assets/fx/aurora-wave.js",
         "./assets/fx/bokeh-float.js"
@@ -838,12 +835,12 @@
           "type": "graph",
           "axes": {
             "x": [
-              -6,
-              6
+              -3,
+              3
             ],
             "y": [
-              -6,
-              6
+              -3,
+              3
             ],
             "grid": true
           },
@@ -851,7 +848,9 @@
           "surface": {
             "expr": "exp(-(x*x+y*y)/4) * cos(x) * cos(y)",
             "colorMap": "plasma",
-            "resolution": 100
+            "wireframe": true,
+            "opacity": 0.92,
+            "resolution": 72
           },
           "zAxis": [
             -1,
@@ -859,11 +858,11 @@
           ],
           "camera": {
             "distance": 12,
-            "phi": 0.85,
-            "theta": 0.5,
+            "phi": 1,
+            "theta": 2,
             "fov": 45,
             "orbit": true,
-            "orbitSpeed": 0.4
+            "orbitSpeed": 0.28
           },
           "cameraKeyframes": [
             {
@@ -924,7 +923,7 @@
           "fill": "#c4b5fd"
         }
       ],
-      "notes": "3D orbital probability — viridis surface with orbiting camera.",
+      "notes": "3D orbital probability — plasma surface with the final projected camera angle matching the static PDF/PPTX frame.",
       "fx": [
         "aurora-wave",
         "constellation"
@@ -1198,8 +1197,8 @@
         },
         {
           "id": "tunneling-formula",
-          "x": 90,
-          "y": 568,
+          "x": 61.61,
+          "y": 530.43,
           "width": 740,
           "height": 60,
           "animation": {

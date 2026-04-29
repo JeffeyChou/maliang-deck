@@ -1,5 +1,5 @@
 import type { ImageElement } from '../../../schema/src/types.js';
-import { buildTransform, buildOpacityAttrs, n } from '../utils.js';
+import { animationDataAttrs, buildTransform, buildOpacityAttrs, n } from '../utils.js';
 import { readFileSync } from 'fs';
 import { join, extname, isAbsolute } from 'path';
 
@@ -57,6 +57,7 @@ export function renderImage(el: ImageElement, basePath?: string): string {
         `height="${n(el.height)}"`,
         `href="${href}"`,
         `preserveAspectRatio="${par}"`,
+        ...animationDataAttrs(el),
         opacityAttrs,
         transform ? `transform="${transform}"` : '',
     ]

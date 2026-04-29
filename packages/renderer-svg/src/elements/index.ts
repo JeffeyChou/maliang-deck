@@ -14,11 +14,17 @@ import { renderChart } from './chart.js';
 import { renderTable } from './table.js';
 import { renderLayout } from './layout.js';
 import { renderCustomHtml } from './customHtml.js';
+import { renderFormula } from './formula.js';
+import { renderGraph } from './graph.js';
 
 export interface RenderResult {
   svg: string;
   warnings: LayoutWarning[];
 }
+
+export type SvgElementRenderOptions = {
+  mode?: 'pdf-final' | 'pptx-steps';
+};
 
 // ─── Static fallbacks for HTML-only animated elements ─────────────────────
 
@@ -26,28 +32,16 @@ function escapeXml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function renderAnimatedTextFallback(el: { id: string; x: number; y: number; width: number; height?: number; fontSize: number; fontFamily?: string; content: string }): RenderResult {
+function renderAnimatedTextFallback(el: Extract<Element, { type: 'animatedText' }>, defaultFont?: string): RenderResult {
   const fontSize = el.fontSize;
-  const fontFamily = el.fontFamily ?? 'sans-serif';
+  const fontFamily = el.fontFamily ?? defaultFont ?? 'sans-serif';
+  const fill = el.color ?? '#000000';
+  const finalContent = el.morphTo ?? el.content;
   return {
-    svg: `<text x="${el.x}" y="${el.y + fontSize}" width="${el.width}" font-size="${fontSize}" font-family="${escapeXml(fontFamily)}">${escapeXml(el.content)}</text>`,
+    svg: `<text x="${el.x}" y="${el.y + fontSize}" width="${el.width}" font-size="${fontSize}" font-family="${escapeXml(fontFamily)}" fill="${escapeXml(fill)}" data-maliang-deck-id="${escapeXml(el.id)}" data-maliang-deck-kind="animatedText" data-maliang-final-frame="true">${escapeXml(finalContent)}</text>`,
     warnings: [{
       type: 'unsupported-feature',
-      message: 'AnimatedText rendered as static text (animations are HTML-only)',
-      elementId: el.id,
-      phase: 'render-svg',
-      policy: 'native',
-    }],
-  };
-}
-
-function renderFormulaFallback(el: { id: string; x: number; y: number; width: number; height?: number; latex: string; fontSize?: number }): RenderResult {
-  const fontSize = el.fontSize ?? 16;
-  return {
-    svg: `<text x="${el.x}" y="${el.y + fontSize}" font-size="${fontSize}" font-family="serif" font-style="italic">${escapeXml(el.latex)}</text>`,
-    warnings: [{
-      type: 'unsupported-feature',
-      message: 'Formula rendered as raw LaTeX text (KaTeX rendering is HTML-only)',
+      message: 'AnimatedText rendered as its final static text frame for SVG/PPTX export.',
       elementId: el.id,
       phase: 'render-svg',
       policy: 'native',
@@ -113,12 +107,12 @@ function withMorphWarning(result: RenderResult, el: Element): RenderResult {
   return result;
 }
 
-export function renderElement(el: Element, basePath?: string, registry?: FontRegistry, defaultFont?: string): RenderResult {
+export function renderElement(el: Element, basePath?: string, registry?: FontRegistry, defaultFont?: string, options?: SvgElementRenderOptions): RenderResult {
   switch (el.type) {
     case 'text':
       return renderText(el, registry, defaultFont);
     case 'group':
-      return withMorphWarning(renderGroup(el, basePath, registry, defaultFont), el);
+      return withMorphWarning(renderGroup(el, basePath, registry, defaultFont, options), el);
     case 'rect':
       return withMorphWarning({ svg: renderRect(el), warnings: [] }, el);
     case 'circle':
@@ -138,15 +132,15 @@ export function renderElement(el: Element, basePath?: string, registry?: FontReg
     case 'table':
       return renderTable(el);
     case 'layout':
-      return withMorphWarning(renderLayout(el, basePath, registry, defaultFont, undefined), el);
+      return withMorphWarning(renderLayout(el, basePath, registry, defaultFont, undefined, options), el);
     case 'customHtml':
       return renderCustomHtml(el as any);
     case 'animatedText':
-      return renderAnimatedTextFallback(el as any);
+      return renderAnimatedTextFallback(el, defaultFont);
     case 'formula':
-      return renderFormulaFallback(el as any);
+      return renderFormula(el, options?.mode ?? 'pdf-final');
     case 'graph':
-      return renderGraphFallback(el as any);
+      return renderGraph(el);
     case 'model3d':
       return renderModel3dFallback(el as any);
     default:

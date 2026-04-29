@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 import shutil
 import tempfile
@@ -30,6 +31,7 @@ from .pptx_slide_xml import (
     ANIMATIONS_AVAILABLE, TRANSITIONS,
     create_slide_xml_with_svg, create_slide_rels_xml,
 )
+from .pptx_animation_bridge import animation_xml_for_slide
 
 # Re-import create_transition_xml only if available
 try:
@@ -75,6 +77,7 @@ def create_pptx_with_native_svg(
     notes: dict[str, str] | None = None,
     enable_notes: bool = True,
     use_native_shapes: bool = False,
+    animation_plan: str | Path | None = None,
 ) -> bool:
     """Create a PPTX file with native SVG.
 
@@ -90,6 +93,7 @@ def create_pptx_with_native_svg(
         notes: Notes dict, key is SVG stem, value is notes content.
         enable_notes: Whether to enable notes embedding.
         use_native_shapes: Convert SVG to native DrawingML shapes.
+        animation_plan: Optional TypeScript-generated PPTX animation plan JSON.
 
     Returns:
         Whether all slides were successfully created.
@@ -179,6 +183,14 @@ def create_pptx_with_native_svg(
         has_any_image = False
         media_cache: dict[tuple[str, str], str] = {}
         notes_slides_created: set[int] = set()
+        chart_parts_created: set[str] = set()
+        animation_plan_value = None
+        if animation_plan:
+            try:
+                animation_plan_value = json.loads(Path(animation_plan).read_text(encoding='utf-8'))
+            except Exception as exc:
+                if verbose:
+                    print(f"  Warning: Could not read animation plan: {exc}")
 
         for i, svg_path in enumerate(svg_files, 1):
             slide_num = i
@@ -186,7 +198,7 @@ def create_pptx_with_native_svg(
             try:
                 # ---- Native shapes mode ----
                 if use_native_shapes:
-                    slide_xml, media_files_dict, rel_entries = convert_svg_to_slide_shapes(
+                    slide_xml, media_files_dict, chart_files_dict, rel_entries, shape_id_map = convert_svg_to_slide_shapes(
                         svg_path, slide_num=slide_num, verbose=verbose,
                     )
 
@@ -201,6 +213,11 @@ def create_pptx_with_native_svg(
                             '</p:sld>',
                             transition_xml + '\n</p:sld>',
                         )
+
+                    if animation_plan_value is not None:
+                        timing_xml = animation_xml_for_slide(svg_path.stem, animation_plan_value, shape_id_map)
+                        if timing_xml:
+                            slide_xml = slide_xml.replace('</p:sld>', timing_xml + '\n</p:sld>')
 
                     # Write slide XML
                     slide_xml_path = extract_dir / 'ppt' / 'slides' / f'slide{slide_num}.xml'
@@ -250,6 +267,15 @@ def create_pptx_with_native_svg(
 </Relationships>'''
                     with open(rels_path, 'w', encoding='utf-8') as f:
                         f.write(rels_xml)
+
+                    # Write chart parts
+                    if chart_files_dict:
+                        charts_dir = extract_dir / 'ppt' / 'charts'
+                        charts_dir.mkdir(exist_ok=True)
+                        for chart_name, chart_xml in chart_files_dict.items():
+                            with open(charts_dir / chart_name, 'w', encoding='utf-8') as f:
+                                f.write(chart_xml)
+                            chart_parts_created.add(chart_name)
 
                     # Track image formats for Content_Types
                     for media_name in media_files_dict:
@@ -371,6 +397,17 @@ def create_pptx_with_native_svg(
             content_types = content_types.replace(
                 '</Types>', '\n'.join(types_to_add) + '\n</Types>',
             )
+            with open(content_types_path, 'w', encoding='utf-8') as f:
+                f.write(content_types)
+
+        if chart_parts_created:
+            for chart_name in sorted(chart_parts_created):
+                override = (
+                    f'  <Override PartName="/ppt/charts/{chart_name}" '
+                    f'ContentType="application/vnd.openxmlformats-officedocument.drawingml.chart+xml"/>'
+                )
+                if override not in content_types:
+                    content_types = content_types.replace('</Types>', override + '\n</Types>')
             with open(content_types_path, 'w', encoding='utf-8') as f:
                 f.write(content_types)
 

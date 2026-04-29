@@ -1,6 +1,6 @@
 import type { LayoutWarning } from '@maliang-deck/text-measure';
 import type { TableCell, TableElement, TableObjectCell } from '../../../schema/src/types.js';
-import { buildOpacityAttrs, buildTransform, escapeXml, n } from '../utils.js';
+import { animationDataAttrs, buildOpacityAttrs, buildTransform, escapeXml, jsonDataAttr, n } from '../utils.js';
 import type { RenderResult } from './index.js';
 
 const DEFAULT_ROW_HEIGHT = 32;
@@ -56,8 +56,9 @@ export function renderTable(el: TableElement): RenderResult {
   }).join('\n');
 
   const attrs = [
-    `data-maliang-deck-id="${escapeXml(el.id)}"`,
+    ...animationDataAttrs(el),
     `data-maliang-deck-kind="table"`,
+    jsonDataAttr('data-maliang-table', { kind: 'table', id: el.id, rows: el.rows, options: el.options, style: el.style, box: { x: el.x, y: el.y, width: el.width, height }, animation: el.animation }),
     opacityAttrs,
     transform ? `transform="${transform}"` : '',
   ]

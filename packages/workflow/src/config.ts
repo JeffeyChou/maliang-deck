@@ -8,9 +8,6 @@ import { loadProject, projectRoot } from './project.js';
 export const ExtractionProviderSchema = z.enum(['mineru', 'docling']);
 export type ExtractionProviderConfig = z.infer<typeof ExtractionProviderSchema>;
 
-export const PptxEngineSchema = z.enum(['drawingml', 'pptxgenjs']);
-export type PptxEngineConfig = z.infer<typeof PptxEngineSchema>;
-
 export const DoclingTableModeSchema = z.enum(['fast', 'accurate']);
 export type DoclingTableModeConfig = z.infer<typeof DoclingTableModeSchema>;
 
@@ -69,7 +66,6 @@ export const MaliangDeckConfigSchema = z.object({
     formats: z.array(OutputFormatSchema).min(1).optional(),
   }).strict().optional(),
   export: z.object({
-    pptxEngine: PptxEngineSchema.optional(),
     overflowPolicy: z.enum(['warn', 'fail']).optional(),
     overflowTolerance: z.number().nonnegative().optional(),
   }).strict().optional(),
@@ -107,7 +103,6 @@ export type ResolvedMaliangDeckConfig = Omit<MaliangDeckConfig, 'extraction' | '
     formats: OutputFormat[];
   };
   export: {
-    pptxEngine: PptxEngineConfig;
     overflowPolicy: 'warn' | 'fail';
     overflowTolerance: number;
   };
@@ -170,7 +165,6 @@ type DeckMetaConfigInput = {
 export type MaliangDeckCliOverrides = MaliangDeckConfig & {
   provider?: ExtractionProviderConfig;
   formats?: OutputFormat[];
-  pptxEngine?: PptxEngineConfig;
   fontMap?: Record<string, string>;
 };
 
@@ -212,7 +206,6 @@ export const BUILT_IN_MALIANG_DECK_CONFIG: ResolvedMaliangDeckConfig = {
     formats: ['html', 'pdf', 'pptx'],
   },
   export: {
-    pptxEngine: 'drawingml',
     overflowPolicy: 'warn',
     overflowTolerance: 0,
   },
@@ -419,7 +412,7 @@ function deckMetaLayer(deckMeta: DeckMetaConfigInput | undefined, source: Config
 
 function cliOverridesLayer(cliOverrides: MaliangDeckCliOverrides | undefined, source: ConfigSource): MaliangDeckConfig | undefined {
   if (!cliOverrides) return undefined;
-  const { provider, formats, pptxEngine, fontMap, ...nestedOverrides } = cliOverrides;
+  const { provider, formats, fontMap, ...nestedOverrides } = cliOverrides;
   const parsedNested = parseConfig(nestedOverrides, source);
   const layer: MaliangDeckConfig = {
     ...parsedNested,
@@ -430,10 +423,6 @@ function cliOverridesLayer(cliOverrides: MaliangDeckCliOverrides | undefined, so
     outputs: {
       ...parsedNested.outputs,
       formats: formats ?? parsedNested.outputs?.formats,
-    },
-    export: {
-      ...parsedNested.export,
-      pptxEngine: pptxEngine ?? parsedNested.export?.pptxEngine,
     },
     fonts: parsedNested.fonts ?? fontMap,
   };

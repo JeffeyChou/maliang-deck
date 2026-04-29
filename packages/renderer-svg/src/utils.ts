@@ -47,3 +47,22 @@ export function escapeXml(str: string): string {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&apos;');
 }
+
+export function dataAttr(name: string, value: string): string {
+    return `${name}="${escapeXml(value)}"`;
+}
+
+export function jsonDataAttr(name: string, value: unknown): string {
+    return dataAttr(name, Buffer.from(JSON.stringify(value), 'utf-8').toString('base64'));
+}
+
+export function animationDataAttrs(el: BaseElement): string[] {
+    const attrs = [
+        dataAttr('data-maliang-deck-id', el.id),
+    ];
+    if (el.animation) {
+        attrs.push(jsonDataAttr('data-maliang-animation', el.animation));
+        if (el.animation.step != null) attrs.push(dataAttr('data-maliang-step', String(el.animation.step)));
+    }
+    return attrs;
+}

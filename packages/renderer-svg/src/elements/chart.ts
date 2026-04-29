@@ -1,6 +1,6 @@
 import type { LayoutWarning } from '@maliang-deck/text-measure';
 import type { ChartElement, ChartSeries } from '../../../schema/src/types.js';
-import { buildOpacityAttrs, buildTransform, escapeXml, n } from '../utils.js';
+import { animationDataAttrs, buildOpacityAttrs, buildTransform, escapeXml, jsonDataAttr, n } from '../utils.js';
 import type { RenderResult } from './index.js';
 
 const PALETTE = ['#2563eb', '#dc2626', '#16a34a', '#d97706', '#7c3aed', '#0891b2', '#db2777', '#65a30d'];
@@ -11,9 +11,10 @@ export function renderChart(el: ChartElement): RenderResult {
   const transform = buildTransform(el);
   const opacityAttrs = buildOpacityAttrs(el.opacity);
   const attrs = [
-    `data-maliang-deck-id="${escapeXml(el.id)}"`,
+    ...animationDataAttrs(el),
     `data-maliang-deck-kind="chart"`,
     `data-chart-type="${el.chartType}"`,
+    jsonDataAttr('data-maliang-chart', { kind: 'chart', id: el.id, chartType: el.chartType, data: el.data, options: el.options, style: el.style, box: { x: el.x, y: el.y, width: el.width, height: el.height }, animation: el.animation }),
     opacityAttrs,
     transform ? `transform="${transform}"` : '',
   ]

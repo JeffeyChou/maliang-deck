@@ -3,10 +3,9 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { exportDeckWithPptxGenJs } from '@maliang-deck/exporter-pptxgenjs';
 import { renderDeckToSvg } from '@maliang-deck/renderer-svg';
 import { validateDeck } from '@maliang-deck/schema';
-import type { Deck, Element } from '@maliang-deck/schema';
+import type { Deck } from '@maliang-deck/schema';
 import { FontRegistry } from '@maliang-deck/text-measure';
 import type { ExportDeckResult, ExportFormat, ExportWarning } from './export-report.js';
 import { classifyPptxAnimationSupport, generatePptxAnimationPlan } from './pptx-animation.js';
@@ -19,7 +18,6 @@ export type ExportDeckRequest = {
   deckPath: string;
   outputPath: string;
   format: ExportFormat;
-  pptxEngine?: PptxEngine;
   basePath?: string;
   animationPlanPath?: string;
   fontMap?: Record<string, string>;
@@ -29,55 +27,11 @@ export type ExportDeckRequest = {
   overflowPolicy?: 'warn' | 'fail';
 };
 
-export type PptxEngine = 'drawingml' | 'pptxgenjs';
-
-export type PptxgenjsExportRequest = {
-  deck: Deck;
-  deckPath: string;
-  outputPath: string;
-  basePath: string;
-  warnings: ExportWarning[];
-};
-
-export type PptxgenjsExportHandler = (request: PptxgenjsExportRequest) => ExportDeckResult;
-export type PptxgenjsExportAsyncHandler = (request: PptxgenjsExportRequest) => ExportDeckResult | Promise<ExportDeckResult>;
-
 export type ExportDeckDependencies = {
-  exportPptxgenjs?: PptxgenjsExportHandler;
   runPythonBridge?: (bridgeScript: string, exportArgs: string) => void;
 };
 
-export type ExportDeckAsyncDependencies = Omit<ExportDeckDependencies, 'exportPptxgenjs'> & {
-  exportPptxgenjs?: PptxgenjsExportAsyncHandler;
-};
-
-type UnsupportedNativeExportElement = {
-  type: 'chart' | 'table';
-  id: string;
-  path: string;
-};
-
-function missingPptxgenjsExporter(outputPath: string, warnings: ExportWarning[]): ExportDeckResult {
-  return {
-    format: 'pptx',
-    outputPath,
-    success: false,
-    warnings,
-    error: 'pptxgenjs PPTX engine requested, but no JS exporter is registered',
-  };
-}
-
-async function exportWithDefaultPptxgenjs(request: PptxgenjsExportRequest): Promise<ExportDeckResult> {
-  const result = await exportDeckWithPptxGenJs({
-    deck: request.deck,
-    outputPath: request.outputPath,
-    basePath: request.basePath,
-  });
-  return {
-    ...result,
-    warnings: [...request.warnings, ...result.warnings],
-  };
-}
+export type ExportDeckAsyncDependencies = ExportDeckDependencies;
 
 function canvasFormat(width: number, height: number): string {
   const ratio = width / height;
@@ -126,59 +80,13 @@ function requestProjectFonts(request: ExportDeckRequest): Record<string, string>
     : undefined;
 }
 
-function collectChartTableElements(elements: Element[], pathPrefix: string): UnsupportedNativeExportElement[] {
-  const unsupported: UnsupportedNativeExportElement[] = [];
-
-  elements.forEach((element, index) => {
-    const path = `${pathPrefix}[${index}]`;
-    if (element.type === 'chart' || element.type === 'table') {
-      unsupported.push({ type: element.type, id: element.id, path });
-      return;
-    }
-    if (element.type === 'group' || element.type === 'layout') {
-      unsupported.push(...collectChartTableElements(element.elements, `${path}.elements`));
-    }
-  });
-
-  return unsupported;
-}
-
-function findChartTableElements(deck: Deck): UnsupportedNativeExportElement[] {
-  return deck.slides.flatMap((slide, slideIndex) => (
-    collectChartTableElements(slide.elements, `slides[${slideIndex}].elements`)
-  ));
-}
-
-function unsupportedChartTableExportError(format: ExportFormat, elements: UnsupportedNativeExportElement[]): string {
-  const engine = format === 'pptx' ? 'DrawingML/Python PPTX' : 'PDF';
-  const locations = elements
-    .map((element) => `${element.type}#${element.id} at ${element.path}`)
-    .join('; ');
-  return `${engine} export does not support chart/table elements. Use format "pptx" with pptxEngine "pptxgenjs" for native chart/table export. Found: ${locations}`;
-}
-
 export function exportDeck(request: ExportDeckRequest, dependencies: ExportDeckDependencies = {}): ExportDeckResult {
   const deckPath = resolve(request.deckPath);
   const outputPath = resolve(request.outputPath);
-  const pptxEngine = request.pptxEngine ?? 'drawingml';
   const warnings: ExportWarning[] = [];
   const { deck, error } = loadDeck(deckPath);
   if (!deck) {
     return { format: request.format, outputPath, success: false, warnings, error };
-  }
-
-  const usesOptInJsPptx = request.format === 'pptx' && pptxEngine === 'pptxgenjs';
-  if (request.format === 'pptx' && !usesOptInJsPptx) {
-    const unsupportedElements = findChartTableElements(deck);
-    if (unsupportedElements.length > 0) {
-      return {
-        format: request.format,
-        outputPath,
-        success: false,
-        warnings,
-        error: unsupportedChartTableExportError(request.format, unsupportedElements),
-      };
-    }
   }
 
   // Construct font registry with precedence: CLI > project.json > DeckMeta > bundled > heuristic
@@ -189,22 +97,6 @@ export function exportDeck(request: ExportDeckRequest, dependencies: ExportDeckD
   });
 
   const basePath = request.basePath ? resolve(request.basePath) : dirname(deckPath);
-
-  if (request.format === 'pptx' && pptxEngine === 'pptxgenjs') {
-    const exportPptxgenjs = dependencies.exportPptxgenjs ?? (() => missingPptxgenjsExporter(outputPath, warnings));
-    try {
-      return exportPptxgenjs({ deck, deckPath, outputPath, basePath, warnings });
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      return {
-        format: request.format,
-        outputPath,
-        success: false,
-        warnings,
-        error: `pptxgenjs export failed: ${message}`,
-      };
-    }
-  }
 
   const tmpDir = join(tmpdir(), `maliang-deck-export-${process.pid}-${Date.now()}`);
   mkdirSync(tmpDir, { recursive: true });
@@ -320,35 +212,5 @@ export async function exportDeckAsync(
   request: ExportDeckRequest,
   dependencies: ExportDeckAsyncDependencies = {},
 ): Promise<ExportDeckResult> {
-  const pptxEngine = request.pptxEngine ?? 'drawingml';
-
-  if (request.format !== 'pptx' || pptxEngine !== 'pptxgenjs') {
-    return exportDeck(request, {
-      runPythonBridge: dependencies.runPythonBridge,
-      exportPptxgenjs: dependencies.exportPptxgenjs as PptxgenjsExportHandler | undefined,
-    });
-  }
-
-  const deckPath = resolve(request.deckPath);
-  const outputPath = resolve(request.outputPath);
-  const warnings: ExportWarning[] = [];
-  const { deck, error } = loadDeck(deckPath);
-  if (!deck) {
-    return { format: request.format, outputPath, success: false, warnings, error };
-  }
-
-  const basePath = request.basePath ? resolve(request.basePath) : dirname(deckPath);
-  const exportPptxgenjs = dependencies.exportPptxgenjs ?? exportWithDefaultPptxgenjs;
-  try {
-    return await exportPptxgenjs({ deck, deckPath, outputPath, basePath, warnings });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return {
-      format: request.format,
-      outputPath,
-      success: false,
-      warnings,
-      error: `pptxgenjs export failed: ${message}`,
-    };
-  }
+  return exportDeck(request, dependencies);
 }

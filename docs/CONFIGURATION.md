@@ -8,7 +8,7 @@ Settings are resolved in this order; later layers override earlier layers:
 
 | Priority | Source | Notes |
 | --- | --- | --- |
-| 1 | Built-in defaults | Current behavior: MinerU extraction, HTML/PDF/PPTX outputs, DrawingML PPTX engine. |
+| 1 | Built-in defaults | Current behavior: MinerU extraction plus HTML/PDF/PPTX outputs. |
 | 2 | `~/.maliang-deck/config.json` | User/global defaults reused across projects. |
 | 3 | `maliang-deck.config.json` | Workspace or project-root defaults. |
 | 4 | `project.json.config` | Portable workflow-project overrides. |
@@ -42,7 +42,6 @@ Settings are resolved in this order; later layers override earlier layers:
   },
   "outputs": { "formats": ["html", "pdf", "pptx"] },
   "export": {
-    "pptxEngine": "drawingml",
     "overflowPolicy": "warn",
     "overflowTolerance": 0
   },
@@ -84,8 +83,7 @@ A global config can set personal defaults:
 ```json
 {
   "extraction": { "provider": "docling" },
-  "outputs": { "formats": ["html", "pptx"] },
-  "export": { "pptxEngine": "pptxgenjs" }
+  "outputs": { "formats": ["html", "pptx"] }
 }
 ```
 
@@ -96,8 +94,7 @@ A workflow project can override those defaults in `project.json`:
   "slug": "research-deck",
   "outputFormats": ["html", "pdf"],
   "config": {
-    "extraction": { "provider": "mineru" },
-    "export": { "pptxEngine": "drawingml" }
+    "extraction": { "provider": "mineru" }
   }
 }
 ```

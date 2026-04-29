@@ -1,5 +1,5 @@
 import type { EllipseElement } from '../../../schema/src/types.js';
-import { buildTransform, buildOpacityAttrs, n } from '../utils.js';
+import { animationDataAttrs, buildTransform, buildOpacityAttrs, n } from '../utils.js';
 
 export function renderEllipse(el: EllipseElement): string {
     const fill = el.fill ?? 'none';
@@ -18,6 +18,7 @@ export function renderEllipse(el: EllipseElement): string {
         `rx="${n(rx)}"`,
         `ry="${n(ry)}"`,
         `fill="${fill}"`,
+        ...animationDataAttrs(el),
         stroke !== 'none' ? `stroke="${stroke}"` : '',
         stroke !== 'none' ? `stroke-width="${strokeWidth}"` : '',
         opacityAttrs,

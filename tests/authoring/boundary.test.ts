@@ -10,7 +10,6 @@ const RENDER_EXPORT_PACKAGE_DIRS = [
   'packages/renderer-html',
   'packages/renderer-svg',
   'packages/exporter',
-  'packages/exporter-pptxgenjs',
 ];
 
 const FORBIDDEN_RENDER_EXPORT_PATTERNS: Array<[RegExp, string]> = [
@@ -25,7 +24,7 @@ const FORBIDDEN_RENDER_EXPORT_PATTERNS: Array<[RegExp, string]> = [
 const FORBIDDEN_AUTHORING_IMPORT_PATTERNS: Array<[RegExp, string]> = [
   [/@maliang-deck\/renderer-html/, '@maliang-deck/renderer-html'],
   [/@maliang-deck\/renderer-svg/, '@maliang-deck/renderer-svg'],
-  [/@maliang-deck\/exporter(?:-pptxgenjs)?/, '@maliang-deck/exporter packages'],
+  [/@maliang-deck\/exporter/, '@maliang-deck/exporter packages'],
   [/@maliang-deck\/workflow/, '@maliang-deck/workflow'],
 ];
 

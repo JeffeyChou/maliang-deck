@@ -10,7 +10,6 @@ Deck DSL
   -> HTML renderer + runtime
   -> SVG renderer -> PDF bridge
   -> SVG renderer -> DrawingML PPTX bridge
-  -> pptxgenjs engine when explicitly selected
 ```
 
 ## Package Boundaries
@@ -21,8 +20,7 @@ Deck DSL
 | `@maliang-deck/text-measure` | Fontkit metrics, wrapping, CJK breaks, font registry, reflow helpers. |
 | `@maliang-deck/renderer-html` | DSL to interactive browser presentation. |
 | `@maliang-deck/renderer-svg` | DSL to exportable SVG with text/layout/chart/table diagnostics. |
-| `@maliang-deck/exporter` | PDF/PPTX orchestration, engine routing, reports, animation plans. |
-| `@maliang-deck/exporter-pptxgenjs` | Opt-in JavaScript PPTX backend for native chart/table output. |
+| `@maliang-deck/exporter` | HTML/PDF/PPTX orchestration, reports, and animation plans. |
 | `@maliang-deck/workflow` | Project artifacts, extraction, normalization, gates, templates, guidance. |
 | `@maliang-deck/cli` | Command surface over schema, renderers, exporter, and workflow. |
 
@@ -37,9 +35,9 @@ Python does not own DSL parsing, workflow state, extraction, or file discovery.
 
 HTML rendering emits DOM, CSS variables, `data-anim-*` attributes, slide FX containers, notes, and runtime metadata. The runtime handles navigation, presenter mode, timeline steps, transitions, laser pointer, whiteboard, themes, and scaling. CSS themes are HTML-only polish; workflow style alignment is driven by the `deckDesign` contract and DSL-native colors, fonts, spacing, and assets.
 
-SVG rendering emits deterministic static geometry. It wraps text with `@maliang-deck/text-measure`, resolves layouts, renders chart/table primitives, and attaches `data-*` metadata used by the DrawingML bridge for text boxes.
+SVG rendering emits deterministic static geometry. It wraps text with `@maliang-deck/text-measure`, resolves layouts, renders chart/table/formula/graph final frames, and attaches `data-*` metadata used by the DrawingML bridge for native text, table, chart, formula, image, and animation targets.
 
-PDF export is SVG-based. Default PPTX export is SVG-to-DrawingML. Native chart/table PPTX export requires the explicit `pptxgenjs` engine; default DrawingML fails fast for chart/table decks so content is not silently dropped.
+PDF export is SVG-based. PPTX export is SVG-to-DrawingML through the Python bridge. Chart/table elements are carried through SVG metadata so the bridge can emit native PPTX table graphic frames and chart parts.
 
 Workflow build copies referenced image assets into `render/assets/materials/` and generates target-specific deck views with portable relative paths. The canonical `dsl/deck.json` remains the source DSL artifact.
 
@@ -89,7 +87,7 @@ Charts and tables support typed `style` fields (`ChartStyle`, `TableStyle`) with
 
 - HTML: explicit `style` (hex) → theme CSS vars → hardcoded defaults
 - SVG/PDF: explicit `style` (hex) → hardcoded defaults (no CSS context)
-- pptxgenjs PPTX: explicit `style` mapped to pptxgenjs options → defaults
+- DrawingML PPTX: SVG metadata `style`/DSL payload → native chart/table/formula objects where supported
 
 `customHtml` is an HTML-only escape hatch for arbitrary visualizations. SVG/PDF/PPTX exporters use the `fallbackImage` field or show a placeholder. The HTML renderer strips `<script>`, `<iframe>`, `<object>`, `<embed>`, and inline event handlers. The `customHtml-usage` lint rule flags these elements for review.
 
@@ -138,8 +136,6 @@ Docling is an optional local PDF provider invoked as an external CLI. It stays o
 
 Element animations use DSL descriptors and Web Animations API keyframes in `runtime/timeline.js`. Slide FX are separate canvas modules registered under `window.HPX`. Slide transitions live under `meta.htmlRuntime.transition` and are HTML-only. Shape and component morphing extensions (`assets/extensions/shape-morph/`) animate rect/circle/ellipse/group/layout elements through DSL-declared `morphSteps`. Three.js visualization extensions provide interactive graph/model rendering, and the GIF-to-ASCII extension provides browser-side animated ASCII filters for `customHtml`. The `morph` slide transition matches elements across slides by ID with FLIP + CSS property interpolation; group matching scope rules prevent double-animation of nested elements. SVG/PDF/PPTX exporters preserve the static final deck and ignore runtime-only presentation polish, emitting diagnostics when morph fields are present.
 
-## pptxgenjs ADR Summary
+## DrawingML PPTX Summary
 
-`pptxgenjs` is an opt-in PPTX backend for native chart/table output. The Python/DrawingML path remains the default for legacy shape-heavy decks. Explicit JS failures do not fall back to Python. Unsupported JS-engine behavior must warn or fail explicitly, especially for layout-level clip/rotation/opacity.
-
-See [pptxgenjs Export](./PPTXGENJS-EXPORT.md).
+PPTX export has one backend: SVG metadata plus the Python DrawingML bridge. The bridge preserves stable DSL element IDs into shape IDs for animation timing, emits native `a:tbl` table frames, creates chart parts and slide relationships for bar/line/pie/doughnut charts, and emits OfficeMath-marked formula text with SVG-style fallback data when full MathML lowering is not available.

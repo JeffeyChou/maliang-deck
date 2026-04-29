@@ -1,5 +1,5 @@
 import type { PolygonElement } from '../../../schema/src/types.js';
-import { buildTransform, buildOpacityAttrs, n } from '../utils.js';
+import { animationDataAttrs, buildTransform, buildOpacityAttrs, n } from '../utils.js';
 
 export function renderPolygon(el: PolygonElement): string {
     const fill = el.fill ?? 'none';
@@ -17,6 +17,7 @@ export function renderPolygon(el: PolygonElement): string {
     const attrs = [
         `points="${el.points}"`,
         `fill="${fill}"`,
+        ...animationDataAttrs(el),
         stroke !== 'none' ? `stroke="${stroke}"` : '',
         stroke !== 'none' ? `stroke-width="${strokeWidth}"` : '',
         opacityAttrs,

@@ -1,5 +1,5 @@
 import type { LineElement } from '../../../schema/src/types.js';
-import { buildTransform, buildOpacityAttrs, n } from '../utils.js';
+import { animationDataAttrs, buildTransform, buildOpacityAttrs, n } from '../utils.js';
 
 export function renderLine(el: LineElement): string {
     const stroke = el.stroke ?? '#000000';
@@ -13,6 +13,7 @@ export function renderLine(el: LineElement): string {
         `y2="${n(el.y2)}"`,
         `stroke="${stroke}"`,
         `stroke-width="${strokeWidth}"`,
+        ...animationDataAttrs(el),
         el.strokeDasharray ? `stroke-dasharray="${el.strokeDasharray}"` : '',
         opacityAttrs,
         transform ? `transform="${transform}"` : '',

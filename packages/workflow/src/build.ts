@@ -94,7 +94,6 @@ export function buildWorkflow(slugOrPath: string, formats?: OutputFormat[], opti
       outputPath: join(root, 'exports', `deck.${format}`),
       format,
       animationPlanPath: format === 'pptx' ? join(root, 'exports', 'pptx-animation-plan.json') : undefined,
-      pptxEngine: config.export.pptxEngine,
       projectFonts: config.fonts,
       projectManifestPath: join(root, 'project.json'),
       overflowPolicy: config.export.overflowPolicy,
