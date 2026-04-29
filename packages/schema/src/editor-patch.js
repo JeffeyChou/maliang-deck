@@ -22,14 +22,34 @@ const TEXT_FIELDS = new Set([
     'fontWeight',
     'fontStyle',
     'textDecoration',
+    'color',
+    'align',
+    'lineHeight',
+]);
+const ANIMATED_TEXT_FIELDS = new Set([
+    'x',
+    'y',
+    'width',
+    'height',
+    'content',
+    'fontSize',
+    'fontFamily',
+    'fontWeight',
+    'color',
+    'align',
+    'lineHeight',
 ]);
 const IMAGE_FIELDS = new Set(['x', 'y', 'width', 'height']);
 const RECT_FIELDS = new Set(['x', 'y', 'width', 'height', 'fill', 'stroke', 'strokeWidth', 'radius']);
 const LINE_FIELDS = new Set(['x', 'y', 'x2', 'y2', 'stroke', 'strokeWidth']);
 const CIRCLE_FIELDS = new Set(['x', 'y', 'radius', 'fill', 'stroke', 'strokeWidth']);
-const POSITIVE_NUMBER_FIELDS = new Set(['width', 'height', 'fontSize', 'strokeWidth']);
-const FINITE_NUMBER_FIELDS = new Set(['x', 'y', 'x2', 'y2', 'width', 'height', 'fontSize', 'strokeWidth', 'radius']);
-const STRING_FIELDS = new Set(['content', 'fontFamily', 'fontWeight', 'fontStyle', 'textDecoration', 'fill', 'stroke']);
+const ELLIPSE_FIELDS = new Set(['x', 'y', 'width', 'height', 'fill', 'stroke', 'strokeWidth']);
+const PATH_POLYGON_FIELDS = new Set(['x', 'y', 'width', 'height', 'fill', 'stroke', 'strokeWidth']);
+const FORMULA_FIELDS = new Set(['x', 'y']);
+const POSITIVE_NUMBER_FIELDS = new Set(['width', 'height', 'fontSize', 'lineHeight', 'radius']);
+const NONNEGATIVE_NUMBER_FIELDS = new Set(['strokeWidth']);
+const FINITE_NUMBER_FIELDS = new Set(['x', 'y', 'x2', 'y2', 'width', 'height', 'fontSize', 'lineHeight', 'strokeWidth', 'radius']);
+const STRING_FIELDS = new Set(['content', 'fontFamily', 'fontWeight', 'fontStyle', 'textDecoration', 'color', 'align', 'fill', 'stroke']);
 const CHANGE_FIELDS = new Set([
     'x',
     'y',
@@ -43,16 +63,45 @@ const CHANGE_FIELDS = new Set([
     'fontWeight',
     'fontStyle',
     'textDecoration',
+    'color',
+    'align',
+    'lineHeight',
     'fill',
     'stroke',
     'strokeWidth',
     'radius',
+]);
+const EDITOR_UPDATE_ELEMENT_TYPE_SET = new Set([
+    'text',
+    'animatedText',
+    'rect',
+    'circle',
+    'ellipse',
+    'line',
+    'image',
+    'path',
+    'polygon',
+    'formula',
+]);
+const EDITOR_STRUCTURAL_ELEMENT_TYPE_SET = new Set([
+    'text',
+    'animatedText',
+    'rect',
+    'circle',
+    'ellipse',
+    'line',
+    'image',
+    'path',
+    'polygon',
 ]);
 function isRecord(value) {
     return !!value && typeof value === 'object' && !Array.isArray(value);
 }
 function cloneDeck(deck) {
     return JSON.parse(JSON.stringify(deck));
+}
+function cloneElement(element) {
+    return JSON.parse(JSON.stringify(element));
 }
 function assertString(value, path, field) {
     if (typeof value !== 'string' || value.length === 0) {
@@ -117,6 +166,31 @@ function normalizeOperation(raw, opIndex) {
             changes: normalizeChanges(raw.changes, opIndex),
         };
     }
+    if (raw.op === 'addElement') {
+        if (!isRecord(raw.element)) {
+            throw new EditorPatchError('invalid-operation', 'element must be an object', ['ops', opIndex, 'element']);
+        }
+        return {
+            op: 'addElement',
+            slideId: assertString(raw.slideId, ['ops', opIndex, 'slideId'], 'slideId'),
+            element: normalizeAddElement(raw.element, opIndex),
+        };
+    }
+    if (raw.op === 'deleteElement') {
+        return {
+            op: 'deleteElement',
+            slideId: assertString(raw.slideId, ['ops', opIndex, 'slideId'], 'slideId'),
+            elementId: assertString(raw.elementId, ['ops', opIndex, 'elementId'], 'elementId'),
+        };
+    }
+    if (raw.op === 'duplicateElement') {
+        return {
+            op: 'duplicateElement',
+            slideId: assertString(raw.slideId, ['ops', opIndex, 'slideId'], 'slideId'),
+            elementId: assertString(raw.elementId, ['ops', opIndex, 'elementId'], 'elementId'),
+            newElementId: assertString(raw.newElementId, ['ops', opIndex, 'newElementId'], 'newElementId'),
+        };
+    }
     throw new EditorPatchError('invalid-operation', `Unsupported operation "${String(raw.op)}"`, ['ops', opIndex, 'op']);
 }
 export function normalizeEditorSaveRequest(input) {
@@ -146,6 +220,9 @@ function normalizeChanges(raw, opIndex) {
             if (POSITIVE_NUMBER_FIELDS.has(field) && value <= 0) {
                 throw new EditorPatchError('invalid-value', `${field} must be greater than 0`, ['ops', opIndex, 'changes', field]);
             }
+            if (NONNEGATIVE_NUMBER_FIELDS.has(field) && value < 0) {
+                throw new EditorPatchError('invalid-value', `${field} must be greater than or equal to 0`, ['ops', opIndex, 'changes', field]);
+            }
             normalized[field] = value;
             continue;
         }
@@ -154,7 +231,9 @@ function normalizeChanges(raw, opIndex) {
                 throw new EditorPatchError('invalid-value', `${field} must be a string`, ['ops', opIndex, 'changes', field]);
             }
             if (field === 'fontWeight' && value !== 'normal' && value !== 'bold') {
-                throw new EditorPatchError('invalid-value', 'fontWeight must be "normal" or "bold"', ['ops', opIndex, 'changes', field]);
+                if (!/^[1-9]00$/.test(value) || value === '000') {
+                    throw new EditorPatchError('invalid-value', 'fontWeight must be "normal", "bold", or a 100-900 string', ['ops', opIndex, 'changes', field]);
+                }
             }
             if (field === 'fontStyle' && value !== 'normal' && value !== 'italic') {
                 throw new EditorPatchError('invalid-value', 'fontStyle must be "normal" or "italic"', ['ops', opIndex, 'changes', field]);
@@ -162,11 +241,20 @@ function normalizeChanges(raw, opIndex) {
             if (field === 'textDecoration' && value !== 'none' && value !== 'underline') {
                 throw new EditorPatchError('invalid-value', 'textDecoration must be "none" or "underline"', ['ops', opIndex, 'changes', field]);
             }
+            if (field === 'align' && value !== 'left' && value !== 'center' && value !== 'right') {
+                throw new EditorPatchError('invalid-value', 'align must be "left", "center", or "right"', ['ops', opIndex, 'changes', field]);
+            }
             normalized[field] = value;
             continue;
         }
     }
     return normalized;
+}
+function normalizeAddElement(raw, opIndex) {
+    if (raw.type !== 'text') {
+        throw new EditorPatchError('unsupported-element', 'Only text elements can be added in the editor', ['ops', opIndex, 'element', 'type']);
+    }
+    return cloneElement(raw);
 }
 function applyReorder(deck, op, opIndex) {
     const currentIds = deck.slides.map((slide) => slide.id);
@@ -196,20 +284,29 @@ function applyDeleteSlide(deck, op, opIndex) {
     deck.slides.splice(index, 1);
     return true;
 }
+function assertSupportedEditorElement(element, opIndex) {
+    if (!EDITOR_STRUCTURAL_ELEMENT_TYPE_SET.has(element.type)) {
+        throw new EditorPatchError('unsupported-element', `Element type "${element.type}" is read-only in the editor`, ['ops', opIndex, 'elementId']);
+    }
+}
 function assertEditableElement(element, opIndex) {
     if (element.rotation !== undefined && element.rotation !== 0) {
-        throw new EditorPatchError('unsupported-rotated-element', 'Rotated elements are read-only in the editor MVP', ['ops', opIndex, 'elementId']);
+        throw new EditorPatchError('unsupported-rotated-element', 'Rotated elements are read-only for geometry/style updates in the editor', ['ops', opIndex, 'elementId']);
     }
-    if (element.type !== 'text' && element.type !== 'rect' && element.type !== 'image' && element.type !== 'line' && element.type !== 'circle') {
-        throw new EditorPatchError('unsupported-element', `Element type "${element.type}" is read-only in the editor MVP`, ['ops', opIndex, 'elementId']);
+    if (!EDITOR_UPDATE_ELEMENT_TYPE_SET.has(element.type)) {
+        throw new EditorPatchError('unsupported-element', `Element type "${element.type}" is read-only in the editor`, ['ops', opIndex, 'elementId']);
     }
 }
 function assertAllowedFields(element, changes, opIndex) {
     const allowed = element.type === 'text' ? TEXT_FIELDS
-        : element.type === 'image' ? IMAGE_FIELDS
-            : element.type === 'line' ? LINE_FIELDS
-                : element.type === 'circle' ? CIRCLE_FIELDS
-                    : RECT_FIELDS;
+        : element.type === 'animatedText' ? ANIMATED_TEXT_FIELDS
+            : element.type === 'image' ? IMAGE_FIELDS
+                : element.type === 'line' ? LINE_FIELDS
+                    : element.type === 'circle' ? CIRCLE_FIELDS
+                        : element.type === 'ellipse' ? ELLIPSE_FIELDS
+                            : element.type === 'path' || element.type === 'polygon' ? PATH_POLYGON_FIELDS
+                                : element.type === 'formula' ? FORMULA_FIELDS
+                                    : RECT_FIELDS;
     for (const key of Object.keys(changes)) {
         if (!allowed.has(key)) {
             throw new EditorPatchError('unsupported-field', `Field "${key}" is not editable on ${element.type} elements`, ['ops', opIndex, 'changes', key]);
@@ -232,6 +329,45 @@ function applyUpdateElement(deck, op, opIndex) {
     }
     return changed;
 }
+function assertNoTopLevelElementId(slide, slideIndex, elementId, opIndex, field = 'elementId') {
+    ensureNoDuplicateTopLevelElementIds(slide, slideIndex);
+    if (slide.elements.some((element) => element.id === elementId)) {
+        throw new EditorPatchError('duplicate-element-id', `Top-level element id "${elementId}" already exists in slide "${slide.id}"`, ['ops', opIndex, field]);
+    }
+}
+function applyAddElement(deck, op, opIndex) {
+    const { slide, slideIndex } = findSlide(deck, op.slideId, opIndex);
+    assertNoTopLevelElementId(slide, slideIndex, op.element.id, opIndex, 'element.id');
+    slide.elements.push(cloneElement(op.element));
+    return true;
+}
+function applyDeleteElement(deck, op, opIndex) {
+    const { slide, slideIndex } = findSlide(deck, op.slideId, opIndex);
+    const { element, elementIndex } = findTopLevelElement(slide, slideIndex, op.elementId, opIndex);
+    assertSupportedEditorElement(element, opIndex);
+    slide.elements.splice(elementIndex, 1);
+    return true;
+}
+function offsetDuplicatedElement(element) {
+    const next = cloneElement(element);
+    next.x += 24;
+    next.y += 24;
+    if (next.type === 'line') {
+        next.x2 += 24;
+        next.y2 += 24;
+    }
+    return next;
+}
+function applyDuplicateElement(deck, op, opIndex) {
+    const { slide, slideIndex } = findSlide(deck, op.slideId, opIndex);
+    const { element, elementIndex } = findTopLevelElement(slide, slideIndex, op.elementId, opIndex);
+    assertSupportedEditorElement(element, opIndex);
+    assertNoTopLevelElementId(slide, slideIndex, op.newElementId, opIndex, 'newElementId');
+    const duplicated = offsetDuplicatedElement(element);
+    duplicated.id = op.newElementId;
+    slide.elements.splice(elementIndex + 1, 0, duplicated);
+    return true;
+}
 export function applyEditorPatch(deck, request) {
     const next = cloneDeck(deck);
     let changed = false;
@@ -245,6 +381,18 @@ export function applyEditorPatch(deck, request) {
             changed = applyDeleteSlide(next, normalized, index) || changed;
             return;
         }
+        if (normalized.op === 'addElement') {
+            changed = applyAddElement(next, normalized, index) || changed;
+            return;
+        }
+        if (normalized.op === 'deleteElement') {
+            changed = applyDeleteElement(next, normalized, index) || changed;
+            return;
+        }
+        if (normalized.op === 'duplicateElement') {
+            changed = applyDuplicateElement(next, normalized, index) || changed;
+            return;
+        }
         changed = applyUpdateElement(next, normalized, index) || changed;
     });
     const validation = validateDeck(next);
@@ -256,6 +404,6 @@ export function applyEditorPatch(deck, request) {
 export function isEditorPatchError(error) {
     return error instanceof EditorPatchError;
 }
-export const EDITOR_SUPPORTED_OPS = ['reorderSlides', 'deleteSlide', 'updateElement'];
-export const EDITOR_SUPPORTED_ELEMENT_TYPES = ['text', 'rect', 'image', 'line', 'circle'];
+export const EDITOR_SUPPORTED_OPS = ['reorderSlides', 'deleteSlide', 'updateElement', 'addElement', 'deleteElement', 'duplicateElement'];
+export const EDITOR_SUPPORTED_ELEMENT_TYPES = ['text', 'animatedText', 'rect', 'circle', 'ellipse', 'line', 'image', 'path', 'polygon', 'formula'];
 //# sourceMappingURL=editor-patch.js.map

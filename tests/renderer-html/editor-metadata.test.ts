@@ -100,6 +100,31 @@ describe('HTML editor renderer metadata', () => {
     expect(layoutAttrs).not.toContain('data-maliang-deck-editable');
   });
 
+  it('marks additional v1 editor elements editable at the top level', () => {
+    const html = renderDeckToHtml(deckWith([
+      { type: 'animatedText', id: 'motion', x: 10, y: 20, width: 200, height: 60, fontSize: 24, content: 'Animated', textAnimation: { name: 'typewriter' } } as any,
+      { type: 'ellipse', id: 'oval', x: 80, y: 80, width: 100, height: 60, fill: '#2563eb' },
+      { type: 'path', id: 'path1', x: 120, y: 120, width: 100, height: 80, d: 'M0 0L10 0L10 10Z', fill: '#fff' },
+      { type: 'polygon', id: 'poly1', x: 160, y: 160, width: 100, height: 80, points: '0,0 10,0 10,10', fill: '#fff' },
+      { type: 'formula', id: 'eq', x: 10, y: 20, width: 120, latex: 'x^2', fontSize: 24 } as any,
+    ]));
+
+    expect(attrsFor(html, 'slide-1-unsafe-__motion')).toContain('data-maliang-deck-editable="geometry text"');
+    expect(attrsFor(html, 'slide-1-unsafe-__oval')).toContain('data-maliang-deck-editable="geometry circle-style"');
+    expect(attrsFor(html, 'slide-1-unsafe-__path1')).toContain('data-maliang-deck-editable="geometry shape-style"');
+    expect(attrsFor(html, 'slide-1-unsafe-__poly1')).toContain('data-maliang-deck-editable="geometry shape-style"');
+    expect(attrsFor(html, 'slide-1-unsafe-__eq')).toContain('data-maliang-deck-editable="geometry formula"');
+  });
+
+  it('keeps unsupported rich runtime elements read-only', () => {
+    const html = renderDeckToHtml(deckWith([
+      { type: 'customHtml', id: 'html', x: 20, y: 40, width: 100, height: 40, html: '<b>HTML</b>' } as any,
+    ]));
+
+    expect(attrsFor(html, 'slide-1-unsafe-__html')).toContain('data-maliang-deck-readonly-reason="unsupported-element"');
+    expect(attrsFor(html, 'slide-1-unsafe-__html')).not.toContain('data-maliang-deck-editable');
+  });
+
   it('does not mark nested group/layout descendants persistently editable', () => {
     const html = renderDeckToHtml(deckWith([
       {

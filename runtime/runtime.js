@@ -770,6 +770,7 @@
     function shouldIgnoreShortcut(e) {
       const target = e.target;
       if (!target) return false;
+      if (editorTextHasKeyboardFocus(target)) return true;
       if (target.closest && target.closest('.maliang-deck-editor-toolbar, .maliang-deck-editor-selection')) {
         return true;
       }
@@ -1501,6 +1502,7 @@
       slideOrder: slides.map(function(slide){ return editorSlideId(slide); }),
       deletedSlides: [],
       drag: null,
+      suppressNextEditorClick: false,
       saving: false,
     };
 
@@ -1508,6 +1510,14 @@
       return !!editorState.enabled;
     }
     window.__maliangDeckEditorActive = editorIsActive;
+
+    function editorTextHasKeyboardFocus(target) {
+      var focused = target || document.activeElement;
+      if (!focused || !focused.isContentEditable) return false;
+      if (!focused.closest) return true;
+      var editable = focused.closest('[data-maliang-deck-editable]');
+      return !!editable && editorIsTextType(editorElementType(editable));
+    }
 
     function activeSlide() {
       return slides[idx] || deck.querySelector('.slide.is-active') || slides[0];
@@ -1532,8 +1542,30 @@
       if (editable.indexOf('text') >= 0) return 'text';
       if (editable.indexOf('circle-style') >= 0 || editable.indexOf('circle') >= 0) return 'circle';
       if (editable.indexOf('line-style') >= 0 || editable.indexOf('line') >= 0) return 'line';
+      if (editable.indexOf('shape-style') >= 0) return 'path';
       if (el.tagName && el.tagName.toLowerCase() === 'rect') return 'rect';
       return 'unknown';
+    }
+
+    function editorIsTextType(type) {
+      return type === 'text' || type === 'animatedText';
+    }
+
+    function editorIsFillStrokeType(type) {
+      return type === 'rect' || type === 'circle' || type === 'ellipse' || type === 'path' || type === 'polygon';
+    }
+
+    function editorCanResizeType(type) {
+      return type !== 'line' && type !== 'formula';
+    }
+
+    function editorCanStructuralOp(el) {
+      if (!editorCanSelect(el)) return false;
+      return editorElementType(el) !== 'formula';
+    }
+
+    function editorIsMultiSelectEvent(e) {
+      return !!(e && (e.ctrlKey || e.metaKey));
     }
 
     function editorTokens(el) {
@@ -1547,7 +1579,7 @@
       if (!id) return false;
       const tokens = editorTokens(el);
       if (!tokens.length) return false;
-      return tokens.indexOf('geometry') >= 0 || tokens.indexOf('text') >= 0 || tokens.indexOf('rect-style') >= 0 || tokens.indexOf('circle-style') >= 0 || tokens.indexOf('line-style') >= 0;
+      return tokens.indexOf('geometry') >= 0 || tokens.indexOf('text') >= 0 || tokens.indexOf('rect-style') >= 0 || tokens.indexOf('circle-style') >= 0 || tokens.indexOf('line-style') >= 0 || tokens.indexOf('shape-style') >= 0;
     }
 
     function numberFromStyle(el, prop, fallback) {
@@ -1604,6 +1636,24 @@
       };
     }
 
+    function editorStructuralSnapshot(slide) {
+      slide = slide || activeSlide();
+      return {
+        structural: true,
+        slide: slide,
+        html: slide ? slide.innerHTML : '',
+        selectedIds: editorState.selectedItems.map(editorElementId).filter(Boolean),
+        pendingLength: editorState.pendingOps.length,
+      };
+    }
+
+    function currentEditorHistoryEntry(referenceEntry) {
+      if (referenceEntry && referenceEntry.structural) {
+        return editorStructuralSnapshot(referenceEntry.slide);
+      }
+      return editorGroupSnapshot(editorState.selectedItems.length ? editorState.selectedItems : (editorState.selected ? [editorState.selected] : []));
+    }
+
     function pushEditorUndo(el) {
       if (!el) return;
       editorState.undoStack.push(editorSnapshot(el));
@@ -1626,6 +1676,21 @@
 
     function restoreEditorHistoryEntry(entry) {
       if (!entry) return;
+      if (entry.structural && entry.slide) {
+        entry.slide.innerHTML = entry.html;
+        editorState.pendingOps.length = entry.pendingLength;
+        const selected = [];
+        (entry.selectedIds || []).forEach(function(id) {
+          const match = Array.from(entry.slide.querySelectorAll('[data-maliang-deck-id]')).find(function(candidate) {
+            return editorElementId(candidate) === id && editorCanSelect(candidate);
+          });
+          if (match) selected.push(match);
+        });
+        setEditorSelection(selected, false);
+        positionEditorSelection();
+        updateEditorToolbar();
+        return;
+      }
       if (entry.group && Array.isArray(entry.snapshots)) {
         entry.snapshots.forEach(function(snapshot) {
           if (!snapshot || !snapshot.el) return;
@@ -1646,7 +1711,7 @@
     function undoEditor() {
       const entry = editorState.undoStack.pop();
       if (!entry) return;
-      editorState.redoStack.push(editorGroupSnapshot(editorState.selectedItems.length ? editorState.selectedItems : (editorState.selected ? [editorState.selected] : [])));
+      editorState.redoStack.push(currentEditorHistoryEntry(entry));
       restoreEditorHistoryEntry(entry);
       setEditorStatus('Undid unsaved edit.');
     }
@@ -1654,7 +1719,7 @@
     function redoEditor() {
       const entry = editorState.redoStack.pop();
       if (!entry) return;
-      editorState.undoStack.push(editorGroupSnapshot(editorState.selectedItems.length ? editorState.selectedItems : (editorState.selected ? [editorState.selected] : [])));
+      editorState.undoStack.push(currentEditorHistoryEntry(entry));
       restoreEditorHistoryEntry(entry);
       setEditorStatus('Redid unsaved edit.');
     }
@@ -1663,7 +1728,7 @@
       const slide = el.closest('.slide') || activeSlide();
       const type = editorElementType(el);
       const safePatch = {};
-      ['x', 'y', 'x2', 'y2', 'width', 'height', 'content', 'fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'textDecoration', 'fill', 'stroke', 'strokeWidth', 'radius'].forEach(function(key) {
+      ['x', 'y', 'x2', 'y2', 'width', 'height', 'content', 'fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'textDecoration', 'color', 'align', 'lineHeight', 'fill', 'stroke', 'strokeWidth', 'radius'].forEach(function(key) {
         if (Object.prototype.hasOwnProperty.call(patch, key)) safePatch[key] = patch[key];
       });
       return {
@@ -1789,6 +1854,9 @@
       toolbar.innerHTML = [
         '<button type="button" data-role="toggle" aria-pressed="false">Edit</button>',
         '<button type="button" data-role="slides">Pages</button>',
+        '<button type="button" data-role="add-text">Add Text</button>',
+        '<button type="button" data-role="duplicate" disabled>Copy</button>',
+        '<button type="button" data-role="delete" disabled>Delete</button>',
         '<button type="button" data-role="save" disabled>Save</button>',
         '<button type="button" data-role="undo" disabled>Undo</button>',
         '<button type="button" data-role="redo" disabled>Redo</button>',
@@ -1807,6 +1875,9 @@
       toolbar.querySelector('[data-role="redo"]').addEventListener('click', redoEditor);
       toolbar.querySelector('[data-role="done"]').addEventListener('click', function(){ toggleEditorMode(false); });
       toolbar.querySelector('[data-role="slides"]').addEventListener('click', toggleEditorReorderDrawer);
+      toolbar.querySelector('[data-role="add-text"]').addEventListener('click', addEditorTextElement);
+      toolbar.querySelector('[data-role="duplicate"]').addEventListener('click', duplicateEditorSelection);
+      toolbar.querySelector('[data-role="delete"]').addEventListener('click', deleteEditorSelection);
       toolbar.querySelector('[data-role="save"]').addEventListener('click', saveEditorOps);
       toolbar.querySelector('[data-role="fill"]').addEventListener('input', function(e){ applyEditorRectStyle('fill', e.target.value); });
       toolbar.querySelector('[data-role="stroke"]').addEventListener('input', function(e){ applyEditorRectStyle('stroke', e.target.value); });
@@ -1828,6 +1899,13 @@
         '  <option value="Inter, sans-serif">Inter</option>',
         '</select>',
         '<label>Size <input data-role="font-size" type="number" min="1" max="300" step="1"></label>',
+        '<label>Line <input data-role="line-height" type="number" min="0.1" max="5" step="0.1"></label>',
+        '<label>Color <input data-role="text-color" type="color"></label>',
+        '<select data-role="align" aria-label="Text align">',
+        '  <option value="left">Left</option>',
+        '  <option value="center">Center</option>',
+        '  <option value="right">Right</option>',
+        '</select>',
       ].join('');
       document.body.appendChild(textToolbar);
       editorState.textToolbar = textToolbar;
@@ -1836,6 +1914,9 @@
       textToolbar.querySelector('[data-role="underline"]').addEventListener('click', function(){ toggleEditorTextStyle('textDecoration', 'underline', 'none'); });
       textToolbar.querySelector('[data-role="font-family"]').addEventListener('change', function(e){ applyEditorFontFamily(e.target.value); });
       textToolbar.querySelector('[data-role="font-size"]').addEventListener('change', function(e){ applyEditorFontSize(e.target.value); });
+      textToolbar.querySelector('[data-role="line-height"]').addEventListener('change', function(e){ applyEditorLineHeight(e.target.value); });
+      textToolbar.querySelector('[data-role="text-color"]').addEventListener('input', function(e){ applyEditorTextColor(e.target.value); });
+      textToolbar.querySelector('[data-role="align"]').addEventListener('change', function(e){ applyEditorTextAlign(e.target.value); });
 
       const selection = document.createElement('div');
       selection.className = 'maliang-deck-editor-selection';
@@ -1976,6 +2057,170 @@
       updateEditorToolbar();
     }
 
+    function normalizeEditorDomIdPart(value) {
+      var normalized = String(value || '').trim().replace(/[^A-Za-z0-9_-]+/g, '-');
+      return normalized || 'item';
+    }
+
+    function scopedEditorDomId(slideId, elementId) {
+      return normalizeEditorDomIdPart(slideId) + '__' + normalizeEditorDomIdPart(elementId);
+    }
+
+    function topLevelEditorIds(slide) {
+      var ids = new Set();
+      if (!slide) return ids;
+      Array.from(slide.children).forEach(function(child) {
+        if (child.getAttribute) {
+          var id = child.getAttribute('data-maliang-deck-id');
+          if (id) ids.add(id);
+        }
+      });
+      return ids;
+    }
+
+    function uniqueEditorElementId(slide, base) {
+      var ids = topLevelEditorIds(slide);
+      var root = String(base || 'element').replace(/\s+/g, '-').replace(/[^A-Za-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '') || 'element';
+      if (!ids.has(root)) return root;
+      for (var i = 2; i < 10000; i++) {
+        var candidate = root + '-' + i;
+        if (!ids.has(candidate)) return candidate;
+      }
+      return root + '-' + Date.now();
+    }
+
+    function nextEditorTextId(slide) {
+      var ids = topLevelEditorIds(slide);
+      for (var i = 1; i < 10000; i++) {
+        var candidate = 'text-' + i;
+        if (!ids.has(candidate)) return candidate;
+      }
+      return 'text-' + Date.now();
+    }
+
+    function copyEditorElementId(slide, sourceId) {
+      var ids = topLevelEditorIds(slide);
+      var base = sourceId + '-copy';
+      if (!ids.has(base)) return base;
+      for (var i = 2; i < 10000; i++) {
+        var candidate = base + '-' + i;
+        if (!ids.has(candidate)) return candidate;
+      }
+      return base + '-' + Date.now();
+    }
+
+    function addEditorTextElement() {
+      if (!editorState.enabled) toggleEditorMode(true);
+      var slide = activeSlide();
+      if (!slide) return;
+      var slideId = editorSlideId(slide);
+      var elementId = nextEditorTextId(slide);
+      var width = 320;
+      var height = 64;
+      var element = {
+        type: 'text',
+        id: elementId,
+        x: Math.round((slideW - width) / 2),
+        y: Math.round((slideH - height) / 2),
+        width: width,
+        height: height,
+        fontSize: 28,
+        content: 'New text',
+      };
+      editorState.undoStack.push(editorStructuralSnapshot(slide));
+      editorState.redoStack = [];
+      var el = document.createElement('div');
+      el.id = scopedEditorDomId(slideId, elementId);
+      el.setAttribute('data-maliang-deck-id', elementId);
+      el.setAttribute('data-maliang-deck-type', 'text');
+      el.setAttribute('data-maliang-deck-editable', 'geometry text');
+      el.style.position = 'absolute';
+      el.style.left = element.x + 'px';
+      el.style.top = element.y + 'px';
+      el.style.width = width + 'px';
+      el.style.height = height + 'px';
+      el.style.fontSize = element.fontSize + 'px';
+      el.style.fontFamily = 'sans-serif';
+      el.style.fontWeight = 'normal';
+      el.style.color = '#000000';
+      el.style.lineHeight = '1.2';
+      el.style.whiteSpace = 'pre-wrap';
+      el.style.overflowWrap = 'anywhere';
+      el.textContent = element.content;
+      slide.appendChild(el);
+      editorState.pendingOps.push({ op: 'addElement', slideId: slideId, element: element });
+      setEditorSelection([el], false);
+      setEditorStatus('Text added. Save to persist.');
+      updateEditorToolbar();
+    }
+
+    function offsetEditorDomClone(clone, source, type) {
+      var left = numberFromStyle(source, 'left', 0) + 24;
+      var top = numberFromStyle(source, 'top', 0) + 24;
+      clone.style.left = left + 'px';
+      clone.style.top = top + 'px';
+      if (type === 'line') {
+        ['x', 'y', 'x2', 'y2'].forEach(function(name) {
+          var attr = 'data-maliang-deck-' + name;
+          var value = parseFloat(source.getAttribute(attr) || '0');
+          clone.setAttribute(attr, String(value + 24));
+        });
+      }
+    }
+
+    function duplicateEditorSelection() {
+      var items = editorState.selectedItems.slice();
+      if (!items.length || !items.every(editorCanStructuralOp)) return;
+      var slide = items[0].closest('.slide') || activeSlide();
+      editorState.undoStack.push(editorStructuralSnapshot(slide));
+      editorState.redoStack = [];
+      var clones = [];
+      items.forEach(function(item) {
+        var itemSlide = item.closest('.slide') || slide;
+        var sourceId = editorElementId(item);
+        var newId = copyEditorElementId(itemSlide, sourceId);
+        var clone = item.cloneNode(true);
+        clone.classList.remove('maliang-deck-editor-selected');
+        clone.removeAttribute('contenteditable');
+        clone.setAttribute('data-maliang-deck-id', newId);
+        clone.id = scopedEditorDomId(editorSlideId(itemSlide), newId);
+        var autoAnimate = clone.getAttribute('data-maliang-deck-auto-animate-id');
+        if (autoAnimate) clone.setAttribute('data-maliang-deck-auto-animate-id', newId);
+        offsetEditorDomClone(clone, item, editorElementType(item));
+        item.parentNode.insertBefore(clone, item.nextSibling);
+        clones.push(clone);
+        editorState.pendingOps.push({
+          op: 'duplicateElement',
+          slideId: editorSlideId(itemSlide),
+          elementId: sourceId,
+          newElementId: newId,
+        });
+      });
+      setEditorSelection(clones, false);
+      setEditorStatus('Element copy pending. Save to persist.');
+      updateEditorToolbar();
+    }
+
+    function deleteEditorSelection() {
+      var items = editorState.selectedItems.slice();
+      if (!items.length || !items.every(editorCanStructuralOp)) return;
+      var slide = items[0].closest('.slide') || activeSlide();
+      editorState.undoStack.push(editorStructuralSnapshot(slide));
+      editorState.redoStack = [];
+      items.forEach(function(item) {
+        var itemSlide = item.closest('.slide') || slide;
+        editorState.pendingOps.push({
+          op: 'deleteElement',
+          slideId: editorSlideId(itemSlide),
+          elementId: editorElementId(item),
+        });
+        item.remove();
+      });
+      clearEditorSelection();
+      setEditorStatus('Element delete pending. Save to persist.');
+      updateEditorToolbar();
+    }
+
     function setEditorStatus(message) {
       ensureEditorToolbar();
       if (editorState.status) editorState.status.textContent = message;
@@ -1990,13 +2235,21 @@
       const redo = editorState.toolbar.querySelector('[data-role="redo"]');
       const done = editorState.toolbar.querySelector('[data-role="done"]');
       const save = editorState.toolbar.querySelector('[data-role="save"]');
+      const addText = editorState.toolbar.querySelector('[data-role="add-text"]');
+      const duplicate = editorState.toolbar.querySelector('[data-role="duplicate"]');
+      const deleteButton = editorState.toolbar.querySelector('[data-role="delete"]');
       if (toggle) toggle.setAttribute('aria-pressed', String(editorState.enabled));
       if (undo) undo.disabled = editorState.undoStack.length === 0;
       if (redo) redo.disabled = editorState.redoStack.length === 0;
       if (done) done.hidden = !editorState.enabled;
       if (save) save.disabled = !editorState.canPersist || editorState.pendingOps.length === 0 || editorState.saving;
-      const showFill = !!(editorState.enabled && selected && (type === 'rect' || type === 'circle'));
-      const showStroke = !!(editorState.enabled && selected && (type === 'rect' || type === 'circle' || type === 'line'));
+      if (addText) addText.disabled = !editorState.enabled;
+      var structuralSelected = editorState.selectedItems.length > 0 && editorState.selectedItems.every(editorCanStructuralOp);
+      if (duplicate) duplicate.disabled = !editorState.enabled || !structuralSelected;
+      if (deleteButton) deleteButton.disabled = !editorState.enabled || !structuralSelected;
+      if (editorState.resizeHandle) editorState.resizeHandle.hidden = !selected || editorState.selectedItems.length !== 1 || !editorCanResizeType(type);
+      const showFill = !!(editorState.enabled && selected && editorIsFillStrokeType(type));
+      const showStroke = !!(editorState.enabled && selected && (editorIsFillStrokeType(type) || type === 'line'));
       const showRadius = !!(editorState.enabled && selected && type === 'rect');
       var fillLabel = editorState.toolbar.querySelector('.maliang-deck-editor-fill');
       var strokeLabel = editorState.toolbar.querySelector('.maliang-deck-editor-stroke');
@@ -2008,14 +2261,18 @@
       if (radiusLabel) radiusLabel.hidden = !showRadius;
       if (selected) syncEditorControls(selected);
       if (editorState.textToolbar) {
-        editorState.textToolbar.classList.toggle('show', !!(editorState.enabled && selected && type === 'text'));
+        editorState.textToolbar.classList.toggle('show', !!(editorState.enabled && selected && editorIsTextType(type)));
+        var italic = editorState.textToolbar.querySelector('[data-role="italic"]');
+        var underline = editorState.textToolbar.querySelector('[data-role="underline"]');
+        if (italic) italic.disabled = type === 'animatedText';
+        if (underline) underline.disabled = type === 'animatedText';
       }
     }
 
     function syncEditorControls(el) {
       if (!editorState.toolbar || !el) return;
       const type = editorElementType(el);
-      if (type === 'text') {
+      if (editorIsTextType(type)) {
         const textbar = editorState.textToolbar;
         if (!textbar) return;
         const font = textbar.querySelector('[data-role="font-size"]');
@@ -2023,21 +2280,29 @@
         const bold = textbar.querySelector('[data-role="bold"]');
         const italic = textbar.querySelector('[data-role="italic"]');
         const underline = textbar.querySelector('[data-role="underline"]');
+        const color = textbar.querySelector('[data-role="text-color"]');
+        const align = textbar.querySelector('[data-role="align"]');
+        const lineHeight = textbar.querySelector('[data-role="line-height"]');
         const computed = getComputedStyle(el);
         if (font) font.value = String(Math.round(numberFromStyle(el, 'fontSize', 16)));
         if (family) family.value = family.querySelector('option[value="' + cssEscapeSimple(el.style.fontFamily || computed.fontFamily) + '"]') ? (el.style.fontFamily || computed.fontFamily) : 'sans-serif';
         if (bold) bold.setAttribute('aria-pressed', String((computed.fontWeight === '700' || computed.fontWeight === 'bold') || el.style.fontWeight === 'bold'));
         if (italic) italic.setAttribute('aria-pressed', String(computed.fontStyle === 'italic' || el.style.fontStyle === 'italic'));
         if (underline) underline.setAttribute('aria-pressed', String(computed.textDecorationLine === 'underline' || el.style.textDecoration === 'underline'));
-      } else if (type === 'rect') {
+        if (color) color.value = rgbToHex(computed.color) || '#000000';
+        if (align) align.value = ['left', 'center', 'right'].indexOf(computed.textAlign) >= 0 ? computed.textAlign : 'left';
+        if (lineHeight) lineHeight.value = String(Math.round((parseFloat(computed.lineHeight) / Math.max(1, numberFromStyle(el, 'fontSize', 16))) * 10) / 10 || 1.2);
+      } else if (editorIsFillStrokeType(type) || type === 'line') {
         const fill = editorState.toolbar.querySelector('[data-role="fill"]');
         const stroke = editorState.toolbar.querySelector('[data-role="stroke"]');
         const strokeWidth = editorState.toolbar.querySelector('[data-role="stroke-width"]');
         const radius = editorState.toolbar.querySelector('[data-role="radius"]');
         const computed = getComputedStyle(el);
-        if (fill) fill.value = rgbToHex(computed.backgroundColor) || '#ffffff';
-        if (stroke) stroke.value = rgbToHex(computed.borderTopColor) || '#000000';
-        if (strokeWidth) strokeWidth.value = String(Math.round(parseFloat(computed.borderTopWidth) || 0));
+        var svgShape = el.querySelector('path, polygon, line');
+        var rectFill = type === 'rect' ? (computed.getPropertyValue('--maliang-rect-fill') || el.style.getPropertyValue('--maliang-rect-fill') || '') : '';
+        if (fill) fill.value = svgShape ? (rgbToHex(svgShape.getAttribute('fill')) || '#ffffff') : (rgbToHex(rectFill || computed.backgroundColor) || '#ffffff');
+        if (stroke) stroke.value = svgShape ? (rgbToHex(svgShape.getAttribute('stroke')) || '#000000') : (rgbToHex(computed.borderTopColor) || '#000000');
+        if (strokeWidth) strokeWidth.value = svgShape ? String(Math.round(parseFloat(svgShape.getAttribute('stroke-width')) || 0)) : String(Math.round(parseFloat(computed.borderTopWidth) || 0));
         if (radius) radius.value = String(Math.round(parseFloat(computed.borderTopLeftRadius) || 0));
       }
     }
@@ -2111,9 +2376,9 @@
       const enabled = force !== undefined ? !!force : !editorState.enabled;
       editorState.enabled = enabled;
       document.body.classList.toggle('maliang-deck-editor-active', enabled);
-      if (!enabled) clearEditorSelection();
+      resetEditorComponentState(enabled);
       setEditorStatus(enabled
-        ? (editorState.canPersist ? 'Editor on. Select text or rectangles.' : 'Editor on · temporary edits only.')
+        ? (editorState.canPersist ? 'Editor on. Select an editable element.' : 'Editor on · temporary edits only.')
         : (editorState.canPersist ? 'Editor off.' : 'Temporary edits only.'));
       updateEditorToolbar();
     }
@@ -2121,11 +2386,17 @@
     function onEditorDocumentClick(e) {
       if (!editorState.enabled) return;
       if (e.target.closest && e.target.closest('.maliang-deck-editor-toolbar, .maliang-deck-editor-textbar, .maliang-deck-editor-selection, .maliang-deck-editor-reorder')) return;
+      if (editorState.suppressNextEditorClick) {
+        editorState.suppressNextEditorClick = false;
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
       const target = e.target.closest && e.target.closest('[data-maliang-deck-editable]');
       if (editorCanSelect(target)) {
         e.preventDefault();
         e.stopPropagation();
-        selectEditorElement(target, !!e.ctrlKey);
+        selectEditorElement(target, editorIsMultiSelectEvent(e));
       } else if (!(e.target.closest && e.target.closest('[data-maliang-deck-editable]'))) {
         clearEditorSelection();
       }
@@ -2136,12 +2407,17 @@
       if (e.target.closest && e.target.closest('.maliang-deck-editor-toolbar, .maliang-deck-editor-textbar, .maliang-deck-editor-selection, .maliang-deck-editor-reorder')) return;
       const target = e.target.closest && e.target.closest('[data-maliang-deck-editable]');
       if (!editorCanSelect(target)) return;
-      selectEditorElement(target, !!e.ctrlKey);
-      if (editorElementType(target) === 'text' && target.isContentEditable) return;
+      editorState.suppressNextEditorClick = true;
+      var additive = editorIsMultiSelectEvent(e);
+      if (!(additive && editorState.selectedItems.indexOf(target) >= 0 && editorState.selectedItems.length > 1)) {
+        selectEditorElement(target, additive);
+      }
+      if (editorIsTextType(editorElementType(target)) && target.isContentEditable) return;
       startEditorMove(e, target);
     }
 
     function onEditorKeydown(e) {
+      if (editorTextHasKeyboardFocus(e.target)) return;
       if ((e.metaKey || e.ctrlKey) && (e.key === 's' || e.key === 'S')) {
         if (editorState.enabled) {
           e.preventDefault();
@@ -2164,6 +2440,23 @@
           e.preventDefault();
           e.stopPropagation();
           redoEditor();
+        }
+        return;
+      }
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'd' || e.key === 'D')) {
+        if (editorState.enabled) {
+          e.preventDefault();
+          e.stopPropagation();
+          duplicateEditorSelection();
+        }
+        return;
+      }
+      if ((e.key === 'Delete' || e.key === 'Backspace') && editorState.enabled) {
+        if (e.target && e.target.isContentEditable) return;
+        if (editorState.selectedItems.length) {
+          e.preventDefault();
+          e.stopPropagation();
+          deleteEditorSelection();
         }
         return;
       }
@@ -2195,7 +2488,7 @@
       });
       editorState.selectedItems.forEach(function(item) {
         item.classList.add('maliang-deck-editor-selected');
-        if (editorElementType(item) === 'text') enableTextEditing(item);
+        if (editorIsTextType(editorElementType(item))) enableTextEditing(item);
       });
       editorState.selected = editorState.selectedItems[editorState.selectedItems.length - 1] || null;
       positionEditorSelection();
@@ -2221,17 +2514,23 @@
     }
 
     function clearEditorSelection() {
-      editorState.selectedItems.forEach(function(item) {
-        finishTextEdit(item);
+      resetEditorComponentState(editorState.enabled);
+    }
+
+    function resetEditorComponentState(enabled) {
+      document.querySelectorAll('[data-maliang-deck-editable]').forEach(function(item) {
+        if (editorIsTextType(editorElementType(item))) finishTextEdit(item);
         item.classList.remove('maliang-deck-editor-selected');
-        // Remove contenteditable so text isn't editable outside editor mode
-        if (item.getAttribute('contenteditable') === 'true') {
-          item.removeAttribute('contenteditable');
-          item.blur();
-        }
+        item.removeAttribute('contenteditable');
+        if (document.activeElement === item && item.blur) item.blur();
       });
       editorState.selectedItems = [];
       editorState.selected = null;
+      editorState.suppressNextEditorClick = false;
+      if (!enabled) {
+        editorState.drag = null;
+        removeEditorDragListeners();
+      }
       if (editorState.selection) editorState.selection.hidden = true;
       updateEditorToolbar();
     }
@@ -2261,7 +2560,7 @@
           top: numberFromStyle(item, 'top', viewportToSlidePoint(slide, e.clientX, e.clientY).y),
         };
       });
-      editorState.drag = { type: 'move', el: el, items: starts, slide: slide, clientX: e.clientX, clientY: e.clientY, undo: editorGroupSnapshot(items) };
+      editorState.drag = { type: 'move', el: el, items: starts, slide: slide, clientX: e.clientX, clientY: e.clientY, moved: false, undo: editorGroupSnapshot(items) };
       e.preventDefault();
       e.stopPropagation();
       try { el.setPointerCapture(e.pointerId); } catch(err) {}
@@ -2273,11 +2572,13 @@
     function startEditorResize(e) {
       if (!editorState.selected) return;
       const el = editorState.selected;
+      if (!editorCanResizeType(editorElementType(el))) return;
       const slide = el.closest('.slide') || activeSlide();
       editorState.drag = {
         type: 'resize', el: el, slide: slide, clientX: e.clientX, clientY: e.clientY,
         startWidth: numberFromStyle(el, 'width', el.getBoundingClientRect().width),
         startHeight: numberFromStyle(el, 'height', el.getBoundingClientRect().height),
+        moved: false,
         undo: editorSnapshot(el),
       };
       e.preventDefault();
@@ -2292,6 +2593,7 @@
       const drag = editorState.drag;
       if (!drag) return;
       const delta = viewportToSlideDelta(drag.slide, e.clientX - drag.clientX, e.clientY - drag.clientY);
+      if (Math.abs(delta.dx) > 0.5 || Math.abs(delta.dy) > 0.5) drag.moved = true;
       if (drag.type === 'move') {
         drag.items.forEach(function(item) {
           item.el.style.left = Math.round((item.left + delta.dx) * 100) / 100 + 'px';
@@ -2310,6 +2612,15 @@
       const drag = editorState.drag;
       if (!drag) return;
       editorState.drag = null;
+      setTimeout(function(){ editorState.suppressNextEditorClick = false; }, 0);
+      if (!drag.moved) {
+        removeEditorDragListeners();
+        positionEditorSelection();
+        updateEditorToolbar();
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
       editorState.undoStack.push(drag.undo);
       editorState.redoStack = [];
       if (drag.type === 'move') {
@@ -2325,7 +2636,12 @@
             var origY = parseFloat(item.el.getAttribute('data-maliang-deck-y') || '0');
             var origX2 = parseFloat(item.el.getAttribute('data-maliang-deck-x2') || '0');
             var origY2 = parseFloat(item.el.getAttribute('data-maliang-deck-y2') || '0');
-            addEditorOp(item.el, { x: origX + dx, y: origY + dy, x2: origX2 + dx, y2: origY2 + dy });
+            var nextLine = { x: origX + dx, y: origY + dy, x2: origX2 + dx, y2: origY2 + dy };
+            item.el.setAttribute('data-maliang-deck-x', String(nextLine.x));
+            item.el.setAttribute('data-maliang-deck-y', String(nextLine.y));
+            item.el.setAttribute('data-maliang-deck-x2', String(nextLine.x2));
+            item.el.setAttribute('data-maliang-deck-y2', String(nextLine.y2));
+            addEditorOp(item.el, nextLine);
           } else if (type === 'circle') {
             // Circle x/y is center; container left/top is corner (center - radius)
             var radius = parseFloat(item.el.getAttribute('data-maliang-deck-radius') || '0');
@@ -2346,6 +2662,7 @@
     function cancelEditorDrag() {
       const drag = editorState.drag;
       editorState.drag = null;
+      editorState.suppressNextEditorClick = false;
       if (drag && drag.undo) restoreEditorHistoryEntry(drag.undo);
       removeEditorDragListeners();
     }
@@ -2379,7 +2696,7 @@
     }
 
     function finishTextEdit(el) {
-      if (!el || editorElementType(el) !== 'text') return;
+      if (!el || !editorIsTextType(editorElementType(el))) return;
       const before = el.__maliangDeckEditorTextBefore;
       const after = el.textContent || '';
       if (before !== undefined && before !== after) {
@@ -2393,7 +2710,7 @@
 
     function applyEditorFontSize(value) {
       const el = editorState.selected;
-      if (!el || editorElementType(el) !== 'text') return;
+      if (!el || !editorIsTextType(editorElementType(el))) return;
       const fontSize = Math.max(1, parseFloat(value) || numberFromStyle(el, 'fontSize', 16));
       pushEditorUndo(el);
       el.style.fontSize = fontSize + 'px';
@@ -2403,7 +2720,9 @@
 
     function toggleEditorTextStyle(key, onValue, offValue) {
       const el = editorState.selected;
-      if (!el || editorElementType(el) !== 'text') return;
+      const type = editorElementType(el);
+      if (!el || !editorIsTextType(type)) return;
+      if (type === 'animatedText' && key !== 'fontWeight') return;
       const computed = getComputedStyle(el);
       const current = key === 'fontWeight'
         ? ((computed.fontWeight === '700' || computed.fontWeight === 'bold') ? 'bold' : 'normal')
@@ -2421,21 +2740,61 @@
 
     function applyEditorFontFamily(value) {
       const el = editorState.selected;
-      if (!el || editorElementType(el) !== 'text' || !value) return;
+      if (!el || !editorIsTextType(editorElementType(el)) || !value) return;
       pushEditorUndo(el);
       el.style.fontFamily = value;
       addEditorOp(el, { fontFamily: value });
       syncEditorControls(el);
     }
 
+    function applyEditorTextColor(value) {
+      const el = editorState.selected;
+      if (!el || !editorIsTextType(editorElementType(el)) || !value) return;
+      pushEditorUndo(el);
+      el.style.color = value;
+      addEditorOp(el, { color: value });
+      syncEditorControls(el);
+    }
+
+    function applyEditorTextAlign(value) {
+      const el = editorState.selected;
+      if (!el || !editorIsTextType(editorElementType(el))) return;
+      if (['left', 'center', 'right'].indexOf(value) < 0) return;
+      pushEditorUndo(el);
+      el.style.textAlign = value;
+      addEditorOp(el, { align: value });
+      syncEditorControls(el);
+    }
+
+    function applyEditorLineHeight(value) {
+      const el = editorState.selected;
+      if (!el || !editorIsTextType(editorElementType(el))) return;
+      const lineHeight = Math.max(0.1, parseFloat(value) || 1.2);
+      pushEditorUndo(el);
+      el.style.lineHeight = String(lineHeight);
+      addEditorOp(el, { lineHeight: lineHeight });
+      positionEditorSelection();
+      syncEditorControls(el);
+    }
+
     function applyEditorRectStyle(key, value) {
       const el = editorState.selected;
-      if (!el || editorElementType(el) !== 'rect' || !value) return;
+      const type = editorElementType(el);
+      if (!el || !(editorIsFillStrokeType(type) || type === 'line') || !value) return;
       pushEditorUndo(el);
-      if (key === 'fill') el.style.backgroundColor = value;
+      var svgShape = el.querySelector('path, polygon, line');
+      if (key === 'fill') {
+        if (svgShape && type !== 'line') svgShape.setAttribute('fill', value);
+        else if (type === 'rect') el.style.setProperty('--maliang-rect-fill', value);
+        else el.style.backgroundColor = value;
+      }
       if (key === 'stroke') {
-        const width = numberFromStyle(el, 'borderTopWidth', 1);
-        el.style.border = Math.max(1, width) + 'px solid ' + value;
+        if (svgShape) {
+          svgShape.setAttribute('stroke', value);
+        } else {
+          const width = numberFromStyle(el, 'borderTopWidth', 1);
+          el.style.border = Math.max(1, width) + 'px solid ' + value;
+        }
       }
       const patch = {};
       patch[key] = value;
@@ -2444,18 +2803,70 @@
 
     function applyEditorRectNumberStyle(key, value) {
       const el = editorState.selected;
-      if (!el || editorElementType(el) !== 'rect') return;
+      const type = editorElementType(el);
+      if (!el || !(editorIsFillStrokeType(type) || type === 'line')) return;
       const num = Math.max(0, parseFloat(value) || 0);
       pushEditorUndo(el);
+      var svgShape = el.querySelector('path, polygon, line');
       if (key === 'strokeWidth') {
-        const color = rgbToHex(getComputedStyle(el).borderTopColor) || '#000000';
-        el.style.border = num + 'px solid ' + color;
+        if (svgShape) {
+          svgShape.setAttribute('stroke-width', String(num));
+        } else {
+          const color = rgbToHex(getComputedStyle(el).borderTopColor) || '#000000';
+          el.style.border = num + 'px solid ' + color;
+        }
       }
-      if (key === 'radius') el.style.borderRadius = num + 'px';
+      if (key === 'radius' && type === 'rect') el.style.borderRadius = num + 'px';
       const patch = {};
       patch[key] = num;
       addEditorOp(el, patch);
       positionEditorSelection();
+    }
+
+    function offsetDeckElementCopy(element) {
+      var copy = JSON.parse(JSON.stringify(element));
+      copy.x += 24;
+      copy.y += 24;
+      if (copy.type === 'line') {
+        copy.x2 += 24;
+        copy.y2 += 24;
+      }
+      return copy;
+    }
+
+    function applyEditorOpsToDeck(deck, ops) {
+      (ops || []).forEach(function(op) {
+        if (op.op === 'updateElement') {
+          var updateSlide = deck.slides && deck.slides.find(function(s){ return s.id === op.slideId; });
+          if (!updateSlide) return;
+          var updateEl = updateSlide.elements && updateSlide.elements.find(function(e){ return e.id === op.elementId; });
+          if (!updateEl) return;
+          Object.keys(op.changes || {}).forEach(function(k){ updateEl[k] = op.changes[k]; });
+        } else if (op.op === 'addElement') {
+          var addSlide = deck.slides && deck.slides.find(function(s){ return s.id === op.slideId; });
+          if (addSlide && Array.isArray(addSlide.elements) && op.element) addSlide.elements.push(JSON.parse(JSON.stringify(op.element)));
+        } else if (op.op === 'deleteElement') {
+          var deleteSlide = deck.slides && deck.slides.find(function(s){ return s.id === op.slideId; });
+          if (!deleteSlide || !Array.isArray(deleteSlide.elements)) return;
+          var deleteIndex = deleteSlide.elements.findIndex(function(e){ return e.id === op.elementId; });
+          if (deleteIndex >= 0) deleteSlide.elements.splice(deleteIndex, 1);
+        } else if (op.op === 'duplicateElement') {
+          var duplicateSlide = deck.slides && deck.slides.find(function(s){ return s.id === op.slideId; });
+          if (!duplicateSlide || !Array.isArray(duplicateSlide.elements)) return;
+          var sourceIndex = duplicateSlide.elements.findIndex(function(e){ return e.id === op.elementId; });
+          if (sourceIndex < 0) return;
+          var duplicate = offsetDeckElementCopy(duplicateSlide.elements[sourceIndex]);
+          duplicate.id = op.newElementId;
+          duplicateSlide.elements.splice(sourceIndex + 1, 0, duplicate);
+        } else if (op.op === 'reorderSlides') {
+          var byId = new Map((deck.slides || []).map(function(s){ return [s.id, s]; }));
+          deck.slides = (op.slideIds || []).map(function(id){ return byId.get(id); }).filter(Boolean);
+        } else if (op.op === 'deleteSlide') {
+          var slideIndex = (deck.slides || []).findIndex(function(s){ return s.id === op.slideId; });
+          if (slideIndex >= 0 && deck.slides.length > 1) deck.slides.splice(slideIndex, 1);
+        }
+      });
+      return deck;
     }
 
     function downloadDeckJson() {
@@ -2464,15 +2875,7 @@
       if (!sourceEl) { setEditorStatus('No embedded deck source for download.'); return; }
       try {
         var deck = JSON.parse(sourceEl.textContent);
-        // Apply pending ops to the in-memory deck
-        editorState.pendingOps.forEach(function(op) {
-          if (op.op !== 'updateElement') return;
-          var slide = deck.slides && deck.slides.find(function(s){ return s.id === op.slideId; });
-          if (!slide) return;
-          var el = slide.elements && slide.elements.find(function(e){ return e.id === op.elementId; });
-          if (!el) return;
-          Object.keys(op.changes).forEach(function(k){ el[k] = op.changes[k]; });
-        });
+        applyEditorOpsToDeck(deck, editorState.pendingOps);
         var json = JSON.stringify(deck, null, 2);
         var blob = new Blob([json], { type: 'application/json' });
         var a = document.createElement('a');

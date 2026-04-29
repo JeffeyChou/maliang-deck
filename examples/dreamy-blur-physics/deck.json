@@ -2,448 +2,705 @@
   "meta": {
     "title": "Quantum Mechanics — Wave Functions & Measurement",
     "theme": "minimal-white",
-    "canvas": { "width": 1280, "height": 720 },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
     "htmlRuntime": {
-      "transition": { "type": "dissolve", "durationMs": 600, "easing": "ease-in-out" },
-      "customStylesheets": ["./assets/themes/dreamy-blur.css"],
-      "customScripts": ["./assets/fx/aurora-wave.js", "./assets/fx/bokeh-float.js"]
+      "transition": {
+        "type": "dissolve",
+        "durationMs": 600,
+        "easing": "ease-in-out"
+      },
+      "customStylesheets": [
+        "./assets/themes/dreamy-blur.css"
+      ],
+      "customScripts": [
+        "./assets/fx/aurora-wave.js",
+        "./assets/fx/bokeh-float.js"
+      ]
     }
   },
   "slides": [
-
     {
       "id": "cover",
       "background": "#0f172a",
-      "fx": ["aurora-wave", "bokeh-float"],
-      "notes": "Cover slide: ethereal intro with aurora + bokeh, glass card, orbs, blur-zoom title.",
       "elements": [
         {
           "id": "cover-orb-lavender",
-          "type": "circle",
-          "x": 980, "y": 160,
-          "radius": 140,
-          "fill": "#c4b5fd",
+          "x": 980,
+          "y": 160,
           "opacity": 0.18,
-          "animation": { "enter": "scale-in", "duration": 1100, "delay": 0, "step": 0 }
+          "animation": {
+            "enter": "scale-in",
+            "duration": 1100,
+            "delay": 0,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 140,
+          "fill": "#c4b5fd"
         },
         {
           "id": "cover-orb-rose",
-          "type": "circle",
-          "x": 1100, "y": 380,
-          "radius": 100,
-          "fill": "#f9a8d4",
+          "x": 1100,
+          "y": 380,
           "opacity": 0.15,
-          "animation": { "enter": "scale-in", "duration": 1100, "delay": 120, "step": 0 }
+          "animation": {
+            "enter": "scale-in",
+            "duration": 1100,
+            "delay": 120,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 100,
+          "fill": "#f9a8d4"
         },
         {
           "id": "cover-orb-gold",
-          "type": "circle",
-          "x": 1050, "y": 560,
-          "radius": 70,
-          "fill": "#fbbf24",
+          "x": 1050,
+          "y": 560,
           "opacity": 0.14,
-          "animation": { "enter": "scale-in", "duration": 1000, "delay": 240, "step": 0 }
+          "animation": {
+            "enter": "scale-in",
+            "duration": 1000,
+            "delay": 240,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 70,
+          "fill": "#fbbf24"
         },
         {
           "id": "cover-glass",
+          "x": 58,
+          "y": 80,
+          "width": 720,
+          "height": 520,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 860,
+            "step": 0
+          },
           "type": "rect",
-          "x": 58, "y": 80,
-          "width": 720, "height": 520,
           "fill": "rgba(196,181,253,.07)",
           "stroke": "rgba(196,181,253,.22)",
           "strokeWidth": 1,
-          "radius": 32,
-          "animation": { "enter": "fade-right", "duration": 860, "step": 0 }
+          "radius": 32
         },
         {
           "id": "cover-kicker",
-          "type": "text",
-          "x": 106, "y": 136,
+          "x": 106,
+          "y": 136,
           "width": 620,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 560,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "text",
           "content": "PHYS 7210 — Graduate Quantum Mechanics",
           "fontSize": 13,
           "fontWeight": "bold",
-          "color": "#c4b5fd",
-          "animation": { "enter": "fade-up", "duration": 560, "delay": 200, "step": 0 }
+          "color": "#c4b5fd"
         },
         {
           "id": "cover-title",
-          "type": "text",
-          "x": 100, "y": 188,
+          "x": 100,
+          "y": 188,
           "width": 640,
+          "animation": {
+            "enter": "blur-zoom",
+            "duration": 900,
+            "delay": 340,
+            "step": 0
+          },
+          "type": "text",
           "content": "Wave Functions\n& Measurement",
           "fontSize": 52,
           "fontWeight": "bold",
           "color": "#f1f5f9",
-          "lineHeight": 1.08,
-          "animation": { "enter": "blur-zoom", "duration": 900, "delay": 340, "step": 0 }
+          "lineHeight": 1.08
         },
         {
           "id": "cover-subtitle",
-          "type": "text",
-          "x": 106, "y": 420,
+          "x": 106,
+          "y": 420,
           "width": 580,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 640,
+            "delay": 540,
+            "step": 0
+          },
+          "type": "text",
           "content": "Lecture 12 — Prof. Elena Vasquez",
           "fontSize": 20,
-          "color": "rgba(241,245,249,0.55)",
-          "animation": { "enter": "fade-up", "duration": 640, "delay": 540, "step": 0 }
+          "color": "rgba(241,245,249,0.55)"
         },
         {
           "id": "cover-divider",
+          "x": 106,
+          "y": 476,
+          "width": 180,
+          "height": 2,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 500,
+            "delay": 620,
+            "step": 0
+          },
           "type": "rect",
-          "x": 106, "y": 476,
-          "width": 180, "height": 2,
-          "fill": "rgba(196,181,253,.45)",
-          "animation": { "enter": "stretch-x", "duration": 500, "delay": 620, "step": 0 }
+          "fill": "rgba(196,181,253,.45)"
         },
         {
           "id": "cover-meta",
-          "type": "text",
-          "x": 106, "y": 500,
+          "x": 106,
+          "y": 500,
           "width": 580,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 700,
+            "step": 0
+          },
+          "type": "text",
           "content": "Department of Physics · Spring 2026",
           "fontSize": 15,
-          "color": "rgba(196,181,253,0.50)",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 700, "step": 0 }
+          "color": "rgba(196,181,253,0.50)"
         }
+      ],
+      "notes": "Cover slide: ethereal intro with aurora + bokeh, glass card, orbs, blur-zoom title.",
+      "fx": [
+        "aurora-wave",
+        "bokeh-float"
       ]
     },
-
     {
       "id": "outline",
       "background": "#0f172a",
-      "fx": ["bokeh-float"],
-      "notes": "Outline: 5 topics revealed progressively, each fade-right on click.",
       "elements": [
         {
           "id": "outline-orb-bg",
-          "type": "circle",
-          "x": 1120, "y": 360,
-          "radius": 220,
-          "fill": "#c4b5fd",
+          "x": 1107.49,
+          "y": 271.72,
           "opacity": 0.07,
-          "animation": { "enter": "scale-in", "duration": 900, "step": 0 }
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 220,
+          "fill": "#c4b5fd"
         },
         {
           "id": "outline-title",
-          "type": "text",
-          "x": 80, "y": 56,
+          "x": 80,
+          "y": 56,
           "width": 600,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "text",
           "content": "Today's Topics",
           "fontSize": 44,
           "fontWeight": "bold",
-          "color": "#f1f5f9",
-          "animation": { "enter": "fade-down", "duration": 600, "step": 0 }
+          "color": "#f1f5f9"
         },
         {
           "id": "outline-glass-card",
+          "x": 70.74,
+          "y": 139.63,
+          "width": 880,
+          "height": 510,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 100,
+            "step": 0
+          },
           "type": "rect",
-          "x": 70, "y": 140,
-          "width": 880, "height": 510,
           "fill": "rgba(196,181,253,.06)",
           "stroke": "rgba(196,181,253,.18)",
           "strokeWidth": 1,
-          "radius": 24,
-          "animation": { "enter": "fade-up", "duration": 600, "delay": 100, "step": 0 }
+          "radius": 24
         },
         {
           "id": "outline-item-1",
-          "type": "text",
-          "x": 124, "y": 182,
+          "x": 124,
+          "y": 182,
           "width": 780,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 520,
+            "step": 1
+          },
+          "type": "text",
           "content": "01   Wave-Particle Duality",
           "fontSize": 26,
           "fontWeight": "bold",
-          "color": "#c4b5fd",
-          "animation": { "enter": "fade-right", "duration": 520, "step": 1 }
+          "color": "#c4b5fd"
         },
         {
           "id": "outline-item-2",
-          "type": "text",
-          "x": 124, "y": 265,
+          "x": 124,
+          "y": 265,
           "width": 780,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 520,
+            "step": 2
+          },
+          "type": "text",
           "content": "02   The Schrödinger Equation",
           "fontSize": 26,
           "fontWeight": "bold",
-          "color": "#f9a8d4",
-          "animation": { "enter": "fade-right", "duration": 520, "step": 2 }
+          "color": "#f9a8d4"
         },
         {
           "id": "outline-item-3",
-          "type": "text",
-          "x": 124, "y": 348,
+          "x": 124,
+          "y": 348,
           "width": 780,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 520,
+            "step": 3
+          },
+          "type": "text",
           "content": "03   Probability Densities",
           "fontSize": 26,
           "fontWeight": "bold",
-          "color": "#fbbf24",
-          "animation": { "enter": "fade-right", "duration": 520, "step": 3 }
+          "color": "#fbbf24"
         },
         {
           "id": "outline-item-4",
-          "type": "text",
-          "x": 124, "y": 431,
+          "x": 124,
+          "y": 431,
           "width": 780,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 520,
+            "step": 4
+          },
+          "type": "text",
           "content": "04   The Uncertainty Principle",
           "fontSize": 26,
           "fontWeight": "bold",
-          "color": "#93c5fd",
-          "animation": { "enter": "fade-right", "duration": 520, "step": 4 }
+          "color": "#93c5fd"
         },
         {
           "id": "outline-item-5",
-          "type": "text",
-          "x": 124, "y": 514,
+          "x": 124,
+          "y": 514,
           "width": 780,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 520,
+            "step": 5
+          },
+          "type": "text",
           "content": "05   Quantum Tunneling",
           "fontSize": 26,
           "fontWeight": "bold",
-          "color": "#6ee7b7",
-          "animation": { "enter": "fade-right", "duration": 520, "step": 5 }
+          "color": "#6ee7b7"
         }
+      ],
+      "notes": "Outline: 5 topics revealed progressively, each fade-right on click.",
+      "fx": [
+        "bokeh-float"
       ]
     },
-
     {
       "id": "wave-particle",
       "background": "#0f172a",
-      "fx": ["aurora-wave"],
-      "notes": "Wave-particle duality: de Broglie formulas + morphing rect demonstrates wave→particle.",
       "elements": [
         {
           "id": "wp-title",
-          "type": "text",
-          "x": 80, "y": 42,
+          "x": 80,
+          "y": 42,
           "width": 760,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 700,
+            "step": 0
+          },
+          "type": "text",
           "content": "Wave-Particle Duality",
           "fontSize": 42,
           "fontWeight": "bold",
-          "color": "#f1f5f9",
-          "animation": { "enter": "blur-in", "duration": 700, "step": 0 }
+          "color": "#f1f5f9"
         },
         {
           "id": "wp-intro",
-          "type": "text",
-          "x": 80, "y": 116,
+          "x": 80,
+          "y": 116,
           "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 180,
+            "step": 0
+          },
+          "type": "text",
           "content": "Louis de Broglie proposed that all matter exhibits both wave-like and particle-like properties. The wavelength associated with a particle depends on its momentum.",
           "fontSize": 19,
           "color": "rgba(241,245,249,0.60)",
-          "lineHeight": 1.55,
-          "animation": { "enter": "fade-up", "duration": 600, "delay": 180, "step": 0 }
+          "lineHeight": 1.55
         },
         {
           "id": "wp-formula-glass",
+          "x": 70,
+          "y": 300,
+          "width": 780,
+          "height": 170,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 560,
+            "delay": 300,
+            "step": 0
+          },
           "type": "rect",
-          "x": 70, "y": 300,
-          "width": 780, "height": 170,
           "fill": "rgba(196,181,253,.07)",
           "stroke": "rgba(196,181,253,.22)",
           "strokeWidth": 1,
-          "radius": 20,
-          "animation": { "enter": "fade-up", "duration": 560, "delay": 300, "step": 0 }
+          "radius": 20
         },
         {
           "id": "wp-formula-energy",
+          "x": 93.31,
+          "y": 324.67,
+          "width": 320,
+          "height": 72,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 560,
+            "delay": 400,
+            "step": 0
+          },
           "type": "formula",
-          "x": 110, "y": 328,
-          "width": 320, "height": 72,
           "latex": "E = h\\nu",
           "fontSize": 36,
-          "color": "#c4b5fd",
-          "animation": { "enter": "fade-up", "duration": 560, "delay": 400, "step": 0 }
+          "color": "#c4b5fd"
         },
         {
           "id": "wp-formula-label-e",
-          "type": "text",
-          "x": 110, "y": 408,
+          "x": 110,
+          "y": 408,
           "width": 320,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 460,
+            "step": 0
+          },
+          "type": "text",
           "content": "Energy-frequency relation",
           "fontSize": 14,
-          "color": "rgba(196,181,253,0.55)",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 460, "step": 0 }
+          "color": "rgba(196,181,253,0.55)"
         },
         {
           "id": "wp-formula-debroglie",
+          "x": 463.34,
+          "y": 318,
+          "width": 340,
+          "height": 80,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 560,
+            "delay": 500,
+            "step": 0
+          },
           "type": "formula",
-          "x": 460, "y": 318,
-          "width": 340, "height": 80,
           "latex": "\\lambda = \\frac{h}{p}",
           "fontSize": 36,
-          "color": "#f9a8d4",
-          "animation": { "enter": "fade-up", "duration": 560, "delay": 500, "step": 0 }
+          "color": "#f9a8d4"
         },
         {
           "id": "wp-formula-label-l",
-          "type": "text",
-          "x": 460, "y": 408,
+          "x": 460,
+          "y": 408,
           "width": 340,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 560,
+            "step": 0
+          },
+          "type": "text",
           "content": "de Broglie wavelength",
           "fontSize": 14,
-          "color": "rgba(249,168,212,0.55)",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 560, "step": 0 }
+          "color": "rgba(249,168,212,0.55)"
         },
         {
           "id": "wp-morph-label",
-          "type": "text",
-          "x": 920, "y": 200,
+          "x": 920,
+          "y": 200,
           "width": 300,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 600,
+            "step": 0
+          },
+          "type": "text",
           "content": "Wave → Particle\n(click to morph)",
           "fontSize": 16,
           "color": "rgba(196,181,253,0.65)",
-          "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 600, "step": 0 }
+          "align": "center"
         },
         {
           "id": "wp-morph-shape",
+          "x": 880.56,
+          "y": 263.66,
+          "width": 300,
+          "height": 30,
+          "opacity": 0.85,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "delay": 500,
+            "step": 0
+          },
           "type": "rect",
-          "x": 890, "y": 280,
-          "width": 300, "height": 30,
           "fill": "#c4b5fd",
           "radius": 4,
-          "opacity": 0.85,
-          "animation": { "enter": "scale-in", "duration": 600, "delay": 500, "step": 0 },
           "morphSteps": [
-            { "target": { "width": 180, "height": 80, "radius": 16, "fill": "#f9a8d4" }, "duration": 700, "easing": "easeInOutCubic" },
-            { "target": { "width": 80, "height": 80, "x": 950, "y": 265, "radius": 40, "fill": "#fbbf24", "opacity": 0.80 }, "duration": 650, "easing": "easeInOutCubic" }
+            {
+              "target": {
+                "fill": "#f9a8d4",
+                "width": 180,
+                "height": 80,
+                "radius": 16
+              },
+              "duration": 700,
+              "easing": "easeInOutCubic"
+            },
+            {
+              "target": {
+                "x": 950,
+                "y": 265,
+                "fill": "#fbbf24",
+                "opacity": 0.8,
+                "width": 80,
+                "height": 80,
+                "radius": 40
+              },
+              "duration": 650,
+              "easing": "easeInOutCubic"
+            }
           ],
           "morphStepTrigger": "click"
         }
+      ],
+      "notes": "Wave-particle duality: de Broglie formulas + morphing rect demonstrates wave→particle.",
+      "fx": [
+        "aurora-wave"
       ]
     },
-
     {
       "id": "schrodinger",
       "background": "#0f172a",
-      "notes": "Star slide: Schrödinger equation with 3-step derivation, glass card, blur-reveal annotation.",
       "elements": [
         {
           "id": "schrodinger-title",
-          "type": "text",
-          "x": 80, "y": 38,
+          "x": 80,
+          "y": 38,
           "width": 820,
+          "animation": {
+            "enter": "rise-in",
+            "duration": 700,
+            "step": 0
+          },
+          "type": "text",
           "content": "The Schrödinger Equation",
           "fontSize": 42,
           "fontWeight": "bold",
-          "color": "#f1f5f9",
-          "animation": { "enter": "rise-in", "duration": 700, "step": 0 }
+          "color": "#f1f5f9"
         },
         {
           "id": "schrodinger-formula-glass",
+          "x": 60,
+          "y": 112,
+          "width": 1160,
+          "height": 200,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 160,
+            "step": 0
+          },
           "type": "rect",
-          "x": 60, "y": 112,
-          "width": 1160, "height": 200,
           "fill": "rgba(196,181,253,.07)",
           "stroke": "rgba(196,181,253,.24)",
           "strokeWidth": 1,
-          "radius": 22,
-          "animation": { "enter": "fade-up", "duration": 600, "delay": 160, "step": 0 }
+          "radius": 22
         },
         {
           "id": "schrodinger-main-formula",
+          "x": 90,
+          "y": 148,
+          "width": 1100,
+          "height": 100,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 700,
+            "delay": 260,
+            "step": 0
+          },
           "type": "formula",
-          "x": 90, "y": 148,
-          "width": 1100, "height": 100,
           "latex": "i\\hbar \\frac{\\partial}{\\partial t} \\Psi(\\mathbf{r},t) = \\hat{H} \\Psi(\\mathbf{r},t)",
           "fontSize": 34,
           "color": "#f1f5f9",
           "steps": [
-            { "latex": "i\\hbar \\frac{\\partial}{\\partial t} \\Psi = \\left[ -\\frac{\\hbar^2}{2m} \\nabla^2 + V(\\mathbf{r}) \\right] \\Psi" },
-            { "latex": "\\text{For stationary states: } \\Psi(\\mathbf{r},t) = \\psi(\\mathbf{r})\\, e^{-iEt/\\hbar}" },
-            { "latex": "\\hat{H} \\psi = E \\psi \\qquad \\text{(Time-independent Schr\u00f6dinger equation)}" }
+            {
+              "latex": "i\\hbar \\frac{\\partial}{\\partial t} \\Psi = \\left[ -\\frac{\\hbar^2}{2m} \\nabla^2 + V(\\mathbf{r}) \\right] \\Psi"
+            },
+            {
+              "latex": "\\text{For stationary states: } \\Psi(\\mathbf{r},t) = \\psi(\\mathbf{r})\\, e^{-iEt/\\hbar}"
+            },
+            {
+              "latex": "\\hat{H} \\psi = E \\psi \\qquad \\text{(Time-independent Schrödinger equation)}"
+            }
           ],
-          "stepTrigger": "click",
-          "animation": { "enter": "fade-up", "duration": 700, "delay": 260, "step": 0 }
+          "stepTrigger": "click"
         },
         {
           "id": "schrodinger-step-hint",
-          "type": "text",
-          "x": 90, "y": 268,
+          "x": 90,
+          "y": 268,
           "width": 600,
-          "content": "Click \u2192 to expand the derivation",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 480,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Click → to expand the derivation",
           "fontSize": 15,
-          "color": "rgba(196,181,253,0.50)",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 480, "step": 0 }
+          "color": "rgba(196,181,253,0.50)"
         },
         {
           "id": "schrodinger-annotation",
-          "type": "animatedText",
-          "x": 80, "y": 370,
+          "x": 80,
+          "y": 370,
           "width": 1100,
-          "content": "The Hamiltonian operator H\u0302 encodes the total energy of the system — kinetic plus potential.",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "step": 1
+          },
+          "type": "animatedText",
+          "content": "The Hamiltonian operator Ĥ encodes the total energy of the system — kinetic plus potential.",
           "fontSize": 21,
           "color": "rgba(241,245,249,0.70)",
           "lineHeight": 1.5,
-          "textAnimation": { "name": "blur-reveal", "stagger": 28, "duration": 700 },
-          "animation": { "enter": "fade-up", "duration": 600, "step": 1 }
+          "textAnimation": {
+            "name": "blur-reveal",
+            "stagger": 28,
+            "duration": 700
+          }
         },
         {
           "id": "schrodinger-term-psi",
-          "type": "text",
-          "x": 80, "y": 476,
+          "x": 80,
+          "y": 476,
           "width": 340,
-          "content": "\u03a8(\u2019r, t) — wave function\nencodes all quantum state information",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 460,
+            "delay": 100,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Ψ(’r, t) — wave function\nencodes all quantum state information",
           "fontSize": 16,
           "color": "rgba(196,181,253,0.70)",
-          "lineHeight": 1.45,
-          "animation": { "enter": "fade-up", "duration": 460, "delay": 100, "step": 1 }
+          "lineHeight": 1.45
         },
         {
           "id": "schrodinger-term-hbar",
-          "type": "text",
-          "x": 460, "y": 476,
+          "x": 460,
+          "y": 476,
           "width": 340,
-          "content": "\u0127 = h/2\u03c0 — reduced Planck constant\n\u0127 \u2248 1.055 \u00d7 10\u207b\u00b3\u2074 J\u00b7s",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 460,
+            "delay": 200,
+            "step": 1
+          },
+          "type": "text",
+          "content": "ħ = h/2π — reduced Planck constant\nħ ≈ 1.055 × 10⁻³⁴ J·s",
           "fontSize": 16,
           "color": "rgba(249,168,212,0.70)",
-          "lineHeight": 1.45,
-          "animation": { "enter": "fade-up", "duration": 460, "delay": 200, "step": 1 }
+          "lineHeight": 1.45
         },
         {
           "id": "schrodinger-term-v",
-          "type": "text",
-          "x": 840, "y": 476,
+          "x": 840,
+          "y": 476,
           "width": 340,
-          "content": "V(\u2019r) — potential energy field\ndetermines bound state solutions",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 460,
+            "delay": 300,
+            "step": 1
+          },
+          "type": "text",
+          "content": "V(’r) — potential energy field\ndetermines bound state solutions",
           "fontSize": 16,
           "color": "rgba(251,191,36,0.70)",
-          "lineHeight": 1.45,
-          "animation": { "enter": "fade-up", "duration": 460, "delay": 300, "step": 1 }
+          "lineHeight": 1.45
         },
         {
           "id": "schrodinger-orb-accent",
+          "x": 1200,
+          "y": 80,
+          "opacity": 0.1,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 800,
+            "step": 0
+          },
           "type": "circle",
-          "x": 1200, "y": 80,
           "radius": 80,
-          "fill": "#c4b5fd",
-          "opacity": 0.10,
-          "animation": { "enter": "scale-in", "duration": 800, "step": 0 }
+          "fill": "#c4b5fd"
         }
-      ]
+      ],
+      "notes": "Star slide: Schrödinger equation with 3-step derivation, glass card, blur-reveal annotation."
     },
-
     {
       "id": "probability",
       "background": "#0f172a",
-      "fx": ["bokeh-float"],
-      "notes": "Probability densities: two 2D graphs side-by-side with draw-on animation, plus Born rule formula.",
       "elements": [
         {
           "id": "prob-title",
-          "type": "text",
-          "x": 80, "y": 38,
+          "x": 80,
+          "y": 38,
           "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 620,
+            "step": 0
+          },
+          "type": "text",
           "content": "Probability Densities",
           "fontSize": 42,
           "fontWeight": "bold",
-          "color": "#f1f5f9",
-          "animation": { "enter": "fade-up", "duration": 620, "step": 0 }
+          "color": "#f1f5f9"
         },
         {
           "id": "prob-graph-pib",
+          "x": 36,
+          "y": 112,
+          "width": 580,
+          "height": 430,
           "type": "graph",
-          "x": 36, "y": 112,
-          "width": 580, "height": 430,
           "functions": [
             {
               "expr": "sin(x)*sin(x)",
@@ -451,7 +708,7 @@
               "strokeWidth": 2.5,
               "animate": "draw-on",
               "animateDuration": 2000,
-              "label": "|\u03c8\u2081|\u00b2"
+              "label": "|ψ₁|²"
             },
             {
               "expr": "sin(2*x)*sin(2*x)",
@@ -459,16 +716,28 @@
               "strokeWidth": 2,
               "animate": "draw-on",
               "animateDuration": 2500,
-              "label": "|\u03c8\u2082|\u00b2"
+              "label": "|ψ₂|²"
             }
           ],
-          "axes": { "x": [0, 3.14], "y": [0, 1.2], "grid": true, "labels": true }
+          "axes": {
+            "x": [
+              0,
+              3.14
+            ],
+            "y": [
+              0,
+              1.2
+            ],
+            "grid": true,
+            "labels": true
+          }
         },
         {
           "id": "prob-graph-pib-label",
-          "type": "text",
-          "x": 36, "y": 552,
+          "x": 36,
+          "y": 552,
           "width": 580,
+          "type": "text",
           "content": "Particle in a box — quantum number n = 1, 2",
           "fontSize": 15,
           "color": "rgba(196,181,253,0.60)",
@@ -476,9 +745,11 @@
         },
         {
           "id": "prob-graph-gaussian",
+          "x": 664,
+          "y": 112,
+          "width": 580,
+          "height": 430,
           "type": "graph",
-          "x": 664, "y": 112,
-          "width": 580, "height": 430,
           "functions": [
             {
               "expr": "exp(-x*x/2)",
@@ -486,16 +757,28 @@
               "strokeWidth": 2.5,
               "animate": "draw-on",
               "animateDuration": 2000,
-              "label": "Gaussian |\u03c8|\u00b2"
+              "label": "Gaussian |ψ|²"
             }
           ],
-          "axes": { "x": [-4, 4], "y": [0, 1.2], "grid": true, "labels": true }
+          "axes": {
+            "x": [
+              -4,
+              4
+            ],
+            "y": [
+              0,
+              1.2
+            ],
+            "grid": true,
+            "labels": true
+          }
         },
         {
           "id": "prob-graph-gaussian-label",
-          "type": "text",
-          "x": 664, "y": 552,
+          "x": 664,
+          "y": 552,
           "width": 580,
+          "type": "text",
           "content": "Gaussian wave packet — minimum uncertainty state",
           "fontSize": 15,
           "color": "rgba(251,191,36,0.60)",
@@ -503,47 +786,75 @@
         },
         {
           "id": "prob-formula-born",
+          "x": 329.2,
+          "y": 607.79,
+          "width": 640,
+          "height": 70,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 560,
+            "delay": 300,
+            "step": 0
+          },
           "type": "formula",
-          "x": 320, "y": 610,
-          "width": 640, "height": 70,
           "latex": "P(a,b) = \\int_a^b |\\Psi(x,t)|^2 \\, dx",
           "fontSize": 26,
-          "color": "rgba(241,245,249,0.85)",
-          "animation": { "enter": "fade-up", "duration": 560, "delay": 300, "step": 0 }
+          "color": "rgba(241,245,249,0.85)"
         }
+      ],
+      "notes": "Probability densities: two 2D graphs side-by-side with draw-on animation, plus Born rule formula.",
+      "fx": [
+        "bokeh-float"
       ]
     },
-
     {
       "id": "orbital",
       "background": "#0f172a",
-      "fx": ["aurora-wave", "constellation"],
-      "notes": "3D orbital probability — viridis surface with orbiting camera.",
       "elements": [
         {
           "id": "orbital-title",
-          "type": "text",
-          "x": 80, "y": 38,
+          "x": 80,
+          "y": 38,
           "width": 760,
+          "animation": {
+            "enter": "blur-zoom",
+            "duration": 750,
+            "step": 0
+          },
+          "type": "text",
           "content": "Atomic Orbital Probability",
           "fontSize": 42,
           "fontWeight": "bold",
-          "color": "#f1f5f9",
-          "animation": { "enter": "blur-zoom", "duration": 750, "step": 0 }
+          "color": "#f1f5f9"
         },
         {
           "id": "orbital-graph-3d",
+          "x": 160,
+          "y": 95,
+          "width": 960,
+          "height": 555,
           "type": "graph",
-          "x": 160, "y": 95,
-          "width": 960, "height": 555,
+          "axes": {
+            "x": [
+              -6,
+              6
+            ],
+            "y": [
+              -6,
+              6
+            ],
+            "grid": true
+          },
           "mode": "3d",
           "surface": {
             "expr": "exp(-(x*x+y*y)/4) * cos(x) * cos(y)",
             "colorMap": "plasma",
             "resolution": 100
           },
-          "axes": { "x": [-6, 6], "y": [-6, 6], "grid": true },
-          "zAxis": [-1, 1],
+          "zAxis": [
+            -1,
+            1
+          ],
           "camera": {
             "distance": 12,
             "phi": 0.85,
@@ -553,470 +864,753 @@
             "orbitSpeed": 0.4
           },
           "cameraKeyframes": [
-            { "t": 0, "phi": 0.85, "theta": 0.5, "distance": 16 },
-            { "t": 2, "phi": 0.85, "theta": 0.5, "distance": 12 },
-            { "t": 5, "phi": 0.6, "theta": 1.2, "distance": 10 },
-            { "t": 8, "phi": 1.0, "theta": 2.0, "distance": 12 }
+            {
+              "t": 0,
+              "phi": 0.85,
+              "theta": 0.5,
+              "distance": 16
+            },
+            {
+              "t": 2,
+              "phi": 0.85,
+              "theta": 0.5,
+              "distance": 12
+            },
+            {
+              "t": 5,
+              "phi": 0.6,
+              "theta": 1.2,
+              "distance": 10
+            },
+            {
+              "t": 8,
+              "phi": 1,
+              "theta": 2,
+              "distance": 12
+            }
           ]
         },
         {
           "id": "orbital-caption",
-          "type": "text",
-          "x": 160, "y": 662,
+          "x": 160,
+          "y": 662,
           "width": 960,
-          "content": "Probability amplitude |\u03c8(\u2019r)|² for a hydrogen-like orbital — surface height encodes probability density",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Probability amplitude |ψ(’r)|² for a hydrogen-like orbital — surface height encodes probability density",
           "fontSize": 15,
           "color": "rgba(196,181,253,0.55)",
-          "align": "center",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 400, "step": 0 }
+          "align": "center"
         },
         {
           "id": "orbital-orb-accent",
-          "type": "circle",
-          "x": 1200, "y": 640,
-          "radius": 60,
-          "fill": "#c4b5fd",
+          "x": 1200,
+          "y": 640,
           "opacity": 0.12,
-          "animation": { "enter": "scale-in", "duration": 700, "step": 0 }
+          "animation": {
+            "enter": "scale-in",
+            "duration": 700,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 60,
+          "fill": "#c4b5fd"
         }
+      ],
+      "notes": "3D orbital probability — viridis surface with orbiting camera.",
+      "fx": [
+        "aurora-wave",
+        "constellation"
       ]
     },
-
     {
       "id": "uncertainty",
       "background": "#0f172a",
-      "fx": ["bokeh-float"],
-      "notes": "Heisenberg uncertainty: central formula, blur-reveal explanation, two extended relations.",
       "elements": [
         {
           "id": "uncertainty-title",
-          "type": "text",
-          "x": 80, "y": 38,
+          "x": 80,
+          "y": 38,
           "width": 800,
+          "animation": {
+            "enter": "rise-in",
+            "duration": 700,
+            "step": 0
+          },
+          "type": "text",
           "content": "The Uncertainty Principle",
           "fontSize": 42,
           "fontWeight": "bold",
-          "color": "#f1f5f9",
-          "animation": { "enter": "rise-in", "duration": 700, "step": 0 }
+          "color": "#f1f5f9"
         },
         {
           "id": "uncertainty-glass",
+          "x": 60,
+          "y": 108,
+          "width": 1160,
+          "height": 200,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 140,
+            "step": 0
+          },
           "type": "rect",
-          "x": 60, "y": 108,
-          "width": 1160, "height": 200,
           "fill": "rgba(196,181,253,.07)",
           "stroke": "rgba(196,181,253,.22)",
           "strokeWidth": 1,
-          "radius": 22,
-          "animation": { "enter": "fade-up", "duration": 600, "delay": 140, "step": 0 }
+          "radius": 22
         },
         {
           "id": "uncertainty-main-formula",
+          "x": 90,
+          "y": 148,
+          "width": 1100,
+          "height": 100,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 700,
+            "delay": 260,
+            "step": 0
+          },
           "type": "formula",
-          "x": 90, "y": 148,
-          "width": 1100, "height": 100,
           "latex": "\\Delta x \\cdot \\Delta p \\geq \\frac{\\hbar}{2}",
           "fontSize": 48,
-          "color": "#c4b5fd",
-          "animation": { "enter": "scale-in", "duration": 700, "delay": 260, "step": 0 }
+          "color": "#c4b5fd"
         },
         {
           "id": "uncertainty-explanation",
-          "type": "animatedText",
-          "x": 80, "y": 345,
+          "x": 80,
+          "y": 345,
           "width": 1100,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "step": 1
+          },
+          "type": "animatedText",
           "content": "We cannot simultaneously know both the exact position and momentum of a particle — this is not a limitation of our instruments, but a fundamental property of nature.",
           "fontSize": 21,
           "color": "rgba(241,245,249,0.72)",
           "lineHeight": 1.55,
-          "textAnimation": { "name": "blur-reveal", "stagger": 26, "duration": 700 },
-          "animation": { "enter": "fade-up", "duration": 600, "step": 1 }
+          "textAnimation": {
+            "name": "blur-reveal",
+            "stagger": 26,
+            "duration": 700
+          }
         },
         {
           "id": "uncertainty-formula-energy",
+          "x": 90,
+          "y": 510,
+          "width": 500,
+          "height": 80,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 520,
+            "delay": 80,
+            "step": 2
+          },
           "type": "formula",
-          "x": 90, "y": 510,
-          "width": 500, "height": 80,
           "latex": "\\Delta E \\cdot \\Delta t \\geq \\frac{\\hbar}{2}",
           "fontSize": 28,
-          "color": "#f9a8d4",
-          "animation": { "enter": "fade-up", "duration": 520, "delay": 80, "step": 2 }
+          "color": "#f9a8d4"
         },
         {
           "id": "uncertainty-formula-robertson",
+          "x": 640,
+          "y": 510,
+          "width": 580,
+          "height": 80,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 520,
+            "delay": 180,
+            "step": 2
+          },
           "type": "formula",
-          "x": 640, "y": 510,
-          "width": 580, "height": 80,
           "latex": "\\sigma_A \\sigma_B \\geq \\frac{1}{2} \\left| \\langle [\\hat{A}, \\hat{B}] \\rangle \\right|",
           "fontSize": 26,
-          "color": "#fbbf24",
-          "animation": { "enter": "fade-up", "duration": 520, "delay": 180, "step": 2 }
+          "color": "#fbbf24"
         },
         {
           "id": "uncertainty-label-robertson",
-          "type": "text",
-          "x": 640, "y": 608,
+          "x": 640,
+          "y": 608,
           "width": 580,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 280,
+            "step": 2
+          },
+          "type": "text",
           "content": "Robertson generalization — any two observables",
           "fontSize": 14,
-          "color": "rgba(251,191,36,0.50)",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 280, "step": 2 }
+          "color": "rgba(251,191,36,0.50)"
         }
+      ],
+      "notes": "Heisenberg uncertainty: central formula, blur-reveal explanation, two extended relations.",
+      "fx": [
+        "bokeh-float"
       ]
     },
-
     {
       "id": "tunneling",
       "background": "#0f172a",
-      "fx": ["aurora-wave"],
-      "notes": "Quantum tunneling: particle morphs through a potential barrier in 3 click steps.",
       "elements": [
         {
           "id": "tunneling-title",
-          "type": "text",
-          "x": 80, "y": 38,
+          "x": 80,
+          "y": 38,
           "width": 760,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 700,
+            "step": 0
+          },
+          "type": "text",
           "content": "Quantum Tunneling",
           "fontSize": 42,
           "fontWeight": "bold",
-          "color": "#f1f5f9",
-          "animation": { "enter": "blur-in", "duration": 700, "step": 0 }
+          "color": "#f1f5f9"
         },
         {
           "id": "tunneling-barrier",
+          "x": 540,
+          "y": 140,
+          "width": 100,
+          "height": 380,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 200,
+            "step": 0
+          },
           "type": "rect",
-          "x": 540, "y": 140,
-          "width": 100, "height": 380,
           "fill": "rgba(196,181,253,.30)",
           "stroke": "rgba(196,181,253,.50)",
           "strokeWidth": 2,
-          "radius": 6,
-          "animation": { "enter": "fade-up", "duration": 600, "delay": 200, "step": 0 }
+          "radius": 6
         },
         {
           "id": "tunneling-barrier-label",
-          "type": "text",
-          "x": 524, "y": 100,
+          "x": 524,
+          "y": 100,
           "width": 132,
-          "content": "V\u2080 Barrier",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "text",
+          "content": "V₀ Barrier",
           "fontSize": 14,
           "color": "rgba(196,181,253,0.65)",
-          "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 300, "step": 0 }
+          "align": "center"
         },
         {
           "id": "tunneling-particle",
+          "x": 200,
+          "y": 330,
+          "opacity": 0.9,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "delay": 400,
+            "step": 0
+          },
           "type": "circle",
-          "x": 200, "y": 330,
           "radius": 36,
           "fill": "#fbbf24",
-          "opacity": 0.90,
-          "animation": { "enter": "scale-in", "duration": 600, "delay": 400, "step": 0 },
           "morphSteps": [
-            { "target": { "x": 490, "opacity": 0.90 }, "duration": 700, "easing": "easeInOutCubic" },
-            { "target": { "x": 700, "opacity": 0.45, "fill": "#c4b5fd" }, "duration": 500, "easing": "easeInOutCubic" },
-            { "target": { "x": 980, "opacity": 0.90, "fill": "#fbbf24" }, "duration": 600, "easing": "easeInOutCubic" }
+            {
+              "target": {
+                "x": 490,
+                "opacity": 0.9
+              },
+              "duration": 700,
+              "easing": "easeInOutCubic"
+            },
+            {
+              "target": {
+                "x": 700,
+                "fill": "#c4b5fd",
+                "opacity": 0.45
+              },
+              "duration": 500,
+              "easing": "easeInOutCubic"
+            },
+            {
+              "target": {
+                "x": 980,
+                "fill": "#fbbf24",
+                "opacity": 0.9
+              },
+              "duration": 600,
+              "easing": "easeInOutCubic"
+            }
           ],
           "morphStepTrigger": "click"
         },
         {
           "id": "tunneling-particle-label",
-          "type": "text",
-          "x": 80, "y": 430,
+          "x": 80,
+          "y": 430,
           "width": 300,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 500,
+            "step": 0
+          },
+          "type": "text",
           "content": "Particle wave packet\n(click to tunnel through)",
           "fontSize": 15,
           "color": "rgba(251,191,36,0.65)",
-          "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 500, "step": 0 }
+          "align": "center"
         },
         {
           "id": "tunneling-formula-glass",
+          "x": 60,
+          "y": 548,
+          "width": 800,
+          "height": 110,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 560,
+            "delay": 600,
+            "step": 0
+          },
           "type": "rect",
-          "x": 60, "y": 548,
-          "width": 800, "height": 110,
           "fill": "rgba(196,181,253,.06)",
           "stroke": "rgba(196,181,253,.18)",
           "strokeWidth": 1,
-          "radius": 18,
-          "animation": { "enter": "fade-up", "duration": 560, "delay": 600, "step": 0 }
+          "radius": 18
         },
         {
           "id": "tunneling-formula",
+          "x": 90,
+          "y": 568,
+          "width": 740,
+          "height": 60,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 560,
+            "delay": 680,
+            "step": 0
+          },
           "type": "formula",
-          "x": 90, "y": 568,
-          "width": 740, "height": 60,
           "latex": "T \\approx e^{-2\\kappa L}, \\quad \\kappa = \\sqrt{\\frac{2m(V_0 - E)}{\\hbar^2}}",
           "fontSize": 26,
-          "color": "#f1f5f9",
-          "animation": { "enter": "fade-up", "duration": 560, "delay": 680, "step": 0 }
+          "color": "#f1f5f9"
         },
         {
           "id": "tunneling-caption",
-          "type": "text",
-          "x": 90, "y": 642,
+          "x": 90,
+          "y": 642,
           "width": 740,
-          "content": "Transmission probability decays exponentially with barrier width L and the evanescent decay constant \u03ba",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 440,
+            "delay": 760,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Transmission probability decays exponentially with barrier width L and the evanescent decay constant κ",
           "fontSize": 15,
-          "color": "rgba(196,181,253,0.55)",
-          "animation": { "enter": "fade-up", "duration": 440, "delay": 760, "step": 0 }
+          "color": "rgba(196,181,253,0.55)"
         },
         {
           "id": "tunneling-region-left",
-          "type": "text",
-          "x": 80, "y": 160,
+          "x": 80,
+          "y": 160,
           "width": 400,
-          "content": "Region I: Propagating\n\u03c8 = Ae^{ikx} + Be^{-ikx}",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 440,
+            "delay": 320,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Region I: Propagating\nψ = Ae^{ikx} + Be^{-ikx}",
           "fontSize": 15,
           "color": "rgba(251,191,36,0.55)",
-          "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 440, "delay": 320, "step": 0 }
+          "lineHeight": 1.5
         },
         {
           "id": "tunneling-region-right",
-          "type": "text",
-          "x": 700, "y": 160,
+          "x": 700,
+          "y": 160,
           "width": 400,
-          "content": "Region III: Transmitted\n\u03c8 = Fe^{ikx}",
+          "animation": {
+            "enter": "fade-up",
+            "duration": 440,
+            "delay": 400,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Region III: Transmitted\nψ = Fe^{ikx}",
           "fontSize": 15,
           "color": "rgba(110,231,183,0.55)",
-          "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 440, "delay": 400, "step": 0 }
+          "lineHeight": 1.5
         }
+      ],
+      "notes": "Quantum tunneling: particle morphs through a potential barrier in 3 click steps.",
+      "fx": [
+        "aurora-wave"
       ]
     },
-
     {
       "id": "summary",
       "background": "#0f172a",
-      "fx": ["bokeh-float"],
-      "notes": "Key takeaways: 4 glass cards in 2×2 grid, scale-in steps 1-4.",
       "elements": [
         {
           "id": "summary-title",
-          "type": "text",
-          "x": 80, "y": 38,
+          "x": 80,
+          "y": 38,
           "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 620,
+            "step": 0
+          },
+          "type": "text",
           "content": "Key Takeaways",
           "fontSize": 44,
           "fontWeight": "bold",
-          "color": "#f1f5f9",
-          "animation": { "enter": "fade-up", "duration": 620, "step": 0 }
+          "color": "#f1f5f9"
         },
         {
           "id": "summary-card-1-bg",
+          "x": 60,
+          "y": 120,
+          "width": 550,
+          "height": 220,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 1
+          },
           "type": "rect",
-          "x": 60, "y": 120,
-          "width": 550, "height": 220,
           "fill": "rgba(196,181,253,.08)",
           "stroke": "rgba(196,181,253,.24)",
           "strokeWidth": 1,
-          "radius": 22,
-          "animation": { "enter": "scale-in", "duration": 600, "step": 1 }
+          "radius": 22
         },
         {
           "id": "summary-card-1-num",
-          "type": "text",
-          "x": 100, "y": 148,
+          "x": 100,
+          "y": 148,
           "width": 60,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 1
+          },
+          "type": "text",
           "content": "01",
           "fontSize": 28,
           "fontWeight": "bold",
-          "color": "rgba(196,181,253,.40)",
-          "animation": { "enter": "scale-in", "duration": 600, "step": 1 }
+          "color": "rgba(196,181,253,.40)"
         },
         {
           "id": "summary-card-1-text",
-          "type": "text",
-          "x": 100, "y": 196,
+          "x": 100,
+          "y": 196,
           "width": 470,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 1
+          },
+          "type": "text",
           "content": "Wave functions encode all measurable information about a quantum system",
           "fontSize": 20,
           "color": "#f1f5f9",
-          "lineHeight": 1.45,
-          "animation": { "enter": "scale-in", "duration": 600, "step": 1 }
+          "lineHeight": 1.45
         },
         {
           "id": "summary-card-2-bg",
+          "x": 670,
+          "y": 120,
+          "width": 550,
+          "height": 220,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 2
+          },
           "type": "rect",
-          "x": 670, "y": 120,
-          "width": 550, "height": 220,
           "fill": "rgba(249,168,212,.08)",
           "stroke": "rgba(249,168,212,.24)",
           "strokeWidth": 1,
-          "radius": 22,
-          "animation": { "enter": "scale-in", "duration": 600, "step": 2 }
+          "radius": 22
         },
         {
           "id": "summary-card-2-num",
-          "type": "text",
-          "x": 710, "y": 148,
+          "x": 710,
+          "y": 148,
           "width": 60,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 2
+          },
+          "type": "text",
           "content": "02",
           "fontSize": 28,
           "fontWeight": "bold",
-          "color": "rgba(249,168,212,.40)",
-          "animation": { "enter": "scale-in", "duration": 600, "step": 2 }
+          "color": "rgba(249,168,212,.40)"
         },
         {
           "id": "summary-card-2-text",
-          "type": "text",
-          "x": 710, "y": 196,
+          "x": 710,
+          "y": 196,
           "width": 470,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 2
+          },
+          "type": "text",
           "content": "Schrödinger equation governs the time evolution of quantum states",
           "fontSize": 20,
           "color": "#f1f5f9",
-          "lineHeight": 1.45,
-          "animation": { "enter": "scale-in", "duration": 600, "step": 2 }
+          "lineHeight": 1.45
         },
         {
           "id": "summary-card-3-bg",
+          "x": 60,
+          "y": 380,
+          "width": 550,
+          "height": 220,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 3
+          },
           "type": "rect",
-          "x": 60, "y": 380,
-          "width": 550, "height": 220,
           "fill": "rgba(251,191,36,.08)",
           "stroke": "rgba(251,191,36,.24)",
           "strokeWidth": 1,
-          "radius": 22,
-          "animation": { "enter": "scale-in", "duration": 600, "step": 3 }
+          "radius": 22
         },
         {
           "id": "summary-card-3-num",
-          "type": "text",
-          "x": 100, "y": 408,
+          "x": 100,
+          "y": 408,
           "width": 60,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 3
+          },
+          "type": "text",
           "content": "03",
           "fontSize": 28,
           "fontWeight": "bold",
-          "color": "rgba(251,191,36,.40)",
-          "animation": { "enter": "scale-in", "duration": 600, "step": 3 }
+          "color": "rgba(251,191,36,.40)"
         },
         {
           "id": "summary-card-3-text",
-          "type": "text",
-          "x": 100, "y": 456,
+          "x": 100,
+          "y": 456,
           "width": 470,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 3
+          },
+          "type": "text",
           "content": "Measurement collapses the wave function — Born rule gives the probability",
           "fontSize": 20,
           "color": "#f1f5f9",
-          "lineHeight": 1.45,
-          "animation": { "enter": "scale-in", "duration": 600, "step": 3 }
+          "lineHeight": 1.45
         },
         {
           "id": "summary-card-4-bg",
+          "x": 670,
+          "y": 380,
+          "width": 550,
+          "height": 220,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 4
+          },
           "type": "rect",
-          "x": 670, "y": 380,
-          "width": 550, "height": 220,
           "fill": "rgba(147,197,253,.08)",
           "stroke": "rgba(147,197,253,.24)",
           "strokeWidth": 1,
-          "radius": 22,
-          "animation": { "enter": "scale-in", "duration": 600, "step": 4 }
+          "radius": 22
         },
         {
           "id": "summary-card-4-num",
-          "type": "text",
-          "x": 710, "y": 408,
+          "x": 710,
+          "y": 408,
           "width": 60,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 4
+          },
+          "type": "text",
           "content": "04",
           "fontSize": 28,
           "fontWeight": "bold",
-          "color": "rgba(147,197,253,.40)",
-          "animation": { "enter": "scale-in", "duration": 600, "step": 4 }
+          "color": "rgba(147,197,253,.40)"
         },
         {
           "id": "summary-card-4-text",
-          "type": "text",
-          "x": 710, "y": 456,
+          "x": 710,
+          "y": 456,
           "width": 470,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 4
+          },
+          "type": "text",
           "content": "Uncertainty is fundamental to nature — not a limitation of instruments",
           "fontSize": 20,
           "color": "#f1f5f9",
-          "lineHeight": 1.45,
-          "animation": { "enter": "scale-in", "duration": 600, "step": 4 }
+          "lineHeight": 1.45
         },
         {
           "id": "summary-orb-bg",
-          "type": "circle",
-          "x": 640, "y": 370,
-          "radius": 150,
-          "fill": "#c4b5fd",
+          "x": 640,
+          "y": 370,
           "opacity": 0.05,
-          "animation": { "enter": "scale-in", "duration": 900, "step": 0 }
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 150,
+          "fill": "#c4b5fd"
         }
+      ],
+      "notes": "Key takeaways: 4 glass cards in 2×2 grid, scale-in steps 1-4.",
+      "fx": [
+        "bokeh-float"
       ]
     },
-
     {
       "id": "closing",
       "background": "#0f172a",
-      "fx": ["aurora-wave", "bokeh-float"],
-      "notes": "Closing: animatedText fade-chars, course info, next lecture, decorative orb.",
       "elements": [
         {
           "id": "closing-orb",
-          "type": "circle",
-          "x": 640, "y": 360,
-          "radius": 200,
-          "fill": "#c4b5fd",
+          "x": 640,
+          "y": 360,
           "opacity": 0.09,
-          "animation": { "enter": "scale-in", "duration": 1100, "step": 0 }
+          "animation": {
+            "enter": "scale-in",
+            "duration": 1100,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 200,
+          "fill": "#c4b5fd"
         },
         {
           "id": "closing-questions",
-          "type": "animatedText",
-          "x": 80, "y": 240,
+          "x": 80,
+          "y": 240,
           "width": 1120,
+          "type": "animatedText",
           "content": "Questions?",
           "fontSize": 60,
           "fontWeight": "bold",
           "color": "#f1f5f9",
           "align": "center",
-          "textAnimation": { "name": "fade-chars", "stagger": 55, "duration": 500, "direction": "center" }
+          "textAnimation": {
+            "name": "fade-chars",
+            "stagger": 55,
+            "direction": "center",
+            "duration": 500
+          }
         },
         {
           "id": "closing-divider",
+          "x": 440,
+          "y": 368,
+          "width": 400,
+          "height": 2,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
           "type": "rect",
-          "x": 440, "y": 368,
-          "width": 400, "height": 2,
-          "fill": "rgba(196,181,253,.40)",
-          "animation": { "enter": "stretch-x", "duration": 500, "delay": 400, "step": 0 }
+          "fill": "rgba(196,181,253,.40)"
         },
         {
           "id": "closing-course-info",
-          "type": "text",
-          "x": 80, "y": 408,
+          "x": 80,
+          "y": 408,
           "width": 1120,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 560,
+            "delay": 500,
+            "step": 0
+          },
+          "type": "text",
           "content": "PHYS 7210 — Office hours: Tue/Thu 2–4 pm, Room 412",
           "fontSize": 20,
           "color": "rgba(196,181,253,0.70)",
-          "align": "center",
-          "animation": { "enter": "fade-up", "duration": 560, "delay": 500, "step": 0 }
+          "align": "center"
         },
         {
           "id": "closing-next-lecture",
-          "type": "text",
-          "x": 80, "y": 472,
+          "x": 80,
+          "y": 472,
           "width": 1120,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 700,
+            "step": 0
+          },
+          "type": "text",
           "content": "Next lecture: Quantum Entanglement & Bell's Theorem",
           "fontSize": 18,
           "color": "rgba(241,245,249,0.45)",
-          "align": "center",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 700, "step": 0 }
+          "align": "center"
         },
         {
           "id": "closing-prof",
-          "type": "text",
-          "x": 80, "y": 540,
+          "x": 80,
+          "y": 540,
           "width": 1120,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 440,
+            "delay": 900,
+            "step": 0
+          },
+          "type": "text",
           "content": "Prof. Elena Vasquez · Department of Physics · Spring 2026",
           "fontSize": 15,
           "color": "rgba(196,181,253,0.35)",
-          "align": "center",
-          "animation": { "enter": "fade-up", "duration": 440, "delay": 900, "step": 0 }
+          "align": "center"
         }
+      ],
+      "notes": "Closing: animatedText fade-chars, course info, next lecture, decorative orb.",
+      "fx": [
+        "aurora-wave",
+        "bokeh-float"
       ]
     }
-
   ]
 }

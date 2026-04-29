@@ -31,6 +31,7 @@ describe('HTML slide editor runtime lane', () => {
     expect(runtimeSource).toContain("tokens.indexOf('geometry') >= 0");
     expect(runtimeSource).toContain("tokens.indexOf('text') >= 0");
     expect(runtimeSource).toContain("tokens.indexOf('rect-style') >= 0");
+    expect(runtimeSource).toContain("tokens.indexOf('shape-style') >= 0");
     expect(runtimeSource).toContain('window.__maliangDeckEditorActive = editorIsActive');
     expect(runtimeSource).toContain("if (window.__maliangDeckEditorActive && window.__maliangDeckEditorActive())");
     expect(runtimeSource).toContain("case 'ArrowDown': case 'PageDown': go(idx+1, false, { skipTimeline: true })");
@@ -46,7 +47,7 @@ describe('HTML slide editor runtime lane', () => {
   });
 
   it('creates pending text/font/rect style ops, transient undo, and save payloads with baseRevision', () => {
-    expect(runtimeSource).toContain("['x', 'y', 'x2', 'y2', 'width', 'height', 'content', 'fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'textDecoration', 'fill', 'stroke', 'strokeWidth', 'radius']");
+    expect(runtimeSource).toContain("['x', 'y', 'x2', 'y2', 'width', 'height', 'content', 'fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'textDecoration', 'color', 'align', 'lineHeight', 'fill', 'stroke', 'strokeWidth', 'radius']");
     expect(runtimeSource).toContain("addEditorOp(el, { content: after })");
     expect(runtimeSource).toContain("addEditorOp(el, { fontSize: fontSize })");
     expect(runtimeSource).toContain("applyEditorRectStyle('fill'");
@@ -71,6 +72,9 @@ describe('HTML slide editor runtime lane', () => {
     expect(runtimeSource).toContain('function reorderEditorSlide(index, nextIndex)');
     expect(runtimeSource).toContain("op: 'reorderSlides'");
     expect(runtimeSource).toContain("op: 'deleteSlide'");
+    expect(runtimeSource).toContain("op: 'addElement'");
+    expect(runtimeSource).toContain("op: 'deleteElement'");
+    expect(runtimeSource).toContain("op: 'duplicateElement'");
     expect(runtimeSource).toContain('slideIds: editorState.slideOrder.slice()');
     expect(runtimeSource).toContain('maliang-deck-editor-page-thumb');
     expect(runtimeSource).toContain("body.error || {}");
@@ -81,13 +85,39 @@ describe('HTML slide editor runtime lane', () => {
 
   it('adopts reference-style editor chrome, multi-select, redo, and text styling controls', () => {
     expect(runtimeSource).toContain("'<button type=\"button\" data-role=\"slides\">Pages</button>'");
+    expect(runtimeSource).toContain("'<button type=\"button\" data-role=\"add-text\">Add Text</button>'");
+    expect(runtimeSource).toContain("'<button type=\"button\" data-role=\"duplicate\" disabled>Copy</button>'");
+    expect(runtimeSource).toContain("'<button type=\"button\" data-role=\"delete\" disabled>Delete</button>'");
     expect(runtimeSource).toContain("'<button type=\"button\" data-role=\"redo\" disabled>Redo</button>'");
     expect(runtimeSource).toContain("'<button type=\"button\" data-role=\"done\">Done</button>'");
     expect(runtimeSource).toContain('maliang-deck-editor-textbar');
     expect(runtimeSource).toContain('selectedItems: []');
-    expect(runtimeSource).toContain('selectEditorElement(target, !!e.ctrlKey)');
+    expect(runtimeSource).toContain('function editorIsMultiSelectEvent(e)');
+    expect(runtimeSource).toContain('return !!(e && (e.ctrlKey || e.metaKey))');
+    expect(runtimeSource).toContain('selectEditorElement(target, editorIsMultiSelectEvent(e))');
+    expect(runtimeSource).toContain('suppressNextEditorClick');
+    expect(runtimeSource).toContain('if (!drag.moved)');
+    expect(runtimeSource).toContain('function editorTextHasKeyboardFocus(target)');
+    expect(runtimeSource).toContain('if (editorTextHasKeyboardFocus(e.target)) return;');
+    expect(runtimeSource).toContain('if (editorTextHasKeyboardFocus(target)) return true;');
+    expect(runtimeSource).toContain('function resetEditorComponentState(enabled)');
+    expect(runtimeSource).toContain("document.querySelectorAll('[data-maliang-deck-editable]').forEach");
+    expect(runtimeSource).toContain("item.removeAttribute('contenteditable')");
     expect(runtimeSource).toContain("toggleEditorTextStyle('fontWeight', 'bold', 'normal')");
     expect(runtimeSource).toContain("toggleEditorTextStyle('fontStyle', 'italic', 'normal')");
     expect(runtimeSource).toContain('applyEditorFontFamily');
+    expect(runtimeSource).toContain('function addEditorTextElement()');
+    expect(runtimeSource).toContain("content: 'New text'");
+    expect(runtimeSource).toContain("width = 320");
+    expect(runtimeSource).toContain("height = 64");
+    expect(runtimeSource).toContain('function duplicateEditorSelection()');
+    expect(runtimeSource).toContain('function deleteEditorSelection()');
+    expect(runtimeSource).toContain('function editorCanStructuralOp(el)');
+    expect(runtimeSource).toContain("return editorElementType(el) !== 'formula'");
+    expect(runtimeSource).toContain("return type !== 'line' && type !== 'formula'");
+    expect(runtimeSource).toContain("e.key === 'Delete' || e.key === 'Backspace'");
+    expect(runtimeSource).toContain("e.key === 'd' || e.key === 'D'");
+    expect(runtimeSource).toContain('editorStructuralSnapshot');
+    expect(runtimeSource).toContain('applyEditorOpsToDeck(deck, editorState.pendingOps)');
   });
 });

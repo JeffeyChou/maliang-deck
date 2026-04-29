@@ -1,10 +1,10 @@
-import type { Deck } from './types.js';
+import type { Deck, TextElement } from './types.js';
 import { type ValidationError } from './schema.js';
 export type EditorSaveRequest = {
     baseRevision: string;
     ops: EditorOperation[];
 };
-export type EditorOperation = ReorderSlidesOperation | DeleteSlideOperation | UpdateElementOperation;
+export type EditorOperation = ReorderSlidesOperation | DeleteSlideOperation | UpdateElementOperation | AddElementOperation | DeleteElementOperation | DuplicateElementOperation;
 export type ReorderSlidesOperation = {
     op: 'reorderSlides';
     slideIds: string[];
@@ -19,6 +19,22 @@ export type UpdateElementOperation = {
     elementId: string;
     changes: EditorElementChanges;
 };
+export type AddElementOperation = {
+    op: 'addElement';
+    slideId: string;
+    element: TextElement;
+};
+export type DeleteElementOperation = {
+    op: 'deleteElement';
+    slideId: string;
+    elementId: string;
+};
+export type DuplicateElementOperation = {
+    op: 'duplicateElement';
+    slideId: string;
+    elementId: string;
+    newElementId: string;
+};
 export type EditorElementChanges = {
     x?: number;
     y?: number;
@@ -27,9 +43,12 @@ export type EditorElementChanges = {
     content?: string;
     fontSize?: number;
     fontFamily?: string;
-    fontWeight?: 'normal' | 'bold';
+    fontWeight?: 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
     fontStyle?: 'normal' | 'italic';
     textDecoration?: 'none' | 'underline';
+    color?: string;
+    align?: 'left' | 'center' | 'right';
+    lineHeight?: number;
     fill?: string;
     stroke?: string;
     strokeWidth?: number;
@@ -51,6 +70,6 @@ export type ApplyEditorPatchResult = {
 export declare function normalizeEditorSaveRequest(input: unknown): EditorSaveRequest;
 export declare function applyEditorPatch(deck: Deck, request: Pick<EditorSaveRequest, 'ops'>): ApplyEditorPatchResult;
 export declare function isEditorPatchError(error: unknown): error is EditorPatchError;
-export declare const EDITOR_SUPPORTED_OPS: readonly ["reorderSlides", "deleteSlide", "updateElement"];
-export declare const EDITOR_SUPPORTED_ELEMENT_TYPES: readonly ["text", "rect", "image", "line", "circle"];
+export declare const EDITOR_SUPPORTED_OPS: readonly ["reorderSlides", "deleteSlide", "updateElement", "addElement", "deleteElement", "duplicateElement"];
+export declare const EDITOR_SUPPORTED_ELEMENT_TYPES: readonly ["text", "animatedText", "rect", "circle", "ellipse", "line", "image", "path", "polygon", "formula"];
 //# sourceMappingURL=editor-patch.d.ts.map

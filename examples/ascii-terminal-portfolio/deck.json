@@ -2,1603 +2,3473 @@
   "meta": {
     "title": "kai@dev ~ portfolio",
     "theme": "minimal-white",
-    "canvas": { "width": 1280, "height": 720 },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
     "htmlRuntime": {
-      "transition": { "type": "fade", "durationMs": 300 },
-      "customStylesheets": ["./assets/themes/ascii-terminal.css"],
-      "customScripts": ["./assets/fx/scan-line.js", "./assets/fx/ascii-morph.js"]
+      "transition": {
+        "type": "fade",
+        "durationMs": 300
+      },
+      "customStylesheets": [
+        "./assets/themes/ascii-terminal.css"
+      ],
+      "customScripts": [
+        "./assets/fx/scan-line.js",
+        "./assets/fx/ascii-morph.js"
+      ]
     }
   },
   "slides": [
-
     {
       "id": "boot",
       "background": "#0d1117",
-      "fx": ["scan-line"],
-      "notes": "Boot sequence — staggered typewriter system messages, then large ASCII art KAI, then version line.",
       "elements": [
         {
           "id": "boot-line1",
+          "x": 80,
+          "y": 120,
+          "width": 900,
           "type": "animatedText",
-          "x": 80, "y": 120, "width": 900,
           "content": "[  OK  ] Loading kernel modules...",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
-          "textAnimation": { "name": "typewriter", "stagger": 28 }
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 28
+          }
         },
         {
           "id": "boot-line2",
+          "x": 80,
+          "y": 152,
+          "width": 900,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 600,
+            "step": 0
+          },
           "type": "animatedText",
-          "x": 80, "y": 152, "width": 900,
           "content": "[  OK  ] Initializing display driver...",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 600, "step": 0 },
-          "textAnimation": { "name": "typewriter", "stagger": 28 }
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 28
+          }
         },
         {
           "id": "boot-line3",
+          "x": 80,
+          "y": 184,
+          "width": 900,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 900,
+            "step": 0
+          },
           "type": "animatedText",
-          "x": 80, "y": 184, "width": 900,
           "content": "[  OK  ] Mounting /dev/projects rw,exec...",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 900, "step": 0 },
-          "textAnimation": { "name": "typewriter", "stagger": 28 }
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 28
+          }
         },
         {
           "id": "boot-line4",
+          "x": 80,
+          "y": 216,
+          "width": 900,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1200,
+            "step": 0
+          },
           "type": "animatedText",
-          "x": 80, "y": 216, "width": 900,
           "content": "[  OK  ] Starting portfolio.service...",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1200, "step": 0 },
-          "textAnimation": { "name": "typewriter", "stagger": 28 }
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 28
+          }
         },
         {
           "id": "boot-ascii-art",
+          "x": 80,
+          "y": 290,
+          "width": 1100,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 1600,
+            "step": 0
+          },
           "type": "animatedText",
-          "x": 80, "y": 290, "width": 1100,
           "content": " ██╗  ██╗ █████╗ ██╗\n ██║ ██╔╝██╔══██╗██║\n █████╔╝ ███████║██║\n ██╔═██╗ ██╔══██║██║\n ██║  ██╗██║  ██║██║\n ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41",
           "lineHeight": 1.2,
-          "animation": { "enter": "fade-up", "duration": 600, "delay": 1600, "step": 0 },
-          "textAnimation": { "name": "stagger", "splitMode": "char", "direction": "forward", "stagger": 8, "duration": 400 }
+          "textAnimation": {
+            "name": "stagger",
+            "splitMode": "char",
+            "stagger": 8,
+            "direction": "forward",
+            "duration": 400
+          }
         },
         {
           "id": "boot-version",
+          "x": 80,
+          "y": 590,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 2200,
+            "step": 0
+          },
           "type": "animatedText",
-          "x": 80, "y": 590, "width": 700,
           "content": "v3.2.1 — type 'help' for commands",
-          "fontSize": 15, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontSize": 15,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#8b949e",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 2200, "step": 0 },
-          "textAnimation": { "name": "typewriter", "stagger": 35 }
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 35
+          }
         },
         {
           "id": "boot-cursor",
+          "x": 80,
+          "y": 616,
+          "width": 10,
+          "height": 18,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 200,
+            "delay": 2800,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 616, "width": 10, "height": 18,
-          "fill": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 200, "delay": 2800, "step": 0 }
+          "fill": "#00ff41"
         }
+      ],
+      "notes": "Boot sequence — staggered typewriter system messages, then large ASCII art KAI, then version line.",
+      "fx": [
+        "scan-line"
       ]
     },
-
     {
       "id": "whoami",
       "background": "#0d1117",
-      "fx": ["ascii-morph"],
-      "notes": "About slide — whoami command output. Name as scramble, bio lines staggered.",
       "elements": [
         {
           "id": "whoami-prompt",
+          "x": 80,
+          "y": 80,
+          "width": 600,
           "type": "animatedText",
-          "x": 80, "y": 80, "width": 600,
           "content": "kai@dev:~$ whoami",
-          "fontSize": 18, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontSize": 18,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
-          "textAnimation": { "name": "typewriter", "stagger": 48 }
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 48
+          }
         },
         {
           "id": "whoami-name",
+          "x": 80,
+          "y": 158,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
           "type": "animatedText",
-          "x": 80, "y": 158, "width": 800,
           "content": "Kai Chen",
-          "fontSize": 64, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 400, "step": 0 },
-          "textAnimation": { "name": "scramble", "stagger": 55, "duration": 1000 }
+          "fontSize": 64,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41",
+          "textAnimation": {
+            "name": "scramble",
+            "stagger": 55,
+            "duration": 1000
+          }
         },
         {
           "id": "whoami-role",
+          "x": 80,
+          "y": 252,
+          "width": 900,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "delay": 700,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 252, "width": 900,
           "content": "Full-Stack Engineer & Open Source Advocate",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#ffb000",
-          "animation": { "enter": "fade-right", "duration": 500, "delay": 700, "step": 0 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#ffb000"
         },
         {
           "id": "whoami-divider",
+          "x": 80,
+          "y": 296,
+          "width": 560,
+          "height": 1,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 500,
+            "delay": 900,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 296, "width": 560, "height": 1,
-          "fill": "rgba(0,255,65,0.25)",
-          "animation": { "enter": "stretch-x", "duration": 500, "delay": 900, "step": 0 }
+          "fill": "rgba(0,255,65,0.25)"
         },
         {
           "id": "whoami-bio-loc",
+          "x": 80,
+          "y": 326,
+          "width": 700,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 1000,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 326, "width": 700,
           "content": "Location   :  San Francisco, CA",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 1000, "step": 0 }
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "whoami-bio-exp",
+          "x": 80,
+          "y": 360,
+          "width": 700,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 1150,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 360, "width": 700,
           "content": "Experience :  8 years",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 1150, "step": 0 }
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "whoami-bio-focus",
+          "x": 80,
+          "y": 394,
+          "width": 700,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 1300,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 394, "width": 700,
           "content": "Focus      :  Systems, Web, DevTools",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 1300, "step": 0 }
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "whoami-bio-lang",
+          "x": 80,
+          "y": 428,
+          "width": 700,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 1450,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 428, "width": 700,
           "content": "Languages  :  Rust, TypeScript, Go, Python",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 1450, "step": 0 }
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "whoami-bio-os",
+          "x": 80,
+          "y": 462,
+          "width": 700,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 1600,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 462, "width": 700,
           "content": "OS         :  Arch Linux (btw)",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 1600, "step": 0 }
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "whoami-sidebar-glass",
+          "x": 860,
+          "y": 120,
+          "width": 340,
+          "height": 440,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 600,
+            "delay": 600,
+            "step": 0
+          },
           "type": "rect",
-          "x": 860, "y": 120, "width": 340, "height": 440,
-          "fill": "rgba(0,255,65,0.04)", "stroke": "rgba(0,255,65,0.20)", "strokeWidth": 1,
-          "radius": 4,
-          "animation": { "enter": "fade-left", "duration": 600, "delay": 600, "step": 0 }
+          "fill": "rgba(0,255,65,0.04)",
+          "stroke": "rgba(0,255,65,0.20)",
+          "strokeWidth": 1,
+          "radius": 4
         },
         {
           "id": "whoami-avatar-border",
+          "x": 906,
+          "y": 148,
+          "width": 248,
+          "height": 248,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "delay": 900,
+            "step": 0
+          },
           "type": "rect",
-          "x": 906, "y": 148, "width": 248, "height": 248,
-          "fill": "rgba(0,255,65,0.06)", "stroke": "rgba(0,255,65,0.35)", "strokeWidth": 1,
-          "radius": 4,
-          "animation": { "enter": "zoom-pop", "duration": 500, "delay": 900, "step": 0 }
+          "fill": "rgba(0,255,65,0.06)",
+          "stroke": "rgba(0,255,65,0.35)",
+          "strokeWidth": 1,
+          "radius": 4
         },
         {
           "id": "whoami-avatar-label",
+          "x": 906,
+          "y": 252,
+          "width": 248,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1100,
+            "step": 0
+          },
           "type": "text",
-          "x": 906, "y": 252, "width": 248,
           "content": "[ portrait.jpg ]",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(0,255,65,0.35)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1100, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(0,255,65,0.35)",
+          "align": "center"
         },
         {
           "id": "whoami-handle",
+          "x": 880,
+          "y": 430,
+          "width": 300,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1400,
+            "step": 0
+          },
           "type": "text",
-          "x": 880, "y": 430, "width": 300,
           "content": "github.com/kaichen",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1400, "step": 0 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41",
+          "align": "center"
         },
         {
           "id": "whoami-stars",
+          "x": 880,
+          "y": 460,
+          "width": 300,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1550,
+            "step": 0
+          },
           "type": "text",
-          "x": 880, "y": 460, "width": 300,
           "content": "★ 14.2k total stars",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#ffb000", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1550, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#ffb000",
+          "align": "center"
         }
+      ],
+      "notes": "About slide — whoami command output. Name as scramble, bio lines staggered.",
+      "fx": [
+        "ascii-morph"
       ]
     },
-
     {
       "id": "skills",
       "background": "#0d1117",
-      "fx": ["matrix-rain"],
-      "notes": "Tech stack — skill bars per category, revealed at steps 1-3.",
       "elements": [
         {
           "id": "skills-prompt",
+          "x": 80,
+          "y": 52,
+          "width": 700,
           "type": "animatedText",
-          "x": 80, "y": 52, "width": 700,
           "content": "kai@dev:~$ cat skills.json",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
-          "textAnimation": { "name": "typewriter", "stagger": 42 }
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 42
+          }
         },
         {
           "id": "skills-title",
+          "x": 80,
+          "y": 90,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 300,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 90, "width": 600,
           "content": "TECH STACK",
-          "fontSize": 28, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 300, "step": 0 }
+          "fontSize": 28,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
-
         {
           "id": "skills-lang-heading",
+          "x": 80,
+          "y": 150,
+          "width": 400,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "step": 1
+          },
           "type": "text",
-          "x": 80, "y": 150, "width": 400,
           "content": "# LANGUAGES",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#ffb000",
-          "animation": { "enter": "fade-right", "duration": 400, "step": 1 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#ffb000"
         },
         {
           "id": "skills-rust-label",
+          "x": 80,
+          "y": 180,
+          "width": 120,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 60,
+            "step": 1
+          },
           "type": "text",
-          "x": 80, "y": 180, "width": 120,
           "content": "Rust",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 60, "step": 1 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "skills-rust-track",
+          "x": 200,
+          "y": 184,
+          "width": 460,
+          "height": 12,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 60,
+            "step": 1
+          },
           "type": "rect",
-          "x": 200, "y": 184, "width": 460, "height": 12,
-          "fill": "rgba(0,255,65,0.1)", "radius": 2,
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 60, "step": 1 }
+          "fill": "rgba(0,255,65,0.1)",
+          "radius": 2
         },
         {
           "id": "skills-rust-bar",
+          "x": 200,
+          "y": 184,
+          "width": 428,
+          "height": 12,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 120,
+            "step": 1
+          },
           "type": "rect",
-          "x": 200, "y": 184, "width": 428, "height": 12,
-          "fill": "#00ff41", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 700, "delay": 120, "step": 1 }
+          "fill": "#00ff41",
+          "radius": 2
         },
         {
           "id": "skills-rust-pct",
+          "x": 668,
+          "y": 180,
+          "width": 60,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 400,
+            "step": 1
+          },
           "type": "text",
-          "x": 668, "y": 180, "width": 60,
           "content": "93%",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 400, "step": 1 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "skills-ts-label",
+          "x": 80,
+          "y": 214,
+          "width": 120,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 160,
+            "step": 1
+          },
           "type": "text",
-          "x": 80, "y": 214, "width": 120,
           "content": "TypeScript",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 160, "step": 1 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "skills-ts-track",
+          "x": 200,
+          "y": 218,
+          "width": 460,
+          "height": 12,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 160,
+            "step": 1
+          },
           "type": "rect",
-          "x": 200, "y": 218, "width": 460, "height": 12,
-          "fill": "rgba(0,255,65,0.1)", "radius": 2,
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 160, "step": 1 }
+          "fill": "rgba(0,255,65,0.1)",
+          "radius": 2
         },
         {
           "id": "skills-ts-bar",
+          "x": 200,
+          "y": 218,
+          "width": 414,
+          "height": 12,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 220,
+            "step": 1
+          },
           "type": "rect",
-          "x": 200, "y": 218, "width": 414, "height": 12,
-          "fill": "#00ff41", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 700, "delay": 220, "step": 1 }
+          "fill": "#00ff41",
+          "radius": 2
         },
         {
           "id": "skills-ts-pct",
+          "x": 668,
+          "y": 214,
+          "width": 60,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 480,
+            "step": 1
+          },
           "type": "text",
-          "x": 668, "y": 214, "width": 60,
           "content": "90%",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 480, "step": 1 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "skills-go-label",
+          "x": 80,
+          "y": 248,
+          "width": 120,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 260,
+            "step": 1
+          },
           "type": "text",
-          "x": 80, "y": 248, "width": 120,
           "content": "Go",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 260, "step": 1 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "skills-go-track",
+          "x": 200,
+          "y": 252,
+          "width": 460,
+          "height": 12,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 260,
+            "step": 1
+          },
           "type": "rect",
-          "x": 200, "y": 252, "width": 460, "height": 12,
-          "fill": "rgba(0,255,65,0.1)", "radius": 2,
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 260, "step": 1 }
+          "fill": "rgba(0,255,65,0.1)",
+          "radius": 2
         },
         {
           "id": "skills-go-bar",
+          "x": 200,
+          "y": 252,
+          "width": 391,
+          "height": 12,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 320,
+            "step": 1
+          },
           "type": "rect",
-          "x": 200, "y": 252, "width": 391, "height": 12,
-          "fill": "#00ff41", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 700, "delay": 320, "step": 1 }
+          "fill": "#00ff41",
+          "radius": 2
         },
         {
           "id": "skills-go-pct",
+          "x": 668,
+          "y": 248,
+          "width": 60,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 560,
+            "step": 1
+          },
           "type": "text",
-          "x": 668, "y": 248, "width": 60,
           "content": "85%",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 560, "step": 1 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "skills-py-label",
+          "x": 80,
+          "y": 282,
+          "width": 120,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 360,
+            "step": 1
+          },
           "type": "text",
-          "x": 80, "y": 282, "width": 120,
           "content": "Python",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 360, "step": 1 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "skills-py-track",
+          "x": 200,
+          "y": 286,
+          "width": 460,
+          "height": 12,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 360,
+            "step": 1
+          },
           "type": "rect",
-          "x": 200, "y": 286, "width": 460, "height": 12,
-          "fill": "rgba(0,255,65,0.1)", "radius": 2,
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 360, "step": 1 }
+          "fill": "rgba(0,255,65,0.1)",
+          "radius": 2
         },
         {
           "id": "skills-py-bar",
+          "x": 200,
+          "y": 286,
+          "width": 368,
+          "height": 12,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 420,
+            "step": 1
+          },
           "type": "rect",
-          "x": 200, "y": 286, "width": 368, "height": 12,
-          "fill": "#00ff41", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 700, "delay": 420, "step": 1 }
+          "fill": "#00ff41",
+          "radius": 2
         },
         {
           "id": "skills-py-pct",
+          "x": 668,
+          "y": 282,
+          "width": 60,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 640,
+            "step": 1
+          },
           "type": "text",
-          "x": 668, "y": 282, "width": 60,
           "content": "80%",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 640, "step": 1 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
-
         {
           "id": "skills-fw-heading",
+          "x": 760,
+          "y": 150,
+          "width": 400,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "step": 2
+          },
           "type": "text",
-          "x": 760, "y": 150, "width": 400,
           "content": "# FRAMEWORKS",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#ffb000",
-          "animation": { "enter": "fade-right", "duration": 400, "step": 2 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#ffb000"
         },
         {
           "id": "skills-react-label",
+          "x": 760,
+          "y": 180,
+          "width": 120,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 80,
+            "step": 2
+          },
           "type": "text",
-          "x": 760, "y": 180, "width": 120,
           "content": "React",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 80, "step": 2 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "skills-react-track",
+          "x": 876,
+          "y": 184,
+          "width": 320,
+          "height": 12,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 80,
+            "step": 2
+          },
           "type": "rect",
-          "x": 876, "y": 184, "width": 320, "height": 12,
-          "fill": "rgba(0,255,65,0.1)", "radius": 2,
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 80, "step": 2 }
+          "fill": "rgba(0,255,65,0.1)",
+          "radius": 2
         },
         {
           "id": "skills-react-bar",
+          "x": 876,
+          "y": 184,
+          "width": 291,
+          "height": 12,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 160,
+            "step": 2
+          },
           "type": "rect",
-          "x": 876, "y": 184, "width": 291, "height": 12,
-          "fill": "#00ff41", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 700, "delay": 160, "step": 2 }
+          "fill": "#00ff41",
+          "radius": 2
         },
         {
           "id": "skills-axum-label",
+          "x": 760,
+          "y": 214,
+          "width": 120,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 200,
+            "step": 2
+          },
           "type": "text",
-          "x": 760, "y": 214, "width": 120,
           "content": "Axum",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 200, "step": 2 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "skills-axum-track",
+          "x": 876,
+          "y": 218,
+          "width": 320,
+          "height": 12,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 200,
+            "step": 2
+          },
           "type": "rect",
-          "x": 876, "y": 218, "width": 320, "height": 12,
-          "fill": "rgba(0,255,65,0.1)", "radius": 2,
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 200, "step": 2 }
+          "fill": "rgba(0,255,65,0.1)",
+          "radius": 2
         },
         {
           "id": "skills-axum-bar",
+          "x": 876,
+          "y": 218,
+          "width": 278,
+          "height": 12,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 280,
+            "step": 2
+          },
           "type": "rect",
-          "x": 876, "y": 218, "width": 278, "height": 12,
-          "fill": "#00ff41", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 700, "delay": 280, "step": 2 }
+          "fill": "#00ff41",
+          "radius": 2
         },
         {
           "id": "skills-next-label",
+          "x": 760,
+          "y": 248,
+          "width": 120,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 320,
+            "step": 2
+          },
           "type": "text",
-          "x": 760, "y": 248, "width": 120,
           "content": "Next.js",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 320, "step": 2 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "skills-next-track",
+          "x": 876,
+          "y": 252,
+          "width": 320,
+          "height": 12,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 320,
+            "step": 2
+          },
           "type": "rect",
-          "x": 876, "y": 252, "width": 320, "height": 12,
-          "fill": "rgba(0,255,65,0.1)", "radius": 2,
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 320, "step": 2 }
+          "fill": "rgba(0,255,65,0.1)",
+          "radius": 2
         },
         {
           "id": "skills-next-bar",
+          "x": 876,
+          "y": 252,
+          "width": 265,
+          "height": 12,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 400,
+            "step": 2
+          },
           "type": "rect",
-          "x": 876, "y": 252, "width": 265, "height": 12,
-          "fill": "#00ff41", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 700, "delay": 400, "step": 2 }
+          "fill": "#00ff41",
+          "radius": 2
         },
-
         {
           "id": "skills-tools-heading",
+          "x": 80,
+          "y": 370,
+          "width": 400,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "step": 3
+          },
           "type": "text",
-          "x": 80, "y": 370, "width": 400,
           "content": "# TOOLS & INFRA",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#ffb000",
-          "animation": { "enter": "fade-right", "duration": 400, "step": 3 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#ffb000"
         },
         {
           "id": "skills-docker-label",
+          "x": 80,
+          "y": 400,
+          "width": 120,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 80,
+            "step": 3
+          },
           "type": "text",
-          "x": 80, "y": 400, "width": 120,
           "content": "Docker",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 80, "step": 3 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "skills-docker-track",
+          "x": 200,
+          "y": 404,
+          "width": 460,
+          "height": 12,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 80,
+            "step": 3
+          },
           "type": "rect",
-          "x": 200, "y": 404, "width": 460, "height": 12,
-          "fill": "rgba(0,255,65,0.1)", "radius": 2,
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 80, "step": 3 }
+          "fill": "rgba(0,255,65,0.1)",
+          "radius": 2
         },
         {
           "id": "skills-docker-bar",
+          "x": 200,
+          "y": 404,
+          "width": 360.49,
+          "height": 11.63,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 160,
+            "step": 3
+          },
           "type": "rect",
-          "x": 200, "y": 404, "width": 437, "height": 12,
-          "fill": "#00ff41", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 700, "delay": 160, "step": 3 }
+          "fill": "#00ff41",
+          "radius": 2
         },
         {
           "id": "skills-k8s-label",
+          "x": 80,
+          "y": 434,
+          "width": 120,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 200,
+            "step": 3
+          },
           "type": "text",
-          "x": 80, "y": 434, "width": 120,
           "content": "Kubernetes",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 200, "step": 3 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "skills-k8s-track",
+          "x": 200,
+          "y": 438,
+          "width": 460,
+          "height": 12,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 200,
+            "step": 3
+          },
           "type": "rect",
-          "x": 200, "y": 438, "width": 460, "height": 12,
-          "fill": "rgba(0,255,65,0.1)", "radius": 2,
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 200, "step": 3 }
+          "fill": "rgba(0,255,65,0.1)",
+          "radius": 2
         },
         {
           "id": "skills-k8s-bar",
+          "x": 200,
+          "y": 438,
+          "width": 391,
+          "height": 12,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 280,
+            "step": 3
+          },
           "type": "rect",
-          "x": 200, "y": 438, "width": 391, "height": 12,
-          "fill": "#00ff41", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 700, "delay": 280, "step": 3 }
+          "fill": "#00ff41",
+          "radius": 2
         },
         {
           "id": "skills-pg-label",
+          "x": 80,
+          "y": 468,
+          "width": 120,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 320,
+            "step": 3
+          },
           "type": "text",
-          "x": 80, "y": 468, "width": 120,
           "content": "Postgres",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 320, "step": 3 }
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
         {
           "id": "skills-pg-track",
+          "x": 200,
+          "y": 472,
+          "width": 460,
+          "height": 12,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 320,
+            "step": 3
+          },
           "type": "rect",
-          "x": 200, "y": 472, "width": 460, "height": 12,
-          "fill": "rgba(0,255,65,0.1)", "radius": 2,
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 320, "step": 3 }
+          "fill": "rgba(0,255,65,0.1)",
+          "radius": 2
         },
         {
           "id": "skills-pg-bar",
+          "x": 200,
+          "y": 472,
+          "width": 414,
+          "height": 12,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "delay": 400,
+            "step": 3
+          },
           "type": "rect",
-          "x": 200, "y": 472, "width": 414, "height": 12,
-          "fill": "#00ff41", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 700, "delay": 400, "step": 3 }
+          "fill": "#00ff41",
+          "radius": 2
         }
+      ],
+      "notes": "Tech stack — skill bars per category, revealed at steps 1-3.",
+      "fx": [
+        "matrix-rain"
       ]
     },
-
     {
       "id": "project-1",
       "background": "#0d1117",
-      "fx": ["scan-line"],
-      "notes": "Project: Flux CLI — Rust CLI framework. Title decode, glass card, stats zoom-pop.",
       "elements": [
         {
           "id": "p1-kicker",
+          "x": 80,
+          "y": 52,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 52, "width": 600,
           "content": "kai@dev:~$ ls projects/flux-cli",
-          "fontSize": 15, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 400, "step": 0 }
+          "fontSize": 15,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "p1-title",
+          "x": 80,
+          "y": 110,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 200,
+            "step": 0
+          },
           "type": "animatedText",
-          "x": 80, "y": 110, "width": 700,
           "content": "FLUX CLI",
-          "fontSize": 56, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 200, "step": 0 },
-          "textAnimation": { "name": "decode", "stagger": 55, "duration": 1100 }
+          "fontSize": 56,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41",
+          "textAnimation": {
+            "name": "decode",
+            "stagger": 55,
+            "duration": 1100
+          }
         },
         {
           "id": "p1-tagline",
+          "x": 80,
+          "y": 188,
+          "width": 680,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 500,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 188, "width": 680,
           "content": "blazingly fast CLI framework for Rust",
-          "fontSize": 18, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#ffb000",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 500, "step": 0 }
+          "fontSize": 18,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#ffb000"
         },
         {
           "id": "p1-glass",
+          "x": 80,
+          "y": 228,
+          "width": 700,
+          "height": 220,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 228, "width": 700, "height": 220,
-          "fill": "rgba(0,255,65,0.04)", "stroke": "rgba(0,255,65,0.22)", "strokeWidth": 1,
-          "radius": 4,
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 400, "step": 0 }
+          "fill": "rgba(0,255,65,0.04)",
+          "stroke": "rgba(0,255,65,0.22)",
+          "strokeWidth": 1,
+          "radius": 4
         },
         {
           "id": "p1-desc",
+          "x": 112,
+          "y": 258,
+          "width": 636,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 112, "y": 258, "width": 636,
           "content": "Zero-copy argument parsing with compile-time validation and type-safe subcommands. Async middleware pipeline with tower compatibility, automatic help generation, and shell completion for bash, zsh, and fish.\n\nProcesses 2M+ arguments/sec with <50μs startup overhead.",
-          "fontSize": 15, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e", "lineHeight": 1.6,
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 600, "step": 0 }
+          "fontSize": 15,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e",
+          "lineHeight": 1.6
         },
         {
           "id": "p1-stat-stars",
+          "x": 80,
+          "y": 490,
+          "width": 160,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "delay": 800,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 490, "width": 160,
           "content": "★ 12.4k",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "zoom-pop", "duration": 500, "delay": 800, "step": 0 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
         {
           "id": "p1-stat-forks",
+          "x": 260,
+          "y": 490,
+          "width": 160,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "delay": 940,
+            "step": 0
+          },
           "type": "text",
-          "x": 260, "y": 490, "width": 160,
           "content": "⑂  890",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "zoom-pop", "duration": 500, "delay": 940, "step": 0 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
         {
           "id": "p1-stat-dl",
+          "x": 440,
+          "y": 490,
+          "width": 220,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "delay": 1080,
+            "step": 0
+          },
           "type": "text",
-          "x": 440, "y": 490, "width": 220,
           "content": "↓ 2.1M/mo",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "zoom-pop", "duration": 500, "delay": 1080, "step": 0 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
         {
           "id": "p1-tag-rust",
+          "x": 80,
+          "y": 548,
+          "width": 72,
+          "height": 28,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1100,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 548, "width": 72, "height": 28,
-          "fill": "rgba(0,255,65,0.08)", "stroke": "rgba(0,255,65,0.28)", "strokeWidth": 1,
-          "radius": 2,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1100, "step": 0 }
+          "fill": "rgba(0,255,65,0.08)",
+          "stroke": "rgba(0,255,65,0.28)",
+          "strokeWidth": 1,
+          "radius": 2
         },
         {
           "id": "p1-tag-rust-label",
+          "x": 80,
+          "y": 554,
+          "width": 72,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1140,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 554, "width": 72,
           "content": "Rust",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1140, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41",
+          "align": "center"
         },
         {
           "id": "p1-tag-async",
+          "x": 168,
+          "y": 548,
+          "width": 72,
+          "height": 28,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1160,
+            "step": 0
+          },
           "type": "rect",
-          "x": 168, "y": 548, "width": 72, "height": 28,
-          "fill": "rgba(0,255,65,0.08)", "stroke": "rgba(0,255,65,0.28)", "strokeWidth": 1,
-          "radius": 2,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1160, "step": 0 }
+          "fill": "rgba(0,255,65,0.08)",
+          "stroke": "rgba(0,255,65,0.28)",
+          "strokeWidth": 1,
+          "radius": 2
         },
         {
           "id": "p1-tag-async-label",
+          "x": 168,
+          "y": 554,
+          "width": 72,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1200,
+            "step": 0
+          },
           "type": "text",
-          "x": 168, "y": 554, "width": 72,
           "content": "async",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1200, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41",
+          "align": "center"
         },
         {
           "id": "p1-tag-cli",
+          "x": 256,
+          "y": 548,
+          "width": 60,
+          "height": 28,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1220,
+            "step": 0
+          },
           "type": "rect",
-          "x": 256, "y": 548, "width": 60, "height": 28,
-          "fill": "rgba(0,255,65,0.08)", "stroke": "rgba(0,255,65,0.28)", "strokeWidth": 1,
-          "radius": 2,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1220, "step": 0 }
+          "fill": "rgba(0,255,65,0.08)",
+          "stroke": "rgba(0,255,65,0.28)",
+          "strokeWidth": 1,
+          "radius": 2
         },
         {
           "id": "p1-tag-cli-label",
+          "x": 256,
+          "y": 554,
+          "width": 60,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1260,
+            "step": 0
+          },
           "type": "text",
-          "x": 256, "y": 554, "width": 60,
           "content": "CLI",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1260, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41",
+          "align": "center"
         },
         {
           "id": "p1-code-glass",
+          "x": 820,
+          "y": 110,
+          "width": 400,
+          "height": 360,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 600,
+            "delay": 400,
+            "step": 0
+          },
           "type": "rect",
-          "x": 820, "y": 110, "width": 400, "height": 360,
-          "fill": "rgba(0,255,65,0.03)", "stroke": "rgba(0,255,65,0.18)", "strokeWidth": 1,
-          "radius": 4,
-          "animation": { "enter": "fade-left", "duration": 600, "delay": 400, "step": 0 }
+          "fill": "rgba(0,255,65,0.03)",
+          "stroke": "rgba(0,255,65,0.18)",
+          "strokeWidth": 1,
+          "radius": 4
         },
         {
           "id": "p1-code-header",
+          "x": 836,
+          "y": 128,
+          "width": 368,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 836, "y": 128, "width": 368,
           "content": "── main.rs",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(0,255,65,0.4)",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 600, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(0,255,65,0.4)"
         },
         {
           "id": "p1-code-body",
+          "x": 836,
+          "y": 158,
+          "width": 368,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 700,
+            "step": 0
+          },
           "type": "text",
-          "x": 836, "y": 158, "width": 368,
           "content": "use flux_cli::prelude::*;\n\n#[flux::command]\nasync fn main(ctx: Ctx) {\n  let args = ctx\n    .parse::<CliArgs>()\n    .await?;\n\n  match args.subcommand {\n    Sub::Build(b) => b.run().await,\n    Sub::Deploy(d) => d.run().await,\n    _ => ctx.help(),\n  }\n}",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e", "lineHeight": 1.55,
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 700, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e",
+          "lineHeight": 1.55
         }
+      ],
+      "notes": "Project: Flux CLI — Rust CLI framework. Title decode, glass card, stats zoom-pop.",
+      "fx": [
+        "scan-line"
       ]
     },
-
     {
       "id": "project-2",
       "background": "#0d1117",
-      "fx": ["typewriter-multi"],
-      "notes": "Project: NeuralDB — vector database. Title glitch amber, glass card, slide-from-right content.",
       "elements": [
         {
           "id": "p2-kicker",
+          "x": 80,
+          "y": 52,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 52, "width": 600,
           "content": "kai@dev:~$ ls projects/neuraldb",
-          "fontSize": 15, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 400, "step": 0 }
+          "fontSize": 15,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "p2-title",
+          "x": 80,
+          "y": 110,
+          "width": 700,
+          "animation": {
+            "enter": "slide-from-right",
+            "duration": 600,
+            "delay": 200,
+            "step": 0
+          },
           "type": "animatedText",
-          "x": 80, "y": 110, "width": 700,
           "content": "NEURAL DB",
-          "fontSize": 56, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#ffb000",
-          "animation": { "enter": "slide-from-right", "duration": 600, "delay": 200, "step": 0 },
-          "textAnimation": { "name": "glitch", "stagger": 35, "duration": 1600 }
+          "fontSize": 56,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#ffb000",
+          "textAnimation": {
+            "name": "glitch",
+            "stagger": 35,
+            "duration": 1600
+          }
         },
         {
           "id": "p2-tagline",
+          "x": 80,
+          "y": 188,
+          "width": 700,
+          "animation": {
+            "enter": "slide-from-right",
+            "duration": 500,
+            "delay": 500,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 188, "width": 700,
           "content": "vector database with built-in ML inference",
-          "fontSize": 18, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "slide-from-right", "duration": 500, "delay": 500, "step": 0 }
+          "fontSize": 18,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "p2-glass",
+          "x": 619.21,
+          "y": 447.21,
+          "width": 631.59,
+          "height": 171.82,
+          "animation": {
+            "enter": "slide-from-right",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 228, "width": 700, "height": 220,
-          "fill": "rgba(0,255,65,0.04)", "stroke": "rgba(255,176,0,0.22)", "strokeWidth": 1,
-          "radius": 4,
-          "animation": { "enter": "slide-from-right", "duration": 500, "delay": 400, "step": 0 }
+          "fill": "rgba(0,255,65,0.04)",
+          "stroke": "rgba(255,176,0,0.22)",
+          "strokeWidth": 1,
+          "radius": 4
         },
         {
           "id": "p2-desc",
+          "x": 626.94,
+          "y": 449.26,
+          "width": 636,
+          "animation": {
+            "enter": "slide-from-right",
+            "duration": 500,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 112, "y": 258, "width": 636,
           "content": "HNSW indexing with configurable M and ef-construction parameters. Built-in ONNX runtime for zero-dependency inference at query time. Sub-millisecond ANN queries at 10M+ vectors with automatic quantization and memory-mapped storage.\n\nDrops into existing Postgres schemas via pg extension.",
-          "fontSize": 15, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e", "lineHeight": 1.6,
-          "animation": { "enter": "slide-from-right", "duration": 500, "delay": 600, "step": 0 }
+          "fontSize": 15,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e",
+          "lineHeight": 1.6
         },
         {
           "id": "p2-stat-stars",
+          "x": 80,
+          "y": 490,
+          "width": 160,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "delay": 800,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 490, "width": 160,
           "content": "★ 8.7k",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#ffb000",
-          "animation": { "enter": "zoom-pop", "duration": 500, "delay": 800, "step": 0 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#ffb000"
         },
         {
           "id": "p2-stat-forks",
+          "x": 260,
+          "y": 490,
+          "width": 160,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "delay": 940,
+            "step": 0
+          },
           "type": "text",
-          "x": 260, "y": 490, "width": 160,
           "content": "⑂  412",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#ffb000",
-          "animation": { "enter": "zoom-pop", "duration": 500, "delay": 940, "step": 0 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#ffb000"
         },
         {
           "id": "p2-stat-perf",
+          "x": 440,
+          "y": 490,
+          "width": 260,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "delay": 1080,
+            "step": 0
+          },
           "type": "text",
-          "x": 440, "y": 490, "width": 260,
           "content": "< 1ms p99",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#ffb000",
-          "animation": { "enter": "zoom-pop", "duration": 500, "delay": 1080, "step": 0 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#ffb000"
         },
         {
           "id": "p2-tag-rust",
+          "x": 80,
+          "y": 548,
+          "width": 72,
+          "height": 28,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1100,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 548, "width": 72, "height": 28,
-          "fill": "rgba(255,176,0,0.08)", "stroke": "rgba(255,176,0,0.28)", "strokeWidth": 1,
-          "radius": 2,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1100, "step": 0 }
+          "fill": "rgba(255,176,0,0.08)",
+          "stroke": "rgba(255,176,0,0.28)",
+          "strokeWidth": 1,
+          "radius": 2
         },
         {
           "id": "p2-tag-rust-label",
+          "x": 80,
+          "y": 554,
+          "width": 72,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1140,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 554, "width": 72,
           "content": "Rust",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#ffb000", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1140, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#ffb000",
+          "align": "center"
         },
         {
           "id": "p2-tag-onnx",
+          "x": 168,
+          "y": 548,
+          "width": 72,
+          "height": 28,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1160,
+            "step": 0
+          },
           "type": "rect",
-          "x": 168, "y": 548, "width": 72, "height": 28,
-          "fill": "rgba(255,176,0,0.08)", "stroke": "rgba(255,176,0,0.28)", "strokeWidth": 1,
-          "radius": 2,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1160, "step": 0 }
+          "fill": "rgba(255,176,0,0.08)",
+          "stroke": "rgba(255,176,0,0.28)",
+          "strokeWidth": 1,
+          "radius": 2
         },
         {
           "id": "p2-tag-onnx-label",
+          "x": 168,
+          "y": 554,
+          "width": 72,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1200,
+            "step": 0
+          },
           "type": "text",
-          "x": 168, "y": 554, "width": 72,
           "content": "ONNX",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#ffb000", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1200, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#ffb000",
+          "align": "center"
         },
         {
           "id": "p2-tag-pg",
+          "x": 256,
+          "y": 548,
+          "width": 90,
+          "height": 28,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1220,
+            "step": 0
+          },
           "type": "rect",
-          "x": 256, "y": 548, "width": 90, "height": 28,
-          "fill": "rgba(255,176,0,0.08)", "stroke": "rgba(255,176,0,0.28)", "strokeWidth": 1,
-          "radius": 2,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1220, "step": 0 }
+          "fill": "rgba(255,176,0,0.08)",
+          "stroke": "rgba(255,176,0,0.28)",
+          "strokeWidth": 1,
+          "radius": 2
         },
         {
           "id": "p2-tag-pg-label",
+          "x": 256,
+          "y": 554,
+          "width": 90,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1260,
+            "step": 0
+          },
           "type": "text",
-          "x": 256, "y": 554, "width": 90,
           "content": "Postgres",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#ffb000", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1260, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#ffb000",
+          "align": "center"
         },
         {
           "id": "p2-arch-glass",
+          "x": 824.03,
+          "y": 42.32,
+          "width": 400,
+          "height": 360,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 600,
+            "delay": 400,
+            "step": 0
+          },
           "type": "rect",
-          "x": 820, "y": 110, "width": 400, "height": 360,
-          "fill": "rgba(255,176,0,0.03)", "stroke": "rgba(255,176,0,0.18)", "strokeWidth": 1,
-          "radius": 4,
-          "animation": { "enter": "fade-left", "duration": 600, "delay": 400, "step": 0 }
+          "fill": "rgba(255,176,0,0.03)",
+          "stroke": "rgba(255,176,0,0.18)",
+          "strokeWidth": 1,
+          "radius": 4
         },
         {
           "id": "p2-arch-title",
+          "x": 832.32,
+          "y": 45.24,
+          "width": 368,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 836, "y": 128, "width": 368,
           "content": "── query pipeline",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(255,176,0,0.4)",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 600, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(255,176,0,0.4)"
         },
         {
           "id": "p2-arch-body",
+          "x": 836.36,
+          "y": 119.01,
+          "width": 368,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 700,
+            "step": 0
+          },
           "type": "text",
-          "x": 836, "y": 158, "width": 368,
           "content": "input vector\n    │\n    ▼\n┌──────────────┐\n│ ONNX runtime │  ← embed\n└──────┬───────┘\n       │\n    ▼\n┌──────────────┐\n│  HNSW index  │  ← ANN\n└──────┬───────┘\n       │\n    ▼\n  results []",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e", "lineHeight": 1.45,
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 700, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e",
+          "lineHeight": 1.45
         }
+      ],
+      "notes": "Project: NeuralDB — vector database. Title glitch amber, glass card, slide-from-right content.",
+      "fx": [
+        "typewriter-multi"
       ]
     },
-
     {
       "id": "project-3",
       "background": "#0d1117",
-      "fx": ["ascii-morph"],
-      "notes": "Project: Pixelflow — real-time pixel art editor. Title scramble, glass card.",
       "elements": [
         {
           "id": "p3-kicker",
+          "x": 80,
+          "y": 52,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 52, "width": 600,
           "content": "kai@dev:~$ ls projects/pixelflow",
-          "fontSize": 15, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 400, "step": 0 }
+          "fontSize": 15,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "p3-title",
+          "x": 80,
+          "y": 110,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 200,
+            "step": 0
+          },
           "type": "animatedText",
-          "x": 80, "y": 110, "width": 800,
           "content": "PIXELFLOW",
-          "fontSize": 56, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 200, "step": 0 },
-          "textAnimation": { "name": "scramble", "stagger": 60, "duration": 1200 }
+          "fontSize": 56,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41",
+          "textAnimation": {
+            "name": "scramble",
+            "stagger": 60,
+            "duration": 1200
+          }
         },
         {
           "id": "p3-tagline",
+          "x": 80,
+          "y": 188,
+          "width": 700,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 500,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 188, "width": 700,
           "content": "real-time collaborative pixel art editor",
-          "fontSize": 18, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#ffb000",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 500, "step": 0 }
+          "fontSize": 18,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#ffb000"
         },
         {
           "id": "p3-glass",
+          "x": 80,
+          "y": 228,
+          "width": 700,
+          "height": 220,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 228, "width": 700, "height": 220,
-          "fill": "rgba(0,255,65,0.04)", "stroke": "rgba(0,255,65,0.22)", "strokeWidth": 1,
-          "radius": 4,
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 400, "step": 0 }
+          "fill": "rgba(0,255,65,0.04)",
+          "stroke": "rgba(0,255,65,0.22)",
+          "strokeWidth": 1,
+          "radius": 4
         },
         {
           "id": "p3-desc",
+          "x": 112,
+          "y": 258,
+          "width": 636,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 112, "y": 258, "width": 636,
           "content": "WebRTC data channels for sub-100ms collaborative sync across 50+ simultaneous users. Infinite canvas with viewport culling and delta-encoded undo history. Runs at locked 60fps via a double-buffered OffscreenCanvas worker pipeline.\n\nExports to PNG, GIF, and animated sprite sheets.",
-          "fontSize": 15, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e", "lineHeight": 1.6,
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 600, "step": 0 }
+          "fontSize": 15,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e",
+          "lineHeight": 1.6
         },
         {
           "id": "p3-stat-stars",
+          "x": 80,
+          "y": 490,
+          "width": 160,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "delay": 800,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 490, "width": 160,
           "content": "★ 6.1k",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "zoom-pop", "duration": 500, "delay": 800, "step": 0 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
         {
           "id": "p3-stat-forks",
+          "x": 260,
+          "y": 490,
+          "width": 160,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "delay": 940,
+            "step": 0
+          },
           "type": "text",
-          "x": 260, "y": 490, "width": 160,
           "content": "⑂  334",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "zoom-pop", "duration": 500, "delay": 940, "step": 0 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
         {
           "id": "p3-stat-fps",
+          "x": 440,
+          "y": 490,
+          "width": 200,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 500,
+            "delay": 1080,
+            "step": 0
+          },
           "type": "text",
-          "x": 440, "y": 490, "width": 200,
           "content": "60fps locked",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "zoom-pop", "duration": 500, "delay": 1080, "step": 0 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
         {
           "id": "p3-tag-ts",
+          "x": 80,
+          "y": 548,
+          "width": 108,
+          "height": 28,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1100,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 548, "width": 108, "height": 28,
-          "fill": "rgba(0,255,65,0.08)", "stroke": "rgba(0,255,65,0.28)", "strokeWidth": 1,
-          "radius": 2,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1100, "step": 0 }
+          "fill": "rgba(0,255,65,0.08)",
+          "stroke": "rgba(0,255,65,0.28)",
+          "strokeWidth": 1,
+          "radius": 2
         },
         {
           "id": "p3-tag-ts-label",
+          "x": 80,
+          "y": 554,
+          "width": 108,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1140,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 554, "width": 108,
           "content": "TypeScript",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1140, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41",
+          "align": "center"
         },
         {
           "id": "p3-tag-webrtc",
+          "x": 204,
+          "y": 548,
+          "width": 84,
+          "height": 28,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1160,
+            "step": 0
+          },
           "type": "rect",
-          "x": 204, "y": 548, "width": 84, "height": 28,
-          "fill": "rgba(0,255,65,0.08)", "stroke": "rgba(0,255,65,0.28)", "strokeWidth": 1,
-          "radius": 2,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1160, "step": 0 }
+          "fill": "rgba(0,255,65,0.08)",
+          "stroke": "rgba(0,255,65,0.28)",
+          "strokeWidth": 1,
+          "radius": 2
         },
         {
           "id": "p3-tag-webrtc-label",
+          "x": 204,
+          "y": 554,
+          "width": 84,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1200,
+            "step": 0
+          },
           "type": "text",
-          "x": 204, "y": 554, "width": 84,
           "content": "WebRTC",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1200, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41",
+          "align": "center"
         },
         {
           "id": "p3-tag-canvas",
+          "x": 304,
+          "y": 548,
+          "width": 96,
+          "height": 28,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1220,
+            "step": 0
+          },
           "type": "rect",
-          "x": 304, "y": 548, "width": 96, "height": 28,
-          "fill": "rgba(0,255,65,0.08)", "stroke": "rgba(0,255,65,0.28)", "strokeWidth": 1,
-          "radius": 2,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1220, "step": 0 }
+          "fill": "rgba(0,255,65,0.08)",
+          "stroke": "rgba(0,255,65,0.28)",
+          "strokeWidth": 1,
+          "radius": 2
         },
         {
           "id": "p3-tag-canvas-label",
+          "x": 304,
+          "y": 554,
+          "width": 96,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1260,
+            "step": 0
+          },
           "type": "text",
-          "x": 304, "y": 554, "width": 96,
           "content": "Canvas2D",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1260, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41",
+          "align": "center"
         },
         {
           "id": "p3-preview-glass",
+          "x": 820,
+          "y": 110,
+          "width": 400,
+          "height": 400,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 600,
+            "delay": 400,
+            "step": 0
+          },
           "type": "rect",
-          "x": 820, "y": 110, "width": 400, "height": 400,
-          "fill": "rgba(0,255,65,0.03)", "stroke": "rgba(0,255,65,0.18)", "strokeWidth": 1,
-          "radius": 4,
-          "animation": { "enter": "fade-left", "duration": 600, "delay": 400, "step": 0 }
+          "fill": "rgba(0,255,65,0.03)",
+          "stroke": "rgba(0,255,65,0.18)",
+          "strokeWidth": 1,
+          "radius": 4
         },
         {
           "id": "p3-preview-title",
+          "x": 836,
+          "y": 128,
+          "width": 368,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 836, "y": 128, "width": 368,
           "content": "── canvas.worker.ts",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(0,255,65,0.4)",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 600, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(0,255,65,0.4)"
         },
         {
           "id": "p3-preview-body",
+          "x": 836,
+          "y": 158,
+          "width": 368,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 700,
+            "step": 0
+          },
           "type": "text",
-          "x": 836, "y": 158, "width": 368,
           "content": "const offscreen =\n  canvas.transferControlToOffscreen();\n\nconst worker = new Worker(\n  './render.worker.js'\n);\n\nworker.postMessage(\n  { type: 'init', canvas: offscreen },\n  [offscreen]\n);\n\n// delta-encoded ops at 60fps\nonOp(op => worker.postMessage({\n  type: 'op', ...op\n}));",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e", "lineHeight": 1.55,
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 700, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e",
+          "lineHeight": 1.55
         }
+      ],
+      "notes": "Project: Pixelflow — real-time pixel art editor. Title scramble, glass card.",
+      "fx": [
+        "ascii-morph"
       ]
     },
-
     {
       "id": "contributions",
       "background": "#0d1117",
-      "fx": ["data-stream"],
-      "notes": "Open source stats — contribution heatmap group with morphSteps expansion, big numbers zoom-pop.",
       "elements": [
         {
           "id": "contrib-kicker",
+          "x": 80,
+          "y": 52,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 52, "width": 700,
           "content": "kai@dev:~$ git log --stat --since=2016-01-01",
-          "fontSize": 15, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 400, "step": 0 }
+          "fontSize": 15,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "contrib-title",
+          "x": 80,
+          "y": 92,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 200,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 92, "width": 700,
           "content": "OPEN SOURCE CONTRIBUTIONS",
-          "fontSize": 28, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 200, "step": 0 }
+          "fontSize": 28,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
-
         {
           "id": "contrib-heatmap-group",
+          "x": 80,
+          "y": 148,
+          "width": 800,
+          "height": 140,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 400,
+            "step": 0
+          },
           "type": "group",
-          "x": 80, "y": 148, "width": 800, "height": 140,
-          "animation": { "enter": "fade-up", "duration": 600, "delay": 400, "step": 0 },
+          "elements": [
+            {
+              "id": "heat-a1",
+              "x": 0,
+              "y": 0,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-a2",
+              "x": 18,
+              "y": 0,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-a3",
+              "x": 36,
+              "y": 0,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-a4",
+              "x": 54,
+              "y": 0,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#00ff41",
+              "radius": 2
+            },
+            {
+              "id": "heat-a5",
+              "x": 72,
+              "y": 0,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-a6",
+              "x": 90,
+              "y": 0,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-a7",
+              "x": 108,
+              "y": 0,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            },
+            {
+              "id": "heat-a8",
+              "x": 126,
+              "y": 0,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-a9",
+              "x": 144,
+              "y": 0,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#00ff41",
+              "radius": 2
+            },
+            {
+              "id": "heat-a10",
+              "x": 162,
+              "y": 0,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-b1",
+              "x": 0,
+              "y": 18,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-b2",
+              "x": 18,
+              "y": 18,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#00ff41",
+              "radius": 2
+            },
+            {
+              "id": "heat-b3",
+              "x": 36,
+              "y": 18,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-b4",
+              "x": 54,
+              "y": 18,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            },
+            {
+              "id": "heat-b5",
+              "x": 72,
+              "y": 18,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-b6",
+              "x": 90,
+              "y": 18,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-b7",
+              "x": 108,
+              "y": 18,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#00ff41",
+              "radius": 2
+            },
+            {
+              "id": "heat-b8",
+              "x": 126,
+              "y": 18,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-b9",
+              "x": 144,
+              "y": 18,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            },
+            {
+              "id": "heat-b10",
+              "x": 162,
+              "y": 18,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-c1",
+              "x": 0,
+              "y": 36,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#00ff41",
+              "radius": 2
+            },
+            {
+              "id": "heat-c2",
+              "x": 18,
+              "y": 36,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-c3",
+              "x": 36,
+              "y": 36,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            },
+            {
+              "id": "heat-c4",
+              "x": 54,
+              "y": 36,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-c5",
+              "x": 72,
+              "y": 36,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-c6",
+              "x": 90,
+              "y": 36,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#00ff41",
+              "radius": 2
+            },
+            {
+              "id": "heat-c7",
+              "x": 108,
+              "y": 36,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-c8",
+              "x": 126,
+              "y": 36,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            },
+            {
+              "id": "heat-c9",
+              "x": 144,
+              "y": 36,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-c10",
+              "x": 162,
+              "y": 36,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#00ff41",
+              "radius": 2
+            },
+            {
+              "id": "heat-d1",
+              "x": 0,
+              "y": 54,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-d2",
+              "x": 18,
+              "y": 54,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            },
+            {
+              "id": "heat-d3",
+              "x": 36,
+              "y": 54,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-d4",
+              "x": 54,
+              "y": 54,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-d5",
+              "x": 72,
+              "y": 54,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#00ff41",
+              "radius": 2
+            },
+            {
+              "id": "heat-d6",
+              "x": 90,
+              "y": 54,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            },
+            {
+              "id": "heat-d7",
+              "x": 108,
+              "y": 54,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-d8",
+              "x": 126,
+              "y": 54,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-d9",
+              "x": 144,
+              "y": 54,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-d10",
+              "x": 162,
+              "y": 54,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            },
+            {
+              "id": "heat-e1",
+              "x": 0,
+              "y": 72,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            },
+            {
+              "id": "heat-e2",
+              "x": 18,
+              "y": 72,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-e3",
+              "x": 36,
+              "y": 72,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#00ff41",
+              "radius": 2
+            },
+            {
+              "id": "heat-e4",
+              "x": 54,
+              "y": 72,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-e5",
+              "x": 72,
+              "y": 72,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-e6",
+              "x": 90,
+              "y": 72,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            },
+            {
+              "id": "heat-e7",
+              "x": 108,
+              "y": 72,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0d7a38",
+              "radius": 2
+            },
+            {
+              "id": "heat-e8",
+              "x": 126,
+              "y": 72,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#00ff41",
+              "radius": 2
+            },
+            {
+              "id": "heat-e9",
+              "x": 144,
+              "y": 72,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#0a5c2a",
+              "radius": 2
+            },
+            {
+              "id": "heat-e10",
+              "x": 162,
+              "y": 72,
+              "width": 14,
+              "height": 14,
+              "type": "rect",
+              "fill": "#39ff14",
+              "radius": 2
+            }
+          ],
           "morphSteps": [
             {
-              "target": { "width": 1100, "height": 180 },
+              "target": {
+                "width": 1100,
+                "height": 180
+              },
               "children": {
-                "heat-a1": { "fill": "#39ff14" },
-                "heat-a2": { "fill": "#00ff41" },
-                "heat-a3": { "fill": "#39ff14" },
-                "heat-b1": { "fill": "#00ff41" },
-                "heat-b3": { "fill": "#39ff14" },
-                "heat-c2": { "fill": "#39ff14" },
-                "heat-d1": { "fill": "#00ff41" },
-                "heat-d3": { "fill": "#39ff14" },
-                "heat-e2": { "fill": "#39ff14" }
+                "heat-a1": {
+                  "fill": "#39ff14"
+                },
+                "heat-a2": {
+                  "fill": "#00ff41"
+                },
+                "heat-a3": {
+                  "fill": "#39ff14"
+                },
+                "heat-b1": {
+                  "fill": "#00ff41"
+                },
+                "heat-b3": {
+                  "fill": "#39ff14"
+                },
+                "heat-c2": {
+                  "fill": "#39ff14"
+                },
+                "heat-d1": {
+                  "fill": "#00ff41"
+                },
+                "heat-d3": {
+                  "fill": "#39ff14"
+                },
+                "heat-e2": {
+                  "fill": "#39ff14"
+                }
               },
               "duration": 800,
               "easing": "easeInOutCubic",
               "stagger": 30
             }
           ],
-          "morphStepTrigger": "click",
-          "elements": [
-            { "id": "heat-a1", "type": "rect", "x": 0,   "y": 0,  "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-a2", "type": "rect", "x": 18,  "y": 0,  "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-a3", "type": "rect", "x": 36,  "y": 0,  "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-a4", "type": "rect", "x": 54,  "y": 0,  "width": 14, "height": 14, "fill": "#00ff41", "radius": 2 },
-            { "id": "heat-a5", "type": "rect", "x": 72,  "y": 0,  "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-a6", "type": "rect", "x": 90,  "y": 0,  "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-a7", "type": "rect", "x": 108, "y": 0,  "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 },
-            { "id": "heat-a8", "type": "rect", "x": 126, "y": 0,  "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-a9", "type": "rect", "x": 144, "y": 0,  "width": 14, "height": 14, "fill": "#00ff41", "radius": 2 },
-            { "id": "heat-a10","type": "rect", "x": 162, "y": 0,  "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-b1", "type": "rect", "x": 0,   "y": 18, "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-b2", "type": "rect", "x": 18,  "y": 18, "width": 14, "height": 14, "fill": "#00ff41", "radius": 2 },
-            { "id": "heat-b3", "type": "rect", "x": 36,  "y": 18, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-b4", "type": "rect", "x": 54,  "y": 18, "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 },
-            { "id": "heat-b5", "type": "rect", "x": 72,  "y": 18, "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-b6", "type": "rect", "x": 90,  "y": 18, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-b7", "type": "rect", "x": 108, "y": 18, "width": 14, "height": 14, "fill": "#00ff41", "radius": 2 },
-            { "id": "heat-b8", "type": "rect", "x": 126, "y": 18, "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-b9", "type": "rect", "x": 144, "y": 18, "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 },
-            { "id": "heat-b10","type": "rect", "x": 162, "y": 18, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-c1", "type": "rect", "x": 0,   "y": 36, "width": 14, "height": 14, "fill": "#00ff41", "radius": 2 },
-            { "id": "heat-c2", "type": "rect", "x": 18,  "y": 36, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-c3", "type": "rect", "x": 36,  "y": 36, "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 },
-            { "id": "heat-c4", "type": "rect", "x": 54,  "y": 36, "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-c5", "type": "rect", "x": 72,  "y": 36, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-c6", "type": "rect", "x": 90,  "y": 36, "width": 14, "height": 14, "fill": "#00ff41", "radius": 2 },
-            { "id": "heat-c7", "type": "rect", "x": 108, "y": 36, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-c8", "type": "rect", "x": 126, "y": 36, "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 },
-            { "id": "heat-c9", "type": "rect", "x": 144, "y": 36, "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-c10","type": "rect", "x": 162, "y": 36, "width": 14, "height": 14, "fill": "#00ff41", "radius": 2 },
-            { "id": "heat-d1", "type": "rect", "x": 0,   "y": 54, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-d2", "type": "rect", "x": 18,  "y": 54, "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 },
-            { "id": "heat-d3", "type": "rect", "x": 36,  "y": 54, "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-d4", "type": "rect", "x": 54,  "y": 54, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-d5", "type": "rect", "x": 72,  "y": 54, "width": 14, "height": 14, "fill": "#00ff41", "radius": 2 },
-            { "id": "heat-d6", "type": "rect", "x": 90,  "y": 54, "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 },
-            { "id": "heat-d7", "type": "rect", "x": 108, "y": 54, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-d8", "type": "rect", "x": 126, "y": 54, "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-d9", "type": "rect", "x": 144, "y": 54, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-d10","type": "rect", "x": 162, "y": 54, "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 },
-            { "id": "heat-e1", "type": "rect", "x": 0,   "y": 72, "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 },
-            { "id": "heat-e2", "type": "rect", "x": 18,  "y": 72, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-e3", "type": "rect", "x": 36,  "y": 72, "width": 14, "height": 14, "fill": "#00ff41", "radius": 2 },
-            { "id": "heat-e4", "type": "rect", "x": 54,  "y": 72, "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-e5", "type": "rect", "x": 72,  "y": 72, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-e6", "type": "rect", "x": 90,  "y": 72, "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 },
-            { "id": "heat-e7", "type": "rect", "x": 108, "y": 72, "width": 14, "height": 14, "fill": "#0d7a38", "radius": 2 },
-            { "id": "heat-e8", "type": "rect", "x": 126, "y": 72, "width": 14, "height": 14, "fill": "#00ff41", "radius": 2 },
-            { "id": "heat-e9", "type": "rect", "x": 144, "y": 72, "width": 14, "height": 14, "fill": "#0a5c2a", "radius": 2 },
-            { "id": "heat-e10","type": "rect", "x": 162, "y": 72, "width": 14, "height": 14, "fill": "#39ff14", "radius": 2 }
-          ]
+          "morphStepTrigger": "click"
         },
-
         {
           "id": "contrib-legend",
+          "x": 80,
+          "y": 302,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 800,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 302, "width": 500,
           "content": "Less ■ ■ ■ ■ ■ More  (2016 – present, click to illuminate)",
-          "fontSize": 12, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(139,148,158,0.6)",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 800, "step": 0 }
+          "fontSize": 12,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(139,148,158,0.6)"
         },
-
         {
           "id": "contrib-stat-commits",
+          "x": 80,
+          "y": 360,
+          "width": 260,
+          "height": 140,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 600,
+            "delay": 600,
+            "step": 1
+          },
           "type": "group",
-          "x": 80, "y": 360, "width": 260, "height": 140,
-          "animation": { "enter": "zoom-pop", "duration": 600, "delay": 600, "step": 1 },
           "elements": [
             {
               "id": "contrib-commits-glass",
+              "x": 0,
+              "y": 0,
+              "width": 260,
+              "height": 140,
               "type": "rect",
-              "x": 0, "y": 0, "width": 260, "height": 140,
-              "fill": "rgba(0,255,65,0.04)", "stroke": "rgba(0,255,65,0.22)", "strokeWidth": 1,
+              "fill": "rgba(0,255,65,0.04)",
+              "stroke": "rgba(0,255,65,0.22)",
+              "strokeWidth": 1,
               "radius": 4
             },
             {
               "id": "contrib-commits-bar",
+              "x": 0,
+              "y": 0,
+              "width": 4,
+              "height": 140,
               "type": "rect",
-              "x": 0, "y": 0, "width": 4, "height": 140,
-              "fill": "#00ff41", "radius": 4
+              "fill": "#00ff41",
+              "radius": 4
             },
             {
               "id": "contrib-commits-num",
+              "x": 20,
+              "y": 44,
+              "width": 220,
               "type": "text",
-              "x": 20, "y": 44, "width": 220,
               "content": "2,847",
-              "fontSize": 40, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-              "fontWeight": "bold", "color": "#00ff41"
+              "fontSize": 40,
+              "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+              "fontWeight": "bold",
+              "color": "#00ff41"
             },
             {
               "id": "contrib-commits-label",
+              "x": 20,
+              "y": 96,
+              "width": 220,
               "type": "text",
-              "x": 20, "y": 96, "width": 220,
               "content": "contributions",
-              "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+              "fontSize": 14,
+              "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
               "color": "#8b949e"
             }
           ]
         },
-
         {
           "id": "contrib-stat-repos",
+          "x": 380,
+          "y": 360,
+          "width": 260,
+          "height": 140,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 600,
+            "delay": 760,
+            "step": 1
+          },
           "type": "group",
-          "x": 380, "y": 360, "width": 260, "height": 140,
-          "animation": { "enter": "zoom-pop", "duration": 600, "delay": 760, "step": 1 },
           "elements": [
             {
               "id": "contrib-repos-glass",
+              "x": 0,
+              "y": 0,
+              "width": 260,
+              "height": 140,
               "type": "rect",
-              "x": 0, "y": 0, "width": 260, "height": 140,
-              "fill": "rgba(0,255,65,0.04)", "stroke": "rgba(0,255,65,0.22)", "strokeWidth": 1,
+              "fill": "rgba(0,255,65,0.04)",
+              "stroke": "rgba(0,255,65,0.22)",
+              "strokeWidth": 1,
               "radius": 4
             },
             {
               "id": "contrib-repos-bar",
+              "x": 0,
+              "y": 0,
+              "width": 4,
+              "height": 140,
               "type": "rect",
-              "x": 0, "y": 0, "width": 4, "height": 140,
-              "fill": "#00ff41", "radius": 4
+              "fill": "#00ff41",
+              "radius": 4
             },
             {
               "id": "contrib-repos-num",
+              "x": 20,
+              "y": 44,
+              "width": 220,
               "type": "text",
-              "x": 20, "y": 44, "width": 220,
               "content": "142",
-              "fontSize": 40, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-              "fontWeight": "bold", "color": "#00ff41"
+              "fontSize": 40,
+              "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+              "fontWeight": "bold",
+              "color": "#00ff41"
             },
             {
               "id": "contrib-repos-label",
+              "x": 20,
+              "y": 96,
+              "width": 220,
               "type": "text",
-              "x": 20, "y": 96, "width": 220,
               "content": "repositories",
-              "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+              "fontSize": 14,
+              "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
               "color": "#8b949e"
             }
           ]
         },
-
         {
           "id": "contrib-stat-prs",
+          "x": 680,
+          "y": 360,
+          "width": 260,
+          "height": 140,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 600,
+            "delay": 920,
+            "step": 1
+          },
           "type": "group",
-          "x": 680, "y": 360, "width": 260, "height": 140,
-          "animation": { "enter": "zoom-pop", "duration": 600, "delay": 920, "step": 1 },
           "elements": [
             {
               "id": "contrib-prs-glass",
+              "x": 0,
+              "y": 0,
+              "width": 260,
+              "height": 140,
               "type": "rect",
-              "x": 0, "y": 0, "width": 260, "height": 140,
-              "fill": "rgba(0,255,65,0.04)", "stroke": "rgba(0,255,65,0.22)", "strokeWidth": 1,
+              "fill": "rgba(0,255,65,0.04)",
+              "stroke": "rgba(0,255,65,0.22)",
+              "strokeWidth": 1,
               "radius": 4
             },
             {
               "id": "contrib-prs-bar",
+              "x": 0,
+              "y": 0,
+              "width": 4,
+              "height": 140,
               "type": "rect",
-              "x": 0, "y": 0, "width": 4, "height": 140,
-              "fill": "#00ff41", "radius": 4
+              "fill": "#00ff41",
+              "radius": 4
             },
             {
               "id": "contrib-prs-num",
+              "x": 20,
+              "y": 44,
+              "width": 220,
               "type": "text",
-              "x": 20, "y": 44, "width": 220,
               "content": "89",
-              "fontSize": 40, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-              "fontWeight": "bold", "color": "#00ff41"
+              "fontSize": 40,
+              "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+              "fontWeight": "bold",
+              "color": "#00ff41"
             },
             {
               "id": "contrib-prs-label",
+              "x": 20,
+              "y": 96,
+              "width": 220,
               "type": "text",
-              "x": 20, "y": 96, "width": 220,
               "content": "PRs merged",
-              "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+              "fontSize": 14,
+              "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
               "color": "#8b949e"
             }
           ]
         },
-
         {
           "id": "contrib-notable-glass",
+          "x": 980,
+          "y": 148,
+          "width": 240,
+          "height": 352,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 500,
+            "delay": 500,
+            "step": 0
+          },
           "type": "rect",
-          "x": 980, "y": 148, "width": 240, "height": 352,
-          "fill": "rgba(0,255,65,0.03)", "stroke": "rgba(0,255,65,0.16)", "strokeWidth": 1,
-          "radius": 4,
-          "animation": { "enter": "fade-left", "duration": 500, "delay": 500, "step": 0 }
+          "fill": "rgba(0,255,65,0.03)",
+          "stroke": "rgba(0,255,65,0.16)",
+          "strokeWidth": 1,
+          "radius": 4
         },
         {
           "id": "contrib-notable-title",
+          "x": 996,
+          "y": 166,
+          "width": 208,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 700,
+            "step": 0
+          },
           "type": "text",
-          "x": 996, "y": 166, "width": 208,
           "content": "Notable merges",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 700, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
         {
           "id": "contrib-notable-list",
+          "x": 996,
+          "y": 196,
+          "width": 208,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 900,
+            "step": 0
+          },
           "type": "text",
-          "x": 996, "y": 196, "width": 208,
           "content": "tokio #3842\nasync-std #901\nripgrep #2103\nrust-lang #114022\naxum #1876\ndeno #18903\nbun #7412\nnapi-rs #1620",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e", "lineHeight": 1.7,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 900, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e",
+          "lineHeight": 1.7
         }
+      ],
+      "notes": "Open source stats — contribution heatmap group with morphSteps expansion, big numbers zoom-pop.",
+      "fx": [
+        "data-stream"
       ]
     },
-
     {
       "id": "contact",
       "background": "#0d1117",
-      "fx": ["scan-line", "matrix-rain"],
-      "notes": "Contact slide — cat contact.txt, entries revealed at steps 1-4.",
       "elements": [
         {
           "id": "contact-prompt",
+          "x": 80,
+          "y": 80,
+          "width": 700,
           "type": "animatedText",
-          "x": 80, "y": 80, "width": 700,
           "content": "kai@dev:~$ cat contact.txt",
-          "fontSize": 18, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontSize": 18,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
-          "textAnimation": { "name": "typewriter", "stagger": 46 }
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 46
+          }
         },
         {
           "id": "contact-title",
+          "x": 80,
+          "y": 140,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 140, "width": 700,
           "content": "GET IN TOUCH",
-          "fontSize": 40, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 400, "step": 0 }
+          "fontSize": 40,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
         {
           "id": "contact-divider",
+          "x": 80,
+          "y": 196,
+          "width": 400,
+          "height": 1,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 500,
+            "delay": 600,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 196, "width": 400, "height": 1,
-          "fill": "rgba(0,255,65,0.25)",
-          "animation": { "enter": "stretch-x", "duration": 500, "delay": 600, "step": 0 }
+          "fill": "rgba(0,255,65,0.25)"
         },
-
         {
           "id": "contact-github-icon",
+          "x": 80,
+          "y": 238,
+          "width": 32,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "step": 1
+          },
           "type": "text",
-          "x": 80, "y": 238, "width": 32,
           "content": "$",
-          "fontSize": 18, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(0,255,65,0.5)",
-          "animation": { "enter": "fade-right", "duration": 300, "step": 1 }
+          "fontSize": 18,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(0,255,65,0.5)"
         },
         {
           "id": "contact-github",
+          "x": 120,
+          "y": 236,
+          "width": 500,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 80,
+            "step": 1
+          },
           "type": "text",
-          "x": 120, "y": 236, "width": 500,
           "content": "github.com/kaichen",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 80, "step": 1 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "contact-github-note",
+          "x": 120,
+          "y": 266,
+          "width": 500,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 200,
+            "step": 1
+          },
           "type": "text",
-          "x": 120, "y": 266, "width": 500,
           "content": "142 repos · 14.2k total stars",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 200, "step": 1 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
-
         {
           "id": "contact-email-icon",
+          "x": 80,
+          "y": 318,
+          "width": 32,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "step": 2
+          },
           "type": "text",
-          "x": 80, "y": 318, "width": 32,
           "content": "@",
-          "fontSize": 18, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(0,255,65,0.5)",
-          "animation": { "enter": "fade-right", "duration": 300, "step": 2 }
+          "fontSize": 18,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(0,255,65,0.5)"
         },
         {
           "id": "contact-email",
+          "x": 120,
+          "y": 316,
+          "width": 500,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 80,
+            "step": 2
+          },
           "type": "text",
-          "x": 120, "y": 316, "width": 500,
           "content": "kai@devtools.io",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 80, "step": 2 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "contact-email-note",
+          "x": 120,
+          "y": 346,
+          "width": 500,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 200,
+            "step": 2
+          },
           "type": "text",
-          "x": 120, "y": 346, "width": 500,
           "content": "PGP: 4A2F 8B1C D903 E561",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 200, "step": 2 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
-
         {
           "id": "contact-twitter-icon",
+          "x": 80,
+          "y": 398,
+          "width": 32,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "step": 3
+          },
           "type": "text",
-          "x": 80, "y": 398, "width": 32,
           "content": "#",
-          "fontSize": 18, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(0,255,65,0.5)",
-          "animation": { "enter": "fade-right", "duration": 300, "step": 3 }
+          "fontSize": 18,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(0,255,65,0.5)"
         },
         {
           "id": "contact-twitter",
+          "x": 120,
+          "y": 396,
+          "width": 500,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 80,
+            "step": 3
+          },
           "type": "text",
-          "x": 120, "y": 396, "width": 500,
           "content": "twitter.com/kai_dev",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 80, "step": 3 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "contact-twitter-note",
+          "x": 120,
+          "y": 426,
+          "width": 500,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 200,
+            "step": 3
+          },
           "type": "text",
-          "x": 120, "y": 426, "width": 500,
           "content": "thoughts on systems & tooling",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 200, "step": 3 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
-
         {
           "id": "contact-web-icon",
+          "x": 80,
+          "y": 478,
+          "width": 32,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "step": 4
+          },
           "type": "text",
-          "x": 80, "y": 478, "width": 32,
           "content": ">",
-          "fontSize": 18, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(0,255,65,0.5)",
-          "animation": { "enter": "fade-right", "duration": 300, "step": 4 }
+          "fontSize": 18,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(0,255,65,0.5)"
         },
         {
           "id": "contact-web",
+          "x": 120,
+          "y": 476,
+          "width": 500,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 80,
+            "step": 4
+          },
           "type": "text",
-          "x": 120, "y": 476, "width": 500,
           "content": "kaichen.dev",
-          "fontSize": 22, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 80, "step": 4 }
+          "fontSize": 22,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41"
         },
         {
           "id": "contact-web-note",
+          "x": 120,
+          "y": 506,
+          "width": 500,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 300,
+            "delay": 200,
+            "step": 4
+          },
           "type": "text",
-          "x": 120, "y": 506, "width": 500,
           "content": "blog · talks · open source notes",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e",
-          "animation": { "enter": "fade-right", "duration": 300, "delay": 200, "step": 4 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
         },
-
         {
           "id": "contact-side-glass",
+          "x": 820,
+          "y": 80,
+          "width": 400,
+          "height": 460,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 600,
+            "delay": 300,
+            "step": 0
+          },
           "type": "rect",
-          "x": 820, "y": 80, "width": 400, "height": 460,
-          "fill": "rgba(0,255,65,0.03)", "stroke": "rgba(0,255,65,0.16)", "strokeWidth": 1,
-          "radius": 4,
-          "animation": { "enter": "fade-left", "duration": 600, "delay": 300, "step": 0 }
+          "fill": "rgba(0,255,65,0.03)",
+          "stroke": "rgba(0,255,65,0.16)",
+          "strokeWidth": 1,
+          "radius": 4
         },
         {
           "id": "contact-side-title",
+          "x": 836,
+          "y": 102,
+          "width": 368,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 836, "y": 102, "width": 368,
           "content": "── availability.txt",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(0,255,65,0.4)",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 600, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(0,255,65,0.4)"
         },
         {
           "id": "contact-side-body",
+          "x": 836,
+          "y": 132,
+          "width": 368,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 800,
+            "step": 0
+          },
           "type": "text",
-          "x": 836, "y": 132, "width": 368,
           "content": "Status      : OPEN\nRole        : Staff / Principal\nType        : Remote preferred\nTimezone    : UTC-8 (SF)\nNotice      : 4 weeks\n\nInterests:\n  · Developer tooling\n  · Systems programming\n  · Distributed databases\n  · Open source infra\n\nNot interested in:\n  × Web3 / crypto\n  × Adtech\n  × Surveillance",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e", "lineHeight": 1.65,
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 800, "step": 0 }
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e",
+          "lineHeight": 1.65
         }
+      ],
+      "notes": "Contact slide — cat contact.txt, entries revealed at steps 1-4.",
+      "fx": [
+        "scan-line",
+        "matrix-rain"
       ]
     },
-
     {
       "id": "ascii-horse",
       "background": "#0d1117",
-      "fx": ["scan-line"],
-      "notes": "ASCII horse demo — reusable GIF-to-ASCII extension decodes the uploaded running horse GIF and plays the frames through a Three.js projection buffer.",
       "elements": [
         {
           "id": "horse-prompt",
+          "x": 80,
+          "y": 52,
+          "width": 760,
           "type": "animatedText",
-          "x": 80, "y": 52, "width": 760,
           "content": "kai@dev:~$ three-ascii --input horse.gif --mode gallop",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
-          "textAnimation": { "name": "typewriter", "stagger": 28 }
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 28
+          }
         },
         {
           "id": "horse-title",
+          "x": 80,
+          "y": 92,
+          "width": 900,
           "type": "text",
-          "x": 80, "y": 92, "width": 900,
           "content": "RUNNING HORSE ASCII",
-          "fontSize": 34, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41"
+          "fontSize": 34,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41"
         },
         {
           "id": "horse-subtitle",
+          "x": 80,
+          "y": 140,
+          "width": 980,
           "type": "text",
-          "x": 80, "y": 140, "width": 980,
           "content": "live THREE.Vector3 projection -> terminal glyph buffer",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#8b949e"
         },
         {
           "id": "horse-terminal-glass",
+          "x": 78,
+          "y": 182,
+          "width": 820,
+          "height": 420,
           "type": "rect",
-          "x": 78, "y": 182, "width": 820, "height": 420,
-          "fill": "rgba(0,255,65,0.025)", "stroke": "rgba(0,255,65,0.22)", "strokeWidth": 1,
+          "fill": "rgba(0,255,65,0.025)",
+          "stroke": "rgba(0,255,65,0.22)",
+          "strokeWidth": 1,
           "radius": 4
         },
         {
           "id": "horse-renderer",
+          "x": 96,
+          "y": 200,
+          "width": 784,
+          "height": 384,
           "type": "customHtml",
-          "x": 96, "y": 200, "width": 784, "height": 384,
           "html": "<div data-gif-ascii data-src='./assets/attachment/horse.gif' data-label='horse.gif' data-title='three.ascii.gif :: decoded GIF frames' data-meta='threshold=ink frame-playback=gif-delay' data-cols='150' data-rows='52' data-threshold='220' data-density-threshold='0.12' data-chars='.:+*#@'></div>"
         },
         {
           "id": "horse-side-glass",
+          "x": 930,
+          "y": 182,
+          "width": 270,
+          "height": 420,
           "type": "rect",
-          "x": 930, "y": 182, "width": 270, "height": 420,
-          "fill": "rgba(0,255,65,0.025)", "stroke": "rgba(0,255,65,0.18)", "strokeWidth": 1,
+          "fill": "rgba(0,255,65,0.025)",
+          "stroke": "rgba(0,255,65,0.18)",
+          "strokeWidth": 1,
           "radius": 4
         },
         {
           "id": "horse-side-title",
+          "x": 948,
+          "y": 204,
+          "width": 234,
           "type": "text",
-          "x": 948, "y": 204, "width": 234,
           "content": "render.stats",
-          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#ffb000"
+          "fontSize": 14,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#ffb000"
         },
         {
           "id": "horse-side-body",
+          "x": 948,
+          "y": 244,
+          "width": 234,
           "type": "text",
-          "x": 948, "y": 244, "width": 234,
           "content": "asset       : horse.gif\nprojection  : THREE.Vector3\nbuffer      : 150 x 52\nframes      : decoded GIF\nfilter      : B/W threshold\noutput      : ASCII CRT\n\nRuntime:\n  extension decoder\n  CDN three.js loader\n  requestAnimationFrame",
-          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e", "lineHeight": 1.55
+          "fontSize": 13,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e",
+          "lineHeight": 1.55
         },
         {
           "id": "horse-footer",
+          "x": 80,
+          "y": 628,
+          "width": 1120,
           "type": "text",
-          "x": 80, "y": 628, "width": 1120,
           "content": "GIF-to-ASCII is loaded from assets/extensions/gif-ascii and can be reused by any slide.",
-          "fontSize": 12, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(139,148,158,0.55)", "align": "center"
+          "fontSize": 12,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(139,148,158,0.55)",
+          "align": "center"
         }
+      ],
+      "notes": "ASCII horse demo — reusable GIF-to-ASCII extension decodes the uploaded running horse GIF and plays the frames through a Three.js projection buffer.",
+      "fx": [
+        "scan-line"
       ]
     },
-
     {
       "id": "exit",
       "background": "#0d1117",
-      "fx": ["scan-line"],
-      "notes": "Exit slide — glitch GOODBYE, exit code 0, cursor blink rect.",
       "elements": [
         {
           "id": "exit-title",
+          "x": 240,
+          "y": 220,
+          "width": 800,
           "type": "animatedText",
-          "x": 240, "y": 220, "width": 800,
           "content": "GOODBYE",
-          "fontSize": 96, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "fontWeight": "bold", "color": "#00ff41",
+          "fontSize": 96,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold",
+          "color": "#00ff41",
           "align": "center",
-          "textAnimation": { "name": "glitch", "stagger": 45, "duration": 2000 }
+          "textAnimation": {
+            "name": "glitch",
+            "stagger": 45,
+            "duration": 2000
+          }
         },
         {
           "id": "exit-exit-code",
+          "x": 240,
+          "y": 350,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 240, "y": 350, "width": 800,
           "content": "Process portfolio.service exited with code 0",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#8b949e", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 600, "step": 0 }
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e",
+          "align": "center"
         },
         {
           "id": "exit-connection",
+          "x": 240,
+          "y": 392,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 900,
+            "step": 0
+          },
           "type": "text",
-          "x": 240, "y": 392, "width": 800,
           "content": "Connection closed.",
-          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#ffb000", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 900, "step": 0 }
+          "fontSize": 16,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#ffb000",
+          "align": "center"
         },
         {
           "id": "exit-prompt-line",
+          "x": 400,
+          "y": 480,
+          "width": 480,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1300,
+            "step": 0
+          },
           "type": "text",
-          "x": 400, "y": 480, "width": 480,
           "content": "kai@dev:~$ _",
-          "fontSize": 18, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "#00ff41", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1300, "step": 0 }
+          "fontSize": 18,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41",
+          "align": "center"
         },
         {
           "id": "exit-cursor-blink",
+          "x": 612,
+          "y": 480,
+          "width": 12,
+          "height": 22,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 1600,
+            "step": 0
+          },
           "type": "rect",
-          "x": 612, "y": 480, "width": 12, "height": 22,
           "fill": "#00ff41",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 1600, "step": 0 },
           "morphSteps": [
-            { "target": { "opacity": 0 }, "duration": 500 },
-            { "target": { "opacity": 1 }, "duration": 500 },
-            { "target": { "opacity": 0 }, "duration": 500 },
-            { "target": { "opacity": 1 }, "duration": 500 }
+            {
+              "target": {
+                "opacity": 0
+              },
+              "duration": 500
+            },
+            {
+              "target": {
+                "opacity": 1
+              },
+              "duration": 500
+            },
+            {
+              "target": {
+                "opacity": 0
+              },
+              "duration": 500
+            },
+            {
+              "target": {
+                "opacity": 1
+              },
+              "duration": 500
+            }
           ],
           "morphStepTrigger": "auto"
         },
         {
           "id": "exit-scanline-accent",
+          "x": 80,
+          "y": 580,
+          "width": 1120,
+          "height": 1,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 800,
+            "delay": 1000,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 580, "width": 1120, "height": 1,
-          "fill": "rgba(0,255,65,0.15)",
-          "animation": { "enter": "stretch-x", "duration": 800, "delay": 1000, "step": 0 }
+          "fill": "rgba(0,255,65,0.15)"
         },
         {
           "id": "exit-footer",
+          "x": 80,
+          "y": 600,
+          "width": 1120,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 1400,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 600, "width": 1120,
           "content": "kai@dev ~ portfolio  ·  v3.2.1  ·  built with maliang-deck",
-          "fontSize": 12, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
-          "color": "rgba(139,148,158,0.4)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 1400, "step": 0 }
+          "fontSize": 12,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(139,148,158,0.4)",
+          "align": "center"
         }
+      ],
+      "notes": "Exit slide — glitch GOODBYE, exit code 0, cursor blink rect.",
+      "fx": [
+        "scan-line"
       ]
     }
-
   ]
 }

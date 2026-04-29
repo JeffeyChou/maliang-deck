@@ -15,6 +15,7 @@ import { renderCustomHtml } from './customHtml.js';
 import { renderAnimatedText } from './animatedText.js';
 import { renderFormula } from './formula.js';
 import { renderGraph } from './graph.js';
+import { renderModel3d } from './model3d.js';
 /** Return the active context's defaultFont (used by text renderer). */
 export function getActiveDefaultFont() {
     return activeContext?.defaultFont;
@@ -36,7 +37,7 @@ function scopedDomId(el, context) {
 function editorMetadataAttrs(el, context) {
     const typeAttr = `data-maliang-deck-type="${escapeHtml(el.type)}"`;
     const isTopLevel = (context?.depth ?? 0) === 0;
-    if (isTopLevel && el.type === 'text') {
+    if (isTopLevel && (el.type === 'text' || el.type === 'animatedText')) {
         return [typeAttr, 'data-maliang-deck-editable="geometry text"'];
     }
     if (isTopLevel && el.type === 'rect') {
@@ -45,17 +46,23 @@ function editorMetadataAttrs(el, context) {
     if (isTopLevel && el.type === 'image') {
         return [typeAttr, 'data-maliang-deck-editable="geometry"'];
     }
-    if (isTopLevel && el.type === 'circle') {
+    if (isTopLevel && (el.type === 'circle' || el.type === 'ellipse')) {
         return [typeAttr, 'data-maliang-deck-editable="geometry circle-style"'];
     }
     if (isTopLevel && el.type === 'line') {
         return [typeAttr, 'data-maliang-deck-editable="geometry line-style"'];
     }
+    if (isTopLevel && (el.type === 'path' || el.type === 'polygon')) {
+        return [typeAttr, 'data-maliang-deck-editable="geometry shape-style"'];
+    }
+    if (isTopLevel && el.type === 'formula') {
+        return [typeAttr, 'data-maliang-deck-editable="geometry formula"'];
+    }
     const readOnlyReason = !isTopLevel
         ? 'nested-element'
         : el.type === 'group' || el.type === 'layout'
             ? 'container-element'
-            : el.type === 'animatedText' || el.type === 'formula' || el.type === 'graph'
+            : el.type === 'graph' || el.type === 'model3d'
                 ? 'extension-element'
                 : 'unsupported-element';
     return [
@@ -147,6 +154,9 @@ export function renderElement(el, context) {
                 break;
             case 'graph':
                 html = renderGraph(el);
+                break;
+            case 'model3d':
+                html = renderModel3d(el);
                 break;
             default:
                 throw new Error(`Unsupported element type: ${el.type}`);

@@ -54,7 +54,7 @@ function editorMetadataAttrs(
   const typeAttr = `data-maliang-deck-type="${escapeHtml(el.type)}"`;
   const isTopLevel = (context?.depth ?? 0) === 0;
 
-  if (isTopLevel && el.type === 'text') {
+  if (isTopLevel && (el.type === 'text' || el.type === 'animatedText')) {
     return [typeAttr, 'data-maliang-deck-editable="geometry text"'];
   }
 
@@ -66,7 +66,7 @@ function editorMetadataAttrs(
     return [typeAttr, 'data-maliang-deck-editable="geometry"'];
   }
 
-  if (isTopLevel && el.type === 'circle') {
+  if (isTopLevel && (el.type === 'circle' || el.type === 'ellipse')) {
     return [typeAttr, 'data-maliang-deck-editable="geometry circle-style"'];
   }
 
@@ -74,11 +74,19 @@ function editorMetadataAttrs(
     return [typeAttr, 'data-maliang-deck-editable="geometry line-style"'];
   }
 
+  if (isTopLevel && (el.type === 'path' || el.type === 'polygon')) {
+    return [typeAttr, 'data-maliang-deck-editable="geometry shape-style"'];
+  }
+
+  if (isTopLevel && el.type === 'formula') {
+    return [typeAttr, 'data-maliang-deck-editable="geometry formula"'];
+  }
+
   const readOnlyReason = !isTopLevel
     ? 'nested-element'
     : el.type === 'group' || el.type === 'layout'
       ? 'container-element'
-      : el.type === 'animatedText' || el.type === 'formula' || el.type === 'graph' || el.type === 'model3d'
+      : el.type === 'graph' || el.type === 'model3d'
         ? 'extension-element'
         : 'unsupported-element';
 

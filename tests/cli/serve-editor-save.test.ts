@@ -53,8 +53,8 @@ describe('serve editor store', () => {
     expect(store.getCapability()).toMatchObject({
       canPersist: true,
       sourceKind: 'json',
-      supportedOps: ['reorderSlides', 'deleteSlide', 'updateElement'],
-      supportedElementTypes: ['text', 'rect', 'image', 'line', 'circle'],
+      supportedOps: ['reorderSlides', 'deleteSlide', 'updateElement', 'addElement', 'deleteElement', 'duplicateElement'],
+      supportedElementTypes: ['text', 'animatedText', 'rect', 'circle', 'ellipse', 'line', 'image', 'path', 'polygon', 'formula'],
       mjsDivergenceWarning: false,
     });
     expect(store.getCapability().revision).toMatch(/^[a-f0-9]{64}$/);
@@ -114,6 +114,26 @@ describe('serve editor store', () => {
     const saved = await readDeck(file);
     expect(saved.slides.map((slide) => slide.id)).toEqual(['b']);
   });
+
+  it('saves element add, duplicate, update, and delete operations', async () => {
+    const file = await createDeckFile();
+    const store = await FileBackedEditorStore.create(file);
+
+    await store.save({
+      baseRevision: store.getCapability().revision,
+      ops: [
+        { op: 'addElement', slideId: 'a', element: { type: 'text', id: 'text-1', x: 480, y: 328, width: 320, height: 64, fontSize: 28, content: 'New text' } },
+        { op: 'updateElement', slideId: 'a', elementId: 'text-1', changes: { content: 'Persisted text' } },
+        { op: 'duplicateElement', slideId: 'a', elementId: 'box', newElementId: 'box-copy' },
+        { op: 'deleteElement', slideId: 'a', elementId: 'box-copy' },
+      ],
+    });
+
+    const saved = await readDeck(file);
+    expect(saved.slides[0].elements.find((element) => element.id === 'text-1')).toMatchObject({ content: 'Persisted text' });
+    expect(saved.slides[0].elements.some((element) => element.id === 'box-copy')).toBe(false);
+  });
+
 
   it('warns when editing assembled DSL output that may diverge from generator scripts', async () => {
     const file = await createDeckFile(['dsl', 'deck.json']);

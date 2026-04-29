@@ -53,7 +53,22 @@ function readBody(req) {
   });
 }
 
-/** Minimal editor patch: apply updateElement changes to deck JSON. */
+function cloneJson(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function offsetElementCopy(element) {
+  const copy = cloneJson(element);
+  copy.x += 24;
+  copy.y += 24;
+  if (copy.type === 'line') {
+    copy.x2 += 24;
+    copy.y2 += 24;
+  }
+  return copy;
+}
+
+/** Minimal editor patch: apply editor changes to deck JSON. */
 function applyOps(deck, ops) {
   for (const op of ops) {
     if (op.op === 'updateElement') {
@@ -62,6 +77,27 @@ function applyOps(deck, ops) {
       const el = slide.elements.find((e) => e.id === op.elementId);
       if (!el) throw new Error('Element not found: ' + op.elementId);
       Object.assign(el, op.changes);
+    } else if (op.op === 'addElement') {
+      if (!op.element || op.element.type !== 'text') throw new Error('Only text elements can be added');
+      const slide = deck.slides.find((s) => s.id === op.slideId);
+      if (!slide) throw new Error('Slide not found: ' + op.slideId);
+      if (slide.elements.some((e) => e.id === op.element.id)) throw new Error('Duplicate element id: ' + op.element.id);
+      slide.elements.push(cloneJson(op.element));
+    } else if (op.op === 'deleteElement') {
+      const slide = deck.slides.find((s) => s.id === op.slideId);
+      if (!slide) throw new Error('Slide not found: ' + op.slideId);
+      const idx = slide.elements.findIndex((e) => e.id === op.elementId);
+      if (idx < 0) throw new Error('Element not found: ' + op.elementId);
+      slide.elements.splice(idx, 1);
+    } else if (op.op === 'duplicateElement') {
+      const slide = deck.slides.find((s) => s.id === op.slideId);
+      if (!slide) throw new Error('Slide not found: ' + op.slideId);
+      const idx = slide.elements.findIndex((e) => e.id === op.elementId);
+      if (idx < 0) throw new Error('Element not found: ' + op.elementId);
+      if (slide.elements.some((e) => e.id === op.newElementId)) throw new Error('Duplicate element id: ' + op.newElementId);
+      const copy = offsetElementCopy(slide.elements[idx]);
+      copy.id = op.newElementId;
+      slide.elements.splice(idx + 1, 0, copy);
     } else if (op.op === 'reorderSlides') {
       const byId = new Map(deck.slides.map((s) => [s.id, s]));
       deck.slides = op.slideIds.map((id) => {
@@ -99,8 +135,8 @@ async function handleEditor(req, res) {
       sourcePath: DECK_PATH,
       mjsDivergenceWarning: false,
       warnings: [],
-      supportedOps: ['reorderSlides', 'deleteSlide', 'updateElement'],
-      supportedElementTypes: ['text', 'rect', 'image', 'line', 'circle'],
+      supportedOps: ['reorderSlides', 'deleteSlide', 'updateElement', 'addElement', 'deleteElement', 'duplicateElement'],
+      supportedElementTypes: ['text', 'animatedText', 'rect', 'circle', 'ellipse', 'line', 'image', 'path', 'polygon', 'formula'],
     });
     return true;
   }
