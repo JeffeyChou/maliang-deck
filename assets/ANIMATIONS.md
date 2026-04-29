@@ -18,6 +18,12 @@ assets/
     fx-runtime.js      # Canvas FX autoloader + lifecycle manager
     _util.js           # Shared helpers (palette, canvas, RAF loop)
     *.js               # Individual canvas FX modules (20 effects)
+  extensions/
+    ext-runtime.js     # HTML runtime extension bootstrap helpers
+    text-anim/         # Text splitting and per-character effects
+    shape-morph/       # Shape/component morph extensions
+    math-viz/          # Three.js graph/model visualizations
+    gif-ascii/         # GIF decoder + Three.js-backed ASCII playback
   themes/              # CSS theme files (color variables consumed by FX)
 ```
 
@@ -273,6 +279,120 @@ effect to the closest PowerPoint animation with a fallback:
 - **Downgraded** (mapped to simpler PPTX effect): fade-*, scale-in, blur-in,
   rise-in, rotate-in, flip-in, elastic-in, and others
 - Canvas FX are HTML-only; they do not appear in SVG/PDF/PPTX output.
+
+---
+
+## 5. Runtime Visualization Extensions
+
+Runtime extensions live under `assets/extensions/` and are loaded by the HTML
+renderer. They are for interactive or browser-only visuals that do not belong in
+the static DSL/export path. Use them through `customHtml` or extension-specific
+DSL fields, and provide `fallbackImage` when PDF/PPTX needs a static substitute.
+
+### 5.1 Three.js Math Visualization
+
+`assets/extensions/math-viz/graph3d.js` renders WebGL surfaces, parametric
+surfaces, scatter plots, curves, and vector fields. It lazy-loads Three.js and
+uses local orbit controls so the graph remains interactive even when the CDN
+OrbitControls helper is unavailable.
+
+Interaction behavior:
+
+- left-drag rotates the camera; horizontal mouse movement follows the visual
+  direction and vertical movement controls elevation;
+- mouse wheel zooms in/out within the renderer's distance bounds;
+- graph pointer and wheel events stop propagation so deck navigation does not
+  consume the interaction;
+- after manual interaction, camera keyframes no longer overwrite the user's
+  orbit state.
+
+Resolution controls are graph-specific. Increase surface/parametric
+`resolution` only as far as the target machine can sustain:
+
+```jsonc
+{
+  "type": "graph",
+  "id": "surface",
+  "x": 120,
+  "y": 96,
+  "width": 640,
+  "height": 420,
+  "mode": "3d",
+  "surface": {
+    "expr": "sin(sqrt(x*x+y*y))",
+    "resolution": 96,
+    "colorMap": "viridis",
+    "wireframe": false
+  },
+  "axes": { "x": [-6, 6], "y": [-6, 6], "grid": true },
+  "camera": {
+    "distance": 10,
+    "phi": 1.05,
+    "theta": 0.8,
+    "orbit": false
+  }
+}
+```
+
+Agent notes:
+
+- Raising `surface.resolution` or `parametric.resolution` improves geometric
+  detail but increases vertex and index-buffer cost.
+- A larger element size or higher browser DPR improves perceived sharpness.
+- Keep a static fallback for exports; WebGL is HTML-only.
+
+### 5.2 GIF-to-ASCII Extension
+
+`assets/extensions/gif-ascii/index.js` turns an animated GIF into a live ASCII
+filter. It decodes GIF frames in the browser, composites disposal modes,
+extracts the black/white ink bounds across all frames, converts each frame into
+glyph-density points, projects those points with `THREE.Vector3`, and plays the
+ASCII buffers with `requestAnimationFrame` using GIF frame delays.
+
+Minimal `customHtml` usage:
+
+```html
+<div
+  data-gif-ascii
+  data-src="./assets/attachment/horse.gif"
+  data-label="horse.gif"
+  data-cols="150"
+  data-rows="52"
+  data-threshold="220"
+  data-density-threshold="0.12"
+  data-chars=".:+*#@">
+</div>
+```
+
+Supported attributes:
+
+| Attribute | Default | Description |
+| --- | --- | --- |
+| `data-src` | — | Relative or absolute GIF URL. Required for real playback. |
+| `data-cols` | `150` | Width of the ASCII buffer in glyphs. |
+| `data-rows` | `52` | Height of the ASCII buffer in glyphs. |
+| `data-threshold` | `220` | Luminance cutoff; lower values keep only darker ink. |
+| `data-density-threshold` | `0.12` | Minimum ink density per glyph cell. Lower keeps finer detail. |
+| `data-chars` | `.:+*#@` | Density ramp from light to dark. |
+| `data-label` | `GIF` | Status-line source label. |
+| `data-title` | `three.ascii.gif :: decoded GIF frames` | Top-left terminal label. |
+| `data-meta` | `threshold=ink frame-playback=gif-delay` | Top-right terminal label. |
+
+Styling hooks:
+
+- `--gif-ascii-bg`
+- `--gif-ascii-border`
+- `--gif-ascii-color`
+- `--gif-ascii-font`
+
+Agent notes:
+
+- Increase `data-cols`/`data-rows` for more glyph detail, then reduce font size
+  with `--gif-ascii-font` if the content clips.
+- Tune `data-threshold` and `data-density-threshold` per asset; hand-drawn black
+  figures usually need a high threshold and low density cutoff.
+- GIF decoding is browser-only. Static exporters need a fallback image or a
+  normal image element elsewhere in the slide.
 
 ---
 

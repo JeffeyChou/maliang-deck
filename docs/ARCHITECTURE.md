@@ -93,6 +93,24 @@ Charts and tables support typed `style` fields (`ChartStyle`, `TableStyle`) with
 
 `customHtml` is an HTML-only escape hatch for arbitrary visualizations. SVG/PDF/PPTX exporters use the `fallbackImage` field or show a placeholder. The HTML renderer strips `<script>`, `<iframe>`, `<object>`, `<embed>`, and inline event handlers. The `customHtml-usage` lint rule flags these elements for review.
 
+## HTML Runtime Extensions
+
+HTML-only extensions live under `assets/extensions/` and are loaded by the HTML
+renderer after the core runtime. They enhance slides in the browser without
+changing the static export contract:
+
+| Extension | Purpose | Authoring surface |
+| --- | --- | --- |
+| `text-anim/` | Text splitting and per-character effects. | DSL animation/text metadata. |
+| `shape-morph/` | Shape and group/layout morph steps. | DSL `morphSteps`. |
+| `math-viz/` | Three.js graphs/models, including interactive 3D plots. | Graph/model elements and `customHtml`. |
+| `gif-ascii/` | Browser GIF decoder plus Three.js-backed ASCII playback. | `customHtml` with `data-gif-ascii`. |
+
+Extensions must treat HTML as presentation output, not authoring truth. If a
+visual is needed in PDF/PPTX, provide a static DSL equivalent or `fallbackImage`.
+Interactive modules should stop pointer/wheel propagation when they own input so
+deck navigation does not conflict with local controls.
+
 ## Authoring Model
 
 The implemented authoring direction is DSL-first hybrid:
@@ -118,7 +136,7 @@ Docling is an optional local PDF provider invoked as an external CLI. It stays o
 
 ## Runtime and Animation Boundary
 
-Element animations use DSL descriptors and Web Animations API keyframes in `runtime/timeline.js`. Slide FX are separate canvas modules registered under `window.HPX`. Slide transitions live under `meta.htmlRuntime.transition` and are HTML-only. Shape and component morphing extensions (`assets/extensions/shape-morph/`) animate rect/circle/ellipse/group/layout elements through DSL-declared `morphSteps`. The `morph` slide transition matches elements across slides by ID with FLIP + CSS property interpolation; group matching scope rules prevent double-animation of nested elements. SVG/PDF/PPTX exporters preserve the static final deck and ignore runtime-only presentation polish, emitting diagnostics when morph fields are present.
+Element animations use DSL descriptors and Web Animations API keyframes in `runtime/timeline.js`. Slide FX are separate canvas modules registered under `window.HPX`. Slide transitions live under `meta.htmlRuntime.transition` and are HTML-only. Shape and component morphing extensions (`assets/extensions/shape-morph/`) animate rect/circle/ellipse/group/layout elements through DSL-declared `morphSteps`. Three.js visualization extensions provide interactive graph/model rendering, and the GIF-to-ASCII extension provides browser-side animated ASCII filters for `customHtml`. The `morph` slide transition matches elements across slides by ID with FLIP + CSS property interpolation; group matching scope rules prevent double-animation of nested elements. SVG/PDF/PPTX exporters preserve the static final deck and ignore runtime-only presentation polish, emitting diagnostics when morph fields are present.
 
 ## pptxgenjs ADR Summary
 

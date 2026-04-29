@@ -67,6 +67,12 @@ For images, prefer `contain` for figures and `cover` for photos. Do not use `fil
 
 Animations, `slides[].fx`, and `morphSteps` are HTML runtime features. Use them sparingly and ensure static PDF/PPTX still communicates the final state. SVG/PDF/PPTX exports ignore `morphSteps` and emit a diagnostic. Author animation names from [Authoring](../../AUTHORING.md); do not describe effects in notes.
 
+Runtime extensions under `assets/extensions/` are also HTML-only. Use
+`customHtml` for extension mounts such as `data-gif-ascii`, keep source assets
+explicit and portable, and provide `fallbackImage` when PDF/PPTX needs to show
+the same idea. For interactive Three.js plots, leave enough slide space for
+mouse/touch interaction and avoid overlaying deck controls on top of the graph.
+
 ### Chart & Table Theming
 
 The `style` field on chart and table elements provides typed, cross-renderer styling:

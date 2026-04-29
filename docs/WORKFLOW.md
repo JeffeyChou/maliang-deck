@@ -136,3 +136,18 @@ Before delivery:
 - inspect PPTX for editability and warnings in `export-report.json`;
 - verify citations/source refs in speaker notes;
 - rerun focused tests or build commands for any package touched.
+
+For live review, prefer the CLI server over opening generated HTML directly when
+a deck uses project-local assets, editable mode, or runtime extensions:
+
+```bash
+node packages/cli/dist/index.js serve path/to/deck.json --port 3004
+```
+
+The server binds to `127.0.0.1` by default and prints both the direct URL and a
+`localhost` hint. If the browser cannot reach the bound address in WSL,
+containers, or a remote VM, retry with an explicit interface:
+
+```bash
+node packages/cli/dist/index.js serve path/to/deck.json --port 3004 --host 0.0.0.0
+```

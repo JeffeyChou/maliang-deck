@@ -170,6 +170,39 @@ Slide-to-slide transitions live under `meta.htmlRuntime.transition` and are HTML
 
 Supported transition types: `none`, `fade`, `slide`, `dissolve`, `zoom`, `push`, `cover`, `morph`. The `morph` type enables PowerPoint Morph-style element matching across slides by DSL ID with FLIP + CSS property interpolation; it implies `autoAnimate: true`. Static exporters ignore `meta.htmlRuntime`.
 
+## HTML Runtime Extensions
+
+Extensions under `assets/extensions/` are available to the HTML renderer for
+browser-only visuals. They are appropriate when the slide needs live interaction,
+decoded media, or WebGL rendering that cannot be expressed as static DSL.
+
+Current high-value extensions:
+
+| Extension | Use when | Export note |
+| --- | --- | --- |
+| `math-viz/graph3d.js` | A slide needs an interactive 3D surface, curve, scatter, vector field, or model. | HTML-only; provide a static fallback for PDF/PPTX. |
+| `gif-ascii/index.js` | A slide needs an animated GIF rendered as a terminal-style ASCII filter. | HTML-only; use `fallbackImage` or a static image for export. |
+| `shape-morph/` | Shapes/groups/layouts need click or auto morph steps. | Ignored by static exporters with diagnostics. |
+
+GIF-to-ASCII is authored through `customHtml`:
+
+```json
+{
+  "type": "customHtml",
+  "id": "ascii-horse",
+  "x": 90,
+  "y": 80,
+  "width": 760,
+  "height": 520,
+  "html": "<div data-gif-ascii data-src='./assets/attachment/horse.gif' data-cols='150' data-rows='52' data-threshold='220' data-density-threshold='0.12' data-chars='.:+*#@'></div>",
+  "fallbackImage": "./assets/attachment/horse.gif"
+}
+```
+
+Resolution and shape quality are controlled by `data-cols`, `data-rows`,
+`data-threshold`, `data-density-threshold`, and the monospace font size exposed
+through `--gif-ascii-font`.
+
 ## Shape and Component Morphing
 
 Shape elements (`rect`, `circle`, `ellipse`) and container elements (`group`, `layout`) support `morphSteps` for intra-slide morph sequences. Each step specifies a target state; steps are cumulative and advance on click or auto-play.
@@ -211,4 +244,6 @@ Morphing is HTML-only; SVG/PDF/PPTX exports ignore `morphSteps` and emit a diagn
 - Use layout for repeatable spatial structure and raw DSL for one-off geometry.
 - Use macros for known visual patterns, not custom component systems.
 - Keep animation sparse; static PDF/PPTX must still communicate the final state.
+- Use runtime extensions for HTML-only interactions, but keep source assets and
+  fallbacks explicit in the deck.
 - Do not add raw HTML/CSS/JS as authoring truth unless a future RFC explicitly expands the boundary.
