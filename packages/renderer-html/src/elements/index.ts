@@ -1,4 +1,4 @@
-import type { Element, CustomHtmlElement, AnimatedTextElement, FormulaElement, GraphElement } from '@maliang-deck/schema';
+import type { Element, CustomHtmlElement, AnimatedTextElement, FormulaElement, GraphElement, Model3dElement } from '@maliang-deck/schema';
 import { buildAnimAttrs, buildAnimInitialStyle, escapeHtml } from '../utils.js';
 import { renderText } from './text.js';
 import { renderRect } from './rect.js';
@@ -16,6 +16,7 @@ import { renderCustomHtml } from './customHtml.js';
 import { renderAnimatedText } from './animatedText.js';
 import { renderFormula } from './formula.js';
 import { renderGraph } from './graph.js';
+import { renderModel3d } from './model3d.js';
 
 export interface RenderElementContext {
   slideId?: string;
@@ -77,7 +78,7 @@ function editorMetadataAttrs(
     ? 'nested-element'
     : el.type === 'group' || el.type === 'layout'
       ? 'container-element'
-      : el.type === 'animatedText' || el.type === 'formula' || el.type === 'graph'
+      : el.type === 'animatedText' || el.type === 'formula' || el.type === 'graph' || el.type === 'model3d'
         ? 'extension-element'
         : 'unsupported-element';
 
@@ -181,6 +182,9 @@ export function renderElement(el: Element, context?: RenderElementContext | numb
         break;
       case 'graph':
         html = renderGraph(el as GraphElement);
+        break;
+      case 'model3d':
+        html = renderModel3d(el as Model3dElement);
         break;
       default:
         throw new Error(`Unsupported element type: ${(el as { type: string }).type}`);

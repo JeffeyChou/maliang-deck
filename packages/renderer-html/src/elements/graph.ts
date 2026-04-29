@@ -14,6 +14,12 @@ export function renderGraph(el: GraphElement): string {
     surface: el.surface,
     zAxis: el.zAxis,
     camera: el.camera,
+    parametric: el.parametric,
+    scatter3d: el.scatter3d,
+    curves3d: el.curves3d,
+    vectorField: el.vectorField,
+    cameraKeyframes: el.cameraKeyframes,
+    asciiMode: el.asciiMode,
   };
   const configJson = escapeJsonForScript(JSON.stringify(config));
 

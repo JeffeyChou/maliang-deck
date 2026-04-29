@@ -92,7 +92,11 @@ function createServeHandler(
   };
 }
 
-export async function runServe(file: string, port: number): Promise<void> {
+export type ServeOptions = {
+  host?: string;
+};
+
+export async function runServe(file: string, port: number, options: ServeOptions = {}): Promise<void> {
   const deckPath = resolve(file);
 
   let store: FileBackedEditorStore;
@@ -109,9 +113,17 @@ export async function runServe(file: string, port: number): Promise<void> {
 
   const deckDir = dirname(deckPath);
   const server = createServer(createServeHandler(store, runtimeDir, assetsDir, deckDir));
+  const host = options.host ?? '127.0.0.1';
+  const displayHost = host === '0.0.0.0' || host === '::' ? 'localhost' : host;
 
-  server.listen(port, () => {
-    console.log(`maliang-deck dev server running at http://localhost:${port}`);
+  server.listen(port, host, () => {
+    console.log(`maliang-deck dev server running at http://${displayHost}:${port}`);
+    if (displayHost !== 'localhost') {
+      console.log(`Also try http://localhost:${port}`);
+    }
+    if (host === '0.0.0.0' || host === '::') {
+      console.log(`Listening on all interfaces (${host}); use this machine's LAN/WSL IP if localhost is not forwarded.`);
+    }
     console.log(`Watching ${deckPath} for changes...`);
   });
 

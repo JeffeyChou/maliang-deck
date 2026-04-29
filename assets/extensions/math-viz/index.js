@@ -716,12 +716,16 @@
   }
 
   function initGraph(el, config) {
-    if (!config || !config.axes) return null;
-    // 3D mode: delegate to graph3d module
-    if (config.mode === '3d' && config.surface && window.__graph3d) {
+    if (!config) return null;
+    // 3D/ascii modes: delegate to graph3d module before the 2D guards
+    if (config.asciiMode && window.__graph3d) {
       return window.__graph3d.init(el, config);
     }
-    if (!config.functions) return null;
+    if (config.mode === '3d' && window.__graph3d) {
+      return window.__graph3d.init(el, config);
+    }
+    // 2D path requires axes + functions
+    if (!config.axes || !config.functions) return null;
     var state = renderGraph(el, config);
     return state;
   }
@@ -1051,6 +1055,12 @@
       selector: '[data-graph]',
       init: initGraph,
       stop: stopGraph,
+      seek: function (el, handle, timeMs) {
+        if (window.__graph3d) window.__graph3d.seek(el, handle, timeMs);
+      },
+      prewarm: function (el, config) {
+        if (window.__graph3d) window.__graph3d.prewarm(el, config);
+      },
     });
   }
 })();

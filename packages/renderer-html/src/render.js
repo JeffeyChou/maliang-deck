@@ -187,8 +187,11 @@ ${slidesHtml}
   <script src="${base}assets/extensions/text-anim/effects/morph.js"></script>
   <script src="${base}assets/lib/morph-engine.js"></script>
   <script src="${base}assets/extensions/shape-morph/index.js"></script>
+  <script src="${base}assets/extensions/shape-morph/component-morph.js"></script>
   <script src="${base}assets/extensions/math-viz/graph3d.js"></script>
+  <script src="${base}assets/extensions/math-viz/model3d.js"></script>
   <script src="${base}assets/extensions/math-viz/index.js"></script>
+  <script src="${base}assets/extensions/gif-ascii/index.js"></script>
 ${(meta.htmlRuntime?.customScripts ?? []).map((src) => `  <script src="${src}"></script>`).join('\n')}
 </body>
 </html>`;

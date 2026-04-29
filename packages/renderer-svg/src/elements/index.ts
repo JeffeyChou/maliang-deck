@@ -55,12 +55,37 @@ function renderFormulaFallback(el: { id: string; x: number; y: number; width: nu
   };
 }
 
-function renderGraphFallback(el: { id: string; x: number; y: number; width: number; height: number }): RenderResult {
+function renderGraphFallback(el: { id: string; x: number; y: number; width: number; height: number; fallbackImage?: string }): RenderResult {
+  if (el.fallbackImage) {
+    return {
+      svg: `<image x="${el.x}" y="${el.y}" width="${el.width}" height="${el.height}" href="${escapeXml(el.fallbackImage)}"/>`,
+      warnings: [],
+    };
+  }
   return {
     svg: `<rect x="${el.x}" y="${el.y}" width="${el.width}" height="${el.height}" fill="none" stroke="#ccc" stroke-width="1" stroke-dasharray="4 2"/><text x="${el.x + el.width / 2}" y="${el.y + el.height / 2}" text-anchor="middle" font-size="12" fill="#999">[Graph]</text>`,
     warnings: [{
       type: 'unsupported-feature',
       message: 'Graph rendered as placeholder (runtime rendering is HTML-only)',
+      elementId: el.id,
+      phase: 'render-svg',
+      policy: 'native',
+    }],
+  };
+}
+
+function renderModel3dFallback(el: { id: string; x: number; y: number; width: number; height: number; fallbackImage?: string }): RenderResult {
+  if (el.fallbackImage) {
+    return {
+      svg: `<image x="${el.x}" y="${el.y}" width="${el.width}" height="${el.height}" href="${escapeXml(el.fallbackImage)}"/>`,
+      warnings: [],
+    };
+  }
+  return {
+    svg: `<rect x="${el.x}" y="${el.y}" width="${el.width}" height="${el.height}" fill="none" stroke="#ccc" stroke-width="1" stroke-dasharray="4 2"/><text x="${el.x + el.width / 2}" y="${el.y + el.height / 2}" text-anchor="middle" font-size="12" fill="#999">[3D Model]</text>`,
+    warnings: [{
+      type: 'unsupported-feature',
+      message: '3D model rendered as placeholder (runtime rendering is HTML-only)',
       elementId: el.id,
       phase: 'render-svg',
       policy: 'native',
@@ -122,6 +147,8 @@ export function renderElement(el: Element, basePath?: string, registry?: FontReg
       return renderFormulaFallback(el as any);
     case 'graph':
       return renderGraphFallback(el as any);
+    case 'model3d':
+      return renderModel3dFallback(el as any);
     default:
       return {
         svg: `<g data-maliang-deck-unsupported-element="${(el as { id?: string }).id ?? 'unknown'}"></g>`,

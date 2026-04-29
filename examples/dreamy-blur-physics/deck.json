@@ -537,21 +537,27 @@
           "x": 160, "y": 95,
           "width": 960, "height": 555,
           "mode": "3d",
-          "functions": [{ "expr": "exp(-(x*x+y*y)/4) * cos(x) * cos(y)" }],
           "surface": {
             "expr": "exp(-(x*x+y*y)/4) * cos(x) * cos(y)",
-            "colorMap": "viridis",
-            "resolution": 80
+            "colorMap": "plasma",
+            "resolution": 100
           },
           "axes": { "x": [-6, 6], "y": [-6, 6], "grid": true },
           "zAxis": [-1, 1],
           "camera": {
-            "distance": 14,
-            "phi": 0.9,
-            "theta": 0.6,
+            "distance": 12,
+            "phi": 0.85,
+            "theta": 0.5,
+            "fov": 45,
             "orbit": true,
-            "orbitSpeed": 0.5
-          }
+            "orbitSpeed": 0.4
+          },
+          "cameraKeyframes": [
+            { "t": 0, "phi": 0.85, "theta": 0.5, "distance": 16 },
+            { "t": 2, "phi": 0.85, "theta": 0.5, "distance": 12 },
+            { "t": 5, "phi": 0.6, "theta": 1.2, "distance": 10 },
+            { "t": 8, "phi": 1.0, "theta": 2.0, "distance": 12 }
+          ]
         },
         {
           "id": "orbital-caption",

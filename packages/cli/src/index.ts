@@ -15,13 +15,14 @@ program
   .command('serve <file>')
   .description('Start a dev server to preview the deck')
   .option('-p, --port <number>', 'Port to listen on', '3000')
-  .action(async (file: string, opts: { port: string }) => {
+  .option('--host <host>', 'Host/interface to listen on', '127.0.0.1')
+  .action(async (file: string, opts: { port: string; host: string }) => {
     const port = parseInt(opts.port, 10);
     if (isNaN(port) || port < 1 || port > 65535) {
       console.error(`Error: invalid port "${opts.port}"`);
       process.exit(1);
     }
-    await runServe(file, port);
+    await runServe(file, port, { host: opts.host });
   });
 
 program

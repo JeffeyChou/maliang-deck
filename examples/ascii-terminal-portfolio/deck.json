@@ -1447,6 +1447,84 @@
     },
 
     {
+      "id": "ascii-horse",
+      "background": "#0d1117",
+      "fx": ["scan-line"],
+      "notes": "ASCII horse demo — reusable GIF-to-ASCII extension decodes the uploaded running horse GIF and plays the frames through a Three.js projection buffer.",
+      "elements": [
+        {
+          "id": "horse-prompt",
+          "type": "animatedText",
+          "x": 80, "y": 52, "width": 760,
+          "content": "kai@dev:~$ three-ascii --input horse.gif --mode gallop",
+          "fontSize": 16, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#00ff41",
+          "textAnimation": { "name": "typewriter", "stagger": 28 }
+        },
+        {
+          "id": "horse-title",
+          "type": "text",
+          "x": 80, "y": 92, "width": 900,
+          "content": "RUNNING HORSE ASCII",
+          "fontSize": 34, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold", "color": "#00ff41"
+        },
+        {
+          "id": "horse-subtitle",
+          "type": "text",
+          "x": 80, "y": 140, "width": 980,
+          "content": "live THREE.Vector3 projection -> terminal glyph buffer",
+          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e"
+        },
+        {
+          "id": "horse-terminal-glass",
+          "type": "rect",
+          "x": 78, "y": 182, "width": 820, "height": 420,
+          "fill": "rgba(0,255,65,0.025)", "stroke": "rgba(0,255,65,0.22)", "strokeWidth": 1,
+          "radius": 4
+        },
+        {
+          "id": "horse-renderer",
+          "type": "customHtml",
+          "x": 96, "y": 200, "width": 784, "height": 384,
+          "html": "<div data-gif-ascii data-src='./assets/attachment/horse.gif' data-label='horse.gif' data-title='three.ascii.gif :: decoded GIF frames' data-meta='threshold=ink frame-playback=gif-delay' data-cols='150' data-rows='52' data-threshold='220' data-density-threshold='0.12' data-chars='.:+*#@'></div>"
+        },
+        {
+          "id": "horse-side-glass",
+          "type": "rect",
+          "x": 930, "y": 182, "width": 270, "height": 420,
+          "fill": "rgba(0,255,65,0.025)", "stroke": "rgba(0,255,65,0.18)", "strokeWidth": 1,
+          "radius": 4
+        },
+        {
+          "id": "horse-side-title",
+          "type": "text",
+          "x": 948, "y": 204, "width": 234,
+          "content": "render.stats",
+          "fontSize": 14, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "fontWeight": "bold", "color": "#ffb000"
+        },
+        {
+          "id": "horse-side-body",
+          "type": "text",
+          "x": 948, "y": 244, "width": 234,
+          "content": "asset       : horse.gif\nprojection  : THREE.Vector3\nbuffer      : 150 x 52\nframes      : decoded GIF\nfilter      : B/W threshold\noutput      : ASCII CRT\n\nRuntime:\n  extension decoder\n  CDN three.js loader\n  requestAnimationFrame",
+          "fontSize": 13, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "#8b949e", "lineHeight": 1.55
+        },
+        {
+          "id": "horse-footer",
+          "type": "text",
+          "x": 80, "y": 628, "width": 1120,
+          "content": "GIF-to-ASCII is loaded from assets/extensions/gif-ascii and can be reused by any slide.",
+          "fontSize": 12, "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(139,148,158,0.55)", "align": "center"
+        }
+      ]
+    },
+
+    {
       "id": "exit",
       "background": "#0d1117",
       "fx": ["scan-line"],

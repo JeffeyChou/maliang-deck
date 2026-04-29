@@ -513,19 +513,88 @@ export const Graph3dSurfaceSchema = z.object({
     opacity: z.number().min(0).max(1).optional(),
     resolution: z.number().int().min(10).max(200).optional(),
 });
+export const Graph3dParametricSchema = z.object({
+    xExpr: z.string().min(1).max(500),
+    yExpr: z.string().min(1).max(500),
+    zExpr: z.string().min(1).max(500),
+    uRange: z.tuple([z.number(), z.number()]),
+    vRange: z.tuple([z.number(), z.number()]),
+    resolution: z.number().int().min(10).max(200).optional(),
+    colorMap: z.enum(['viridis', 'plasma', 'inferno', 'coolwarm', 'rainbow', 'monochrome']).optional(),
+    wireframe: z.boolean().optional(),
+    opacity: z.number().min(0).max(1).optional(),
+});
+export const Graph3dScatterPointSchema = z.object({
+    x: z.number(),
+    y: z.number(),
+    z: z.number(),
+    label: z.string().optional(),
+    color: z.string().optional(),
+});
+export const Graph3dScatterSchema = z.object({
+    points: z.array(Graph3dScatterPointSchema).min(1).max(10000),
+    size: z.number().positive().optional(),
+    colorMap: z.enum(['viridis', 'plasma', 'inferno', 'coolwarm', 'rainbow', 'monochrome']).optional(),
+});
+export const Graph3dCurveSchema = z.object({
+    expr: z.string().min(1).max(500),
+    tRange: z.tuple([z.number(), z.number()]),
+    resolution: z.number().int().min(10).max(500).optional(),
+    color: z.string().optional(),
+});
+export const Graph3dVectorFieldSchema = z.object({
+    xComp: z.string().min(1).max(500),
+    yComp: z.string().min(1).max(500),
+    zComp: z.string().min(1).max(500),
+    gridSize: z.number().int().min(2).max(20).optional(),
+    scale: z.number().positive().optional(),
+});
+export const Graph3dCameraKeyframeSchema = z.object({
+    t: z.number().nonnegative(),
+    phi: z.number(),
+    theta: z.number(),
+    distance: z.number().positive().optional(),
+});
 export const GraphElementSchema = BaseElementSchema.extend({
     type: z.literal('graph'),
     width: z.number().positive(),
     height: z.number().positive(),
-    functions: z.array(GraphFunctionSchema).min(1).max(10),
-    axes: GraphAxesSchema,
+    functions: z.array(GraphFunctionSchema).min(1).max(10).optional(),
+    axes: GraphAxesSchema.optional(),
     parameter: GraphParameterSchema.optional(),
     annotations: z.array(GraphAnnotationSchema).max(20).optional(),
-    // 3D mode (optional — when present, renders as WebGL surface)
     mode: z.enum(['2d', '3d']).optional(),
     surface: Graph3dSurfaceSchema.optional(),
     zAxis: z.tuple([z.number(), z.number()]).optional(),
     camera: Graph3dCameraSchema.optional(),
+    parametric: Graph3dParametricSchema.optional(),
+    scatter3d: Graph3dScatterSchema.optional(),
+    curves3d: z.array(Graph3dCurveSchema).min(1).max(20).optional(),
+    vectorField: Graph3dVectorFieldSchema.optional(),
+    cameraKeyframes: z.array(Graph3dCameraKeyframeSchema).max(100).optional(),
+    asciiMode: z.boolean().optional(),
+});
+// ─── 3D Model ──────────────────────────────────────────────────────────────
+export const Model3dAnimationSchema = z.object({
+    type: z.enum(['rotate', 'zoom', 'morph']),
+    axis: z.enum(['x', 'y', 'z']).optional(),
+    speed: z.number().optional(),
+    targetMorph: z.number().min(0).max(1).optional(),
+});
+export const Model3dElementSchema = BaseElementSchema.extend({
+    type: z.literal('model3d'),
+    width: z.number().positive(),
+    height: z.number().positive(),
+    src: z.string().min(1),
+    format: z.enum(['gltf', 'glb', 'obj']).optional(),
+    scale: z.number().positive().optional(),
+    position: z.tuple([z.number(), z.number(), z.number()]).optional(),
+    modelRotation: z.tuple([z.number(), z.number(), z.number()]).optional(),
+    camera: Graph3dCameraSchema.optional(),
+    animations: z.array(Model3dAnimationSchema).max(10).optional(),
+    morphSteps: z.array(Model3dAnimationSchema).max(50).optional(),
+    fallbackImage: z.string().optional(),
+    background: z.string().optional(),
 });
 // ─── Full element union ──────────────────────────────────────────────────────
 export const ElementSchema = z.discriminatedUnion('type', [
@@ -545,6 +614,7 @@ export const ElementSchema = z.discriminatedUnion('type', [
     AnimatedTextElementSchema,
     FormulaElementSchema,
     GraphElementSchema,
+    Model3dElementSchema,
 ]);
 // ─── Slide ───────────────────────────────────────────────────────────────────
 export const SlideSchema = z.object({
@@ -568,12 +638,43 @@ function addNestedLayoutIssues(elements, ctx, path) {
         }
     });
 }
+function addGraphModeIssues(elements, ctx, path) {
+    elements.forEach((element, index) => {
+        const elementPath = [...path, index];
+        if (element.type === 'graph') {
+            const has3dPayload = element.surface || element.parametric ||
+                element.scatter3d || element.curves3d || element.vectorField;
+            const is3d = element.mode === '3d' || has3dPayload;
+            if (!is3d) {
+                if (!element.functions || element.functions.length === 0) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        path: [...elementPath, 'functions'],
+                        message: '2D graph requires at least one function',
+                    });
+                }
+                if (!element.axes) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        path: [...elementPath, 'axes'],
+                        message: '2D graph requires axes',
+                    });
+                }
+            }
+        }
+        if (element.type === 'group' || element.type === 'layout') {
+            addGraphModeIssues(element.elements, ctx, [...elementPath, 'elements']);
+        }
+    });
+}
 export const DeckSchema = z.object({
     meta: DeckMetaSchema,
     slides: SlideSchema.array().min(1),
 }).superRefine((deck, ctx) => {
     deck.slides.forEach((slide, slideIndex) => {
-        addNestedLayoutIssues(slide.elements, ctx, ['slides', slideIndex, 'elements']);
+        const elemPath = ['slides', slideIndex, 'elements'];
+        addNestedLayoutIssues(slide.elements, ctx, elemPath);
+        addGraphModeIssues(slide.elements, ctx, elemPath);
     });
 });
 export function validateDeck(input) {

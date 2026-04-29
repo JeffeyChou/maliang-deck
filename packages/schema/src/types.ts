@@ -150,7 +150,8 @@ export type Element =
   | LayoutElement
   | AnimatedTextElement
   | FormulaElement
-  | GraphElement;
+  | GraphElement
+  | Model3dElement;
 
 export interface BaseElement {
   type: string;
@@ -596,16 +597,97 @@ export interface Graph3dSurface {
   resolution?: number;
 }
 
+export interface Graph3dParametric {
+  xExpr: string;
+  yExpr: string;
+  zExpr: string;
+  uRange: [number, number];
+  vRange: [number, number];
+  resolution?: number;
+  colorMap?: Graph3dColorMap;
+  wireframe?: boolean;
+  opacity?: number;
+}
+
+export interface Graph3dScatterPoint {
+  x: number;
+  y: number;
+  z: number;
+  label?: string;
+  color?: string;
+}
+
+export interface Graph3dScatter {
+  points: Graph3dScatterPoint[];
+  size?: number;
+  colorMap?: Graph3dColorMap;
+}
+
+export interface Graph3dCurve {
+  expr: string;
+  tRange: [number, number];
+  resolution?: number;
+  color?: string;
+}
+
+export interface Graph3dVectorField {
+  xComp: string;
+  yComp: string;
+  zComp: string;
+  gridSize?: number;
+  scale?: number;
+}
+
+export interface Graph3dCameraKeyframe {
+  t: number;
+  phi: number;
+  theta: number;
+  distance?: number;
+}
+
 export interface GraphElement extends BaseElement {
   type: 'graph';
   width: number;
   height: number;
-  functions: GraphFunction[];
-  axes: GraphAxes;
+  functions?: GraphFunction[];
+  axes?: GraphAxes;
   parameter?: GraphParameter;
   annotations?: GraphAnnotation[];
   mode?: '2d' | '3d';
   surface?: Graph3dSurface;
   zAxis?: [number, number];
   camera?: Graph3dCamera;
+  parametric?: Graph3dParametric;
+  scatter3d?: Graph3dScatter;
+  curves3d?: Graph3dCurve[];
+  vectorField?: Graph3dVectorField;
+  cameraKeyframes?: Graph3dCameraKeyframe[];
+  asciiMode?: boolean;
+}
+
+// ─── 3D Model ──────────────────────────────────────────────────────────────
+
+export type Model3dFormat = 'gltf' | 'glb' | 'obj';
+
+export interface Model3dAnimation {
+  type: 'rotate' | 'zoom' | 'morph';
+  axis?: 'x' | 'y' | 'z';
+  speed?: number;
+  targetMorph?: number;
+}
+
+export interface Model3dElement extends BaseElement {
+  type: 'model3d';
+  width: number;
+  height: number;
+  src: string;
+  format?: Model3dFormat;
+  scale?: number;
+  position?: [number, number, number];
+  modelRotation?: [number, number, number];
+  camera?: Graph3dCamera;
+  animations?: Model3dAnimation[];
+  morphSteps?: Model3dAnimation[];
+  fallbackImage?: string;
+  background?: string;
 }
