@@ -1,239 +1,128 @@
-# CLAUDE.md
+# Slide Production MUST_READ
 
-Guidance for Claude when working with Maliang Deck: authoring slides, extending the toolchain, and preserving the DSL-first architecture.
+This file is for agents producing decks with Maliang Deck. It is not a
+development guide.
 
-## Project Purpose
+## Core Rule
 
-Maliang Deck is a JSON-DSL slide toolchain. The core contract:
+The JSON deck DSL is the source of truth.
 
-```
-JSON deck DSL  →  HTML preview
-JSON deck DSL  →  SVG  →  PDF / PPTX export
-```
-
-The JSON DSL is the **single source of truth**. Never make HTML, SVG, PDF, or
-PPTX the canonical source.
-
-## Monorepo Layout
-
-```
-packages/schema          Deck DSL types + Zod validators (no local deps)
-packages/text-measure    Fontkit text measurement, reflow (depends: schema)
-packages/renderer-html   DSL → interactive HTML (depends: schema, text-measure)
-packages/renderer-svg    DSL → SVG for export (depends: schema, text-measure)
-packages/exporter        PDF/PPTX/HTML export service (depends: schema, renderer-html, renderer-svg, text-measure)
-packages/workflow        Document-to-slides pipeline, template extraction, agent guidance (depends: schema, renderer-html, exporter)
-packages/cli             CLI entry point (depends: all)
-runtime/                 Browser runtime engine (keyboard nav, presenter mode, whiteboard)
-assets/animations/       Animation timeline (26 keyframes), transitions CSS (7 types)
-assets/fx/               Canvas FX autoloader + 20 background effects
-assets/themes/           36 CSS themes + chart-table base
-python/                  PDF/PPTX bridges only (DrawingML, CairoSVG)
+```text
+JSON deck DSL -> HTML preview
+JSON deck DSL -> SVG -> PDF / PPTX export
 ```
 
-**Dependency rules**: schema has zero local deps. workflow must not import cli.
-exporter must not import workflow or cli. Python must not own DSL parsing.
+Do not hand-edit exported HTML, SVG, PDF, or PPTX as the canonical version.
+Change the deck DSL, then regenerate outputs.
 
-## Architecture Rules
+## Production Workflow
 
-- Preserve DSL-as-single-source-of-truth.
-- Schema validation before renderers depend on new fields.
-- Renderers are pure: DSL → strings/artifacts, no workflow decisions.
-- Python isolated to PDF/PPTX conversion.
-- No hidden LLM/provider-backed generation.
-- Template extraction is workflow/compiler guidance only; renderers/exporters stay template-unaware.
-- No cloud storage, UI screens, or auth unless explicitly requested.
+For document-to-slide projects, follow the gated workflow:
 
-## Workflow Pipeline
-
-The workflow is a 9-stage gated pipeline that turns documents into slides.
-Each stage produces artifacts; gates enforce ordering.
-
-```
-init → extract → normalize → outline → approve-outline → plan-deck → generate-dsl → assemble → build
+```text
+init -> extract -> normalize -> outline -> approve-outline -> plan-deck -> generate-dsl -> assemble -> build
 ```
 
-**Project layout** (`projects/<slug>/`):
-```
-project.json                        # manifest (styleId, sources, outputFormats)
-requirements.md                     # brief
-extraction/normalized/              # blocks.json, assets.json
-planning/outline-approved.md        # gate: must exist before DSL generation
-planning/deck-plan.json             # deckDesign + per-slide design
-dsl/slides/*.json                   # one JSON file per slide
-dsl/deck.json                       # assembled deck
-render/html/  exports/*.pdf *.pptx  # build outputs
-```
+Rules:
 
-**Key rules**:
-- Do not generate slide DSL before `outline-approved.md` exists.
-- `--mode agent` means an agent writes the artifact. It does not call an LLM provider.
-- Work orders carry a typed `guidance` field (not prompt soup in `constraints`).
+- Do not generate slide DSL before `planning/outline-approved.md` exists.
+- `dsl/deck.json` is assembled from `dsl/slides/*.json`.
+- Keep `project.json`, `requirements.md`, `planning/deck-plan.json`, and
+  `dsl/deck.json` consistent.
+- `styleId` means design-system identity.
+- `DeckMeta.theme` means runtime CSS theme.
+- Do not overload `theme` with workflow style identity.
 
-## Agent Guidance System
+## Deck DSL Priorities
 
-The workflow includes a **hybrid guidance system** that enriches work orders
-to produce publish-ready slides matching a chosen presentation style.
+- Use valid typed DSL fields first.
+- Use `options` only for renderer-specific details.
+- Keep element IDs stable and descriptive; exports and animations rely on them.
+- Prefer structured elements over `customHtml`.
+- Use `customHtml` only for HTML-only content and provide an export fallback
+  when PDF/PPTX matter.
+- Keep slide content within the canvas bounds.
+- Keep dense slides readable; split overcrowded material into multiple slides.
+- Use speaker notes when the deck is intended for presentation.
 
-**Structured core** (`packages/workflow/src/guidance/`):
-- `style-registry.ts` — `registerStyle()` / `getStyle()` / `listStyles()`
-- `styles/academic.ts`, `styles/consulting.ts` — two built-in StyleDefinitions
-- `work-order-enricher.ts` — injects typed guidance at outline, deck-plan, DSL stages
-- `lint-rules.ts` — 11 DSL lints (palette, canvas-bounds, overflow, images, citations, assertions, density, chart-theme-coherence, table-header-contrast, customHtml-usage)
-- `consistency-validator.ts` — cross-slide checks after assembly
-- `role-doc-loader.ts` — loads narrative docs with YAML frontmatter + SHA-256 digest
-- `role-doc-linter.ts` + `schema-paths.ts` — validates role docs against DSL schema
+## Visual Style
 
-**Narrative role docs** (`docs/agent-guidance/`):
-- `roles/strategist.md` — audience analysis, story arc, visualization selection
-- `roles/executor-academic.md` — evidence-first layouts, citations, formal tone
-- `roles/executor-consulting.md` — SCQA, pyramid principle, assertion titles, KPI dashboards
-- `standards/shared-constraints.md` — DSL authoring rules, canvas formats, renderer capabilities
-- `standards/quality-checklist.md` — per-style pass/fail checklists
+- Follow the approved outline and deck plan.
+- Maintain one coherent visual system across slides.
+- Reuse the project palette, typography, spacing, and component patterns.
+- Use assertion titles when the deck is explanatory or persuasive.
+- Prefer diagrams, charts, tables, equations, and visual comparisons over long
+  paragraphs.
+- Make every chart/table readable without relying on presenter narration.
+- Preserve citations, source labels, and uncertainty where the source material
+  requires them.
 
-**Key concepts**:
-- `styleId` (design system identity) ≠ `theme` (runtime CSS). Don't overload `DeckMeta.theme`.
-- `deckDesign` in deck-plan.json locks design tokens before parallel slide generation.
-- Guidance constraints are **lints over valid DSL**, not a second schema.
-- Role docs have YAML frontmatter with `dslFieldReferences` validated by CI linter.
-- Lint severity: `error` blocks assembly, `warning` reports only.
+## Math, Charts, Tables, Graphs
 
+- Formulas should be authored as `formula` elements, not plain text, when they
+  need math rendering or step animation.
+- Formula steps should express meaningful derivation changes, not cosmetic
+  rewrites.
+- Charts and tables should use typed data and style fields.
+- 2D graphs should use graph DSL where possible.
+- 3D/WebGL graphs need a deterministic final-frame view for PDF/PPTX.
+- Avoid raw LaTeX fallback in final PDF/PPTX; inspect exports when formulas are
+  central to the deck.
 
-## Template Extraction System
+## Animation And Interaction
 
-Maliang Deck now includes a workflow-level template extraction subsystem under
-`packages/workflow/src/templates/` plus `maliang-deck template ...` CLI commands.
-It turns reference PPTX, HTML, PDF, or PNG material into a **draft**
-`TemplatePack` with design tokens, layout archetypes, slots, parameterized DSL
-fragment guidance, provenance, and coverage evidence.
+- Use animation to clarify sequence, not decorate every element.
+- Left/Right control reveal steps; Up/Down navigate slides.
+- Space/Enter advance reveal steps, then slides.
+- For step reveals, keep each click semantically meaningful.
+- Morphing and rich text animation may be HTML-only; verify PDF/PPTX static
+  fallbacks.
 
-Key rules:
-- Template packs are not rendered directly. They compile into existing
-  `StyleDefinition`, `DeckDesign`, `SlideDesign`, and `WorkOrderGuidance`
-  surfaces.
-- HTML/SVG/PDF/PPTX renderers remain template-unaware and consume ordinary deck
-  DSL only.
-- `coverage-thresholds.proposed.json` is advisory until explicitly reviewed.
-- Draft packs are not generation-active by default.
-- The v1 adapters are deterministic and dependency-light; no parser/browser/native
-  packages were added. Future parser/image dependencies require dependency review.
+## Assets
 
-Primary docs: `docs/TEMPLATE-EXTRACTION.md`.
+- Deck-local assets may live under `examples/<deck>/assets/...` or the project
+  equivalent.
+- Reference deck-local themes/FX with relative paths.
+- Use real images or generated bitmap assets when the audience needs to inspect
+  a concrete object, place, product, or visual state.
+- Do not rely on remote/CDN assets for verification exports unless explicitly
+  required.
 
-## Chart, Table & Custom HTML
+## Export Verification
 
-- Charts and tables support typed `style` fields (`ChartStyle`, `TableStyle`) with
-  hex-validated colors (`#rgb` or `#rrggbb`) that work across HTML, SVG, and PPTX.
-- HTML renderer reads theme CSS vars (`--chart-*`, `--table-*`) from
-  `assets/themes/_chart-table-base.css`; explicit `style` overrides theme vars.
-- `customHtml` is an HTML-only escape hatch; SVG/PDF/PPTX use `fallbackImage` or
-  placeholder. Script/iframe/event-handler stripping is applied.
-- `options` remains for renderer-specific overrides; `style` is the stable typed API.
-- Lint rules: `chart-theme-coherence` (palette drift), `table-header-contrast`
-  (WCAG AA), `customHtml-usage` (requires review).
-
-## Navigation & Transitions
-
-- **Vertical navigation**: Up/Down arrows navigate slides; Left/Right arrows
-  control animation timeline steps. Space/Enter advance timeline then slide.
-- **Progress bar**: Vertical on the right edge (top = first slide, bottom = last).
-- Slide transitions use vertical scroll animation by default (`fade` type):
-  outgoing slide scrolls up and fades; incoming enters from below.
-  `withSlideTranslate()` uses `translateY`, scroll distance is 30% of slide height.
-- **FX pre-warming**: Canvas FX initialize when `is-transition-next` is set
-  (at transition start), not when `is-active` is set (after transition ends).
-  This eliminates background flash on slides with canvas effects.
-- Presenter window mirrors the same vertical key bindings.
-- **Morph transition**: `type: 'morph'` matches elements across slides by ID with
-  FLIP + CSS property interpolation (like PowerPoint Morph). Implies `autoAnimate`.
-- **Shape/component morphing**: `morphSteps` on rect/circle/ellipse/group/layout
-  elements define intra-slide morph sequences. See `assets/ANIMATIONS.md` Section 6.
-
-## Editor Mode
-
-- Supported element types for selection/drag: `text`, `rect`, `image`, `line`, `circle`.
-- Line elements store `data-maliang-deck-x/y/x2/y2` for endpoint recovery during drag.
-- Circle elements store `data-maliang-deck-radius` for center-from-corner computation.
-- `constrainedEditorOp()` allowlist: `x, y, x2, y2, width, height, content,
-  fontSize, fontFamily, fontWeight, fontStyle, textDecoration, fill, stroke,
-  strokeWidth, radius`.
-- Editor page thumbnails show the **last animation frame** (all steps revealed).
-- `schema.js` (stale JS copy in `packages/schema/src/`) must stay in sync with
-  `schema.ts` — Vitest resolves `.js` imports to it instead of `.ts`.
-
-## Text & Export
-
-- HTML text wraps via CSS. SVG/PDF/PPTX use `@maliang-deck/text-measure` (fontkit).
-- PPTX: DrawingML (Python) remains default for shapes/gradients; opt-in pptxgenjs exports native charts/tables.
-- PPTX animations: plan generation + capability reports exist; XML lowering is future work.
-
-## Commands
+When the deck is ready, export all requested formats:
 
 ```bash
-# Build / check
-pnpm -r build
-pnpm -r typecheck
-pnpm test
-
-# Single package
-pnpm --filter @maliang-deck/workflow test
-
-# CLI
-node packages/cli/dist/index.js validate examples/demo.json
-node packages/cli/dist/index.js serve examples/neon-glass-dark-showcase.json --port 3000
-node packages/cli/dist/index.js export examples/demo.json out.pdf
-node packages/cli/dist/index.js export examples/demo.json ./out/ --format html
-node packages/cli/dist/index.js export examples/demo.json ./out/ --format html --html-mode editable
-
-# Workflow (full pipeline)
-node packages/cli/dist/index.js workflow init my-paper --sources paper.pdf
-node packages/cli/dist/index.js workflow extract projects/my-paper
-node packages/cli/dist/index.js workflow normalize projects/my-paper
-node packages/cli/dist/index.js workflow outline projects/my-paper --mode agent
-node packages/cli/dist/index.js workflow approve-outline projects/my-paper
-node packages/cli/dist/index.js workflow plan-deck projects/my-paper --validate-only
-node packages/cli/dist/index.js workflow generate-dsl projects/my-paper --mode agent --parallel
-node packages/cli/dist/index.js workflow assemble projects/my-paper
-node packages/cli/dist/index.js workflow build projects/my-paper --formats html,pdf,pptx
-
-# Template extraction (draft pack + coverage + sample DSL/HTML)
-node packages/cli/dist/index.js template extract ref.pptx ref.html ref.pdf ref.png --out templates/ref --id ref
-node packages/cli/dist/index.js template validate templates/ref/template-pack.json
-node packages/cli/dist/index.js template sample templates/ref/template-pack.json --out projects/ref-sample
-node packages/cli/dist/index.js template list --include-drafts --template-pack templates/ref/template-pack.json
+node packages/cli/dist/index.js export path/to/deck.json out.pdf --format pdf
+node packages/cli/dist/index.js export path/to/deck.json out.pptx --format pptx
+node packages/cli/dist/index.js export path/to/deck.json out-html --format html
 ```
 
-## Before / After Changing Code
+Inspect the outputs, especially:
 
-```bash
-# Before
-git status --short && pnpm -r typecheck && pnpm test
+- text contrast on dark/light backgrounds
+- formula rendering
+- chart and table readability
+- graph final frames
+- missing assets or warning messages
+- slide count and notes
+- static PDF/PPTX fallbacks for HTML-only effects
 
-# After
-pnpm -r build && pnpm -r typecheck && pnpm lint && pnpm test
+## Quality Bar
 
-# If export changed
-node packages/cli/dist/index.js export examples/demo.json /tmp/demo.pdf
-node packages/cli/dist/index.js export examples/demo.json /tmp/demo.pptx
-node packages/cli/dist/index.js export examples/demo.json /tmp/demo-html --format html
-node packages/cli/dist/index.js export examples/demo.json /tmp/demo-html-edit --format html --html-mode editable
-```
+A finished deck should:
 
-## Git Hygiene
+- match the requested audience and purpose
+- have a clear narrative arc
+- use consistent layout and visual language
+- avoid overflowing or clipped text
+- preserve source meaning accurately
+- make exports usable in HTML, PDF, and PPTX when requested
 
-- Never commit `.omx/`, `.codex`, `.env`, PDFs, PPTX, or project artifacts.
-- `projects/*` is gitignored for local workflow outputs.
-- Source in `src/`, build outputs in `dist/`. Don't track generated `.js`/`.d.ts`/`.map`.
-- `pnpm lint` passes with the root ESLint 9 flat config and should be run after source changes.
-- MinerU tokens: use `MINERU_API_TOKEN` env var, never commit. Live API tests are opt-in.
-## Where To Read More
+## Useful Production Docs
 
-- `docs/ARCHITECTURE.md` — package boundaries and data flow
-- `docs/PROJECT-STATUS.md` — done/not-done feature state
-- `docs/WORKFLOW.md` — detailed workflow best practices
-- `docs/AUTHORING.md` — layout, components, animations, morphing
-- `docs/CONFIGURATION.md` — hierarchical config precedence and fields
-- `docs/TEMPLATE-EXTRACTION.md` — template extraction contract, CLI, review gates
-- `docs/PPTXGENJS-EXPORT.md` — opt-in pptxgenjs PPTX engine
-- `assets/ANIMATIONS.md` — animation, transition, canvas FX, and morph system reference
-- `docs/agent-guidance/README.md` — guidance system overview (how to add styles)
+- `docs/AUTHORING.md`
+- `docs/WORKFLOW.md`
+- `docs/CONFIGURATION.md`
+- `docs/agent-guidance/README.md`
+- `assets/ANIMATIONS.md`
