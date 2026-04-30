@@ -228,7 +228,7 @@ jiefeng.zhou37@gmail.com
 
 如果 Maliang Deck 对你的工作有帮助，欢迎赞助以支持持续开发和维护。任何金额都能帮助项目继续前进并保持免费。
 
-[![Buy Me A Coffee](https://shields.io)](https://www.buymeacoffee.com/jiefengzhou)
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/jiefengzhou)
 
 <img src="./docs/assets/alipay.png" alt="Alipay QR Code" width="220" />
 
