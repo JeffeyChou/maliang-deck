@@ -250,7 +250,7 @@ If Maliang Deck is helpful to your work, please consider sponsoring to support o
 
 Maliang Deck benefits from ideas, references, and ecosystem work from many
 open-source projects.
-
+- [LinuxDO](https://linux.do) — the community where it all began
 - [reveal.js](https://revealjs.com/) helped establish the modern browser-based
   presentation runtime pattern.
 - [Three.js](https://threejs.org/) powers the broader ecosystem of browser 3D

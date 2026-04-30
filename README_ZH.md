@@ -236,6 +236,7 @@ jiefeng.zhou37@gmail.com
 
 Maliang Deck 受益于许多开源项目的理念、参考和生态工作。
 
+- [LinuxDO](https://linux.do) — the community where it all began
 - [reveal.js](https://revealjs.com/) 帮助建立了现代 browser-based presentation runtime 模式。
 - [Three.js](https://threejs.org/) 支撑了浏览器 3D 可视化生态，Maliang Deck 基于它构建交互式 plots 和 models。
 - [PPT Master](https://github.com/hugohe3/ppt-master) 启发了 DrawingML PPTX exporter 方向和 native-editable PowerPoint workflow 目标。

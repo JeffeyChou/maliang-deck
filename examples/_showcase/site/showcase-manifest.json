@@ -12,7 +12,7 @@
     "title": "Maliang Deck — Interactive Motion System",
     "slideCount": 19,
     "theme": "neon-glass-dark",
-    "cover": "Interactive\nMotion System",
+    "cover": "Interactive\nMotion Showcase",
     "href": "./decks/animation-showcase/index.html"
   },
   {
@@ -28,7 +28,7 @@
     "title": "kai@terminal ~ engineering-portfolio",
     "slideCount": 10,
     "theme": "ascii-terminal",
-    "cover": "kai@terminal ~ engineering-portfolio",
+    "cover": "ASCII Art \nstyle portfolio",
     "href": "./decks/ascii-terminal-portfolio/index.html"
   },
   {
@@ -41,9 +41,9 @@
       "Custom FX",
       "Notes"
     ],
-    "title": "PhD Defense — Collective Intelligence in Decentralized Multi-Agent Systems",
+    "title": "Denfense slides",
     "slideCount": 10,
-    "theme": "minimal-white",
+    "theme": "constructivism",
     "cover": "Emergent Collective Intelligence in Decentralized Multi-Agent Systems",
     "href": "./decks/constructivism-defense/index.html"
   },
@@ -92,7 +92,7 @@
     "title": "VORTEX — Creative Operations Launch",
     "slideCount": 10,
     "theme": "type-collage",
-    "cover": "The future of creative tools — built for designers who refuse to compromise.",
+    "cover": "Editorial brand-launch deck",
     "href": "./decks/type-collage-marketing/index.html"
   },
   {
