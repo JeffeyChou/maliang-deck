@@ -71,5 +71,5 @@ Typical terms to define in the final agreement:
 For commercial licensing, paid support, or custom development, contact:
 
 ```text
-your-email@example.com
+jiefeng.zhou37@gmail.com
 ```

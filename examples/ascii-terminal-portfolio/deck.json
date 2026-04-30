@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "demo@demo ~ portfolio",
-    "theme": "minimal-white",
+    "title": "kai@terminal ~ engineering-portfolio",
+    "theme": "ascii-terminal",
     "canvas": {
       "width": 1280,
       "height": 720
@@ -9,11 +9,9 @@
     "htmlRuntime": {
       "transition": {
         "type": "fade",
-        "durationMs": 300
+        "durationMs": 320,
+        "easing": "ease-out"
       },
-      "customStylesheets": [
-        "./assets/themes/ascii-terminal.css"
-      ],
       "customScripts": [
         "./assets/fx/scan-line.js",
         "./assets/fx/ascii-morph.js"
@@ -94,7 +92,7 @@
             "step": 0
           },
           "type": "animatedText",
-          "content": "[  OK  ] Starting portfolio.service...",
+          "content": "[  OK  ] Starting showcase.service...",
           "fontSize": 16,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -141,7 +139,7 @@
             "step": 0
           },
           "type": "animatedText",
-          "content": "v3.2.1 — type 'help' for commands",
+          "content": "v4.0.0 — portfolio kernel loaded",
           "fontSize": 15,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#8b949e",
@@ -181,7 +179,7 @@
           "y": 80,
           "width": 600,
           "type": "animatedText",
-          "content": "demo@demo:~$ whoami",
+          "content": "kai@showcase:~$ whoami",
           "fontSize": 18,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -436,7 +434,7 @@
           "y": 52,
           "width": 700,
           "type": "animatedText",
-          "content": "demo@demo:~$ cat skills.json",
+          "content": "kai@showcase:~$ cat systems.json",
           "fontSize": 16,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -1093,7 +1091,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "demo@demo:~$ ls projects/flux-cli",
+          "content": "kai@showcase:~$ open projects/runtime-lab",
           "fontSize": 15,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -1410,7 +1408,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "demo@demo:~$ ls projects/neuraldb",
+          "content": "kai@showcase:~$ open projects/vector-index",
           "fontSize": 15,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -1727,7 +1725,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "demo@demo:~$ ls projects/pixelflow",
+          "content": "kai@showcase:~$ open projects/render-pipeline",
           "fontSize": 15,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -2044,7 +2042,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "demo@demo:~$ git log --stat --since=2016-01-01",
+          "content": "kai@showcase:~$ git log --stat --since=2021-01-01",
           "fontSize": 15,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41"
@@ -2837,7 +2835,7 @@
             "step": 0
           },
           "type": "rect",
-          "fill": "rgba(0,255,65,0.03)",
+          "fill": "#f2f2f2",
           "stroke": "rgba(0,255,65,0.16)",
           "strokeWidth": 1,
           "radius": 4
@@ -2894,7 +2892,7 @@
           "y": 80,
           "width": 700,
           "type": "animatedText",
-          "content": "demo@demo:~$ cat contact.txt",
+          "content": "kai@showcase:~$ cat contact.txt",
           "fontSize": 18,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -3149,7 +3147,7 @@
             "step": 0
           },
           "type": "rect",
-          "fill": "rgba(0,255,65,0.03)",
+          "fill": "#4f9e00",
           "stroke": "rgba(0,255,65,0.16)",
           "strokeWidth": 1,
           "radius": 4
@@ -3206,7 +3204,7 @@
           "y": 52,
           "width": 760,
           "type": "animatedText",
-          "content": "demo@demo:~$ three-ascii --input horse.gif --mode gallop",
+          "content": "kai@showcase:~$ three-ascii --input horse.gif --mode gallop",
           "fontSize": 16,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -3289,7 +3287,7 @@
           "y": 244,
           "width": 234,
           "type": "text",
-          "content": "asset       : horse.gif\nprojection  : THREE.Vector3\nbuffer      : 150 x 52\nframes      : decoded GIF\nfilter      : B/W threshold\noutput      : ASCII CRT\n\nRuntime:\n  extension decoder\n  CDN three.js loader\n  requestAnimationFrame",
+          "content": "asset       : horse.gif\nprojection  : THREE.Vector3\nbuffer      : 150 x 52\nframes      : decoded GIF\nfilter      : B/W threshold\noutput      : ASCII CRT\n\nRuntime:\n  extension decoder\n  browser runtime loader\n  requestAnimationFrame",
           "fontSize": 13,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#8b949e",
@@ -3302,6 +3300,18 @@
           "width": 1120,
           "type": "text",
           "content": "GIF-to-ASCII is loaded from assets/extensions/gif-ascii and can be reused by any slide.",
+          "fontSize": 12,
+          "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
+          "color": "rgba(139,148,158,0.55)",
+          "align": "center"
+        },
+        {
+          "id": "horse-footer-copy",
+          "x": 104,
+          "y": 652,
+          "width": 1120,
+          "type": "text",
+          "content": "GIF Credit: https://www.deviantart.com/theophilia/art/Horse-Running-gif-690930408",
           "fontSize": 12,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "rgba(139,148,158,0.55)",
@@ -3347,7 +3357,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Process portfolio.service exited with code 0",
+          "content": "Process showcase.service exited with code 0",
           "fontSize": 16,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#8b949e",
@@ -3383,7 +3393,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "demo@demo:~$ _",
+          "content": "kai@showcase:~$ _",
           "fontSize": 18,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "#00ff41",
@@ -3458,7 +3468,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "demo@demo ~ portfolio  ·  v3.2.1  ·  built with maliang-deck",
+          "content": "kai@showcase ~ portfolio  ·  v3.2.1  ·  built with maliang-deck",
           "fontSize": 12,
           "fontFamily": "'JetBrains Mono','Fira Code','Courier New',monospace",
           "color": "rgba(139,148,158,0.4)",

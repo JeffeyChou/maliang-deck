@@ -6,7 +6,7 @@ This is the recommended project-based process for turning source material into a
 
 - Keep extraction, planning, DSL authoring, assembly, and export as separate gates.
 - Ask only for information that cannot be inferred safely from source materials.
-- Do not generate slide DSL until the user approves the outline.
+- Do not generate a deck plan or slide DSL until the user reviews and approves the outline.
 - Use `MINERU_API_TOKEN` only from environment/local `.env`; never persist token values.
 - Treat template packs as style guidance, not renderer input.
 
@@ -25,11 +25,11 @@ Confirm the brief before creating slides.
 ## 2. Initialize Project
 
 ```bash
-pnpm --dir packages/cli exec tsx src/index.ts workflow init <slug> \
+node packages/cli/dist/index.js workflow init <slug> \
   --sources <material-1> <material-2> \
   --formats html,pdf,pptx
 
-pnpm --dir packages/cli exec tsx src/index.ts workflow intake projects/<slug>
+node packages/cli/dist/index.js workflow intake <slug>
 ```
 
 Then write the confirmed brief into `projects/<slug>/requirements.md`.
@@ -39,17 +39,17 @@ Then write the confirmed brief into `projects/<slug>/requirements.md`.
 Prepared MinerU-compatible local artifacts:
 
 ```bash
-pnpm --dir packages/cli exec tsx src/index.ts workflow extract projects/<slug>
-pnpm --dir packages/cli exec tsx src/index.ts workflow normalize projects/<slug>
+node packages/cli/dist/index.js workflow extract <slug>
+node packages/cli/dist/index.js workflow normalize <slug>
 ```
 
 Optional local Docling:
 
 ```bash
 pip install docling
-pnpm --dir packages/cli exec tsx src/index.ts workflow extract projects/<slug> \
+node packages/cli/dist/index.js workflow extract <slug> \
   --provider docling --document-timeout 300
-pnpm --dir packages/cli exec tsx src/index.ts workflow normalize projects/<slug> --provider docling
+node packages/cli/dist/index.js workflow normalize <slug> --provider docling
 ```
 
 Live MinerU should be explicit and token-gated. The live path requests upload URLs, uploads files, polls batch results, downloads the ZIP, safely unpacks it, then normalizes Markdown, content lists, tables, and assets.
@@ -86,22 +86,24 @@ Review coverage, provenance, warnings, and sample output before approving or sel
 Create the outline task manifest:
 
 ```bash
-pnpm --dir packages/cli exec tsx src/index.ts workflow outline projects/<slug> --mode agent
+node packages/cli/dist/index.js workflow outline <slug> --mode agent
 ```
 
-Author `projects/<slug>/planning/outline-draft.md` with title/thesis, audience, duration, slide-by-slide storyline, source references, omissions, outputs, and style direction. Ask the user to approve or revise it.
+Author `projects/<slug>/planning/outline-draft.md` with title/thesis, audience, duration, slide-by-slide storyline, source references, omissions, outputs, and style direction. Present that draft to the user for review. Do not run `approve-outline`, `plan-deck`, `generate-dsl`, `assemble`, or `build` until the user explicitly approves the outline or asks for specific revisions and then approves the revised outline.
 
-After approval:
+After explicit human approval:
 
 ```bash
-pnpm --dir packages/cli exec tsx src/index.ts workflow approve-outline projects/<slug>
+node packages/cli/dist/index.js workflow approve-outline <slug> --reviewed-by "<human reviewer name>"
 ```
+
+The command writes both `planning/outline-approved.md` and `planning/outline-approval.json`. The approval metadata is part of the gate audit trail; agents must not approve their own outline draft.
 
 ## 6. Deck Plan Gate
 
 ```bash
-pnpm --dir packages/cli exec tsx src/index.ts workflow plan-deck projects/<slug> --mode agent
-pnpm --dir packages/cli exec tsx src/index.ts workflow plan-deck projects/<slug> --validate-only
+node packages/cli/dist/index.js workflow plan-deck <slug> --mode agent
+node packages/cli/dist/index.js workflow plan-deck <slug> --validate-only
 ```
 
 `planning/deck-plan.json` should define each slide's purpose, source refs, candidate assets, layout intent, style, and speaker-notes intent. New deck plans should include `deckDesign` as the project style contract: `styleId`, HTML `theme`, canvas, palette, typography, spacing, and locked tokens.
@@ -110,7 +112,7 @@ Planning task state is tracked in `planning/tasks.json`.
 ## 7. Slide DSL Gate
 
 ```bash
-pnpm --dir packages/cli exec tsx src/index.ts workflow generate-dsl projects/<slug> --mode agent --parallel
+node packages/cli/dist/index.js workflow generate-dsl <slug> --mode agent --parallel
 ```
 
 Authors write slices under `projects/<slug>/dsl/slides/`.
@@ -121,8 +123,8 @@ Best practices: validate early against the schema, reuse normalized source block
 ## 8. Assemble and Build
 
 ```bash
-pnpm --dir packages/cli exec tsx src/index.ts workflow assemble projects/<slug>
-pnpm --dir packages/cli exec tsx src/index.ts workflow build projects/<slug> --formats html,pdf,pptx
+node packages/cli/dist/index.js workflow assemble <slug>
+node packages/cli/dist/index.js workflow build <slug> --formats html,pdf,pptx
 ```
 
 Assembly checks missing/vague notes, the style contract, and asset references. Style drift warns by default and can block assembly when `styleValidation` is `fail`. Build writes requested outputs under `render/` and `exports/`, copying referenced image assets into `render/assets/materials/` for portable HTML/PDF/PPTX paths.

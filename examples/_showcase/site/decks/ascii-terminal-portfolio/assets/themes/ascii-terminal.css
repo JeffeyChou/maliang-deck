@@ -1,0 +1,232 @@
+/* ASCII Terminal — Developer Portfolio
+ * Retro CRT phosphor green on black. Monospace everything.
+ * Self-contained theme — no dependency on neon-glass-dark.
+ */
+:root {
+  --at-green:  #00ff41;
+  --at-amber:  #ffb000;
+  --at-dim:    #0a5c2a;
+  --at-bg:     #0d1117;
+  --at-gray:   #8b949e;
+  --at-bright: #39ff14;
+  /* UI overrides */
+  --ui-bar-fill: #00ff41;
+  --ui-bar-bg:   rgba(0,255,65,.08);
+  --ui-text:     rgba(0,255,65,.50);
+  --ui-shadow:   0 0 8px rgba(0,255,65,.3);
+}
+
+/* ── Base slide ──────────────────────────────────────────────────────────── */
+.slide {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;
+  background: #0d1117 !important;
+  color: #00ff41;
+  animation: crt-flicker 8s ease-in-out infinite;
+}
+
+/* Dot-matrix micro-grid — fills entire slide area including overflow zone */
+.slide::before,
+.slide::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.slide::before {
+  inset: -20%;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 65, 0.035) 2px,
+      rgba(0, 255, 65, 0.035) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 65, 0.035) 2px,
+      rgba(0, 255, 65, 0.035) 3px
+    );
+  background-size: 3px 3px;
+  filter: none;
+  z-index: 1;
+}
+
+/* CRT horizontal scan lines — distinct from the dot grid */
+.slide::after {
+  inset: -20%;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 1px,
+    rgba(0, 255, 65, 0.025) 1px,
+    rgba(0, 255, 65, 0.025) 2px
+  );
+  background-size: 100% 2px;
+  mask-image: none;
+  opacity: 1;
+  z-index: 2;
+}
+
+/* ── Template-generic selectors ─────────────────────────────────────────── */
+
+/* Terminal box cards — SHARP edges, NO blur, green wireframe stroke */
+[data-maliang-deck-id*="-glass"] {
+  background-color: rgba(0, 255, 65, 0.03) !important;
+  background-image: none !important;
+  --maliang-rect-fill: rgba(0, 255, 65, 0.03) !important;
+  border: 1px solid rgba(0, 255, 65, 0.20);
+  box-shadow:
+    0 0 20px rgba(0, 255, 65, 0.06),
+    inset 0 0 40px rgba(0, 255, 65, 0.02);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 2px !important;
+}
+
+/* Kicker: green terminal prompt style */
+[data-maliang-deck-id*="-kicker"] {
+  color: #00ff41 !important;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+}
+
+/* Title glow: phosphor green bloom — completely different from neon-glass cyan */
+[data-maliang-deck-id$="-title"] {
+  text-shadow:
+    0 0 7px rgba(0, 255, 65, 0.60),
+    0 0 20px rgba(0, 255, 65, 0.30),
+    0 0 40px rgba(0, 255, 65, 0.12);
+}
+
+/* Skill / stat bars: solid green with phosphor glow */
+[data-maliang-deck-id*="-bar"] {
+  background: #00ff41 !important;
+  box-shadow: 0 0 8px rgba(0, 255, 65, 0.6), 0 0 20px rgba(0, 255, 65, 0.25);
+  border-radius: 1px !important;
+}
+
+/* Accent lines */
+[data-maliang-deck-id*="-accent"] {
+  background: #00ff41 !important;
+  box-shadow: 0 0 6px rgba(0, 255, 65, 0.8);
+}
+
+/* Tag chips: subtle green outline boxes */
+[data-maliang-deck-id*="-tag"][data-maliang-deck-type="rect"],
+[data-maliang-deck-id*="-chip"][data-maliang-deck-type="rect"] {
+  background-color: rgba(0, 255, 65, 0.06) !important;
+  border: 1px solid rgba(0, 255, 65, 0.25);
+  border-radius: 2px !important;
+  box-shadow: none;
+}
+
+/* Stat numbers: bright green glow */
+[data-maliang-deck-id*="-stat"] {
+  text-shadow:
+    0 0 8px rgba(0, 255, 65, 0.70),
+    0 0 24px rgba(0, 255, 65, 0.30);
+}
+
+/* Orb elements: green phosphor bloom (not cyan/pink) */
+[data-maliang-deck-id*="-orb"] {
+  background-image:
+    radial-gradient(circle at 40% 35%, rgba(0,255,65,.90), transparent 25%),
+    radial-gradient(circle at 55% 60%, rgba(57,255,20,.60), transparent 40%) !important;
+  box-shadow: 0 0 60px rgba(0,255,65,.30), 0 0 120px rgba(0,255,65,.10);
+  mix-blend-mode: screen;
+  animation: at-glow-pulse 3s ease-in-out infinite alternate;
+}
+
+/* Connector lines: dim green */
+[data-maliang-deck-id*="-connector"] {
+  filter: drop-shadow(0 0 4px rgba(0,255,65,.50));
+  animation: none;
+}
+
+/* Glow emphasis */
+[data-maliang-deck-id*="-glow"] {
+  text-shadow: 0 0 12px rgba(0,255,65,.65), 0 0 30px rgba(0,255,65,.25);
+}
+
+/* Cursor blink elements */
+[data-maliang-deck-id*="-cursor"] {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* Amber accent elements */
+[data-maliang-deck-id*="-amber"] {
+  color: #ffb000 !important;
+  text-shadow: 0 0 8px rgba(255, 176, 0, 0.45);
+}
+
+/* Dim / muted text */
+[data-maliang-deck-id*="-dim"] {
+  color: #8b949e !important;
+}
+
+/* Heatmap squares */
+[data-maliang-deck-id*="-heat"] {
+  border-radius: 2px;
+}
+
+/* Pulse: green glow */
+[data-maliang-deck-id*="-pulse"] {
+  animation: at-glow-pulse 2s ease-in-out infinite alternate;
+}
+
+/* Ring: slow green orbit */
+[data-maliang-deck-id*="-ring"] {
+  box-shadow: 0 0 20px rgba(0,255,65,.15);
+  animation: at-spin 18s linear infinite;
+}
+
+/* ── Chart & table ──────────────────────────────────────────────────────── */
+[data-maliang-deck-id*="chart"] {
+  --chart-palette-1: #00ff41;
+  --chart-palette-2: #ffb000;
+  --chart-palette-3: #39ff14;
+  --chart-palette-4: #8b949e;
+  --chart-palette-5: #0a5c2a;
+  --chart-axis:  rgba(0,255,65,.20);
+  --chart-grid:  rgba(0,255,65,.06);
+  --chart-label: rgba(0,255,65,.55);
+}
+
+[data-maliang-deck-id*="table"] table {
+  border-radius: 0;
+  border: 1px solid rgba(0,255,65,.20);
+  box-shadow: none;
+}
+
+/* ── Keyframes ──────────────────────────────────────────────────────────── */
+
+/* CRT phosphor flicker — subtle brightness oscillation */
+@keyframes crt-flicker {
+  0%   { opacity: 1; }
+  12%  { opacity: 0.97; }
+  25%  { opacity: 1; }
+  37%  { opacity: 0.985; }
+  50%  { opacity: 1; }
+  62%  { opacity: 0.97; }
+  75%  { opacity: 1; }
+  87%  { opacity: 0.985; }
+  100% { opacity: 1; }
+}
+
+/* Hard cursor blink like a real terminal */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* Green glow pulse */
+@keyframes at-glow-pulse {
+  from { box-shadow: 0 0 6px rgba(0, 255, 65, 0.3); }
+  to   { box-shadow: 0 0 18px rgba(0, 255, 65, 0.7), 0 0 40px rgba(0, 255, 65, 0.2); }
+}
+
+@keyframes at-spin { to { transform: rotate(360deg); } }

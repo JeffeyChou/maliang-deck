@@ -58,6 +58,7 @@ describe('workflow schemas', () => {
         sourceSummary: 'extraction/normalized/source-summary.md',
         outlineDraft: 'planning/outline-draft.md',
         outlineApproval: 'planning/outline-approved.md',
+        outlineApprovalMetadata: 'planning/outline-approval.json',
         planningTasks: 'planning/tasks.json',
         deckPlan: 'planning/deck-plan.json',
         dslTasks: 'dsl/tasks.json',

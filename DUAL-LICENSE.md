@@ -33,5 +33,5 @@ commercial offerings. See [TRADEMARKS.md](./TRADEMARKS.md).
 For commercial licensing, contact:
 
 ```text
-your-email@example.com
+jiefeng.zhou37@gmail.com
 ```

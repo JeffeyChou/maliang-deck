@@ -1,0 +1,114 @@
+[
+  {
+    "slug": "animation-showcase",
+    "source": "examples/animation-showcase/deck.json",
+    "description": "Motion-system tour covering transitions, FX, text animation, formula steps, morphing, and graphs.",
+    "features": [
+      "Animations",
+      "Morph",
+      "Canvas FX",
+      "Graphs"
+    ],
+    "title": "Maliang Deck — Interactive Motion System",
+    "slideCount": 19,
+    "theme": "neon-glass-dark",
+    "cover": "Interactive\nMotion System",
+    "href": "./decks/animation-showcase/index.html"
+  },
+  {
+    "slug": "ascii-terminal-portfolio",
+    "source": "examples/ascii-terminal-portfolio/deck.json",
+    "description": "Terminal-native portfolio deck with CRT styling, command-line pacing, and GIF-to-ASCII runtime media.",
+    "features": [
+      "Custom HTML",
+      "GIF ASCII",
+      "Text animation",
+      "Theme CSS"
+    ],
+    "title": "kai@terminal ~ engineering-portfolio",
+    "slideCount": 10,
+    "theme": "ascii-terminal",
+    "cover": "kai@terminal ~ engineering-portfolio",
+    "href": "./decks/ascii-terminal-portfolio/index.html"
+  },
+  {
+    "slug": "constructivism-defense",
+    "source": "examples/constructivism-defense/deck.json",
+    "description": "Academic defense deck with constructivist visual language, argument structure, formulas, and speaker notes.",
+    "features": [
+      "Academic",
+      "Formula",
+      "Custom FX",
+      "Notes"
+    ],
+    "title": "PhD Defense — Collective Intelligence in Decentralized Multi-Agent Systems",
+    "slideCount": 10,
+    "theme": "minimal-white",
+    "cover": "Emergent Collective Intelligence in Decentralized Multi-Agent Systems",
+    "href": "./decks/constructivism-defense/index.html"
+  },
+  {
+    "slug": "dreamy-blur-physics",
+    "source": "examples/dreamy-blur-physics/deck.json",
+    "description": "Graduate physics lecture using formulas, 2D/3D graph elements, morphing, and atmospheric runtime effects.",
+    "features": [
+      "Formula",
+      "3D graph",
+      "Morph steps",
+      "FX"
+    ],
+    "title": "Quantum Mechanics — Wave Functions and Measurement",
+    "slideCount": 10,
+    "theme": "dreamy-blur",
+    "cover": "Wave Functions\n& Measurement",
+    "href": "./decks/dreamy-blur-physics/index.html"
+  },
+  {
+    "slug": "neon-glass-dark",
+    "source": "examples/neon-glass-dark/deck.json",
+    "description": "Product-style design-system showcase for Maliang Deck with charts, KPI cards, tables, and timeline patterns.",
+    "features": [
+      "Charts",
+      "Tables",
+      "Dashboard",
+      "Glass theme"
+    ],
+    "title": "Neon Glass Dark — Maliang Product Showcase",
+    "slideCount": 10,
+    "theme": "neon-glass-dark",
+    "cover": "DSL-First\nSlide Systems",
+    "href": "./decks/neon-glass-dark/index.html"
+  },
+  {
+    "slug": "type-collage-marketing",
+    "source": "examples/type-collage-marketing/deck.json",
+    "description": "Editorial brand-launch deck with kinetic type, collage pacing, metrics, social proof, and campaign CTA.",
+    "features": [
+      "Marketing",
+      "Text FX",
+      "Morph transition",
+      "Custom theme"
+    ],
+    "title": "VORTEX — Creative Operations Launch",
+    "slideCount": 10,
+    "theme": "type-collage",
+    "cover": "The future of creative tools — built for designers who refuse to compromise.",
+    "href": "./decks/type-collage-marketing/index.html"
+  },
+  {
+    "slug": "corporate-wave-blue",
+    "source": "examples/corporate-wave-blue/dsl/deck.json",
+    "description": "Executive communication pattern library for clean corporate layouts, evidence slides, tables, and components.",
+    "features": [
+      "Template pack",
+      "Tables",
+      "Charts",
+      "Corporate"
+    ],
+    "title": "Corporate Wave Blue — Executive Communication System",
+    "slideCount": 20,
+    "theme": "minimal-white",
+    "cover": "Presentation\nDesign System",
+    "href": "./decks/corporate-wave-blue/index.html"
+  }
+]

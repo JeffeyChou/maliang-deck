@@ -1,0 +1,173 @@
+/* Type Collage — Marketing Campaign
+ * Bold editorial typography on deep black. High-contrast ink/red palette.
+ * Self-contained theme — no dependency on neon-glass-dark.
+ */
+:root {
+  --tc-ink:      #f5f0eb;
+  --tc-bg:       #0a0a0a;
+  --tc-red:      #e63946;
+  --tc-charcoal: #2b2d42;
+  --tc-muted:    rgba(245,240,235,0.55);
+  /* UI overrides */
+  --ui-bar-fill: #e63946;
+  --ui-bar-bg:   rgba(245,240,235,.12);
+  --ui-text:     rgba(245,240,235,.55);
+  --ui-shadow:   0 1px 4px rgba(0,0,0,.6);
+}
+
+/* ── Base slide ──────────────────────────────────────────────────────────── */
+.slide {
+  font-family: Georgia, 'Times New Roman', 'Palatino Linotype', serif;
+  background: #0a0a0a !important;
+  color: #f5f0eb;
+}
+
+/* Bold diagonal stripe pattern in red — editorial texture */
+.slide::before,
+.slide::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.slide::before {
+  inset: -20%;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(230, 57, 70, 0.06) 0px,
+      rgba(230, 57, 70, 0.06) 2px,
+      transparent 2px,
+      transparent 22px
+    );
+  filter: none;
+}
+
+/* Film-grain noise overlay */
+.slide::after {
+  inset: 0;
+  opacity: 0.04;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mask-image: none;
+}
+
+/* ── Template-generic selectors ─────────────────────────────────────────── */
+
+/* Glass cards: dark frosted card with prominent RED accent border.
+ * Use CSS var override for stroke (rendered via ::before inset box-shadow)
+ * instead of CSS border to avoid double-stroke artifacts. */
+[data-maliang-deck-id*="-glass"] {
+  background-color: rgba(245,240,235,.06) !important;
+  background-image: linear-gradient(135deg, rgba(230,57,70,.08), rgba(43,45,66,.15)) !important;
+  --maliang-rect-fill: rgba(245,240,235,.06) !important;
+  border: 1px solid rgba(230,57,70,.35);
+  box-shadow:
+    0 24px 80px rgba(0,0,0,.6),
+    inset 0 1px 0 rgba(245,240,235,.08);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  border-radius: 12px;
+}
+
+/* Kicker: ultra-wide letter-spacing, uppercase, RED — editorial masthead feel */
+[data-maliang-deck-id*="-kicker"] {
+  letter-spacing: .30em;
+  text-transform: uppercase;
+  color: #e63946 !important;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Title: warm off-white with red underglow — NOT cyan/violet like neon-glass */
+[data-maliang-deck-id$="-title"] {
+  text-shadow:
+    0 2px 0 rgba(230,57,70,.22),
+    0 0 60px rgba(230,57,70,.15),
+    0 0 120px rgba(230,57,70,.06);
+}
+
+/* Chip/pill badges: red gradient — editorial tag feel (rect only, not text labels) */
+[data-maliang-deck-id*="-chip"][data-maliang-deck-type="rect"] {
+  background-color: rgba(230,57,70,.16) !important;
+  background-image: linear-gradient(135deg, rgba(230,57,70,.30), rgba(230,57,70,.10)) !important;
+  --maliang-rect-fill: rgba(230,57,70,.16) !important;
+  background-clip: padding-box !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,.40);
+}
+
+/* Orb elements: red/charcoal radials — editorial spotlight */
+[data-maliang-deck-id*="-orb"] {
+  background-image:
+    radial-gradient(circle at 38% 32%, rgba(255,255,255,.85), transparent 10%),
+    radial-gradient(circle at 50% 50%, rgba(230,57,70,.80), transparent 35%),
+    radial-gradient(circle at 65% 70%, rgba(43,45,66,.65), transparent 45%) !important;
+  box-shadow: 0 0 80px rgba(230,57,70,.40), 0 0 160px rgba(230,57,70,.15);
+  mix-blend-mode: screen;
+  animation: tc-orb-pulse 5s ease-in-out infinite alternate;
+}
+
+/* Ring elements: red-tinted orbital glow */
+[data-maliang-deck-id*="-ring"] {
+  box-shadow: 0 0 32px rgba(230,57,70,.22), inset 0 0 24px rgba(245,240,235,.04);
+  animation: tc-spin 14s linear infinite;
+}
+[data-maliang-deck-id$="-ring-b"] { animation-duration: 20s; animation-direction: reverse; }
+[data-maliang-deck-id$="-ring-c"] { animation-duration: 28s; }
+
+/* Accent bars: red glow pulse */
+[data-maliang-deck-id*="-connector"],
+[data-maliang-deck-id*="-accent-bar"],
+[data-maliang-deck-id*="-bar"] {
+  filter: drop-shadow(0 0 6px rgba(230,57,70,.55));
+}
+
+/* Pulse nodes */
+[data-maliang-deck-id*="-pulse"] {
+  animation: tc-node 2s ease-in-out infinite alternate;
+}
+
+/* Glow emphasis */
+[data-maliang-deck-id*="-glow"] {
+  text-shadow: 0 0 22px rgba(230,57,70,.55), 0 0 48px rgba(230,57,70,.25);
+}
+
+/* ── Chart & table ──────────────────────────────────────────────────────── */
+[data-maliang-deck-id*="chart"] {
+  --chart-palette-1: #e63946;
+  --chart-palette-2: #f5f0eb;
+  --chart-palette-3: #f4a261;
+  --chart-palette-4: #a8dadc;
+  --chart-palette-5: #2b2d42;
+  --chart-axis:  rgba(245,240,235,.25);
+  --chart-grid:  rgba(245,240,235,.08);
+  --chart-label: rgba(245,240,235,.60);
+  filter: drop-shadow(0 20px 50px rgba(230,57,70,.12));
+}
+
+[data-maliang-deck-id*="table"] table {
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 16px 60px rgba(0,0,0,.40);
+}
+
+/* ── Keyframes ──────────────────────────────────────────────────────────── */
+@keyframes tc-spin    { to { transform: rotate(360deg); } }
+@keyframes type-float { from { transform: translateY(-5px); } to { transform: translateY(5px); } }
+@keyframes type-pulse { from { transform: scale(0.98); } to { transform: scale(1.02); } }
+
+@keyframes tc-orb-pulse {
+  from { filter: saturate(1) hue-rotate(0deg); transform: scale(1); }
+  to   { filter: saturate(1.4) hue-rotate(12deg); transform: scale(1.05); }
+}
+
+@keyframes tc-bar-pulse {
+  from { opacity: .75; filter: drop-shadow(0 0 4px rgba(230,57,70,.40)); }
+  to   { opacity: 1;   filter: drop-shadow(0 0 14px rgba(230,57,70,.85)); }
+}
+
+@keyframes tc-node {
+  from { transform: scale(.90); opacity: .65; }
+  to   { transform: scale(1.15); opacity: 1; }
+}

@@ -1,0 +1,127 @@
+/**
+ * Maliang Deck — Slide Transition Styles
+ *
+ * Transition types: none, fade, slide, dissolve, zoom, push, cover.
+ * runtime.js reads the transition config from meta.htmlRuntime.transition
+ * and applies the corresponding CSS classes (.is-transition-prev, .is-transition-next).
+ *
+ * Each transition pair defines:
+ *   .slide.is-transition-prev  — outgoing slide leaving
+ *   .slide.is-transition-next  — incoming slide entering
+ */
+
+/* ─── Dissolve: cross-fade with overlapping opacity ─────────────────────── */
+
+[data-transition="dissolve"] .slide.is-transition-prev {
+  animation: dissolve-out var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+[data-transition="dissolve"] .slide.is-transition-next {
+  animation: dissolve-in var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+
+@keyframes dissolve-out {
+  0%   { opacity: 1; filter: blur(0); }
+  100% { opacity: 0; filter: blur(2px); }
+}
+@keyframes dissolve-in {
+  0%   { opacity: 0; filter: blur(2px); }
+  100% { opacity: 1; filter: blur(0); }
+}
+
+/* ─── Zoom: outgoing shrinks, incoming grows ────────────────────────────── */
+
+[data-transition="zoom"] .slide.is-transition-prev {
+  animation: zoom-out var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+[data-transition="zoom"] .slide.is-transition-next {
+  animation: zoom-in-slide var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+
+@keyframes zoom-out {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.75); }
+}
+@keyframes zoom-in-slide {
+  0%   { opacity: 0; transform: scale(1.3); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ─── Push: outgoing slides left, incoming slides from right ────────────── */
+
+[data-transition="push"] .slide.is-transition-prev {
+  animation: push-out-left var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+[data-transition="push"] .slide.is-transition-next {
+  animation: push-in-right var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+
+@keyframes push-out-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes push-in-right {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+}
+
+/* Push backward (runtime adds .is-backward on the deck) */
+[data-transition="push"].is-backward .slide.is-transition-prev {
+  animation: push-out-right var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+[data-transition="push"].is-backward .slide.is-transition-next {
+  animation: push-in-left var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+
+@keyframes push-out-right {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+@keyframes push-in-left {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+
+/* ─── Cover: incoming covers outgoing from right ────────────────────────── */
+
+[data-transition="cover"] .slide.is-transition-prev {
+  animation: cover-stay var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+[data-transition="cover"] .slide.is-transition-next {
+  animation: cover-in-right var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+
+@keyframes cover-stay {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.6; transform: scale(0.95); }
+}
+@keyframes cover-in-right {
+  0%   { transform: translateX(100%); box-shadow: -8px 0 32px rgba(0,0,0,0.3); }
+  100% { transform: translateX(0); box-shadow: 0 0 0 rgba(0,0,0,0); }
+}
+
+/* Cover backward */
+[data-transition="cover"].is-backward .slide.is-transition-prev {
+  animation: cover-out-right var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+[data-transition="cover"].is-backward .slide.is-transition-next {
+  animation: cover-stay-back var(--transition-duration, 500ms) var(--transition-easing, ease) forwards;
+}
+
+@keyframes cover-out-right {
+  0%   { transform: translateX(0); box-shadow: -8px 0 32px rgba(0,0,0,0.3); }
+  100% { transform: translateX(100%); box-shadow: 0 0 0 rgba(0,0,0,0); }
+}
+@keyframes cover-stay-back {
+  0%   { opacity: 0.6; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ─── Reduced motion override ───────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-transition] .slide.is-transition-prev,
+  [data-transition] .slide.is-transition-next {
+    animation: none !important;
+    transition: none !important;
+  }
+}

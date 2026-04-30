@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Quantum Mechanics — Wave Functions & Measurement",
+    "title": "Quantum Mechanics — Wave Functions and Measurement",
     "theme": "dreamy-blur",
     "canvas": {
       "width": 1280,
@@ -97,7 +97,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "PHYS 7210 — Graduate Quantum Mechanics",
+          "content": "GRADUATE QUANTUM MECHANICS",
           "fontSize": 13,
           "fontWeight": "bold",
           "color": "#c4b5fd"
@@ -132,7 +132,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Lecture 12 — Course Instructor",
+          "content": "Lecture 12 — Measurement, probability, and barriers",
           "fontSize": 20,
           "color": "rgba(241,245,249,0.55)"
         },
@@ -163,7 +163,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Department of Physics · Spring 2026",
+          "content": "Graduate Physics Studio · Spring 2026",
           "fontSize": 15,
           "color": "rgba(196,181,253,0.50)"
         }
@@ -1567,7 +1567,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "PHYS 7210 — Office hours: Tue/Thu 2–4 pm, Room 412",
+          "content": "PHYS 7210 — Bring questions to studio discussion",
           "fontSize": 20,
           "color": "rgba(196,181,253,0.70)",
           "align": "center"
@@ -1584,7 +1584,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Next lecture: Quantum Entanglement & Bell's Theorem",
+          "content": "Next lecture: Entanglement, Bell inequalities, and nonlocal correlations",
           "fontSize": 18,
           "color": "rgba(241,245,249,0.45)",
           "align": "center"
@@ -1601,7 +1601,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Instructor · Department of Physics · Spring 2026",
+          "content": "Instructor · Graduate Physics Studio · Spring 2026",
           "fontSize": 15,
           "color": "rgba(196,181,253,0.35)",
           "align": "center"

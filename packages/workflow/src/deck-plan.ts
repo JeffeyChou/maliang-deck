@@ -42,6 +42,7 @@ export function createDeckPlanWorkOrder(slugOrPath: string, mode: 'agent' | 'man
 
 export function validateDeckPlan(slugOrPath: string): DeckPlan {
   const root = projectRoot(slugOrPath);
+  assertOutlineApproved(root);
   const plan = parseJsonWithSchema(DeckPlanSchema, readJson(join(root, 'planning', 'deck-plan.json')), 'deck plan') as DeckPlan;
   if (plan.deckDesign) {
     plan.deckDesign = resolveProjectStyleContract(root, plan.deckDesign);

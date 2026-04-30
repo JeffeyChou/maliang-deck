@@ -1,0 +1,23 @@
+/* Chart & table theme integration — derived from core theme variables.
+   Loaded before the active theme so themes can override --chart-* / --table-*. */
+:root {
+  --chart-1: var(--accent);
+  --chart-2: var(--accent-2);
+  --chart-3: var(--accent-3);
+  --chart-4: var(--good);
+  --chart-5: var(--warn);
+  --chart-6: var(--bad);
+  --chart-7: var(--text-2);
+  --chart-8: var(--border-strong);
+  --chart-axis: var(--text-3);
+  --chart-grid: var(--border);
+  --chart-label: var(--text-2);
+  --chart-bg: var(--surface);
+  --table-border: var(--border);
+  --table-bg: var(--surface);
+  --table-header-bg: var(--surface-2);
+  --table-header-color: var(--text-1);
+  --table-cell-color: var(--text-1);
+  --table-stripe-bg: var(--bg-soft);
+  --table-font: var(--font-sans);
+}

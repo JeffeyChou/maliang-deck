@@ -45,7 +45,7 @@ function writeNormalizedBlocks(root: string, blocks: object[], assets: object[] 
 function writeOutlineApproved(root: string): void {
   mkdirSync(join(root, 'planning'), { recursive: true });
   writeFileSync(join(root, 'planning', 'outline-draft.md'), '# Outline\n\n## Introduction\n\n## Methods\n');
-  writeFileSync(join(root, 'planning', 'outline-approved.md'), '# Outline\n\n## Introduction\n\n## Methods\n');
+  approveOutline(root, { reviewedBy: 'Test Reviewer', approvedAt: new Date('2026-01-01T00:00:00.000Z') });
 }
 
 const sampleBlocks = [

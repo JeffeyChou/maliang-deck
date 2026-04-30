@@ -10,9 +10,12 @@
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint packages/*/src/**/*.ts",
-    "serve": "pnpm --filter @maliang-deck/cli serve",
-    "export": "pnpm --filter @maliang-deck/cli export",
-    "validate": "pnpm --filter @maliang-deck/cli validate",
+    "serve": "node packages/cli/dist/index.js serve",
+    "export": "node packages/cli/dist/index.js export",
+    "validate": "node packages/cli/dist/index.js validate",
+    "showcase:polish": "node scripts/showcase/polish-examples.mjs",
+    "showcase:export": "node scripts/showcase/export-examples.mjs",
+    "showcase:update": "node scripts/showcase/update-site.mjs",
     "test": "vitest run"
   },
   "devDependencies": {

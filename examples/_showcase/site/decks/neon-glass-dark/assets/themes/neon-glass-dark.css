@@ -1,0 +1,262 @@
+/* DSL Upper Bound showcase theme.
+ * This intentionally layers CSS-only polish on top of the validated DSL scene graph.
+ * The JSON remains schema-valid; selectors target data-maliang-deck-id emitted by renderer-html.
+ */
+:root {
+  --ub-ink: #f8fbff;
+  --ub-muted: rgba(225, 236, 255, 0.72);
+  --ub-cyan: #48e7ff;
+  --ub-pink: #ff4fd8;
+  --ub-violet: #8b5cf6;
+  --ub-lime: #b7ff5a;
+  --ub-amber: #ffd166;
+}
+
+.slide {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.slide::before,
+.slide::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+}
+
+.slide::before {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(72, 231, 255, .20), transparent 28%),
+    radial-gradient(circle at 82% 16%, rgba(255, 79, 216, .16), transparent 25%),
+    radial-gradient(circle at 50% 110%, rgba(139, 92, 246, .22), transparent 35%);
+  filter: blur(2px);
+}
+
+.slide::after {
+  opacity: .10;
+  background-image: linear-gradient(rgba(255,255,255,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.35) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(circle at center, black, transparent 72%);
+}
+
+[data-maliang-deck-id$="glass-card"],
+[data-maliang-deck-id^="glass-card"],
+[data-maliang-deck-id="capability-card"],
+[data-maliang-deck-id="export-card"],
+[data-maliang-deck-id="dsl-card"],
+[data-maliang-deck-id="runtime-card"] {
+  background-image: linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.055)) !important;
+  border: 1px solid rgba(255,255,255,.26);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .34), inset 0 1px 0 rgba(255,255,255,.22);
+  backdrop-filter: blur(20px) saturate(1.25);
+}
+
+[data-maliang-deck-id="hero-orb-main"] {
+  background-image:
+    radial-gradient(circle at 34% 28%, rgba(255,255,255,.95), transparent 8%),
+    radial-gradient(circle at 42% 36%, rgba(72,231,255,.92), transparent 20%),
+    radial-gradient(circle at 65% 70%, rgba(255,79,216,.72), transparent 35%) !important;
+  box-shadow: 0 0 90px rgba(72,231,255,.45), 0 0 160px rgba(255,79,216,.28);
+  mix-blend-mode: screen;
+  animation: ub-orbit-pulse 5.5s ease-in-out infinite alternate;
+}
+
+[data-maliang-deck-id="hero-ring-a"],
+[data-maliang-deck-id="hero-ring-b"],
+[data-maliang-deck-id="hero-ring-c"] {
+  box-shadow: 0 0 40px rgba(72,231,255,.26), inset 0 0 32px rgba(255,255,255,.08);
+  animation: ub-spin 12s linear infinite;
+}
+
+[data-maliang-deck-id="hero-ring-b"] { animation-duration: 16s; animation-direction: reverse; }
+[data-maliang-deck-id="hero-ring-c"] { animation-duration: 22s; }
+
+[data-maliang-deck-id="neon-title"],
+[data-maliang-deck-id="matrix-title"],
+[data-maliang-deck-id="steps-title"],
+[data-maliang-deck-id="export-title"] {
+  text-shadow: 0 0 18px rgba(72,231,255,.55), 0 0 44px rgba(139,92,246,.35);
+}
+
+[data-maliang-deck-id="hero-kicker"],
+[data-maliang-deck-id="section-kicker"] {
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+[data-maliang-deck-id="flow-line-a"],
+[data-maliang-deck-id="flow-line-b"],
+[data-maliang-deck-id="flow-line-c"] {
+  filter: drop-shadow(0 0 10px rgba(72,231,255,.8));
+  animation: ub-line-glow 2.2s ease-in-out infinite alternate;
+}
+
+[data-maliang-deck-id="metric-chip-a"],
+[data-maliang-deck-id="metric-chip-b"],
+[data-maliang-deck-id="metric-chip-c"],
+[data-maliang-deck-id="metric-chip-d"] {
+  background-image: linear-gradient(135deg, rgba(72,231,255,.22), rgba(255,79,216,.14)) !important;
+  box-shadow: 0 16px 60px rgba(15, 23, 42, .25);
+}
+
+[data-maliang-deck-id="css-demo-panel"] {
+  background-image:
+    linear-gradient(135deg, rgba(72,231,255,.26), rgba(255,79,216,.14)),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,.16) 0 1px, transparent 1px 12px) !important;
+  box-shadow: 0 30px 90px rgba(72,231,255,.22);
+}
+
+[data-maliang-deck-id="css-demo-panel"]::before {
+  content: "CSS layer";
+  position: absolute;
+  right: 26px;
+  top: 20px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.25);
+  color: white;
+  font: 700 12px/1 Inter, sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+[data-maliang-deck-id="radar-core"] {
+  background-image: conic-gradient(from 35deg, rgba(72,231,255,.08), rgba(72,231,255,.70), rgba(255,79,216,.14), rgba(72,231,255,.08)) !important;
+  animation: ub-spin 4.8s linear infinite;
+  box-shadow: 0 0 60px rgba(72,231,255,.35), inset 0 0 40px rgba(0,0,0,.26);
+}
+
+[data-maliang-deck-id="radar-core"]::after {
+  content: "";
+  position: absolute;
+  inset: 38%;
+  border-radius: 999px;
+  background: #eaffff;
+  box-shadow: 0 0 28px #48e7ff;
+}
+
+[data-maliang-deck-id="pulse-node-a"],
+[data-maliang-deck-id="pulse-node-b"],
+[data-maliang-deck-id="pulse-node-c"],
+[data-maliang-deck-id="pulse-node-d"] {
+  box-shadow: 0 0 22px rgba(183,255,90,.72);
+  animation: ub-node 1.8s ease-in-out infinite alternate;
+}
+
+[data-maliang-deck-id="pulse-node-b"] { animation-delay: .25s; }
+[data-maliang-deck-id="pulse-node-c"] { animation-delay: .5s; }
+[data-maliang-deck-id="pulse-node-d"] { animation-delay: .75s; }
+
+[data-maliang-deck-id="showcase-table"] table {
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 20px 70px rgba(0,0,0,.25);
+}
+
+[data-maliang-deck-id="showcase-chart"] {
+  filter: drop-shadow(0 26px 60px rgba(72,231,255,.18));
+}
+
+@keyframes ub-spin { to { transform: rotate(360deg); } }
+@keyframes ub-orbit-pulse {
+  from { filter: saturate(1) hue-rotate(0deg); transform: scale(1); }
+  to { filter: saturate(1.35) hue-rotate(18deg); transform: scale(1.045); }
+}
+@keyframes ub-line-glow {
+  from { opacity: .45; filter: drop-shadow(0 0 6px rgba(72,231,255,.45)); }
+  to { opacity: 1; filter: drop-shadow(0 0 18px rgba(255,79,216,.85)); }
+}
+@keyframes ub-node {
+  from { transform: scale(.92); opacity: .72; }
+  to { transform: scale(1.18); opacity: 1; }
+}
+
+/* ─── Template-generic selectors ─────────────────────────────────────────
+ * Name DSL element IDs with these substrings to activate CSS polish
+ * automatically. e.g. id "my-card-glass" triggers the glass effect.
+ * These coexist with the ID-specific selectors above (backward compat).
+ * ──────────────────────────────────────────────────────────────────────── */
+
+/* Glass cards: frosted backdrop on any element with "-glass" in its ID */
+[data-maliang-deck-id*="-glass"] {
+  background-image: linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.055)) !important;
+  border: 1px solid rgba(255,255,255,.26);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .34), inset 0 1px 0 rgba(255,255,255,.22);
+  backdrop-filter: blur(20px) saturate(1.25);
+  -webkit-backdrop-filter: blur(20px) saturate(1.25);
+}
+
+/* Chips / badges: subtle gradient sheen */
+[data-maliang-deck-id*="-chip"][data-maliang-deck-type="rect"] {
+  background-image: linear-gradient(135deg, rgba(72,231,255,.15), rgba(255,79,216,.1)) !important;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, .25);
+}
+
+/* Kicker text: uppercase letter-spacing */
+[data-maliang-deck-id*="-kicker"] {
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+/* Title glow: subtle neon text-shadow on any ID ending with "-title" */
+[data-maliang-deck-id$="-title"] {
+  text-shadow: 0 0 18px rgba(72,231,255,.35), 0 0 44px rgba(139,92,246,.18);
+}
+
+/* Explicit glow: stronger neon for section numbers and callout values */
+[data-maliang-deck-id*="-glow"] {
+  text-shadow: 0 0 22px rgba(72,231,255,.55), 0 0 48px rgba(139,92,246,.35);
+}
+
+/* Connector lines: animated glow pulse */
+[data-maliang-deck-id*="-connector"] {
+  filter: drop-shadow(0 0 10px rgba(72,231,255,.8));
+  animation: ub-line-glow 2.2s ease-in-out infinite alternate;
+}
+
+/* Pulse nodes: breathing scale on any element with "-pulse" */
+[data-maliang-deck-id*="-pulse"] {
+  box-shadow: 0 0 22px rgba(183,255,90,.72);
+  animation: ub-node 1.8s ease-in-out infinite alternate;
+}
+
+/* Orb elements: radial gradient + screen blend */
+[data-maliang-deck-id*="-orb"] {
+  background-image:
+    radial-gradient(circle at 34% 28%, rgba(255,255,255,.95), transparent 8%),
+    radial-gradient(circle at 42% 36%, rgba(72,231,255,.92), transparent 20%),
+    radial-gradient(circle at 65% 70%, rgba(255,79,216,.72), transparent 35%) !important;
+  box-shadow: 0 0 90px rgba(72,231,255,.45), 0 0 160px rgba(255,79,216,.28);
+  mix-blend-mode: screen;
+  animation: ub-orbit-pulse 5.5s ease-in-out infinite alternate;
+}
+
+/* Ring elements: orbital glow + spin */
+[data-maliang-deck-id*="-ring"] {
+  box-shadow: 0 0 40px rgba(72,231,255,.26), inset 0 0 32px rgba(255,255,255,.08);
+  animation: ub-spin 12s linear infinite;
+}
+
+/* Ring speed variation — rings named *-ring-b and *-ring-c get distinct timing */
+[data-maliang-deck-id$="-ring-b"] { animation-duration: 16s; animation-direction: reverse; }
+[data-maliang-deck-id$="-ring-c"] { animation-duration: 22s; }
+
+/* ─── Chart & table theme integration ──────────────────────────────────── */
+
+[data-maliang-deck-id*="chart"] {
+  --chart-palette-1: var(--ub-cyan);
+  --chart-palette-2: var(--ub-pink);
+  --chart-palette-3: var(--ub-lime);
+  --chart-palette-4: var(--ub-amber);
+  --chart-palette-5: var(--ub-violet);
+  --chart-axis: rgba(225,236,255,.3);
+  --chart-grid: rgba(225,236,255,.12);
+  --chart-label: rgba(225,236,255,.72);
+  filter: drop-shadow(0 26px 60px rgba(72,231,255,.18));
+}
+
+[data-maliang-deck-id*="table"] table {
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 20px 70px rgba(0,0,0,.25);
+}

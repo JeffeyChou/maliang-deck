@@ -1,10 +1,30 @@
-import { copyFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { copyFileSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadProject, projectRoot, saveProject } from './project.js';
-import { pathExists, writeJson, writeText } from './fs-utils.js';
+import { pathExists, readJson, writeJson, writeText } from './fs-utils.js';
 import type { GenerationWorkOrder } from './schemas.js';
 import { enrichOutlineWorkOrder } from './guidance/work-order-enricher.js';
 import { registerConfiguredTemplatePacksForProject } from './templates/registry.js';
+
+export type OutlineApprovalOptions = {
+  reviewedBy: string;
+  approvalNote?: string;
+  approvedAt?: Date;
+};
+
+function requireHumanReviewer(input: string): string {
+  const reviewer = input.trim();
+  if (!reviewer) throw new Error('Outline approval requires --reviewed-by with the human reviewer name.');
+  if (/^(agent|codex|assistant|ai|llm|omx)$/iu.test(reviewer)) {
+    throw new Error('Outline approval must identify the human reviewer, not an agent.');
+  }
+  return reviewer;
+}
+
+function sha256File(path: string): string {
+  return createHash('sha256').update(readFileSync(path)).digest('hex');
+}
 
 export function createOutlineWorkOrder(slugOrPath: string, mode: 'agent' | 'manual' = 'agent'): GenerationWorkOrder {
   const root = projectRoot(slugOrPath);
@@ -18,6 +38,8 @@ export function createOutlineWorkOrder(slugOrPath: string, mode: 'agent' | 'manu
     outputArtifacts: ['planning/outline-draft.md'],
     constraints: [
       'Do not generate DSL before planning/outline-approved.md exists.',
+      'Do not run workflow approve-outline yourself. Present planning/outline-draft.md to the user and wait for explicit approval or revision requests.',
+      'The approved outline must include title/thesis, audience, style, duration, per-slide outline, source coverage, omissions, and outputs.',
       'Use normalized source block and asset references for traceability.',
       mode === 'agent' ? 'Active Codex/OMX agent authors the outline artifact.' : 'Human/manual lane fills the outline artifact.',
     ],
@@ -35,13 +57,24 @@ export function createOutlineWorkOrder(slugOrPath: string, mode: 'agent' | 'manu
   return enriched;
 }
 
-export function approveOutline(slugOrPath: string): string {
+export function approveOutline(slugOrPath: string, options: OutlineApprovalOptions): string {
   const root = projectRoot(slugOrPath);
   const manifest = loadProject(root);
   const draft = join(root, 'planning', 'outline-draft.md');
   const approved = join(root, 'planning', 'outline-approved.md');
   if (!pathExists(draft)) throw new Error(`Cannot approve missing outline draft: ${draft}`);
+  const reviewedBy = requireHumanReviewer(options.reviewedBy);
   copyFileSync(draft, approved);
+  writeJson(join(root, 'planning', 'outline-approval.json'), {
+    status: 'approved',
+    reviewedBy,
+    approvalNote: options.approvalNote,
+    approvedAt: (options.approvedAt ?? new Date()).toISOString(),
+    draftPath: 'planning/outline-draft.md',
+    approvedPath: 'planning/outline-approved.md',
+    draftSha256: sha256File(draft),
+    approvalGate: 'human-review',
+  });
   saveProject(root, manifest, 'outline-approved');
   return approved;
 }
@@ -51,5 +84,13 @@ export function assertOutlineApproved(slugOrPath: string): void {
   const approved = join(root, 'planning', 'outline-approved.md');
   if (!pathExists(approved)) {
     throw new Error(`Outline approval gate is closed. Create ${approved} with workflow approve-outline before DSL generation.`);
+  }
+  const approvalMetadata = join(root, 'planning', 'outline-approval.json');
+  if (!pathExists(approvalMetadata)) {
+    throw new Error(`Outline approval metadata is missing. Run workflow approve-outline with --reviewed-by after human review: ${approvalMetadata}`);
+  }
+  const metadata = readJson(approvalMetadata) as Record<string, unknown>;
+  if (metadata.status !== 'approved' || typeof metadata.reviewedBy !== 'string' || !metadata.reviewedBy.trim()) {
+    throw new Error(`Invalid outline approval metadata: ${approvalMetadata}`);
   }
 }

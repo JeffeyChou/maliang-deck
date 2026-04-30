@@ -1,15 +1,18 @@
 {
   "meta": {
-    "title": "VORTEX — Brand Launch 2026",
-    "theme": "minimal-white",
-    "canvas": { "width": 1280, "height": 720 },
+    "title": "VORTEX — Creative Operations Launch",
+    "theme": "type-collage",
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
     "htmlRuntime": {
       "transition": {
         "type": "morph",
-        "durationMs": 500,
-        "easing": "cubic-bezier(.2,.8,.2,1)"
+        "durationMs": 520,
+        "easing": "cubic-bezier(.2,.8,.2,1)",
+        "autoAnimate": true
       },
-      "customStylesheets": ["./assets/themes/type-collage.css"],
       "customScripts": [
         "./assets/fx/kinetic-type.js",
         "./assets/fx/ink-splatter.js"
@@ -17,892 +20,2324 @@
     }
   },
   "slides": [
-
     {
       "id": "cover",
       "background": "#0a0a0a",
-      "fx": ["kinetic-type"],
-      "notes": "Brand launch splash — staggered char title, morph-brand shared with CTA slide.",
       "elements": [
         {
-          "id": "cover-ring-a", "type": "ellipse",
-          "x": 820, "y": 60, "width": 520, "height": 520, "rotation": 15,
-          "fill": "rgba(0,0,0,0)", "stroke": "rgba(230,57,70,.22)", "strokeWidth": 2,
-          "animation": { "enter": "scale-in", "duration": 1000, "step": 0 }
+          "id": "cover-ring-a",
+          "x": 820,
+          "y": 60,
+          "width": 520,
+          "height": 520,
+          "rotation": 15,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 1000,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(230,57,70,.22)",
+          "strokeWidth": 2
         },
         {
-          "id": "cover-ring-b", "type": "ellipse",
-          "x": 876, "y": 116, "width": 410, "height": 410, "rotation": -22,
-          "fill": "rgba(0,0,0,0)", "stroke": "rgba(245,240,235,.12)", "strokeWidth": 1,
-          "animation": { "enter": "scale-in", "duration": 1000, "delay": 100, "step": 0 }
+          "id": "cover-ring-b",
+          "x": 876,
+          "y": 116,
+          "width": 410,
+          "height": 410,
+          "rotation": -22,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 1000,
+            "delay": 100,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(245,240,235,.12)",
+          "strokeWidth": 1
         },
         {
-          "id": "cover-ring-c", "type": "ellipse",
-          "x": 950, "y": 190, "width": 260, "height": 260, "rotation": 40,
-          "fill": "rgba(0,0,0,0)", "stroke": "rgba(230,57,70,.35)", "strokeWidth": 2,
-          "animation": { "enter": "scale-in", "duration": 1000, "delay": 200, "step": 0 }
+          "id": "cover-ring-c",
+          "x": 950,
+          "y": 190,
+          "width": 260,
+          "height": 260,
+          "rotation": 40,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 1000,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(230,57,70,.35)",
+          "strokeWidth": 2
         },
         {
-          "id": "cover-orb", "type": "circle",
-          "x": 1080, "y": 320, "radius": 100,
-          "fill": "#e63946", "opacity": 0.80,
-          "animation": { "enter": "zoom-pop", "duration": 900, "delay": 280, "easing": "cubic-bezier(.2,.9,.2,1)", "step": 0 }
+          "id": "cover-orb",
+          "x": 1080,
+          "y": 320,
+          "opacity": 0.8,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 900,
+            "delay": 280,
+            "easing": "cubic-bezier(.2,.9,.2,1)",
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 100,
+          "fill": "#e63946"
         },
         {
-          "id": "cover-deco-circle-a", "type": "circle",
-          "x": 900, "y": 180, "radius": 18,
-          "fill": "#2b2d42", "opacity": 0.90,
-          "animation": { "enter": "scale-in", "duration": 500, "delay": 400, "step": 0 }
+          "id": "cover-deco-circle-a",
+          "x": 900,
+          "y": 180,
+          "opacity": 0.9,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 18,
+          "fill": "#2b2d42"
         },
         {
-          "id": "cover-deco-circle-b", "type": "circle",
-          "x": 780, "y": 540, "radius": 10,
-          "fill": "#e63946", "opacity": 0.65,
-          "animation": { "enter": "scale-in", "duration": 500, "delay": 500, "step": 0 }
+          "id": "cover-deco-circle-b",
+          "x": 780,
+          "y": 540,
+          "opacity": 0.65,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 500,
+            "delay": 500,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 10,
+          "fill": "#e63946"
         },
         {
-          "id": "cover-glass", "type": "rect",
-          "x": 60, "y": 80, "width": 680, "height": 510,
-          "fill": "rgba(245,240,235,.06)", "stroke": "rgba(230,57,70,.22)", "strokeWidth": 1, "radius": 28,
-          "animation": { "enter": "fade-right", "duration": 850, "step": 0 }
+          "id": "cover-glass",
+          "x": 60,
+          "y": 80,
+          "width": 680,
+          "height": 510,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 850,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.06)",
+          "stroke": "rgba(230,57,70,.22)",
+          "strokeWidth": 1,
+          "radius": 28
         },
         {
-          "id": "cover-kicker", "type": "text",
-          "x": 108, "y": 138, "width": 580,
-          "content": "INTRODUCING", "fontSize": 14, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "fade-up", "duration": 550, "delay": 180, "step": 0 }
+          "id": "cover-kicker",
+          "x": 108,
+          "y": 138,
+          "width": 580,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 550,
+            "delay": 180,
+            "step": 0
+          },
+          "type": "text",
+          "content": "INTRODUCING",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "morph-brand", "type": "animatedText",
-          "x": 100, "y": 190, "width": 620,
-          "content": "VORTEX", "fontSize": 120, "fontWeight": "bold", "color": "#f5f0eb", "lineHeight": 0.9,
-          "textAnimation": { "name": "stagger", "splitMode": "char", "stagger": 55, "direction": "forward", "duration": 600, "easing": "easeOutCubic" }
+          "id": "morph-brand",
+          "x": 100,
+          "y": 190,
+          "width": 620,
+          "type": "animatedText",
+          "content": "VORTEX",
+          "fontSize": 120,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "lineHeight": 0.9,
+          "textAnimation": {
+            "name": "stagger",
+            "splitMode": "char",
+            "stagger": 55,
+            "direction": "forward",
+            "easing": "easeOutCubic",
+            "duration": 600
+          }
         },
         {
-          "id": "cover-subtitle", "type": "text",
-          "x": 108, "y": 450, "width": 560,
-          "content": "The future of creative tools — built for designers who refuse to compromise.", "fontSize": 20, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.45,
-          "animation": { "enter": "blur-in", "duration": 700, "delay": 500, "step": 0 }
+          "id": "cover-subtitle",
+          "x": 108,
+          "y": 450,
+          "width": 560,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 700,
+            "delay": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "The future of creative tools — built for designers who refuse to compromise.",
+          "fontSize": 20,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.45
         },
         {
-          "id": "cover-accent-bar", "type": "rect",
-          "x": 108, "y": 426, "width": 420, "height": 4,
-          "fill": "#e63946", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 650, "delay": 420, "step": 0 }
+          "id": "cover-accent-bar",
+          "x": 108,
+          "y": 426,
+          "width": 420,
+          "height": 4,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 650,
+            "delay": 420,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "#e63946",
+          "radius": 2
         }
+      ],
+      "notes": "Brand launch splash — staggered char title, morph-brand shared with CTA slide.",
+      "fx": [
+        "kinetic-type"
       ]
     },
-
     {
       "id": "manifesto",
       "background": "#0a0a0a",
-      "fx": ["ink-splatter"],
-      "notes": "Brand manifesto — italic wave text, oversized quotation marks, glass card.",
       "elements": [
         {
-          "id": "manifesto-quote-mark", "type": "text",
-          "x": 48, "y": 60, "width": 200,
-          "content": "\u201c", "fontSize": 280, "fontWeight": "bold", "color": "rgba(230,57,70,.08)", "lineHeight": 1,
-          "animation": { "enter": "fade-up", "duration": 800, "step": 0 }
+          "id": "manifesto-quote-mark",
+          "x": 48,
+          "y": 60,
+          "width": 200,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 800,
+            "step": 0
+          },
+          "type": "text",
+          "content": "“",
+          "fontSize": 280,
+          "fontWeight": "bold",
+          "color": "rgba(230,57,70,.08)",
+          "lineHeight": 1
         },
         {
-          "id": "manifesto-glass", "type": "rect",
-          "x": 80, "y": 120, "width": 1120, "height": 400,
-          "fill": "rgba(245,240,235,.05)", "stroke": "rgba(230,57,70,.18)", "strokeWidth": 1, "radius": 24,
-          "animation": { "enter": "fade-right", "duration": 700, "step": 0 }
+          "id": "manifesto-glass",
+          "x": 80,
+          "y": 120,
+          "width": 1120,
+          "height": 400,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 700,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.05)",
+          "stroke": "rgba(230,57,70,.18)",
+          "strokeWidth": 1,
+          "radius": 24
         },
         {
-          "id": "manifesto-title", "type": "animatedText",
-          "x": 120, "y": 158, "width": 1040,
+          "id": "manifesto-title",
+          "x": 120,
+          "y": 158,
+          "width": 1040,
+          "type": "animatedText",
           "content": "We believe creativity should have no boundaries. No limits. No compromises.",
-          "fontSize": 36, "fontWeight": "bold", "fontStyle": "italic", "color": "#f5f0eb", "lineHeight": 1.35,
-          "textAnimation": { "name": "wave", "splitMode": "word", "stagger": 80, "duration": 1600 }
+          "fontSize": 36,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "lineHeight": 1.35,
+          "textAnimation": {
+            "name": "wave",
+            "splitMode": "word",
+            "stagger": 80,
+            "duration": 1600
+          }
         },
         {
-          "id": "manifesto-attribution", "type": "text",
-          "x": 120, "y": 400, "width": 760,
-          "content": "Vortex Design Principles, 2026 Edition", "fontSize": 16, "color": "rgba(245,240,235,0.55)", "fontStyle": "italic",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 400, "step": 0 }
+          "id": "manifesto-attribution",
+          "x": 120,
+          "y": 400,
+          "width": 760,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
+          "type": "text",
+          "content": "VORTEX Design Principles, 2026 Edition",
+          "fontSize": 16,
+          "fontStyle": "italic",
+          "color": "rgba(245,240,235,0.55)"
         },
         {
-          "id": "manifesto-accent-dot", "type": "circle",
-          "x": 96, "y": 418, "radius": 5,
-          "fill": "#e63946",
-          "animation": { "enter": "zoom-pop", "duration": 400, "delay": 380, "step": 0 }
+          "id": "manifesto-accent-dot",
+          "x": 96,
+          "y": 418,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 400,
+            "delay": 380,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 5,
+          "fill": "#e63946"
         },
         {
-          "id": "manifesto-tagline", "type": "text",
-          "x": 80, "y": 570, "width": 1120,
-          "content": "DESIGN WITHOUT LIMITS", "fontSize": 60, "fontWeight": "bold", "color": "rgba(245,240,235,.07)", "align": "center",
-          "animation": { "enter": "shrink-in", "duration": 900, "delay": 200, "step": 0 }
+          "id": "manifesto-tagline",
+          "x": 80,
+          "y": 570,
+          "width": 1120,
+          "animation": {
+            "enter": "shrink-in",
+            "duration": 900,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "text",
+          "content": "DESIGN WITHOUT LIMITS",
+          "fontSize": 60,
+          "fontWeight": "bold",
+          "color": "rgba(245,240,235,.07)",
+          "align": "center"
         }
+      ],
+      "notes": "Brand manifesto — italic wave text, oversized quotation marks, glass card.",
+      "fx": [
+        "ink-splatter"
       ]
     },
-
     {
       "id": "product-hero",
       "background": "#0a0a0a",
-      "notes": "Product intro — bounce-chars title, feature chips, glass card. morph-product-pill shared.",
       "elements": [
         {
-          "id": "product-hero-ring-a", "type": "ellipse",
-          "x": 700, "y": 100, "width": 460, "height": 460, "rotation": -10,
-          "fill": "rgba(0,0,0,0)", "stroke": "rgba(230,57,70,.18)", "strokeWidth": 2,
-          "animation": { "enter": "scale-in", "duration": 900, "step": 0 }
+          "id": "product-hero-ring-a",
+          "x": 700,
+          "y": 100,
+          "width": 460,
+          "height": 460,
+          "rotation": -10,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(230,57,70,.18)",
+          "strokeWidth": 2
         },
         {
-          "id": "product-glass", "type": "rect",
-          "x": 60, "y": 90, "width": 620, "height": 520,
-          "fill": "rgba(245,240,235,.05)", "stroke": "rgba(230,57,70,.20)", "strokeWidth": 1, "radius": 28,
-          "animation": { "enter": "fade-right", "duration": 800, "step": 0 }
+          "id": "product-glass",
+          "x": 60,
+          "y": 90,
+          "width": 620,
+          "height": 520,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 800,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.05)",
+          "stroke": "rgba(230,57,70,.20)",
+          "strokeWidth": 1,
+          "radius": 28
         },
         {
-          "id": "product-kicker", "type": "text",
-          "x": 108, "y": 148, "width": 520,
-          "content": "MEET THE PRODUCT", "fontSize": 13, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 140, "step": 0 }
+          "id": "product-kicker",
+          "x": 108,
+          "y": 148,
+          "width": 520,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 140,
+            "step": 0
+          },
+          "type": "text",
+          "content": "MEET THE PLATFORM",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "product-name", "type": "animatedText",
-          "x": 100, "y": 185, "width": 600,
-          "content": "VORTEX PRO", "fontSize": 80, "fontWeight": "bold", "color": "#f5f0eb", "lineHeight": 0.95,
-          "textAnimation": { "name": "bounce-chars", "stagger": 65, "duration": 800 }
+          "id": "product-name",
+          "x": 100,
+          "y": 185,
+          "width": 600,
+          "type": "animatedText",
+          "content": "VORTEX PRO",
+          "fontSize": 80,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "lineHeight": 0.95,
+          "textAnimation": {
+            "name": "bounce-chars",
+            "stagger": 65,
+            "duration": 800
+          }
         },
         {
-          "id": "product-desc", "type": "text",
-          "x": 108, "y": 370, "width": 540,
-          "content": "An AI-powered creative suite with real-time collaboration, infinite canvas, and export to any format — designed from the ground up for professional teams.", "fontSize": 18, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 600, "delay": 320, "step": 0 }
+          "id": "product-desc",
+          "x": 108,
+          "y": 370,
+          "width": 540,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 320,
+            "step": 0
+          },
+          "type": "text",
+          "content": "An AI-powered creative suite with real-time collaboration, infinite canvas, and export to any format — designed from the ground up for professional teams.",
+          "fontSize": 18,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.5
         },
         {
-          "id": "morph-product-pill", "type": "rect",
-          "x": 108, "y": 548, "width": 148, "height": 40,
-          "fill": "rgba(230,57,70,.22)", "stroke": "rgba(230,57,70,.45)", "strokeWidth": 1, "radius": 20,
-          "animation": { "enter": "bounce-in", "duration": 600, "delay": 450, "step": 0 }
+          "id": "morph-product-pill",
+          "x": 108,
+          "y": 548,
+          "width": 148,
+          "height": 40,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 600,
+            "delay": 450,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(230,57,70,.22)",
+          "stroke": "rgba(230,57,70,.45)",
+          "strokeWidth": 1,
+          "radius": 20
         },
         {
-          "id": "product-chip-ai-label", "type": "text",
-          "x": 108, "y": 555, "width": 148,
-          "content": "AI-Powered", "fontSize": 14, "fontWeight": "bold", "color": "#f5f0eb", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 500, "step": 0 }
+          "id": "product-chip-ai-label",
+          "x": 109.84,
+          "y": 560.52,
+          "width": 148,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "AI-Powered",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "align": "center"
         },
         {
-          "id": "product-chip-collab", "type": "rect",
-          "x": 272, "y": 548, "width": 168, "height": 40,
-          "fill": "rgba(230,57,70,.14)", "stroke": "rgba(230,57,70,.30)", "strokeWidth": 1, "radius": 20,
-          "animation": { "enter": "bounce-in", "duration": 600, "delay": 540, "step": 0 }
+          "id": "product-chip-collab",
+          "x": 272,
+          "y": 548,
+          "width": 168,
+          "height": 40,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 600,
+            "delay": 540,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(230,57,70,.14)",
+          "stroke": "rgba(230,57,70,.30)",
+          "strokeWidth": 1,
+          "radius": 20
         },
         {
-          "id": "product-chip-collab-label", "type": "text",
-          "x": 272, "y": 555, "width": 168,
-          "content": "Real-time Collab", "fontSize": 14, "fontWeight": "bold", "color": "#f5f0eb", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 580, "step": 0 }
+          "id": "product-chip-collab-label",
+          "x": 273.84,
+          "y": 560.52,
+          "width": 168,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 580,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Real-time Collab",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "align": "center"
         },
         {
-          "id": "product-chip-canvas", "type": "rect",
-          "x": 456, "y": 548, "width": 164, "height": 40,
-          "fill": "rgba(230,57,70,.10)", "stroke": "rgba(230,57,70,.22)", "strokeWidth": 1, "radius": 20,
-          "animation": { "enter": "bounce-in", "duration": 600, "delay": 620, "step": 0 }
+          "id": "product-chip-canvas",
+          "x": 456,
+          "y": 548,
+          "width": 164,
+          "height": 40,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 600,
+            "delay": 620,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(230,57,70,.10)",
+          "stroke": "rgba(230,57,70,.22)",
+          "strokeWidth": 1,
+          "radius": 20
         },
         {
-          "id": "product-chip-canvas-label", "type": "text",
-          "x": 456, "y": 555, "width": 164,
-          "content": "Infinite Canvas", "fontSize": 14, "fontWeight": "bold", "color": "#f5f0eb", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 660, "step": 0 }
+          "id": "product-chip-canvas-label",
+          "x": 457.84,
+          "y": 560.52,
+          "width": 164,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 660,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Infinite Canvas",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "align": "center"
         }
-      ]
+      ],
+      "notes": "Product intro — bounce-chars title, feature chips, glass card. morph-product-pill shared."
     },
-
     {
       "id": "features",
       "background": "#0a0a0a",
-      "fx": ["kinetic-type"],
-      "notes": "4 feature highlights in 2x2 grid — scale-in stagger for cards, step 1 for descriptions.",
       "elements": [
         {
-          "id": "features-kicker", "type": "text",
-          "x": 80, "y": 42, "width": 600,
-          "content": "WHAT MAKES US DIFFERENT", "fontSize": 13, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "fade-up", "duration": 500, "step": 0 }
+          "id": "features-kicker",
+          "x": 80,
+          "y": 42,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "WHY TEAMS SWITCH",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "features-title", "type": "text",
-          "x": 80, "y": 70, "width": 700,
-          "content": "Features", "fontSize": 52, "fontWeight": "bold", "color": "#f5f0eb",
-          "animation": { "enter": "fade-down", "duration": 600, "delay": 100, "step": 0 }
+          "id": "features-title",
+          "x": 80,
+          "y": 70,
+          "width": 700,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 600,
+            "delay": 100,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Features",
+          "fontSize": 52,
+          "fontWeight": "bold",
+          "color": "#f5f0eb"
         },
         {
-          "id": "feature-card-a-glass", "type": "rect",
-          "x": 60, "y": 170, "width": 560, "height": 220,
-          "fill": "rgba(245,240,235,.06)", "stroke": "rgba(230,57,70,.22)", "strokeWidth": 1, "radius": 20,
-          "animation": { "enter": "scale-in", "duration": 600, "delay": 0, "step": 0 }
+          "id": "feature-card-a-glass",
+          "x": 60,
+          "y": 170,
+          "width": 560,
+          "height": 220,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "delay": 0,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.06)",
+          "stroke": "rgba(230,57,70,.22)",
+          "strokeWidth": 1,
+          "radius": 20
         },
         {
-          "id": "feature-icon-a", "type": "circle",
-          "x": 106, "y": 214, "radius": 22,
-          "fill": "#e63946", "opacity": 0.9,
-          "animation": { "enter": "zoom-pop", "duration": 400, "delay": 80, "step": 0 }
+          "id": "feature-icon-a",
+          "x": 106,
+          "y": 214,
+          "opacity": 0.9,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 400,
+            "delay": 80,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 22,
+          "fill": "#e63946"
         },
         {
-          "id": "feature-title-a", "type": "text",
-          "x": 148, "y": 200, "width": 440,
-          "content": "AI Creative Assistant", "fontSize": 22, "fontWeight": "bold", "color": "#f5f0eb",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 100, "step": 0 }
+          "id": "feature-title-a",
+          "x": 148,
+          "y": 200,
+          "width": 440,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 100,
+            "step": 0
+          },
+          "type": "text",
+          "content": "AI Creative Assistant",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#f5f0eb"
         },
         {
-          "id": "feature-desc-a", "type": "text",
-          "x": 90, "y": 252, "width": 500,
-          "content": "Generate layouts, suggest copy, and auto-refine designs with context-aware AI — all without leaving your canvas.", "fontSize": 16, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.45,
-          "animation": { "enter": "fade-up", "duration": 400, "step": 1 }
+          "id": "feature-desc-a",
+          "x": 90,
+          "y": 252,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Generate layouts, suggest copy, and auto-refine designs with context-aware AI — all without leaving your canvas.",
+          "fontSize": 16,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.45
         },
         {
-          "id": "feature-card-b-glass", "type": "rect",
-          "x": 660, "y": 170, "width": 560, "height": 220,
-          "fill": "rgba(245,240,235,.06)", "stroke": "rgba(230,57,70,.22)", "strokeWidth": 1, "radius": 20,
-          "animation": { "enter": "scale-in", "duration": 600, "delay": 120, "step": 0 }
+          "id": "feature-card-b-glass",
+          "x": 660,
+          "y": 170,
+          "width": 560,
+          "height": 220,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "delay": 120,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.06)",
+          "stroke": "rgba(230,57,70,.22)",
+          "strokeWidth": 1,
+          "radius": 20
         },
         {
-          "id": "feature-icon-b", "type": "circle",
-          "x": 706, "y": 214, "radius": 22,
-          "fill": "#2b2d42",
-          "animation": { "enter": "zoom-pop", "duration": 400, "delay": 200, "step": 0 }
+          "id": "feature-icon-b",
+          "x": 706,
+          "y": 214,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 400,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 22,
+          "fill": "#2b2d42"
         },
         {
-          "id": "feature-title-b", "type": "text",
-          "x": 748, "y": 200, "width": 440,
-          "content": "Real-time Collaboration", "fontSize": 22, "fontWeight": "bold", "color": "#f5f0eb",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 220, "step": 0 }
+          "id": "feature-title-b",
+          "x": 748,
+          "y": 200,
+          "width": 440,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 220,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Real-time Collaboration",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#f5f0eb"
         },
         {
-          "id": "feature-desc-b", "type": "text",
-          "x": 690, "y": 252, "width": 500,
-          "content": "Up to 50 collaborators working simultaneously with cursor presence, live comments, and conflict-free merging.", "fontSize": 16, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.45,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 80, "step": 1 }
+          "id": "feature-desc-b",
+          "x": 690,
+          "y": 252,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 80,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Up to 50 collaborators working simultaneously with cursor presence, live comments, and conflict-free merging.",
+          "fontSize": 16,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.45
         },
         {
-          "id": "feature-card-c-glass", "type": "rect",
-          "x": 60, "y": 430, "width": 560, "height": 220,
-          "fill": "rgba(245,240,235,.06)", "stroke": "rgba(230,57,70,.22)", "strokeWidth": 1, "radius": 20,
-          "animation": { "enter": "scale-in", "duration": 600, "delay": 240, "step": 0 }
+          "id": "feature-card-c-glass",
+          "x": 60,
+          "y": 430,
+          "width": 560,
+          "height": 220,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "delay": 240,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.06)",
+          "stroke": "rgba(230,57,70,.22)",
+          "strokeWidth": 1,
+          "radius": 20
         },
         {
-          "id": "feature-icon-c", "type": "circle",
-          "x": 106, "y": 474, "radius": 22,
-          "fill": "#e63946", "opacity": 0.7,
-          "animation": { "enter": "zoom-pop", "duration": 400, "delay": 320, "step": 0 }
+          "id": "feature-icon-c",
+          "x": 106,
+          "y": 474,
+          "opacity": 0.7,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 400,
+            "delay": 320,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 22,
+          "fill": "#e63946"
         },
         {
-          "id": "feature-title-c", "type": "text",
-          "x": 148, "y": 460, "width": 440,
-          "content": "Infinite Canvas Engine", "fontSize": 22, "fontWeight": "bold", "color": "#f5f0eb",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 340, "step": 0 }
+          "id": "feature-title-c",
+          "x": 148,
+          "y": 460,
+          "width": 440,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 340,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Infinite Canvas Engine",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#f5f0eb"
         },
         {
-          "id": "feature-desc-c", "type": "text",
-          "x": 90, "y": 512, "width": 500,
-          "content": "Pan and zoom without limits. Organize work at any scale from micro UI atoms to full campaign maps.", "fontSize": 16, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.45,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 160, "step": 1 }
+          "id": "feature-desc-c",
+          "x": 90,
+          "y": 512,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 160,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Pan and zoom without limits. Organize work at any scale from micro UI atoms to full campaign maps.",
+          "fontSize": 16,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.45
         },
         {
-          "id": "feature-card-d-glass", "type": "rect",
-          "x": 660, "y": 430, "width": 560, "height": 220,
-          "fill": "rgba(245,240,235,.06)", "stroke": "rgba(230,57,70,.22)", "strokeWidth": 1, "radius": 20,
-          "animation": { "enter": "scale-in", "duration": 600, "delay": 360, "step": 0 }
+          "id": "feature-card-d-glass",
+          "x": 660,
+          "y": 430,
+          "width": 560,
+          "height": 220,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "delay": 360,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.06)",
+          "stroke": "rgba(230,57,70,.22)",
+          "strokeWidth": 1,
+          "radius": 20
         },
         {
-          "id": "feature-icon-d", "type": "circle",
-          "x": 706, "y": 474, "radius": 22,
-          "fill": "#2b2d42",
-          "animation": { "enter": "zoom-pop", "duration": 400, "delay": 440, "step": 0 }
+          "id": "feature-icon-d",
+          "x": 706,
+          "y": 474,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 400,
+            "delay": 440,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 22,
+          "fill": "#2b2d42"
         },
         {
-          "id": "feature-title-d", "type": "text",
-          "x": 748, "y": 460, "width": 440,
-          "content": "Universal Export", "fontSize": 22, "fontWeight": "bold", "color": "#f5f0eb",
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 460, "step": 0 }
+          "id": "feature-title-d",
+          "x": 748,
+          "y": 460,
+          "width": 440,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 460,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Universal Export",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#f5f0eb"
         },
         {
-          "id": "feature-desc-d", "type": "text",
-          "x": 690, "y": 512, "width": 500,
-          "content": "One-click export to PDF, PPTX, HTML, PNG, SVG, and Figma handoff — at pixel-perfect fidelity.", "fontSize": 16, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.45,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 240, "step": 1 }
+          "id": "feature-desc-d",
+          "x": 690,
+          "y": 512,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 240,
+            "step": 1
+          },
+          "type": "text",
+          "content": "One-click export to PDF, PPTX, HTML, PNG, SVG, and Figma handoff — at pixel-perfect fidelity.",
+          "fontSize": 16,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.45
         }
+      ],
+      "notes": "4 feature highlights in 2x2 grid — scale-in stagger for cards, step 1 for descriptions.",
+      "fx": [
+        "kinetic-type"
       ]
     },
-
     {
       "id": "metrics",
       "background": "#0a0a0a",
-      "fx": ["counter-explosion"],
-      "notes": "KPI numbers — scale-chars reveal in two pairs, step 0 title then steps 1-2.",
       "elements": [
         {
-          "id": "metrics-title", "type": "text",
-          "x": 80, "y": 40, "width": 900,
-          "content": "The Numbers Don\u2019t Lie", "fontSize": 52, "fontWeight": "bold", "color": "#f5f0eb",
-          "animation": { "enter": "fade-up", "duration": 650, "step": 0 }
+          "id": "metrics-title",
+          "x": 80,
+          "y": 40,
+          "width": 900,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 650,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Launch Momentum",
+          "fontSize": 52,
+          "fontWeight": "bold",
+          "color": "#f5f0eb"
         },
         {
-          "id": "metrics-kicker", "type": "text",
-          "x": 80, "y": 20, "width": 500,
-          "content": "BY THE NUMBERS", "fontSize": 13, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "fade-up", "duration": 450, "step": 0 }
+          "id": "metrics-kicker",
+          "x": 80,
+          "y": 20,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "step": 0
+          },
+          "type": "text",
+          "content": "BY THE NUMBERS",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "metrics-accent-bar", "type": "rect",
-          "x": 80, "y": 110, "width": 60, "height": 4,
-          "fill": "#e63946", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 500, "delay": 200, "step": 0 }
+          "id": "metrics-accent-bar",
+          "x": 80,
+          "y": 110,
+          "width": 60,
+          "height": 4,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 500,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "#e63946",
+          "radius": 2
         },
         {
-          "id": "metrics-kpi-a", "type": "animatedText",
-          "x": 60, "y": 180, "width": 280,
-          "content": "10M+", "fontSize": 80, "fontWeight": "bold", "color": "#e63946",
-          "textAnimation": { "name": "scale-chars", "stagger": 70, "duration": 600, "easing": "easeOutElastic" },
-          "animation": { "enter": "fade-up", "duration": 500, "step": 1 }
+          "id": "metrics-kpi-a",
+          "x": 60,
+          "y": 180,
+          "width": 280,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "animatedText",
+          "content": "10M+",
+          "fontSize": 80,
+          "fontWeight": "bold",
+          "color": "#e63946",
+          "textAnimation": {
+            "name": "scale-chars",
+            "stagger": 70,
+            "easing": "easeOutElastic",
+            "duration": 600
+          }
         },
         {
-          "id": "metrics-label-a", "type": "text",
-          "x": 60, "y": 290, "width": 280,
-          "content": "Active creators\nworldwide", "fontSize": 18, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.4,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 100, "step": 1 }
+          "id": "metrics-label-a",
+          "x": 60,
+          "y": 290,
+          "width": 280,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 100,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Active creators\nworldwide",
+          "fontSize": 18,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.4
         },
         {
-          "id": "metrics-kpi-b", "type": "animatedText",
-          "x": 380, "y": 180, "width": 280,
-          "content": "99.9%", "fontSize": 80, "fontWeight": "bold", "color": "#f5f0eb",
-          "textAnimation": { "name": "scale-chars", "stagger": 70, "duration": 600, "easing": "easeOutElastic" },
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 80, "step": 1 }
+          "id": "metrics-kpi-b",
+          "x": 380,
+          "y": 180,
+          "width": 280,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 80,
+            "step": 1
+          },
+          "type": "animatedText",
+          "content": "99.9%",
+          "fontSize": 80,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "textAnimation": {
+            "name": "scale-chars",
+            "stagger": 70,
+            "easing": "easeOutElastic",
+            "duration": 600
+          }
         },
         {
-          "id": "metrics-label-b", "type": "text",
-          "x": 380, "y": 290, "width": 280,
-          "content": "Uptime SLA\ngaranteed", "fontSize": 18, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.4,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 180, "step": 1 }
+          "id": "metrics-label-b",
+          "x": 380,
+          "y": 290,
+          "width": 280,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 180,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Uptime SLA\ngaranteed",
+          "fontSize": 18,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.4
         },
         {
-          "id": "metrics-divider-v", "type": "rect",
-          "x": 638, "y": 160, "width": 2, "height": 200,
-          "fill": "rgba(230,57,70,.30)", "radius": 1,
-          "animation": { "enter": "stretch-y", "duration": 500, "step": 1 }
+          "id": "metrics-divider-v",
+          "x": 638,
+          "y": 160,
+          "width": 2,
+          "height": 200,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(230,57,70,.30)",
+          "radius": 1
         },
         {
-          "id": "metrics-kpi-c", "type": "animatedText",
-          "x": 700, "y": 180, "width": 260,
-          "content": "4.8\u2605", "fontSize": 80, "fontWeight": "bold", "color": "#e63946",
-          "textAnimation": { "name": "scale-chars", "stagger": 70, "duration": 600, "easing": "easeOutElastic" },
-          "animation": { "enter": "fade-up", "duration": 500, "step": 2 }
+          "id": "metrics-kpi-c",
+          "x": 700,
+          "y": 180,
+          "width": 260,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 2
+          },
+          "type": "animatedText",
+          "content": "4.8★",
+          "fontSize": 80,
+          "fontWeight": "bold",
+          "color": "#e63946",
+          "textAnimation": {
+            "name": "scale-chars",
+            "stagger": 70,
+            "easing": "easeOutElastic",
+            "duration": 600
+          }
         },
         {
-          "id": "metrics-label-c", "type": "text",
-          "x": 700, "y": 290, "width": 260,
-          "content": "App store rating\n(500k reviews)", "fontSize": 18, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.4,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 100, "step": 2 }
+          "id": "metrics-label-c",
+          "x": 700,
+          "y": 290,
+          "width": 260,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 100,
+            "step": 2
+          },
+          "type": "text",
+          "content": "App store rating\n(500k reviews)",
+          "fontSize": 18,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.4
         },
         {
-          "id": "metrics-kpi-d", "type": "animatedText",
-          "x": 1000, "y": 180, "width": 240,
-          "content": "150+", "fontSize": 80, "fontWeight": "bold", "color": "#f5f0eb",
-          "textAnimation": { "name": "scale-chars", "stagger": 70, "duration": 600, "easing": "easeOutElastic" },
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 80, "step": 2 }
+          "id": "metrics-kpi-d",
+          "x": 1000,
+          "y": 180,
+          "width": 240,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 80,
+            "step": 2
+          },
+          "type": "animatedText",
+          "content": "150+",
+          "fontSize": 80,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "textAnimation": {
+            "name": "scale-chars",
+            "stagger": 70,
+            "easing": "easeOutElastic",
+            "duration": 600
+          }
         },
         {
-          "id": "metrics-label-d", "type": "text",
-          "x": 1000, "y": 290, "width": 240,
-          "content": "Integrations\n& plugins", "fontSize": 18, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.4,
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 180, "step": 2 }
+          "id": "metrics-label-d",
+          "x": 1000,
+          "y": 290,
+          "width": 240,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 180,
+            "step": 2
+          },
+          "type": "text",
+          "content": "Integrations\n& plugins",
+          "fontSize": 18,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.4
         },
         {
-          "id": "metrics-bottom-glass", "type": "rect",
-          "x": 60, "y": 440, "width": 1160, "height": 220,
-          "fill": "rgba(245,240,235,.04)", "stroke": "rgba(230,57,70,.14)", "strokeWidth": 1, "radius": 18,
-          "animation": { "enter": "fade-up", "duration": 500, "step": 2 }
+          "id": "metrics-bottom-glass",
+          "x": 65.52,
+          "y": 529.38,
+          "width": 1156.69,
+          "height": 143.13,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 2
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.04)",
+          "stroke": "rgba(230,57,70,.14)",
+          "strokeWidth": 1,
+          "radius": 18
         },
         {
-          "id": "metrics-bottom-text", "type": "text",
-          "x": 100, "y": 498, "width": 1080,
-          "content": "Vortex processed over 2.4 billion design assets in 2025 alone — making it the fastest-growing creative tool in history.", "fontSize": 22, "color": "rgba(245,240,235,0.72)", "lineHeight": 1.5, "align": "center",
-          "animation": { "enter": "blur-in", "duration": 600, "delay": 100, "step": 2 }
+          "id": "metrics-bottom-text",
+          "x": 99.64,
+          "y": 569.72,
+          "width": 1080,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 600,
+            "delay": 100,
+            "step": 2
+          },
+          "type": "text",
+          "content": "VORTEX processed over 2.4 billion design assets in 2025 alone — making it the fastest-growing creative tool in history.",
+          "fontSize": 22,
+          "color": "rgba(245,240,235,0.72)",
+          "align": "center",
+          "lineHeight": 1.5
         }
+      ],
+      "notes": "KPI numbers — scale-chars reveal in two pairs, step 0 title then steps 1-2.",
+      "fx": [
+        "counter-explosion"
       ]
     },
-
     {
       "id": "testimonial",
       "background": "#0a0a0a",
-      "fx": ["word-cascade"],
-      "notes": "Customer quote — typewriter reveal, attribution fade-up at step 1, large decorative orb.",
       "elements": [
         {
-          "id": "testimonial-orb-bg", "type": "circle",
-          "x": 1100, "y": 120, "radius": 180,
-          "fill": "rgba(230,57,70,.06)", "opacity": 1,
-          "animation": { "enter": "scale-in", "duration": 900, "step": 0 }
+          "id": "testimonial-orb-bg",
+          "x": 1100,
+          "y": 120,
+          "opacity": 1,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 180,
+          "fill": "rgba(230,57,70,.06)"
         },
         {
-          "id": "testimonial-quote-mark", "type": "text",
-          "x": 60, "y": 30, "width": 200,
-          "content": "\u201c", "fontSize": 200, "fontWeight": "bold", "color": "rgba(230,57,70,.14)", "lineHeight": 1,
-          "animation": { "enter": "fade-up", "duration": 700, "step": 0 }
+          "id": "testimonial-quote-mark",
+          "x": 60,
+          "y": 30,
+          "width": 200,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 700,
+            "step": 0
+          },
+          "type": "text",
+          "content": "“",
+          "fontSize": 200,
+          "fontWeight": "bold",
+          "color": "rgba(230,57,70,.14)",
+          "lineHeight": 1
         },
         {
-          "id": "testimonial-glass", "type": "rect",
-          "x": 60, "y": 120, "width": 1160, "height": 380,
-          "fill": "rgba(245,240,235,.05)", "stroke": "rgba(230,57,70,.18)", "strokeWidth": 1, "radius": 24,
-          "animation": { "enter": "fade-right", "duration": 700, "step": 0 }
+          "id": "testimonial-glass",
+          "x": 60,
+          "y": 120,
+          "width": 1160,
+          "height": 380,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 700,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.05)",
+          "stroke": "rgba(230,57,70,.18)",
+          "strokeWidth": 1,
+          "radius": 24
         },
         {
-          "id": "testimonial-quote", "type": "animatedText",
-          "x": 110, "y": 158, "width": 1060,
-          "content": "Vortex completely changed how our studio operates. What used to take three days now happens in an afternoon. It\u2019s not just a tool \u2014 it\u2019s a force multiplier for creativity.",
-          "fontSize": 26, "fontStyle": "italic", "color": "#f5f0eb", "lineHeight": 1.5,
-          "textAnimation": { "name": "typewriter", "stagger": 18 }
+          "id": "testimonial-quote",
+          "x": 110,
+          "y": 158,
+          "width": 1060,
+          "type": "animatedText",
+          "content": "VORTEX completely changed how our studio operates. What used to take three review cycles now happens in an afternoon. It’s not just a tool — it’s a force multiplier for creativity.",
+          "fontSize": 26,
+          "color": "#f5f0eb",
+          "lineHeight": 1.5,
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 18
+          }
         },
         {
-          "id": "testimonial-divider", "type": "rect",
-          "x": 110, "y": 378, "width": 50, "height": 3,
-          "fill": "#e63946", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 400, "step": 1 }
+          "id": "testimonial-divider",
+          "x": 110,
+          "y": 378,
+          "width": 50,
+          "height": 3,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 400,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "#e63946",
+          "radius": 2
         },
         {
-          "id": "testimonial-attribution", "type": "text",
-          "x": 110, "y": 396, "width": 600,
-          "content": "\u2014 Creative Director, Pixelworks", "fontSize": 18, "color": "rgba(245,240,235,0.55)", "fontStyle": "italic",
-          "animation": { "enter": "fade-up", "duration": 500, "step": 1 }
+          "id": "testimonial-attribution",
+          "x": 110,
+          "y": 396,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "text",
+          "content": "— Creative Director, Pixelworks",
+          "fontSize": 18,
+          "fontStyle": "italic",
+          "color": "rgba(245,240,235,0.55)"
         },
         {
-          "id": "testimonial-role-chip", "type": "rect",
-          "x": 110, "y": 432, "width": 200, "height": 34,
-          "fill": "rgba(230,57,70,.18)", "stroke": "rgba(230,57,70,.35)", "strokeWidth": 1, "radius": 17,
-          "animation": { "enter": "scale-in", "duration": 400, "delay": 80, "step": 1 }
+          "id": "testimonial-role-chip",
+          "x": 110,
+          "y": 432,
+          "width": 200,
+          "height": 34,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 400,
+            "delay": 80,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(230,57,70,.18)",
+          "stroke": "rgba(230,57,70,.35)",
+          "strokeWidth": 1,
+          "radius": 17
         },
         {
-          "id": "testimonial-role-chip-label", "type": "text",
-          "x": 110, "y": 440, "width": 200,
-          "content": "Design Leader", "fontSize": 13, "fontWeight": "bold", "color": "#f5f0eb", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 300, "delay": 140, "step": 1 }
+          "id": "testimonial-role-chip-label",
+          "x": 110,
+          "y": 440,
+          "width": 200,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "delay": 140,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Design Leader",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "align": "center"
         }
+      ],
+      "notes": "Customer quote — typewriter reveal, attribution fade-up at step 1, large decorative orb.",
+      "fx": [
+        "word-cascade"
       ]
     },
-
     {
       "id": "comparison",
       "background": "#0a0a0a",
-      "notes": "Before/After — morph rect grows and changes color, divider line, step-based reveal.",
       "elements": [
         {
-          "id": "comparison-title", "type": "text",
-          "x": 80, "y": 36, "width": 800,
-          "content": "Before vs After Vortex", "fontSize": 48, "fontWeight": "bold", "color": "#f5f0eb",
-          "animation": { "enter": "fade-up", "duration": 600, "step": 0 }
+          "id": "comparison-title",
+          "x": 80,
+          "y": 36,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Before vs After VORTEX",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#f5f0eb"
         },
         {
-          "id": "comparison-kicker", "type": "text",
-          "x": 80, "y": 18, "width": 400,
-          "content": "THE DIFFERENCE", "fontSize": 13, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "fade-up", "duration": 450, "step": 0 }
+          "id": "comparison-kicker",
+          "x": 80,
+          "y": 18,
+          "width": 400,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "step": 0
+          },
+          "type": "text",
+          "content": "THE DIFFERENCE",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "comparison-before-label", "type": "text",
-          "x": 80, "y": 128, "width": 520,
-          "content": "BEFORE", "fontSize": 14, "fontWeight": "bold", "color": "rgba(245,240,235,0.40)", "letterSpacing": "0.22em",
-          "animation": { "enter": "fade-right", "duration": 400, "step": 1 }
+          "id": "comparison-before-label",
+          "x": 80,
+          "y": 128,
+          "width": 520,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "step": 1
+          },
+          "type": "text",
+          "content": "BEFORE",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "rgba(245,240,235,0.40)"
         },
         {
-          "id": "comparison-after-label", "type": "text",
-          "x": 680, "y": 128, "width": 520,
-          "content": "AFTER", "fontSize": 14, "fontWeight": "bold", "color": "#e63946", "letterSpacing": "0.22em",
-          "animation": { "enter": "fade-left", "duration": 400, "step": 1 }
+          "id": "comparison-after-label",
+          "x": 680,
+          "y": 128,
+          "width": 520,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 400,
+            "step": 1
+          },
+          "type": "text",
+          "content": "AFTER",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "comparison-divider", "type": "rect",
-          "x": 628, "y": 120, "width": 4, "height": 560,
-          "fill": "#e63946", "radius": 2,
-          "animation": { "enter": "stretch-y", "duration": 600, "step": 1 }
+          "id": "comparison-divider",
+          "x": 628,
+          "y": 120,
+          "width": 4,
+          "height": 560,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 600,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "#e63946",
+          "radius": 2
         },
         {
-          "id": "comparison-before-card", "type": "rect",
-          "x": 80, "y": 160, "width": 520, "height": 500,
-          "fill": "rgba(245,240,235,.04)", "stroke": "rgba(245,240,235,.10)", "strokeWidth": 1, "radius": 18,
-          "animation": { "enter": "fade-right", "duration": 500, "step": 1 }
+          "id": "comparison-before-card",
+          "x": 80,
+          "y": 160,
+          "width": 520,
+          "height": 500,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.04)",
+          "stroke": "rgba(245,240,235,.10)",
+          "strokeWidth": 1,
+          "radius": 18
         },
         {
-          "id": "comparison-before-b1", "type": "text",
-          "x": 110, "y": 198, "width": 460,
-          "content": "\u2717  3-day iteration cycles", "fontSize": 20, "color": "rgba(245,240,235,0.45)", "lineHeight": 1.7,
-          "animation": { "enter": "slide-from-left", "duration": 400, "step": 2 }
+          "id": "comparison-before-b1",
+          "x": 110,
+          "y": 198,
+          "width": 460,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 400,
+            "step": 2
+          },
+          "type": "text",
+          "content": "✗  3-day iteration cycles",
+          "fontSize": 20,
+          "color": "rgba(245,240,235,0.45)",
+          "lineHeight": 1.7
         },
         {
-          "id": "comparison-before-b2", "type": "text",
-          "x": 110, "y": 240, "width": 460,
-          "content": "\u2717  Siloed team workflows", "fontSize": 20, "color": "rgba(245,240,235,0.45)", "lineHeight": 1.7,
-          "animation": { "enter": "slide-from-left", "duration": 400, "delay": 80, "step": 2 }
+          "id": "comparison-before-b2",
+          "x": 110,
+          "y": 240,
+          "width": 460,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 400,
+            "delay": 80,
+            "step": 2
+          },
+          "type": "text",
+          "content": "✗  Siloed team workflows",
+          "fontSize": 20,
+          "color": "rgba(245,240,235,0.45)",
+          "lineHeight": 1.7
         },
         {
-          "id": "comparison-before-b3", "type": "text",
-          "x": 110, "y": 282, "width": 460,
-          "content": "\u2717  Manual export to 5 formats", "fontSize": 20, "color": "rgba(245,240,235,0.45)", "lineHeight": 1.7,
-          "animation": { "enter": "slide-from-left", "duration": 400, "delay": 160, "step": 2 }
+          "id": "comparison-before-b3",
+          "x": 110,
+          "y": 282,
+          "width": 460,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 400,
+            "delay": 160,
+            "step": 2
+          },
+          "type": "text",
+          "content": "✗  Manual export to 5 formats",
+          "fontSize": 20,
+          "color": "rgba(245,240,235,0.45)",
+          "lineHeight": 1.7
         },
         {
-          "id": "comparison-before-b4", "type": "text",
-          "x": 110, "y": 324, "width": 460,
-          "content": "\u2717  No version history", "fontSize": 20, "color": "rgba(245,240,235,0.45)", "lineHeight": 1.7,
-          "animation": { "enter": "slide-from-left", "duration": 400, "delay": 240, "step": 2 }
+          "id": "comparison-before-b4",
+          "x": 110,
+          "y": 324,
+          "width": 460,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 400,
+            "delay": 240,
+            "step": 2
+          },
+          "type": "text",
+          "content": "✗  No version history",
+          "fontSize": 20,
+          "color": "rgba(245,240,235,0.45)",
+          "lineHeight": 1.7
         },
         {
-          "id": "comparison-after-card", "type": "rect",
-          "x": 660, "y": 160, "width": 560, "height": 500,
-          "fill": "rgba(230,57,70,.07)", "stroke": "rgba(230,57,70,.22)", "strokeWidth": 1, "radius": 18,
-          "animation": { "enter": "fade-left", "duration": 500, "step": 1 }
+          "id": "comparison-after-card",
+          "x": 660,
+          "y": 160,
+          "width": 560,
+          "height": 500,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(230,57,70,.07)",
+          "stroke": "rgba(230,57,70,.22)",
+          "strokeWidth": 1,
+          "radius": 18
         },
         {
-          "id": "comparison-after-b1", "type": "text",
-          "x": 694, "y": 198, "width": 490,
-          "content": "\u2713  Afternoon iteration cycles", "fontSize": 20, "color": "#f5f0eb", "lineHeight": 1.7,
-          "animation": { "enter": "slide-from-right", "duration": 400, "step": 2 }
+          "id": "comparison-after-b1",
+          "x": 694,
+          "y": 198,
+          "width": 490,
+          "animation": {
+            "enter": "slide-from-right",
+            "duration": 400,
+            "step": 2
+          },
+          "type": "text",
+          "content": "✓  Afternoon iteration cycles",
+          "fontSize": 20,
+          "color": "#f5f0eb",
+          "lineHeight": 1.7
         },
         {
-          "id": "comparison-after-b2", "type": "text",
-          "x": 694, "y": 240, "width": 490,
-          "content": "\u2713  Live multiplayer canvas", "fontSize": 20, "color": "#f5f0eb", "lineHeight": 1.7,
-          "animation": { "enter": "slide-from-right", "duration": 400, "delay": 80, "step": 2 }
+          "id": "comparison-after-b2",
+          "x": 694,
+          "y": 240,
+          "width": 490,
+          "animation": {
+            "enter": "slide-from-right",
+            "duration": 400,
+            "delay": 80,
+            "step": 2
+          },
+          "type": "text",
+          "content": "✓  Live multiplayer canvas",
+          "fontSize": 20,
+          "color": "#f5f0eb",
+          "lineHeight": 1.7
         },
         {
-          "id": "comparison-after-b3", "type": "text",
-          "x": 694, "y": 282, "width": 490,
-          "content": "\u2713  One-click universal export", "fontSize": 20, "color": "#f5f0eb", "lineHeight": 1.7,
-          "animation": { "enter": "slide-from-right", "duration": 400, "delay": 160, "step": 2 }
+          "id": "comparison-after-b3",
+          "x": 694,
+          "y": 282,
+          "width": 490,
+          "animation": {
+            "enter": "slide-from-right",
+            "duration": 400,
+            "delay": 160,
+            "step": 2
+          },
+          "type": "text",
+          "content": "✓  One-click universal export",
+          "fontSize": 20,
+          "color": "#f5f0eb",
+          "lineHeight": 1.7
         },
         {
-          "id": "comparison-after-b4", "type": "text",
-          "x": 694, "y": 324, "width": 490,
-          "content": "\u2713  Infinite version branching", "fontSize": 20, "color": "#f5f0eb", "lineHeight": 1.7,
-          "animation": { "enter": "slide-from-right", "duration": 400, "delay": 240, "step": 2 }
+          "id": "comparison-after-b4",
+          "x": 694,
+          "y": 324,
+          "width": 490,
+          "animation": {
+            "enter": "slide-from-right",
+            "duration": 400,
+            "delay": 240,
+            "step": 2
+          },
+          "type": "text",
+          "content": "✓  Infinite version branching",
+          "fontSize": 20,
+          "color": "#f5f0eb",
+          "lineHeight": 1.7
         },
         {
           "id": "comparison-morph-bar",
+          "x": 100,
+          "y": 490,
+          "width": 100,
+          "height": 100,
+          "opacity": 0.8,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 500,
+            "step": 1
+          },
           "type": "rect",
-          "x": 100, "y": 490, "width": 100, "height": 100,
-          "fill": "#2b2d42", "radius": 8, "opacity": 0.8,
-          "animation": { "enter": "scale-in", "duration": 500, "step": 1 },
+          "fill": "#2b2d42",
+          "radius": 8,
           "morphSteps": [
-            { "target": { "fill": "#f4a261", "width": 260, "height": 130, "radius": 16 }, "duration": 700, "easing": "easeInOutCubic" },
-            { "target": { "fill": "#e63946", "width": 460, "height": 160, "radius": 24 }, "duration": 700 }
+            {
+              "target": {
+                "fill": "#f4a261",
+                "width": 260,
+                "height": 130,
+                "radius": 16
+              },
+              "duration": 700,
+              "easing": "easeInOutCubic"
+            },
+            {
+              "target": {
+                "fill": "#e63946",
+                "width": 460,
+                "height": 160,
+                "radius": 24
+              },
+              "duration": 700
+            }
           ],
           "morphStepTrigger": "click"
         },
         {
-          "id": "comparison-morph-label", "type": "text",
-          "x": 100, "y": 618, "width": 460,
-          "content": "Click to see the transformation", "fontSize": 14, "color": "rgba(245,240,235,0.35)",
-          "animation": { "enter": "fade-up", "duration": 300, "step": 1 }
+          "id": "comparison-morph-label",
+          "x": 100,
+          "y": 618,
+          "width": 460,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 300,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Click to see the transformation",
+          "fontSize": 14,
+          "color": "rgba(245,240,235,0.35)"
         }
-      ]
+      ],
+      "notes": "Before/After — morph rect grows and changes color, divider line, step-based reveal."
     },
-
     {
       "id": "timeline",
       "background": "#0a0a0a",
-      "fx": ["ink-splatter"],
-      "notes": "Launch timeline — 4 quarterly milestones revealed via slide-from-left steps 1-4.",
       "elements": [
         {
-          "id": "timeline-kicker", "type": "text",
-          "x": 80, "y": 26, "width": 600,
-          "content": "LAUNCH ROADMAP", "fontSize": 13, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "fade-up", "duration": 450, "step": 0 }
+          "id": "timeline-kicker",
+          "x": 80,
+          "y": 26,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "step": 0
+          },
+          "type": "text",
+          "content": "LAUNCH ROADMAP",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "timeline-title", "type": "text",
-          "x": 80, "y": 52, "width": 900,
-          "content": "The Journey to Launch", "fontSize": 52, "fontWeight": "bold", "color": "#f5f0eb",
-          "animation": { "enter": "fade-down", "duration": 650, "step": 0 }
+          "id": "timeline-title",
+          "x": 80,
+          "y": 52,
+          "width": 900,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 650,
+            "step": 0
+          },
+          "type": "text",
+          "content": "The Journey to Launch",
+          "fontSize": 52,
+          "fontWeight": "bold",
+          "color": "#f5f0eb"
         },
         {
-          "id": "timeline-spine", "type": "rect",
-          "x": 136, "y": 168, "width": 4, "height": 500,
-          "fill": "rgba(230,57,70,.30)", "radius": 2,
-          "animation": { "enter": "stretch-y", "duration": 700, "delay": 200, "step": 0 }
+          "id": "timeline-spine",
+          "x": 136,
+          "y": 168,
+          "width": 4,
+          "height": 500,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 700,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(230,57,70,.30)",
+          "radius": 2
         },
         {
-          "id": "timeline-node-a", "type": "circle",
-          "x": 138, "y": 200, "radius": 12,
-          "fill": "#e63946",
-          "animation": { "enter": "zoom-pop", "duration": 400, "step": 1 }
+          "id": "timeline-node-a",
+          "x": 138,
+          "y": 200,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 400,
+            "step": 1
+          },
+          "type": "circle",
+          "radius": 12,
+          "fill": "#e63946"
         },
         {
-          "id": "timeline-date-a", "type": "text",
-          "x": 170, "y": 186, "width": 200,
-          "content": "Q1 2026", "fontSize": 16, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "slide-from-left", "duration": 500, "step": 1 }
+          "id": "timeline-date-a",
+          "x": 170,
+          "y": 186,
+          "width": 200,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Q1 2026",
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "timeline-event-a", "type": "text",
-          "x": 170, "y": 208, "width": 500,
-          "content": "Private beta launch — 5,000 selected studios get early access to the full platform. First feedback loop begins.", "fontSize": 17, "color": "rgba(245,240,235,0.65)", "lineHeight": 1.45,
-          "animation": { "enter": "slide-from-left", "duration": 500, "delay": 60, "step": 1 }
+          "id": "timeline-event-a",
+          "x": 170,
+          "y": 208,
+          "width": 500,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 500,
+            "delay": 60,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Private beta launch — 5,000 selected studios get early access to the full platform. First feedback loop begins.",
+          "fontSize": 17,
+          "color": "rgba(245,240,235,0.65)",
+          "lineHeight": 1.45
         },
         {
-          "id": "timeline-connector-ab", "type": "rect",
-          "x": 134, "y": 262, "width": 4, "height": 80,
-          "fill": "rgba(230,57,70,.20)", "radius": 2
+          "id": "timeline-connector-ab",
+          "x": 134,
+          "y": 262,
+          "width": 4,
+          "height": 80,
+          "type": "rect",
+          "fill": "rgba(230,57,70,.20)",
+          "radius": 2
         },
         {
-          "id": "timeline-node-b", "type": "circle",
-          "x": 138, "y": 340, "radius": 12,
-          "fill": "#e63946",
-          "animation": { "enter": "zoom-pop", "duration": 400, "step": 2 }
+          "id": "timeline-node-b",
+          "x": 138,
+          "y": 340,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 400,
+            "step": 2
+          },
+          "type": "circle",
+          "radius": 12,
+          "fill": "#e63946"
         },
         {
-          "id": "timeline-date-b", "type": "text",
-          "x": 170, "y": 326, "width": 200,
-          "content": "Q2 2026", "fontSize": 16, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "slide-from-left", "duration": 500, "step": 2 }
+          "id": "timeline-date-b",
+          "x": 170,
+          "y": 326,
+          "width": 200,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 500,
+            "step": 2
+          },
+          "type": "text",
+          "content": "Q2 2026",
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "timeline-event-b", "type": "text",
-          "x": 170, "y": 348, "width": 500,
-          "content": "Public launch on Product Hunt and AppSumo. Team plan released with live multiplayer and comment threads.", "fontSize": 17, "color": "rgba(245,240,235,0.65)", "lineHeight": 1.45,
-          "animation": { "enter": "slide-from-left", "duration": 500, "delay": 60, "step": 2 }
+          "id": "timeline-event-b",
+          "x": 170,
+          "y": 348,
+          "width": 500,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 500,
+            "delay": 60,
+            "step": 2
+          },
+          "type": "text",
+          "content": "Public launch on Product Hunt and AppSumo. Team plan released with live multiplayer and comment threads.",
+          "fontSize": 17,
+          "color": "rgba(245,240,235,0.65)",
+          "lineHeight": 1.45
         },
         {
-          "id": "timeline-node-c", "type": "circle",
-          "x": 138, "y": 478, "radius": 12,
-          "fill": "#e63946",
-          "animation": { "enter": "zoom-pop", "duration": 400, "step": 3 }
+          "id": "timeline-node-c",
+          "x": 138,
+          "y": 478,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 400,
+            "step": 3
+          },
+          "type": "circle",
+          "radius": 12,
+          "fill": "#e63946"
         },
         {
-          "id": "timeline-date-c", "type": "text",
-          "x": 170, "y": 464, "width": 200,
-          "content": "Q3 2026", "fontSize": 16, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "slide-from-left", "duration": 500, "step": 3 }
+          "id": "timeline-date-c",
+          "x": 170,
+          "y": 464,
+          "width": 200,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 500,
+            "step": 3
+          },
+          "type": "text",
+          "content": "Q3 2026",
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "timeline-event-c", "type": "text",
-          "x": 170, "y": 486, "width": 500,
-          "content": "Enterprise tier with SSO, audit logs, and dedicated infrastructure. First 1,000 enterprise customers onboarded.", "fontSize": 17, "color": "rgba(245,240,235,0.65)", "lineHeight": 1.45,
-          "animation": { "enter": "slide-from-left", "duration": 500, "delay": 60, "step": 3 }
+          "id": "timeline-event-c",
+          "x": 170,
+          "y": 486,
+          "width": 500,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 500,
+            "delay": 60,
+            "step": 3
+          },
+          "type": "text",
+          "content": "Enterprise tier with SSO, audit logs, and dedicated infrastructure. First 1,000 enterprise customers onboarded.",
+          "fontSize": 17,
+          "color": "rgba(245,240,235,0.65)",
+          "lineHeight": 1.45
         },
         {
-          "id": "timeline-node-d", "type": "circle",
-          "x": 138, "y": 616, "radius": 12,
-          "fill": "#e63946",
-          "animation": { "enter": "zoom-pop", "duration": 400, "step": 4 }
+          "id": "timeline-node-d",
+          "x": 138,
+          "y": 616,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 400,
+            "step": 4
+          },
+          "type": "circle",
+          "radius": 12,
+          "fill": "#e63946"
         },
         {
-          "id": "timeline-date-d", "type": "text",
-          "x": 170, "y": 602, "width": 200,
-          "content": "Q4 2026", "fontSize": 16, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "slide-from-left", "duration": 500, "step": 4 }
+          "id": "timeline-date-d",
+          "x": 170,
+          "y": 602,
+          "width": 200,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 500,
+            "step": 4
+          },
+          "type": "text",
+          "content": "Q4 2026",
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "timeline-event-d", "type": "text",
-          "x": 170, "y": 624, "width": 500,
-          "content": "10M user milestone. Mobile app launch. Plugin marketplace goes live with 150+ integrations.", "fontSize": 17, "color": "rgba(245,240,235,0.65)", "lineHeight": 1.45,
-          "animation": { "enter": "slide-from-left", "duration": 500, "delay": 60, "step": 4 }
+          "id": "timeline-event-d",
+          "x": 170,
+          "y": 624,
+          "width": 500,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 500,
+            "delay": 60,
+            "step": 4
+          },
+          "type": "text",
+          "content": "10M user milestone. Mobile app launch. Plugin marketplace goes live with 150+ integrations.",
+          "fontSize": 17,
+          "color": "rgba(245,240,235,0.65)",
+          "lineHeight": 1.45
         },
         {
-          "id": "timeline-side-glass", "type": "rect",
-          "x": 760, "y": 160, "width": 460, "height": 500,
-          "fill": "rgba(245,240,235,.04)", "stroke": "rgba(230,57,70,.14)", "strokeWidth": 1, "radius": 20,
-          "animation": { "enter": "fade-left", "duration": 600, "step": 0 }
+          "id": "timeline-side-glass",
+          "x": 760,
+          "y": 160,
+          "width": 460,
+          "height": 500,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.04)",
+          "stroke": "rgba(230,57,70,.14)",
+          "strokeWidth": 1,
+          "radius": 20
         },
         {
-          "id": "timeline-side-stat", "type": "text",
-          "x": 800, "y": 260, "width": 380,
-          "content": "12 months.\n4 milestones.\nUnlimited ambition.", "fontSize": 36, "fontWeight": "bold", "color": "#f5f0eb", "lineHeight": 1.3,
-          "animation": { "enter": "blur-zoom", "duration": 700, "delay": 200, "step": 0 }
+          "id": "timeline-side-stat",
+          "x": 800,
+          "y": 260,
+          "width": 380,
+          "animation": {
+            "enter": "blur-zoom",
+            "duration": 700,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "text",
+          "content": "12 months.\n4 milestones.\nUnlimited ambition.",
+          "fontSize": 36,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "lineHeight": 1.3
         },
         {
-          "id": "timeline-side-sub", "type": "text",
-          "x": 800, "y": 430, "width": 380,
-          "content": "Every quarter brings the creative world closer to a single unified workspace.", "fontSize": 17, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 400, "step": 0 }
+          "id": "timeline-side-sub",
+          "x": 800,
+          "y": 430,
+          "width": 380,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 400,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Every quarter brings the creative world closer to a single unified workspace.",
+          "fontSize": 17,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.5
         }
+      ],
+      "notes": "Launch timeline — 4 quarterly milestones revealed via slide-from-left steps 1-4.",
+      "fx": [
+        "ink-splatter"
       ]
     },
-
     {
       "id": "social",
       "background": "#0a0a0a",
-      "fx": ["letter-explode"],
-      "notes": "Social proof — cascade headline, 5 partner name rects with fade-up stagger.",
       "elements": [
         {
-          "id": "social-kicker", "type": "text",
-          "x": 80, "y": 34, "width": 900,
-          "content": "TRUSTED BY THE WORLD\u2019S BEST CREATIVE TEAMS", "fontSize": 13, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "fade-up", "duration": 450, "step": 0 }
+          "id": "social-kicker",
+          "x": 80,
+          "y": 34,
+          "width": 900,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "step": 0
+          },
+          "type": "text",
+          "content": "BUILT FOR HIGH-VOLUME CREATIVE TEAMS",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "social-title", "type": "animatedText",
-          "x": 80, "y": 68, "width": 1120,
-          "content": "Trusted By", "fontSize": 72, "fontWeight": "bold", "color": "#f5f0eb",
-          "textAnimation": { "name": "cascade", "stagger": 60, "duration": 700 }
+          "id": "social-title",
+          "x": 80,
+          "y": 68,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "Trusted By",
+          "fontSize": 72,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "textAnimation": {
+            "name": "cascade",
+            "stagger": 60,
+            "duration": 700
+          }
         },
         {
-          "id": "social-partner-a", "type": "rect",
-          "x": 60, "y": 230, "width": 210, "height": 80,
-          "fill": "rgba(245,240,235,.06)", "stroke": "rgba(245,240,235,.14)", "strokeWidth": 1, "radius": 14,
-          "animation": { "enter": "fade-up", "duration": 450, "delay": 0, "step": 1 }
+          "id": "social-partner-a",
+          "x": 60,
+          "y": 230,
+          "width": 210,
+          "height": 80,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "delay": 0,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.06)",
+          "stroke": "rgba(245,240,235,.14)",
+          "strokeWidth": 1,
+          "radius": 14
         },
         {
-          "id": "social-partner-a-name", "type": "text",
-          "x": 60, "y": 260, "width": 210,
-          "content": "Pixelworks", "fontSize": 18, "fontWeight": "bold", "color": "rgba(245,240,235,0.60)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 60, "step": 1 }
+          "id": "social-partner-a-name",
+          "x": 60,
+          "y": 260,
+          "width": 210,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 60,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Pixelworks",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "rgba(245,240,235,0.60)",
+          "align": "center"
         },
         {
-          "id": "social-partner-b", "type": "rect",
-          "x": 300, "y": 230, "width": 210, "height": 80,
-          "fill": "rgba(245,240,235,.06)", "stroke": "rgba(245,240,235,.14)", "strokeWidth": 1, "radius": 14,
-          "animation": { "enter": "fade-up", "duration": 450, "delay": 90, "step": 1 }
+          "id": "social-partner-b",
+          "x": 300,
+          "y": 230,
+          "width": 210,
+          "height": 80,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "delay": 90,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.06)",
+          "stroke": "rgba(245,240,235,.14)",
+          "strokeWidth": 1,
+          "radius": 14
         },
         {
-          "id": "social-partner-b-name", "type": "text",
-          "x": 300, "y": 260, "width": 210,
-          "content": "Studio North", "fontSize": 18, "fontWeight": "bold", "color": "rgba(245,240,235,0.60)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 150, "step": 1 }
+          "id": "social-partner-b-name",
+          "x": 300,
+          "y": 260,
+          "width": 210,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 150,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Studio North",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "rgba(245,240,235,0.60)",
+          "align": "center"
         },
         {
-          "id": "social-partner-c", "type": "rect",
-          "x": 540, "y": 230, "width": 210, "height": 80,
-          "fill": "rgba(245,240,235,.06)", "stroke": "rgba(230,57,70,.22)", "strokeWidth": 1, "radius": 14,
-          "animation": { "enter": "fade-up", "duration": 450, "delay": 180, "step": 1 }
+          "id": "social-partner-c",
+          "x": 540,
+          "y": 230,
+          "width": 210,
+          "height": 80,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "delay": 180,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.06)",
+          "stroke": "rgba(230,57,70,.22)",
+          "strokeWidth": 1,
+          "radius": 14
         },
         {
-          "id": "social-partner-c-name", "type": "text",
-          "x": 540, "y": 260, "width": 210,
-          "content": "Forge Agency", "fontSize": 18, "fontWeight": "bold", "color": "rgba(245,240,235,0.60)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 240, "step": 1 }
+          "id": "social-partner-c-name",
+          "x": 540,
+          "y": 260,
+          "width": 210,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 240,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Forge Agency",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "rgba(245,240,235,0.60)",
+          "align": "center"
         },
         {
-          "id": "social-partner-d", "type": "rect",
-          "x": 780, "y": 230, "width": 210, "height": 80,
-          "fill": "rgba(245,240,235,.06)", "stroke": "rgba(245,240,235,.14)", "strokeWidth": 1, "radius": 14,
-          "animation": { "enter": "fade-up", "duration": 450, "delay": 270, "step": 1 }
+          "id": "social-partner-d",
+          "x": 780,
+          "y": 230,
+          "width": 210,
+          "height": 80,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "delay": 270,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.06)",
+          "stroke": "rgba(245,240,235,.14)",
+          "strokeWidth": 1,
+          "radius": 14
         },
         {
-          "id": "social-partner-d-name", "type": "text",
-          "x": 780, "y": 260, "width": 210,
-          "content": "Meridian Co.", "fontSize": 18, "fontWeight": "bold", "color": "rgba(245,240,235,0.60)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 330, "step": 1 }
+          "id": "social-partner-d-name",
+          "x": 780,
+          "y": 260,
+          "width": 210,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 330,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Meridian Co.",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "rgba(245,240,235,0.60)",
+          "align": "center"
         },
         {
-          "id": "social-partner-e", "type": "rect",
-          "x": 1020, "y": 230, "width": 210, "height": 80,
-          "fill": "rgba(245,240,235,.06)", "stroke": "rgba(245,240,235,.14)", "strokeWidth": 1, "radius": 14,
-          "animation": { "enter": "fade-up", "duration": 450, "delay": 360, "step": 1 }
+          "id": "social-partner-e",
+          "x": 1020,
+          "y": 230,
+          "width": 210,
+          "height": 80,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "delay": 360,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.06)",
+          "stroke": "rgba(245,240,235,.14)",
+          "strokeWidth": 1,
+          "radius": 14
         },
         {
-          "id": "social-partner-e-name", "type": "text",
-          "x": 1020, "y": 260, "width": 210,
-          "content": "Apex Labs", "fontSize": 18, "fontWeight": "bold", "color": "rgba(245,240,235,0.60)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 420, "step": 1 }
+          "id": "social-partner-e-name",
+          "x": 1020,
+          "y": 260,
+          "width": 210,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 420,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Apex Labs",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "rgba(245,240,235,0.60)",
+          "align": "center"
         },
         {
-          "id": "social-tagline", "type": "text",
-          "x": 80, "y": 380, "width": 1120,
-          "content": "Join 10M+ creators worldwide", "fontSize": 48, "fontWeight": "bold", "color": "#f5f0eb", "align": "center",
-          "animation": { "enter": "blur-zoom", "duration": 700, "delay": 200, "step": 2 }
+          "id": "social-tagline",
+          "x": 80,
+          "y": 380,
+          "width": 1120,
+          "animation": {
+            "enter": "blur-zoom",
+            "duration": 700,
+            "delay": 200,
+            "step": 2
+          },
+          "type": "text",
+          "content": "Join 10M+ creators worldwide",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "align": "center"
         },
         {
-          "id": "social-tagline-sub", "type": "text",
-          "x": 80, "y": 454, "width": 1120,
-          "content": "From solo freelancers to Fortune 500 design teams \u2014 Vortex scales with you.", "fontSize": 22, "color": "rgba(245,240,235,0.55)", "align": "center", "lineHeight": 1.4,
-          "animation": { "enter": "fade-up", "duration": 550, "delay": 360, "step": 2 }
+          "id": "social-tagline-sub",
+          "x": 80,
+          "y": 454,
+          "width": 1120,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 550,
+            "delay": 360,
+            "step": 2
+          },
+          "type": "text",
+          "content": "From solo freelancers to Fortune 500 design teams — VORTEX scales with you.",
+          "fontSize": 22,
+          "color": "rgba(245,240,235,0.55)",
+          "align": "center",
+          "lineHeight": 1.4
         },
         {
-          "id": "social-stat-bar", "type": "rect",
-          "x": 400, "y": 530, "width": 480, "height": 3,
-          "fill": "#e63946", "radius": 2,
-          "animation": { "enter": "stretch-x", "duration": 600, "step": 2 }
+          "id": "social-stat-bar",
+          "x": 400,
+          "y": 530,
+          "width": 480,
+          "height": 3,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 600,
+            "step": 2
+          },
+          "type": "rect",
+          "fill": "#e63946",
+          "radius": 2
         },
         {
-          "id": "social-categories", "type": "text",
-          "x": 80, "y": 558, "width": 1120,
-          "content": "Branding \u00b7 Editorial \u00b7 Motion \u00b7 UI/UX \u00b7 Presentations \u00b7 Marketing \u00b7 Product Design \u00b7 Architecture \u00b7 Education",
-          "fontSize": 15, "color": "rgba(245,240,235,0.30)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 450, "delay": 200, "step": 2 }
+          "id": "social-categories",
+          "x": 80,
+          "y": 558,
+          "width": 1120,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "delay": 200,
+            "step": 2
+          },
+          "type": "text",
+          "content": "Branding · Editorial · Motion · UI/UX · Presentations · Marketing · Product Design · Architecture · Education",
+          "fontSize": 15,
+          "color": "rgba(245,240,235,0.30)",
+          "align": "center"
         }
+      ],
+      "notes": "Social proof — cascade headline, 5 partner name rects with fade-up stagger.",
+      "fx": [
+        "letter-explode"
       ]
     },
-
     {
       "id": "cta",
       "background": "#0a0a0a",
-      "fx": ["kinetic-type", "sparkle-trail"],
-      "notes": "Closing CTA — morph-brand shrinks back from cover, stagger-word headline, URL, decorative orb.",
       "elements": [
         {
-          "id": "cta-ring-outer", "type": "ellipse",
-          "x": 860, "y": 80, "width": 500, "height": 500, "rotation": 20,
-          "fill": "rgba(0,0,0,0)", "stroke": "rgba(230,57,70,.18)", "strokeWidth": 2,
-          "animation": { "enter": "scale-in", "duration": 1000, "step": 0 }
+          "id": "cta-ring-outer",
+          "x": 860,
+          "y": 80,
+          "width": 500,
+          "height": 500,
+          "rotation": 20,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 1000,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(230,57,70,.18)",
+          "strokeWidth": 2
         },
         {
-          "id": "cta-orb", "type": "circle",
-          "x": 1100, "y": 340, "radius": 130,
-          "fill": "#e63946", "opacity": 0.78,
-          "animation": { "enter": "zoom-pop", "duration": 900, "delay": 200, "easing": "cubic-bezier(.2,.9,.2,1)", "step": 0 }
+          "id": "cta-orb",
+          "x": 1100,
+          "y": 340,
+          "opacity": 0.78,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 900,
+            "delay": 200,
+            "easing": "cubic-bezier(.2,.9,.2,1)",
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 130,
+          "fill": "#e63946"
         },
         {
-          "id": "cta-orb-inner", "type": "circle",
-          "x": 1100, "y": 340, "radius": 60,
-          "fill": "#f5f0eb", "opacity": 0.22,
-          "animation": { "enter": "scale-in", "duration": 600, "delay": 400, "step": 0 }
+          "id": "cta-orb-inner",
+          "x": 1100,
+          "y": 340,
+          "opacity": 0.22,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "delay": 400,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 60,
+          "fill": "#f5f0eb"
         },
         {
-          "id": "cta-glass", "type": "rect",
-          "x": 60, "y": 80, "width": 740, "height": 540,
-          "fill": "rgba(245,240,235,.05)", "stroke": "rgba(230,57,70,.20)", "strokeWidth": 1, "radius": 28,
-          "animation": { "enter": "fade-right", "duration": 800, "step": 0 }
+          "id": "cta-glass",
+          "x": 60,
+          "y": 80,
+          "width": 740,
+          "height": 540,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 800,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(245,240,235,.05)",
+          "stroke": "rgba(230,57,70,.20)",
+          "strokeWidth": 1,
+          "radius": 28
         },
         {
-          "id": "cta-kicker", "type": "text",
-          "x": 108, "y": 138, "width": 580,
-          "content": "THE FUTURE IS NOW", "fontSize": 13, "fontWeight": "bold", "color": "#e63946",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 120, "step": 0 }
+          "id": "cta-kicker",
+          "x": 108,
+          "y": 138,
+          "width": 580,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 120,
+            "step": 0
+          },
+          "type": "text",
+          "content": "LAUNCH THE NEXT CREATIVE SYSTEM",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "color": "#e63946"
         },
         {
-          "id": "morph-brand", "type": "text",
-          "x": 108, "y": 168, "width": 600,
-          "content": "VORTEX", "fontSize": 64, "fontWeight": "bold", "color": "rgba(245,240,235,0.55)",
-          "animation": { "enter": "fade-up", "duration": 600, "delay": 160, "step": 0 }
+          "id": "morph-brand",
+          "x": 108,
+          "y": 168,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 160,
+            "step": 0
+          },
+          "type": "text",
+          "content": "VORTEX",
+          "fontSize": 64,
+          "fontWeight": "bold",
+          "color": "rgba(245,240,235,0.55)"
         },
         {
-          "id": "cta-headline", "type": "animatedText",
-          "x": 100, "y": 258, "width": 700,
-          "content": "Start Creating Today", "fontSize": 56, "fontWeight": "bold", "color": "#f5f0eb", "lineHeight": 1.05,
-          "textAnimation": { "name": "stagger", "splitMode": "word", "stagger": 90, "direction": "edges", "duration": 500 }
+          "id": "cta-headline",
+          "x": 100,
+          "y": 258,
+          "width": 700,
+          "type": "animatedText",
+          "content": "Start Creating Today",
+          "fontSize": 56,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "lineHeight": 1.05,
+          "textAnimation": {
+            "name": "stagger",
+            "splitMode": "word",
+            "stagger": 90,
+            "direction": "edges",
+            "duration": 500
+          }
         },
         {
-          "id": "cta-sub", "type": "text",
-          "x": 108, "y": 390, "width": 620,
-          "content": "Free 30-day trial. No credit card required. Cancel anytime. Full feature access from day one.", "fontSize": 19, "color": "rgba(245,240,235,0.55)", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 550, "delay": 300, "step": 0 }
+          "id": "cta-sub",
+          "x": 108,
+          "y": 390,
+          "width": 620,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 550,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Free 30-day trial. No credit card required. Cancel anytime. Full feature access from day one.",
+          "fontSize": 19,
+          "color": "rgba(245,240,235,0.55)",
+          "lineHeight": 1.5
         },
         {
-          "id": "cta-button", "type": "rect",
-          "x": 108, "y": 488, "width": 240, "height": 60,
-          "fill": "#e63946", "radius": 30,
-          "animation": { "enter": "bounce-in", "duration": 600, "delay": 420, "step": 0 }
+          "id": "cta-button",
+          "x": 108,
+          "y": 488,
+          "width": 240,
+          "height": 60,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 600,
+            "delay": 420,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "#e63946",
+          "radius": 30
         },
         {
-          "id": "cta-button-label", "type": "text",
-          "x": 108, "y": 506, "width": 240,
-          "content": "Get Started Free", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0eb", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 480, "step": 0 }
+          "id": "cta-button-label",
+          "x": 108,
+          "y": 506,
+          "width": 240,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 480,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Get Started Free",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "#f5f0eb",
+          "align": "center"
         },
         {
-          "id": "cta-url", "type": "text",
-          "x": 108, "y": 564, "width": 600,
-          "content": "vortex.design", "fontSize": 22, "color": "rgba(245,240,235,0.40)", "fontStyle": "italic",
-          "animation": { "enter": "fade-up", "duration": 450, "delay": 540, "step": 0 }
+          "id": "cta-url",
+          "x": 108,
+          "y": 564,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "delay": 540,
+            "step": 0
+          },
+          "type": "text",
+          "content": "vortex.design",
+          "fontSize": 22,
+          "fontStyle": "italic",
+          "color": "rgba(245,240,235,0.40)"
         }
+      ],
+      "notes": "Closing CTA — morph-brand shrinks back from cover, stagger-word headline, URL, decorative orb.",
+      "fx": [
+        "kinetic-type",
+        "sparkle-trail"
       ]
     }
-
   ]
 }

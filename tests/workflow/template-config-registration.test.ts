@@ -87,7 +87,7 @@ describe('config-referenced template pack registration', () => {
     const outline = createOutlineWorkOrder('template-project');
     expect(outline.guidance?.styleId).toBe(pack.id);
 
-    approveOutline('template-project');
+    approveOutline('template-project', { reviewedBy: 'Test Reviewer', approvedAt: new Date('2026-01-01T00:00:00.000Z') });
     const deckPlanOrder = createDeckPlanWorkOrder('template-project');
     expect(deckPlanOrder.guidance?.styleId).toBe(pack.id);
 

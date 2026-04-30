@@ -1,489 +1,1043 @@
 {
   "meta": {
-    "title": "PhD Defense — Emergent Collective Intelligence in Decentralized Multi-Agent Systems",
+    "title": "PhD Defense — Collective Intelligence in Decentralized Multi-Agent Systems",
     "theme": "minimal-white",
-    "canvas": { "width": 1280, "height": 720 },
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
     "htmlRuntime": {
-      "transition": { "type": "push", "durationMs": 450, "easing": "cubic-bezier(.25,.1,.25,1)" },
-      "customStylesheets": ["./assets/themes/constructivism.css"],
-      "customScripts": ["./assets/fx/geometric-grid.js", "./assets/fx/diagonal-wipe.js"]
+      "transition": {
+        "type": "push",
+        "durationMs": 460,
+        "easing": "cubic-bezier(.25,.1,.25,1)"
+      },
+      "customStylesheets": [
+        "./assets/themes/constructivism.css"
+      ],
+      "customScripts": [
+        "./assets/fx/geometric-grid.js",
+        "./assets/fx/diagonal-wipe.js"
+      ]
     }
   },
   "slides": [
-
     {
       "id": "cover",
       "background": "#f5f0e8",
-      "fx": ["geometric-grid"],
-      "notes": "Title slide — Constructivist diagonal accent bar, staggered title, author details.",
       "elements": [
         {
           "id": "cover-diagonal-accent",
-          "type": "rect",
-          "x": -60, "y": 560, "width": 520, "height": 28,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
+          "x": -60,
+          "y": 515,
+          "width": 520,
+          "height": 28,
           "rotation": -15,
-          "animation": { "enter": "stretch-x", "duration": 700, "step": 0 }
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 700,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "cover-accent-bar-2",
+          "x": 820,
+          "y": 80,
+          "width": 8,
+          "height": 580,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 600,
+            "delay": 200,
+            "step": 0
+          },
           "type": "rect",
-          "x": 820, "y": 80, "width": 8, "height": 580,
-          "fill": "#1a1a1a", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-y", "duration": 600, "delay": 200, "step": 0 }
+          "fill": "#1a1a1a",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "cover-accent-bar-3",
+          "x": 840,
+          "y": 80,
+          "width": 4,
+          "height": 580,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 600,
+            "delay": 350,
+            "step": 0
+          },
           "type": "rect",
-          "x": 840, "y": 80, "width": 4, "height": 580,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-y", "duration": 600, "delay": 350, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "cover-kicker",
+          "x": 80,
+          "y": 96,
+          "width": 680,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 100,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 96, "width": 680,
-          "content": "PhD DEFENSE", "fontSize": 13, "fontWeight": "bold", "color": "#f5f0e8",
-          "animation": { "enter": "fade-up", "duration": 500, "delay": 100, "step": 0 }
+          "content": "PhD DEFENSE",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "color": "#f5f0e8"
         },
         {
           "id": "cover-main-title",
+          "x": 80,
+          "y": 150,
+          "width": 700,
           "type": "animatedText",
-          "x": 80, "y": 150, "width": 700,
           "content": "Emergent Collective Intelligence in Decentralized Multi-Agent Systems",
-          "fontSize": 38, "fontWeight": "bold", "color": "#1a1a1a", "lineHeight": 1.18,
-          "textAnimation": { "name": "stagger", "splitMode": "word", "stagger": 60, "direction": "forward", "duration": 520, "easing": "easeOutCubic" }
+          "fontSize": 38,
+          "fontWeight": "bold",
+          "color": "#1a1a1a",
+          "lineHeight": 1.18,
+          "textAnimation": {
+            "name": "stagger",
+            "splitMode": "word",
+            "stagger": 60,
+            "direction": "forward",
+            "easing": "easeOutCubic",
+            "duration": 520
+          }
         },
         {
           "id": "cover-author",
+          "x": 80,
+          "y": 440,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 550,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 440, "width": 700,
-          "content": "Guest Researcher", "fontSize": 24, "fontWeight": "bold", "color": "#3a5a7c",
-          "animation": { "enter": "fade-up", "duration": 550, "delay": 600, "step": 0 }
+          "content": "Guest Researcher",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#3a5a7c"
         },
         {
           "id": "cover-institution",
+          "x": 80,
+          "y": 480,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 480,
+            "delay": 720,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 480, "width": 700,
           "content": "Department of Computer Science, Stanford University",
-          "fontSize": 16, "color": "rgba(26,26,26,0.55)",
-          "animation": { "enter": "fade-up", "duration": 480, "delay": 720, "step": 0 }
+          "fontSize": 16,
+          "color": "rgba(26,26,26,0.55)"
         },
         {
           "id": "cover-date",
+          "x": 80,
+          "y": 520,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 420,
+            "delay": 820,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 520, "width": 700,
           "content": "Defense Date: April 27, 2026",
-          "fontSize": 14, "color": "rgba(26,26,26,0.55)",
-          "animation": { "enter": "fade-up", "duration": 420, "delay": 820, "step": 0 }
+          "fontSize": 14,
+          "color": "rgba(26,26,26,0.55)"
         },
         {
           "id": "cover-committee",
+          "x": 80,
+          "y": 556,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 920,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 556, "width": 700,
           "content": "Committee: Prof. A (Chair), Prof. B, Prof. C, Dr. D",
-          "fontSize": 12, "color": "rgba(26,26,26,0.45)",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 920, "step": 0 }
+          "fontSize": 12,
+          "color": "rgba(26,26,26,0.45)"
         },
         {
           "id": "cover-geo-circle-a",
+          "x": 1050,
+          "y": 620,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 800,
+            "delay": 400,
+            "step": 0
+          },
           "type": "circle",
-          "x": 1050, "y": 620, "radius": 70,
-          "fill": "rgba(0,0,0,0)", "stroke": "#c1272d", "strokeWidth": 3,
-          "animation": { "enter": "scale-in", "duration": 800, "delay": 400, "step": 0 }
+          "radius": 70,
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "#c1272d",
+          "strokeWidth": 3
         },
         {
           "id": "cover-geo-circle-b",
+          "x": 1100,
+          "y": 580,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 700,
+            "delay": 550,
+            "step": 0
+          },
           "type": "circle",
-          "x": 1100, "y": 580, "radius": 40,
-          "fill": "rgba(0,0,0,0)", "stroke": "#1a1a1a", "strokeWidth": 2,
-          "animation": { "enter": "scale-in", "duration": 700, "delay": 550, "step": 0 }
+          "radius": 40,
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "#1a1a1a",
+          "strokeWidth": 2
         },
         {
           "id": "cover-geo-rect",
-          "type": "rect",
-          "x": 960, "y": 130, "width": 80, "height": 80,
-          "fill": "rgba(193,39,45,0.12)", "stroke": "#c1272d", "strokeWidth": 3,
+          "x": 960,
+          "y": 130,
+          "width": 80,
+          "height": 80,
           "rotation": 15,
-          "animation": { "enter": "rotate-in", "duration": 700, "delay": 450, "step": 0 }
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 700,
+            "delay": 450,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(193,39,45,0.12)",
+          "stroke": "#c1272d",
+          "strokeWidth": 3
         }
+      ],
+      "notes": "Title slide — Constructivist diagonal accent bar, staggered title, author details.",
+      "fx": [
+        "geometric-grid"
       ]
     },
-
     {
       "id": "agenda",
       "background": "#f5f0e8",
-      "fx": ["diagonal-wipe"],
-      "notes": "Agenda slide — 5 items revealed progressively steps 1-5.",
       "elements": [
         {
           "id": "agenda-red-bar",
+          "x": 80,
+          "y": 78,
+          "width": 480,
+          "height": 6,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 600,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 78, "width": 480, "height": 6,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 600, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "agenda-title",
+          "x": 80,
+          "y": 36,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 580,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 36, "width": 600,
-          "content": "Agenda", "fontSize": 48, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 580, "step": 0 }
+          "content": "Agenda",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "agenda-geo-block",
+          "x": 880,
+          "y": 80,
+          "width": 300,
+          "height": 540,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 600,
+            "delay": 200,
+            "step": 0
+          },
           "type": "rect",
-          "x": 880, "y": 80, "width": 300, "height": 540,
-          "fill": "rgba(193,39,45,0.06)", "stroke": "#c1272d", "strokeWidth": 2,
-          "animation": { "enter": "fade-right", "duration": 600, "delay": 200, "step": 0 }
+          "fill": "rgba(193,39,45,0.06)",
+          "stroke": "#c1272d",
+          "strokeWidth": 2
         },
         {
           "id": "agenda-num-1",
+          "x": 122,
+          "y": 182,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 450,
+            "step": 1
+          },
           "type": "circle",
-          "x": 122, "y": 182, "radius": 22,
-          "fill": "#c1272d",
-          "animation": { "enter": "rotate-in", "duration": 450, "step": 1 }
+          "radius": 22,
+          "fill": "#c1272d"
         },
         {
           "id": "agenda-num-1-label",
+          "x": 100,
+          "y": 172,
+          "width": 44,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 450,
+            "step": 1
+          },
           "type": "text",
-          "x": 100, "y": 172, "width": 44,
-          "content": "1", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
-          "animation": { "enter": "rotate-in", "duration": 450, "step": 1 }
+          "content": "1",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "#f5f0e8",
+          "align": "center"
         },
         {
           "id": "agenda-item-1",
+          "x": 165,
+          "y": 168,
+          "width": 660,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "step": 1
+          },
           "type": "text",
-          "x": 165, "y": 168, "width": 660,
-          "content": "Research Question & Motivation", "fontSize": 22, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-right", "duration": 500, "step": 1 }
+          "content": "Research Question & Motivation",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "agenda-num-2",
+          "x": 122,
+          "y": 272,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 450,
+            "step": 2
+          },
           "type": "circle",
-          "x": 122, "y": 272, "radius": 22,
-          "fill": "#c1272d",
-          "animation": { "enter": "rotate-in", "duration": 450, "step": 2 }
+          "radius": 22,
+          "fill": "#c1272d"
         },
         {
           "id": "agenda-num-2-label",
+          "x": 100,
+          "y": 262,
+          "width": 44,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 450,
+            "step": 2
+          },
           "type": "text",
-          "x": 100, "y": 262, "width": 44,
-          "content": "2", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
-          "animation": { "enter": "rotate-in", "duration": 450, "step": 2 }
+          "content": "2",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "#f5f0e8",
+          "align": "center"
         },
         {
           "id": "agenda-item-2",
+          "x": 165,
+          "y": 258,
+          "width": 660,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "step": 2
+          },
           "type": "text",
-          "x": 165, "y": 258, "width": 660,
-          "content": "Literature Review", "fontSize": 22, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-right", "duration": 500, "step": 2 }
+          "content": "Literature Review",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "agenda-num-3",
+          "x": 122,
+          "y": 362,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 450,
+            "step": 3
+          },
           "type": "circle",
-          "x": 122, "y": 362, "radius": 22,
-          "fill": "#c1272d",
-          "animation": { "enter": "rotate-in", "duration": 450, "step": 3 }
+          "radius": 22,
+          "fill": "#c1272d"
         },
         {
           "id": "agenda-num-3-label",
+          "x": 100,
+          "y": 352,
+          "width": 44,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 450,
+            "step": 3
+          },
           "type": "text",
-          "x": 100, "y": 352, "width": 44,
-          "content": "3", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
-          "animation": { "enter": "rotate-in", "duration": 450, "step": 3 }
+          "content": "3",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "#f5f0e8",
+          "align": "center"
         },
         {
           "id": "agenda-item-3",
+          "x": 165,
+          "y": 348,
+          "width": 660,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "step": 3
+          },
           "type": "text",
-          "x": 165, "y": 348, "width": 660,
-          "content": "Methodology & Framework", "fontSize": 22, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-right", "duration": 500, "step": 3 }
+          "content": "Methodology & Framework",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "agenda-num-4",
+          "x": 122,
+          "y": 452,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 450,
+            "step": 4
+          },
           "type": "circle",
-          "x": 122, "y": 452, "radius": 22,
-          "fill": "#c1272d",
-          "animation": { "enter": "rotate-in", "duration": 450, "step": 4 }
+          "radius": 22,
+          "fill": "#c1272d"
         },
         {
           "id": "agenda-num-4-label",
+          "x": 100,
+          "y": 442,
+          "width": 44,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 450,
+            "step": 4
+          },
           "type": "text",
-          "x": 100, "y": 442, "width": 44,
-          "content": "4", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
-          "animation": { "enter": "rotate-in", "duration": 450, "step": 4 }
+          "content": "4",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "#f5f0e8",
+          "align": "center"
         },
         {
           "id": "agenda-item-4",
+          "x": 165,
+          "y": 438,
+          "width": 660,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "step": 4
+          },
           "type": "text",
-          "x": 165, "y": 438, "width": 660,
-          "content": "Key Findings", "fontSize": 22, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-right", "duration": 500, "step": 4 }
+          "content": "Key Findings",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "agenda-num-5",
+          "x": 122,
+          "y": 542,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 450,
+            "step": 5
+          },
           "type": "circle",
-          "x": 122, "y": 542, "radius": 22,
-          "fill": "#c1272d",
-          "animation": { "enter": "rotate-in", "duration": 450, "step": 5 }
+          "radius": 22,
+          "fill": "#c1272d"
         },
         {
           "id": "agenda-num-5-label",
+          "x": 100,
+          "y": 532,
+          "width": 44,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 450,
+            "step": 5
+          },
           "type": "text",
-          "x": 100, "y": 532, "width": 44,
-          "content": "5", "fontSize": 18, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
-          "animation": { "enter": "rotate-in", "duration": 450, "step": 5 }
+          "content": "5",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "#f5f0e8",
+          "align": "center"
         },
         {
           "id": "agenda-item-5",
+          "x": 165,
+          "y": 528,
+          "width": 660,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "step": 5
+          },
           "type": "text",
-          "x": 165, "y": 528, "width": 660,
-          "content": "Contributions & Future Work", "fontSize": 22, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-right", "duration": 500, "step": 5 }
+          "content": "Contributions & Future Work",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         }
+      ],
+      "notes": "Agenda slide — 5 items revealed progressively steps 1-5.",
+      "fx": [
+        "diagonal-wipe"
       ]
     },
-
     {
       "id": "research-q",
       "background": "#f5f0e8",
-      "fx": ["geometric-grid"],
-      "notes": "Research question slide — red kicker, large question text, motivation card.",
       "elements": [
         {
           "id": "rq-kicker",
+          "x": 80,
+          "y": 60,
+          "width": 280,
+          "height": 36,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 500,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 60, "width": 280, "height": 36,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 500, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "rq-kicker-text",
+          "x": 80,
+          "y": 63,
+          "width": 280,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 200,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 63, "width": 280,
-          "content": "RESEARCH QUESTION", "fontSize": 13, "fontWeight": "bold", "color": "#f5f0e8",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 200, "step": 0 }
+          "content": "RESEARCH QUESTION",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "color": "#f5f0e8"
         },
         {
           "id": "rq-question",
+          "x": 80,
+          "y": 130,
+          "width": 820,
           "type": "animatedText",
-          "x": 80, "y": 130, "width": 820,
           "content": "How do decentralized multi-agent systems develop emergent collective intelligence without centralized coordination?",
-          "fontSize": 30, "fontWeight": "bold", "color": "#1a1a1a", "lineHeight": 1.3,
-          "textAnimation": { "name": "stagger", "splitMode": "word", "stagger": 55, "direction": "forward", "duration": 480 }
+          "fontSize": 30,
+          "fontWeight": "bold",
+          "color": "#1a1a1a",
+          "lineHeight": 1.3,
+          "textAnimation": {
+            "name": "stagger",
+            "splitMode": "word",
+            "stagger": 55,
+            "direction": "forward",
+            "duration": 480
+          }
         },
         {
           "id": "rq-context-glass",
+          "x": 80,
+          "y": 390,
+          "width": 760,
+          "height": 250,
+          "animation": {
+            "enter": "flip-in",
+            "duration": 700,
+            "delay": 400,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 390, "width": 760, "height": 250,
-          "fill": "rgba(245,240,232,0.96)", "stroke": "#1a1a1a", "strokeWidth": 3,
-          "animation": { "enter": "flip-in", "duration": 700, "delay": 400, "step": 0 }
+          "fill": "rgba(245,240,232,0.96)",
+          "stroke": "#1a1a1a",
+          "strokeWidth": 3
         },
         {
           "id": "rq-context-label",
+          "x": 104,
+          "y": 408,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "delay": 700,
+            "step": 0
+          },
           "type": "text",
-          "x": 104, "y": 408, "width": 700,
-          "content": "MOTIVATION", "fontSize": 11, "fontWeight": "bold", "color": "#c1272d",
-          "animation": { "enter": "fade-up", "duration": 380, "delay": 700, "step": 0 }
+          "content": "MOTIVATION",
+          "fontSize": 11,
+          "fontWeight": "bold",
+          "color": "#c1272d"
         },
         {
           "id": "rq-bullet-1",
+          "x": 104,
+          "y": 436,
+          "width": 700,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 420,
+            "delay": 800,
+            "step": 0
+          },
           "type": "text",
-          "x": 104, "y": 436, "width": 700,
           "content": "· Centralized AI systems face fundamental scalability limits",
-          "fontSize": 18, "color": "#1a1a1a",
-          "animation": { "enter": "fade-right", "duration": 420, "delay": 800, "step": 0 }
+          "fontSize": 18,
+          "color": "#1a1a1a"
         },
         {
           "id": "rq-bullet-2",
+          "x": 104,
+          "y": 476,
+          "width": 700,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 420,
+            "delay": 950,
+            "step": 0
+          },
           "type": "text",
-          "x": 104, "y": 476, "width": 700,
           "content": "· Biological swarms exhibit robust emergent intelligence",
-          "fontSize": 18, "color": "#1a1a1a",
-          "animation": { "enter": "fade-right", "duration": 420, "delay": 950, "step": 0 }
+          "fontSize": 18,
+          "color": "#1a1a1a"
         },
         {
           "id": "rq-bullet-3",
+          "x": 104,
+          "y": 516,
+          "width": 700,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 420,
+            "delay": 1100,
+            "step": 0
+          },
           "type": "text",
-          "x": 104, "y": 516, "width": 700,
           "content": "· No formal framework connects local rules to global behavior",
-          "fontSize": 18, "color": "#1a1a1a",
-          "animation": { "enter": "fade-right", "duration": 420, "delay": 1100, "step": 0 }
+          "fontSize": 18,
+          "color": "#1a1a1a"
         },
         {
           "id": "rq-geo-rect",
-          "type": "rect",
-          "x": 960, "y": 200, "width": 200, "height": 200,
-          "fill": "rgba(193,39,45,0.08)", "stroke": "#c1272d", "strokeWidth": 3,
+          "x": 960,
+          "y": 200,
+          "width": 200,
+          "height": 200,
           "rotation": 20,
-          "animation": { "enter": "rotate-in", "duration": 750, "delay": 300, "step": 0 }
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 750,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(193,39,45,0.08)",
+          "stroke": "#c1272d",
+          "strokeWidth": 3
         },
         {
           "id": "rq-geo-circle",
+          "x": 1080,
+          "y": 500,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 650,
+            "delay": 450,
+            "step": 0
+          },
           "type": "circle",
-          "x": 1080, "y": 500, "radius": 55,
-          "fill": "rgba(0,0,0,0)", "stroke": "#1a1a1a", "strokeWidth": 3,
-          "animation": { "enter": "scale-in", "duration": 650, "delay": 450, "step": 0 }
+          "radius": 55,
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "#1a1a1a",
+          "strokeWidth": 3
         }
+      ],
+      "notes": "Research question slide — red kicker, large question text, motivation card.",
+      "fx": [
+        "geometric-grid"
       ]
     },
-
     {
       "id": "lit-review",
       "background": "#f5f0e8",
-      "notes": "Literature landscape — knowledge map with connected nodes, morphSteps highlight gap.",
       "elements": [
         {
           "id": "lit-title",
+          "x": 80,
+          "y": 36,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 36, "width": 700,
-          "content": "Literature Landscape", "fontSize": 42, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 600, "step": 0 }
+          "content": "Literature Landscape",
+          "fontSize": 42,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "lit-title-bar",
+          "x": 80,
+          "y": 86,
+          "width": 420,
+          "height": 5,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 550,
+            "delay": 150,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 86, "width": 420, "height": 5,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 550, "delay": 150, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "lit-map-group",
+          "x": 120,
+          "y": 130,
+          "width": 1040,
+          "height": 480,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 700,
+            "delay": 200,
+            "step": 0
+          },
           "type": "group",
-          "x": 120, "y": 130, "width": 1040, "height": 480,
-          "animation": { "enter": "fade-up", "duration": 700, "delay": 200, "step": 0 },
+          "elements": [
+            {
+              "id": "node-swarm",
+              "x": 150,
+              "y": 130,
+              "animation": {
+                "enter": "scale-in",
+                "duration": 550,
+                "delay": 0,
+                "step": 0
+              },
+              "type": "circle",
+              "radius": 52,
+              "fill": "#1a1a1a",
+              "stroke": "none",
+              "strokeWidth": 0
+            },
+            {
+              "id": "label-swarm",
+              "x": 100,
+              "y": 120,
+              "width": 104,
+              "type": "text",
+              "content": "Swarm Intelligence",
+              "fontSize": 11,
+              "fontWeight": "bold",
+              "color": "#f5f0e8",
+              "align": "center"
+            },
+            {
+              "id": "node-game",
+              "x": 360,
+              "y": 60,
+              "animation": {
+                "enter": "scale-in",
+                "duration": 520,
+                "delay": 80,
+                "step": 0
+              },
+              "type": "circle",
+              "radius": 44,
+              "fill": "#3a5a7c",
+              "stroke": "none",
+              "strokeWidth": 0
+            },
+            {
+              "id": "label-game",
+              "x": 318,
+              "y": 50,
+              "width": 88,
+              "type": "text",
+              "content": "Game Theory",
+              "fontSize": 11,
+              "fontWeight": "bold",
+              "color": "#f5f0e8",
+              "align": "center"
+            },
+            {
+              "id": "node-complex",
+              "x": 570,
+              "y": 200,
+              "animation": {
+                "enter": "scale-in",
+                "duration": 560,
+                "delay": 160,
+                "step": 0
+              },
+              "type": "circle",
+              "radius": 58,
+              "fill": "#1a1a1a",
+              "stroke": "none",
+              "strokeWidth": 0
+            },
+            {
+              "id": "label-complex",
+              "x": 514,
+              "y": 188,
+              "width": 116,
+              "type": "text",
+              "content": "Complex Systems",
+              "fontSize": 11,
+              "fontWeight": "bold",
+              "color": "#f5f0e8",
+              "align": "center"
+            },
+            {
+              "id": "node-mas",
+              "x": 780,
+              "y": 80,
+              "animation": {
+                "enter": "scale-in",
+                "duration": 530,
+                "delay": 240,
+                "step": 0
+              },
+              "type": "circle",
+              "radius": 46,
+              "fill": "#1a1a1a",
+              "stroke": "none",
+              "strokeWidth": 0
+            },
+            {
+              "id": "label-mas",
+              "x": 736,
+              "y": 70,
+              "width": 92,
+              "type": "text",
+              "content": "MAS",
+              "fontSize": 12,
+              "fontWeight": "bold",
+              "color": "#f5f0e8",
+              "align": "center"
+            },
+            {
+              "id": "node-emerge",
+              "x": 960,
+              "y": 200,
+              "animation": {
+                "enter": "scale-in",
+                "duration": 540,
+                "delay": 320,
+                "step": 0
+              },
+              "type": "circle",
+              "radius": 50,
+              "fill": "#3a5a7c",
+              "stroke": "none",
+              "strokeWidth": 0
+            },
+            {
+              "id": "label-emerge",
+              "x": 912,
+              "y": 188,
+              "width": 100,
+              "type": "text",
+              "content": "Emergence",
+              "fontSize": 11,
+              "fontWeight": "bold",
+              "color": "#f5f0e8",
+              "align": "center"
+            },
+            {
+              "id": "conn-sw-cs",
+              "x": 200,
+              "y": 148,
+              "type": "line",
+              "x2": 520,
+              "y2": 210,
+              "stroke": "#1a1a1a",
+              "strokeWidth": 2
+            },
+            {
+              "id": "conn-game-cs",
+              "x": 400,
+              "y": 80,
+              "type": "line",
+              "x2": 530,
+              "y2": 180,
+              "stroke": "#3a5a7c",
+              "strokeWidth": 2
+            },
+            {
+              "id": "conn-mas-cs",
+              "x": 736,
+              "y": 110,
+              "type": "line",
+              "x2": 622,
+              "y2": 190,
+              "stroke": "#1a1a1a",
+              "strokeWidth": 2
+            },
+            {
+              "id": "conn-emerge-cs",
+              "x": 912,
+              "y": 200,
+              "type": "line",
+              "x2": 626,
+              "y2": 218,
+              "stroke": "#3a5a7c",
+              "strokeWidth": 2
+            },
+            {
+              "id": "gap-label",
+              "x": 300,
+              "y": 350,
+              "width": 460,
+              "animation": {
+                "enter": "fade-up",
+                "duration": 500,
+                "step": 1
+              },
+              "type": "text",
+              "content": "Research Gap: No unified formal framework",
+              "fontSize": 18,
+              "fontWeight": "bold",
+              "color": "#c1272d"
+            }
+          ],
           "morphSteps": [
             {
-              "target": { "x": 80, "width": 1120 },
+              "target": {
+                "x": 80,
+                "width": 1120
+              },
               "children": {
-                "node-swarm":   { "fill": "#c1272d" },
-                "node-mas":     { "fill": "#c1272d" },
-                "conn-sw-cs":   { "stroke": "#c1272d" },
-                "conn-mas-cs":  { "stroke": "#c1272d" }
+                "node-swarm": {
+                  "fill": "#c1272d"
+                },
+                "node-mas": {
+                  "fill": "#c1272d"
+                },
+                "conn-sw-cs": {
+                  "stroke": "#c1272d"
+                },
+                "conn-mas-cs": {
+                  "stroke": "#c1272d"
+                }
               },
               "duration": 750,
               "easing": "easeInOutCubic",
               "stagger": 80
             }
           ],
-          "morphStepTrigger": "click",
-          "elements": [
-            {
-              "id": "node-swarm", "type": "circle",
-              "x": 150, "y": 130, "radius": 52,
-              "fill": "#1a1a1a", "stroke": "none", "strokeWidth": 0,
-              "animation": { "enter": "scale-in", "duration": 550, "delay": 0, "step": 0 }
-            },
-            {
-              "id": "label-swarm", "type": "text",
-              "x": 100, "y": 120, "width": 104,
-              "content": "Swarm Intelligence", "fontSize": 11, "fontWeight": "bold", "color": "#f5f0e8", "align": "center"
-            },
-            {
-              "id": "node-game", "type": "circle",
-              "x": 360, "y": 60, "radius": 44,
-              "fill": "#3a5a7c", "stroke": "none", "strokeWidth": 0,
-              "animation": { "enter": "scale-in", "duration": 520, "delay": 80, "step": 0 }
-            },
-            {
-              "id": "label-game", "type": "text",
-              "x": 318, "y": 50, "width": 88,
-              "content": "Game Theory", "fontSize": 11, "fontWeight": "bold", "color": "#f5f0e8", "align": "center"
-            },
-            {
-              "id": "node-complex", "type": "circle",
-              "x": 570, "y": 200, "radius": 58,
-              "fill": "#1a1a1a", "stroke": "none", "strokeWidth": 0,
-              "animation": { "enter": "scale-in", "duration": 560, "delay": 160, "step": 0 }
-            },
-            {
-              "id": "label-complex", "type": "text",
-              "x": 514, "y": 188, "width": 116,
-              "content": "Complex Systems", "fontSize": 11, "fontWeight": "bold", "color": "#f5f0e8", "align": "center"
-            },
-            {
-              "id": "node-mas", "type": "circle",
-              "x": 780, "y": 80, "radius": 46,
-              "fill": "#1a1a1a", "stroke": "none", "strokeWidth": 0,
-              "animation": { "enter": "scale-in", "duration": 530, "delay": 240, "step": 0 }
-            },
-            {
-              "id": "label-mas", "type": "text",
-              "x": 736, "y": 70, "width": 92,
-              "content": "MAS", "fontSize": 12, "fontWeight": "bold", "color": "#f5f0e8", "align": "center"
-            },
-            {
-              "id": "node-emerge", "type": "circle",
-              "x": 960, "y": 200, "radius": 50,
-              "fill": "#3a5a7c", "stroke": "none", "strokeWidth": 0,
-              "animation": { "enter": "scale-in", "duration": 540, "delay": 320, "step": 0 }
-            },
-            {
-              "id": "label-emerge", "type": "text",
-              "x": 912, "y": 188, "width": 100,
-              "content": "Emergence", "fontSize": 11, "fontWeight": "bold", "color": "#f5f0e8", "align": "center"
-            },
-            {
-              "id": "conn-sw-cs", "type": "line",
-              "x": 200, "y": 148, "x2": 520, "y2": 210,
-              "stroke": "#1a1a1a", "strokeWidth": 2
-            },
-            {
-              "id": "conn-game-cs", "type": "line",
-              "x": 400, "y": 80, "x2": 530, "y2": 180,
-              "stroke": "#3a5a7c", "strokeWidth": 2
-            },
-            {
-              "id": "conn-mas-cs", "type": "line",
-              "x": 736, "y": 110, "x2": 622, "y2": 190,
-              "stroke": "#1a1a1a", "strokeWidth": 2
-            },
-            {
-              "id": "conn-emerge-cs", "type": "line",
-              "x": 912, "y": 200, "x2": 626, "y2": 218,
-              "stroke": "#3a5a7c", "strokeWidth": 2
-            },
-            {
-              "id": "gap-label", "type": "text",
-              "x": 300, "y": 350, "width": 460,
-              "content": "Research Gap: No unified formal framework", "fontSize": 18, "fontWeight": "bold", "color": "#c1272d",
-              "animation": { "enter": "fade-up", "duration": 500, "step": 1 }
-            }
-          ]
+          "morphStepTrigger": "click"
         }
-      ]
+      ],
+      "notes": "Literature landscape — knowledge map with connected nodes, morphSteps highlight gap."
     },
-
     {
       "id": "methodology",
       "background": "#f5f0e8",
-      "fx": ["diagonal-wipe"],
-      "notes": "3-phase methodology flow. morphSteps on Phase 1 rect. Steps 1-3 reveal phases.",
       "elements": [
         {
           "id": "meth-title",
+          "x": 80,
+          "y": 36,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 36, "width": 700,
-          "content": "Methodology", "fontSize": 42, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 600, "step": 0 }
+          "content": "Methodology",
+          "fontSize": 42,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "meth-title-bar",
+          "x": 80,
+          "y": 86,
+          "width": 340,
+          "height": 5,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 520,
+            "delay": 150,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 86, "width": 340, "height": 5,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 520, "delay": 150, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "meth-phase1-box",
+          "x": 80,
+          "y": 180,
+          "width": 260,
+          "height": 120,
+          "animation": {
+            "enter": "skew-in",
+            "duration": 600,
+            "step": 1
+          },
           "type": "rect",
-          "x": 80, "y": 180, "width": 260, "height": 120,
-          "fill": "rgba(245,240,232,0.95)", "stroke": "#1a1a1a", "strokeWidth": 3,
-          "animation": { "enter": "skew-in", "duration": 600, "step": 1 },
+          "fill": "rgba(245,240,232,0.95)",
+          "stroke": "#1a1a1a",
+          "strokeWidth": 3,
           "morphSteps": [
             {
-              "target": { "height": 260, "y": 180 },
+              "target": {
+                "y": 180,
+                "height": 260
+              },
               "duration": 700,
               "easing": "easeInOutCubic"
             }
@@ -492,715 +1046,1579 @@
         },
         {
           "id": "meth-phase1-label",
+          "x": 84,
+          "y": 196,
+          "width": 252,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "delay": 200,
+            "step": 1
+          },
           "type": "text",
-          "x": 84, "y": 196, "width": 252,
-          "content": "PHASE 1", "fontSize": 11, "fontWeight": "bold", "color": "#c1272d",
-          "animation": { "enter": "fade-up", "duration": 380, "delay": 200, "step": 1 }
+          "content": "PHASE 1",
+          "fontSize": 11,
+          "fontWeight": "bold",
+          "color": "#c1272d"
         },
         {
           "id": "meth-phase1-title",
+          "x": 84,
+          "y": 218,
+          "width": 252,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 300,
+            "step": 1
+          },
           "type": "text",
-          "x": 84, "y": 218, "width": 252,
-          "content": "Formal Model", "fontSize": 22, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 300, "step": 1 }
+          "content": "Formal Model",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "meth-phase1-detail",
+          "x": 84,
+          "y": 320,
+          "width": 252,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 1
+          },
           "type": "text",
-          "x": 84, "y": 320, "width": 252,
           "content": "Agent interaction rules\nConvergence axioms\nLocal-global mappings",
-          "fontSize": 13, "color": "rgba(26,26,26,0.7)", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 400, "step": 1 }
+          "fontSize": 13,
+          "color": "rgba(26,26,26,0.7)",
+          "lineHeight": 1.5
         },
         {
           "id": "meth-arrow-1",
+          "x": 345,
+          "y": 232,
+          "width": 120,
+          "height": 8,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 420,
+            "delay": 100,
+            "step": 2
+          },
           "type": "rect",
-          "x": 345, "y": 232, "width": 120, "height": 8,
-          "fill": "#1a1a1a", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 420, "delay": 100, "step": 2 }
+          "fill": "#1a1a1a",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "meth-phase2-box",
+          "x": 470,
+          "y": 180,
+          "width": 260,
+          "height": 120,
+          "animation": {
+            "enter": "skew-in",
+            "duration": 600,
+            "step": 2
+          },
           "type": "rect",
-          "x": 470, "y": 180, "width": 260, "height": 120,
-          "fill": "rgba(245,240,232,0.95)", "stroke": "#c1272d", "strokeWidth": 3,
-          "animation": { "enter": "skew-in", "duration": 600, "step": 2 }
+          "fill": "rgba(245,240,232,0.95)",
+          "stroke": "#c1272d",
+          "strokeWidth": 3
         },
         {
           "id": "meth-phase2-label",
+          "x": 474,
+          "y": 196,
+          "width": 252,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "delay": 200,
+            "step": 2
+          },
           "type": "text",
-          "x": 474, "y": 196, "width": 252,
-          "content": "PHASE 2", "fontSize": 11, "fontWeight": "bold", "color": "#c1272d",
-          "animation": { "enter": "fade-up", "duration": 380, "delay": 200, "step": 2 }
+          "content": "PHASE 2",
+          "fontSize": 11,
+          "fontWeight": "bold",
+          "color": "#c1272d"
         },
         {
           "id": "meth-phase2-title",
+          "x": 474,
+          "y": 218,
+          "width": 252,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 300,
+            "step": 2
+          },
           "type": "text",
-          "x": 474, "y": 218, "width": 252,
-          "content": "Simulation", "fontSize": 22, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 300, "step": 2 }
+          "content": "Simulation",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "meth-phase2-sub",
+          "x": 474,
+          "y": 258,
+          "width": 252,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "delay": 380,
+            "step": 2
+          },
           "type": "text",
-          "x": 474, "y": 258, "width": 252,
           "content": "10k–1M agent runs\nAgentForge toolkit",
-          "fontSize": 14, "color": "rgba(26,26,26,0.65)", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 380, "delay": 380, "step": 2 }
+          "fontSize": 14,
+          "color": "rgba(26,26,26,0.65)",
+          "lineHeight": 1.5
         },
         {
           "id": "meth-arrow-2",
+          "x": 735,
+          "y": 232,
+          "width": 120,
+          "height": 8,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 420,
+            "delay": 100,
+            "step": 3
+          },
           "type": "rect",
-          "x": 735, "y": 232, "width": 120, "height": 8,
-          "fill": "#1a1a1a", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 420, "delay": 100, "step": 3 }
+          "fill": "#1a1a1a",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "meth-phase3-box",
+          "x": 860,
+          "y": 180,
+          "width": 260,
+          "height": 120,
+          "animation": {
+            "enter": "skew-in",
+            "duration": 600,
+            "step": 3
+          },
           "type": "rect",
-          "x": 860, "y": 180, "width": 260, "height": 120,
-          "fill": "rgba(245,240,232,0.95)", "stroke": "#3a5a7c", "strokeWidth": 3,
-          "animation": { "enter": "skew-in", "duration": 600, "step": 3 }
+          "fill": "rgba(245,240,232,0.95)",
+          "stroke": "#3a5a7c",
+          "strokeWidth": 3
         },
         {
           "id": "meth-phase3-label",
+          "x": 864,
+          "y": 196,
+          "width": 252,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "delay": 200,
+            "step": 3
+          },
           "type": "text",
-          "x": 864, "y": 196, "width": 252,
-          "content": "PHASE 3", "fontSize": 11, "fontWeight": "bold", "color": "#3a5a7c",
-          "animation": { "enter": "fade-up", "duration": 380, "delay": 200, "step": 3 }
+          "content": "PHASE 3",
+          "fontSize": 11,
+          "fontWeight": "bold",
+          "color": "#3a5a7c"
         },
         {
           "id": "meth-phase3-title",
+          "x": 864,
+          "y": 218,
+          "width": 252,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 300,
+            "step": 3
+          },
           "type": "text",
-          "x": 864, "y": 218, "width": 252,
-          "content": "Validation", "fontSize": 22, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 400, "delay": 300, "step": 3 }
+          "content": "Validation",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "meth-phase3-sub",
+          "x": 864,
+          "y": 258,
+          "width": 252,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "delay": 380,
+            "step": 3
+          },
           "type": "text",
-          "x": 864, "y": 258, "width": 252,
           "content": "Real-world MAS datasets\nStatistical hypothesis tests",
-          "fontSize": 14, "color": "rgba(26,26,26,0.65)", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 380, "delay": 380, "step": 3 }
+          "fontSize": 14,
+          "color": "rgba(26,26,26,0.65)",
+          "lineHeight": 1.5
         },
         {
           "id": "meth-note",
+          "x": 80,
+          "y": 600,
+          "width": 1120,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "step": 3
+          },
           "type": "text",
-          "x": 80, "y": 600, "width": 1120,
           "content": "Each phase gates the next — formal proofs constrain simulation space; simulations generate validation hypotheses.",
-          "fontSize": 14, "color": "rgba(26,26,26,0.5)",
-          "animation": { "enter": "fade-up", "duration": 450, "step": 3 }
+          "fontSize": 14,
+          "color": "rgba(26,26,26,0.5)"
         }
+      ],
+      "notes": "3-phase methodology flow. morphSteps on Phase 1 rect. Steps 1-3 reveal phases.",
+      "fx": [
+        "geometric-grid"
       ]
     },
-
     {
       "id": "finding-1",
       "background": "#f5f0e8",
-      "fx": ["geometric-grid"],
-      "notes": "Finding 1: Convergence Theorem. Step 1 = title+formula, Step 2 = evidence bars.",
       "elements": [
         {
           "id": "f1-kicker",
+          "x": 80,
+          "y": 42,
+          "width": 200,
+          "height": 32,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 450,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 42, "width": 200, "height": 32,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 450, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "f1-kicker-text",
+          "x": 80,
+          "y": 45,
+          "width": 200,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "delay": 200,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 45, "width": 200,
-          "content": "FINDING 1", "fontSize": 12, "fontWeight": "bold", "color": "#f5f0e8",
-          "animation": { "enter": "fade-up", "duration": 380, "delay": 200, "step": 0 }
+          "content": "FINDING 1",
+          "fontSize": 12,
+          "fontWeight": "bold",
+          "color": "#f5f0e8"
         },
         {
           "id": "f1-title",
+          "x": 80,
+          "y": 94,
+          "width": 900,
+          "animation": {
+            "enter": "drop-in",
+            "duration": 620,
+            "step": 1
+          },
           "type": "text",
-          "x": 80, "y": 94, "width": 900,
-          "content": "Convergence Theorem", "fontSize": 40, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "drop-in", "duration": 620, "step": 1 }
+          "content": "Convergence Theorem",
+          "fontSize": 40,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "f1-title-underline",
+          "x": 80,
+          "y": 144,
+          "width": 540,
+          "height": 4,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 500,
+            "delay": 200,
+            "step": 1
+          },
           "type": "rect",
-          "x": 80, "y": 144, "width": 540, "height": 4,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 500, "delay": 200, "step": 1 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "f1-glass-card",
+          "x": 80,
+          "y": 168,
+          "width": 820,
+          "height": 220,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 620,
+            "delay": 100,
+            "step": 1
+          },
           "type": "rect",
-          "x": 80, "y": 168, "width": 820, "height": 220,
-          "fill": "rgba(245,240,232,0.96)", "stroke": "#1a1a1a", "strokeWidth": 3,
-          "animation": { "enter": "fade-right", "duration": 620, "delay": 100, "step": 1 }
+          "fill": "rgba(245,240,232,0.96)",
+          "stroke": "#1a1a1a",
+          "strokeWidth": 3
         },
         {
           "id": "f1-formula",
+          "x": 100,
+          "y": 196,
+          "width": 780,
+          "height": 80,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 680,
+            "delay": 300,
+            "step": 1
+          },
           "type": "formula",
-          "x": 100, "y": 196, "width": 780, "height": 80,
           "latex": "P(\\text{convergence}) \\geq 1 - e^{-\\alpha N \\cdot t}",
-          "fontSize": 32, "color": "#1a1a1a",
-          "animation": { "enter": "scale-in", "duration": 680, "delay": 300, "step": 1 }
+          "fontSize": 32,
+          "color": "#1a1a1a"
         },
         {
           "id": "f1-formula-note",
+          "x": 100,
+          "y": 296,
+          "width": 780,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 420,
+            "delay": 500,
+            "step": 1
+          },
           "type": "text",
-          "x": 100, "y": 296, "width": 780,
           "content": "N = agent count,  α = interaction rate,  t = elapsed time",
-          "fontSize": 15, "color": "rgba(26,26,26,0.65)",
-          "animation": { "enter": "fade-up", "duration": 420, "delay": 500, "step": 1 }
+          "fontSize": 15,
+          "color": "rgba(26,26,26,0.65)"
         },
         {
           "id": "f1-evidence-label",
+          "x": 80,
+          "y": 420,
+          "width": 400,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 2
+          },
           "type": "text",
-          "x": 80, "y": 420, "width": 400,
-          "content": "EMPIRICAL EVIDENCE", "fontSize": 12, "fontWeight": "bold", "color": "#c1272d",
-          "animation": { "enter": "fade-up", "duration": 400, "step": 2 }
+          "content": "EMPIRICAL EVIDENCE",
+          "fontSize": 12,
+          "fontWeight": "bold",
+          "color": "#c1272d"
         },
         {
           "id": "f1-bar-1",
+          "x": 80,
+          "y": 510,
+          "width": 80,
+          "height": 160,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 600,
+            "delay": 0,
+            "step": 2
+          },
           "type": "rect",
-          "x": 80, "y": 510, "width": 80, "height": 160,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-y", "duration": 600, "delay": 0, "step": 2 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "f1-bar-1-label",
+          "x": 70,
+          "y": 680,
+          "width": 100,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 350,
+            "delay": 400,
+            "step": 2
+          },
           "type": "text",
-          "x": 70, "y": 680, "width": 100,
-          "content": "N=100", "fontSize": 11, "color": "rgba(26,26,26,0.6)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 350, "delay": 400, "step": 2 }
+          "content": "N=100",
+          "fontSize": 11,
+          "color": "rgba(26,26,26,0.6)",
+          "align": "center"
         },
         {
           "id": "f1-bar-2",
+          "x": 220,
+          "y": 450,
+          "width": 80,
+          "height": 220,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 600,
+            "delay": 100,
+            "step": 2
+          },
           "type": "rect",
-          "x": 220, "y": 450, "width": 80, "height": 220,
-          "fill": "#1a1a1a", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-y", "duration": 600, "delay": 100, "step": 2 }
+          "fill": "#1a1a1a",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "f1-bar-2-label",
+          "x": 210,
+          "y": 680,
+          "width": 100,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 350,
+            "delay": 500,
+            "step": 2
+          },
           "type": "text",
-          "x": 210, "y": 680, "width": 100,
-          "content": "N=500", "fontSize": 11, "color": "rgba(26,26,26,0.6)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 350, "delay": 500, "step": 2 }
+          "content": "N=500",
+          "fontSize": 11,
+          "color": "rgba(26,26,26,0.6)",
+          "align": "center"
         },
         {
           "id": "f1-bar-3",
+          "x": 360,
+          "y": 400,
+          "width": 80,
+          "height": 270,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 600,
+            "delay": 200,
+            "step": 2
+          },
           "type": "rect",
-          "x": 360, "y": 400, "width": 80, "height": 270,
-          "fill": "#3a5a7c", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-y", "duration": 600, "delay": 200, "step": 2 }
+          "fill": "#3a5a7c",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "f1-bar-3-label",
+          "x": 350,
+          "y": 680,
+          "width": 100,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 350,
+            "delay": 600,
+            "step": 2
+          },
           "type": "text",
-          "x": 350, "y": 680, "width": 100,
-          "content": "N=1000", "fontSize": 11, "color": "rgba(26,26,26,0.6)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 350, "delay": 600, "step": 2 }
+          "content": "N=1000",
+          "fontSize": 11,
+          "color": "rgba(26,26,26,0.6)",
+          "align": "center"
         },
         {
           "id": "f1-insight",
+          "x": 900,
+          "y": 420,
+          "width": 320,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 450,
+            "delay": 300,
+            "step": 2
+          },
           "type": "text",
-          "x": 900, "y": 420, "width": 320,
           "content": "Convergence probability approaches 1 exponentially as N×t grows.",
-          "fontSize": 16, "color": "#1a1a1a", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 450, "delay": 300, "step": 2 }
+          "fontSize": 16,
+          "color": "#1a1a1a",
+          "lineHeight": 1.5
         }
+      ],
+      "notes": "Finding 1: Convergence Theorem. Step 1 = title+formula, Step 2 = evidence bars.",
+      "fx": [
+        "geometric-grid"
       ]
     },
-
     {
       "id": "finding-2",
       "background": "#f5f0e8",
-      "notes": "Finding 2: Phase Transition Boundary — formula, explanation, data points.",
       "elements": [
         {
           "id": "f2-kicker",
+          "x": 80,
+          "y": 42,
+          "width": 200,
+          "height": 32,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 450,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 42, "width": 200, "height": 32,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 450, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "f2-kicker-text",
+          "x": 80,
+          "y": 45,
+          "width": 200,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "delay": 200,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 45, "width": 200,
-          "content": "FINDING 2", "fontSize": 12, "fontWeight": "bold", "color": "#f5f0e8",
-          "animation": { "enter": "fade-up", "duration": 380, "delay": 200, "step": 0 }
+          "content": "FINDING 2",
+          "fontSize": 12,
+          "fontWeight": "bold",
+          "color": "#f5f0e8"
         },
         {
           "id": "f2-title",
+          "x": 80,
+          "y": 94,
+          "width": 900,
+          "animation": {
+            "enter": "skew-in",
+            "duration": 640,
+            "step": 1
+          },
           "type": "text",
-          "x": 80, "y": 94, "width": 900,
-          "content": "Phase Transition Boundary", "fontSize": 40, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "skew-in", "duration": 640, "step": 1 }
+          "content": "Phase Transition Boundary",
+          "fontSize": 40,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "f2-title-underline",
+          "x": 80,
+          "y": 144,
+          "width": 560,
+          "height": 4,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 500,
+            "delay": 180,
+            "step": 1
+          },
           "type": "rect",
-          "x": 80, "y": 144, "width": 560, "height": 4,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 500, "delay": 180, "step": 1 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "f2-formula",
+          "x": 80,
+          "y": 180,
+          "width": 700,
+          "height": 90,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 680,
+            "delay": 200,
+            "step": 1
+          },
           "type": "formula",
-          "x": 80, "y": 180, "width": 700, "height": 90,
           "latex": "\\rho_c = \\frac{k}{N^{2/3}} \\ln(N)",
-          "fontSize": 38, "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 680, "delay": 200, "step": 1 }
+          "fontSize": 38,
+          "color": "#1a1a1a"
         },
         {
           "id": "f2-explanation",
+          "x": 80,
+          "y": 320,
+          "width": 760,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 550,
+            "delay": 400,
+            "step": 1
+          },
           "type": "text",
-          "x": 80, "y": 320, "width": 760,
           "content": "Critical density threshold ρ_c below which collective intelligence fails to emerge. Above ρ_c, local interaction rules spontaneously produce global coordination.",
-          "fontSize": 17, "color": "rgba(26,26,26,0.75)", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 550, "delay": 400, "step": 1 }
+          "fontSize": 17,
+          "color": "rgba(26,26,26,0.75)",
+          "lineHeight": 1.5
         },
         {
           "id": "f2-data-label",
+          "x": 80,
+          "y": 410,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "step": 2
+          },
           "type": "text",
-          "x": 80, "y": 410, "width": 500,
-          "content": "THEORETICAL vs. EXPERIMENTAL VALUES", "fontSize": 11, "fontWeight": "bold", "color": "#c1272d",
-          "animation": { "enter": "fade-up", "duration": 380, "step": 2 }
+          "content": "THEORETICAL vs. EXPERIMENTAL VALUES",
+          "fontSize": 11,
+          "fontWeight": "bold",
+          "color": "#c1272d"
         },
         {
           "id": "f2-dot-1",
+          "x": 140,
+          "y": 520,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 550,
+            "delay": 0,
+            "step": 2
+          },
           "type": "circle",
-          "x": 140, "y": 520, "radius": 16,
-          "fill": "#c1272d",
-          "animation": { "enter": "bounce-in", "duration": 550, "delay": 0, "step": 2 }
+          "radius": 16,
+          "fill": "#c1272d"
         },
         {
           "id": "f2-dot-1-label",
+          "x": 100,
+          "y": 548,
+          "width": 80,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 350,
+            "delay": 300,
+            "step": 2
+          },
           "type": "text",
-          "x": 100, "y": 548, "width": 80,
-          "content": "N=200\nTheory", "fontSize": 10, "color": "rgba(26,26,26,0.65)", "align": "center", "lineHeight": 1.4,
-          "animation": { "enter": "fade-up", "duration": 350, "delay": 300, "step": 2 }
+          "content": "N=200\nTheory",
+          "fontSize": 10,
+          "color": "rgba(26,26,26,0.65)",
+          "align": "center",
+          "lineHeight": 1.4
         },
         {
           "id": "f2-dot-2",
+          "x": 155,
+          "y": 506,
+          "opacity": 0.6,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 500,
+            "delay": 50,
+            "step": 2
+          },
           "type": "circle",
-          "x": 155, "y": 506, "radius": 10,
-          "fill": "#1a1a1a", "opacity": 0.6,
-          "animation": { "enter": "bounce-in", "duration": 500, "delay": 50, "step": 2 }
+          "radius": 10,
+          "fill": "#1a1a1a"
         },
         {
           "id": "f2-dot-2-label",
+          "x": 136,
+          "y": 524,
+          "width": 60,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 350,
+            "delay": 350,
+            "step": 2
+          },
           "type": "text",
-          "x": 136, "y": 524, "width": 60,
-          "content": "Exp.", "fontSize": 10, "color": "rgba(26,26,26,0.55)", "align": "center",
-          "animation": { "enter": "fade-up", "duration": 350, "delay": 350, "step": 2 }
+          "content": "Exp.",
+          "fontSize": 10,
+          "color": "rgba(26,26,26,0.55)",
+          "align": "center"
         },
         {
           "id": "f2-dot-3",
+          "x": 340,
+          "y": 490,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 570,
+            "delay": 100,
+            "step": 2
+          },
           "type": "circle",
-          "x": 340, "y": 490, "radius": 18,
-          "fill": "#c1272d",
-          "animation": { "enter": "bounce-in", "duration": 570, "delay": 100, "step": 2 }
+          "radius": 18,
+          "fill": "#c1272d"
         },
         {
           "id": "f2-dot-3-label",
+          "x": 300,
+          "y": 520,
+          "width": 80,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 350,
+            "delay": 400,
+            "step": 2
+          },
           "type": "text",
-          "x": 300, "y": 520, "width": 80,
-          "content": "N=500\nTheory", "fontSize": 10, "color": "rgba(26,26,26,0.65)", "align": "center", "lineHeight": 1.4,
-          "animation": { "enter": "fade-up", "duration": 350, "delay": 400, "step": 2 }
+          "content": "N=500\nTheory",
+          "fontSize": 10,
+          "color": "rgba(26,26,26,0.65)",
+          "align": "center",
+          "lineHeight": 1.4
         },
         {
           "id": "f2-dot-4",
+          "x": 358,
+          "y": 478,
+          "opacity": 0.6,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 520,
+            "delay": 150,
+            "step": 2
+          },
           "type": "circle",
-          "x": 358, "y": 478, "radius": 11,
-          "fill": "#1a1a1a", "opacity": 0.6,
-          "animation": { "enter": "bounce-in", "duration": 520, "delay": 150, "step": 2 }
+          "radius": 11,
+          "fill": "#1a1a1a"
         },
         {
           "id": "f2-dot-5",
+          "x": 560,
+          "y": 470,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 590,
+            "delay": 200,
+            "step": 2
+          },
           "type": "circle",
-          "x": 560, "y": 470, "radius": 20,
-          "fill": "#c1272d",
-          "animation": { "enter": "bounce-in", "duration": 590, "delay": 200, "step": 2 }
+          "radius": 20,
+          "fill": "#c1272d"
         },
         {
           "id": "f2-dot-5-label",
+          "x": 518,
+          "y": 502,
+          "width": 84,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 350,
+            "delay": 500,
+            "step": 2
+          },
           "type": "text",
-          "x": 518, "y": 502, "width": 84,
-          "content": "N=1000\nTheory", "fontSize": 10, "color": "rgba(26,26,26,0.65)", "align": "center", "lineHeight": 1.4,
-          "animation": { "enter": "fade-up", "duration": 350, "delay": 500, "step": 2 }
+          "content": "N=1000\nTheory",
+          "fontSize": 10,
+          "color": "rgba(26,26,26,0.65)",
+          "align": "center",
+          "lineHeight": 1.4
         },
         {
           "id": "f2-dot-6",
+          "x": 580,
+          "y": 456,
+          "opacity": 0.6,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 540,
+            "delay": 250,
+            "step": 2
+          },
           "type": "circle",
-          "x": 580, "y": 456, "radius": 12,
-          "fill": "#1a1a1a", "opacity": 0.6,
-          "animation": { "enter": "bounce-in", "duration": 540, "delay": 250, "step": 2 }
+          "radius": 12,
+          "fill": "#1a1a1a"
         },
         {
           "id": "f2-legend-theory",
+          "x": 800,
+          "y": 470,
+          "width": 20,
+          "height": 20,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "step": 2
+          },
           "type": "rect",
-          "x": 800, "y": 470, "width": 20, "height": 20,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "fade-up", "duration": 380, "step": 2 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "f2-legend-theory-label",
+          "x": 828,
+          "y": 470,
+          "width": 160,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "step": 2
+          },
           "type": "text",
-          "x": 828, "y": 470, "width": 160,
-          "content": "Theoretical", "fontSize": 13, "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 380, "step": 2 }
+          "content": "Theoretical",
+          "fontSize": 13,
+          "color": "#1a1a1a"
         },
         {
           "id": "f2-legend-exp",
+          "x": 800,
+          "y": 504,
+          "width": 20,
+          "height": 20,
+          "opacity": 0.6,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "delay": 100,
+            "step": 2
+          },
           "type": "rect",
-          "x": 800, "y": 504, "width": 20, "height": 20,
-          "fill": "#1a1a1a", "opacity": 0.6,
-          "animation": { "enter": "fade-up", "duration": 380, "delay": 100, "step": 2 }
+          "fill": "#1a1a1a"
         },
         {
           "id": "f2-legend-exp-label",
+          "x": 828,
+          "y": 504,
+          "width": 160,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 380,
+            "delay": 100,
+            "step": 2
+          },
           "type": "text",
-          "x": 828, "y": 504, "width": 160,
-          "content": "Experimental", "fontSize": 13, "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 380, "delay": 100, "step": 2 }
+          "content": "Experimental",
+          "fontSize": 13,
+          "color": "#1a1a1a"
         }
-      ]
+      ],
+      "notes": "Finding 2: Phase Transition Boundary — formula, explanation, data points."
     },
-
     {
       "id": "analysis",
       "background": "#f5f0e8",
-      "fx": ["diagonal-wipe"],
-      "notes": "Comparative analysis — table layout and key insight animatedText.",
       "elements": [
         {
           "id": "analysis-title",
+          "x": 80,
+          "y": 36,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 580,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 36, "width": 800,
-          "content": "Comparative Analysis", "fontSize": 42, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 580, "step": 0 }
+          "content": "Comparative Analysis",
+          "fontSize": 42,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "analysis-title-bar",
+          "x": 80,
+          "y": 86,
+          "width": 420,
+          "height": 5,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 540,
+            "delay": 150,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 86, "width": 420, "height": 5,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 540, "delay": 150, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "analysis-table-glass",
+          "x": 80,
+          "y": 116,
+          "width": 1120,
+          "height": 340,
+          "animation": {
+            "enter": "flip-in",
+            "duration": 700,
+            "delay": 200,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 116, "width": 1120, "height": 340,
-          "fill": "rgba(245,240,232,0.96)", "stroke": "#1a1a1a", "strokeWidth": 3,
-          "animation": { "enter": "flip-in", "duration": 700, "delay": 200, "step": 0 }
+          "fill": "rgba(245,240,232,0.96)",
+          "stroke": "#1a1a1a",
+          "strokeWidth": 3
         },
         {
           "id": "analysis-header-bg",
+          "x": 80,
+          "y": 116,
+          "width": 1120,
+          "height": 52,
+          "animation": {
+            "enter": "flip-in",
+            "duration": 700,
+            "delay": 200,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 116, "width": 1120, "height": 52,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "flip-in", "duration": 700, "delay": 200, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "analysis-header-text",
+          "x": 90,
+          "y": 128,
+          "width": 1100,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 420,
+            "delay": 400,
+            "step": 0
+          },
           "type": "text",
-          "x": 90, "y": 128, "width": 1100,
           "content": "Method                         Convergence      Scalability      Robustness",
-          "fontSize": 15, "fontWeight": "bold", "color": "#f5f0e8",
-          "animation": { "enter": "fade-up", "duration": 420, "delay": 400, "step": 0 }
+          "fontSize": 15,
+          "fontWeight": "bold",
+          "color": "#f5f0e8"
         },
         {
           "id": "analysis-row1",
+          "x": 90,
+          "y": 188,
+          "width": 1100,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 440,
+            "delay": 500,
+            "step": 0
+          },
           "type": "text",
-          "x": 90, "y": 188, "width": 1100,
           "content": "Centralized MAS (baseline)      O(N²) comms         Poor              High",
-          "fontSize": 15, "color": "#1a1a1a",
-          "animation": { "enter": "fade-right", "duration": 440, "delay": 500, "step": 0 }
+          "fontSize": 15,
+          "color": "#1a1a1a"
         },
         {
           "id": "analysis-divider-1",
+          "x": 90,
+          "y": 218,
+          "width": 1100,
+          "height": 1,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 400,
+            "delay": 550,
+            "step": 0
+          },
           "type": "rect",
-          "x": 90, "y": 218, "width": 1100, "height": 1,
-          "fill": "rgba(26,26,26,0.15)", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 400, "delay": 550, "step": 0 }
+          "fill": "rgba(26,26,26,0.15)",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "analysis-row2",
+          "x": 90,
+          "y": 232,
+          "width": 1100,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 440,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 90, "y": 232, "width": 1100,
           "content": "Gossip protocols               O(N log N)          Medium            Medium",
-          "fontSize": 15, "color": "#1a1a1a",
-          "animation": { "enter": "fade-right", "duration": 440, "delay": 600, "step": 0 }
+          "fontSize": 15,
+          "color": "#1a1a1a"
         },
         {
           "id": "analysis-divider-2",
+          "x": 90,
+          "y": 262,
+          "width": 1100,
+          "height": 1,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 400,
+            "delay": 650,
+            "step": 0
+          },
           "type": "rect",
-          "x": 90, "y": 262, "width": 1100, "height": 1,
-          "fill": "rgba(26,26,26,0.15)", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 400, "delay": 650, "step": 0 }
+          "fill": "rgba(26,26,26,0.15)",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "analysis-row3-bg",
+          "x": 80,
+          "y": 275,
+          "width": 1120,
+          "height": 46,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 400,
+            "delay": 680,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 275, "width": 1120, "height": 46,
-          "fill": "rgba(193,39,45,0.08)", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "fade-right", "duration": 400, "delay": 680, "step": 0 }
+          "fill": "rgba(193,39,45,0.08)",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "analysis-row3",
+          "x": 90,
+          "y": 284,
+          "width": 1100,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 460,
+            "delay": 700,
+            "step": 0
+          },
           "type": "text",
-          "x": 90, "y": 284, "width": 1100,
           "content": "Our framework (ECI-DMA)       O(N log N)          Excellent         High  ✓",
-          "fontSize": 15, "fontWeight": "bold", "color": "#c1272d",
-          "animation": { "enter": "fade-right", "duration": 460, "delay": 700, "step": 0 }
+          "fontSize": 15,
+          "fontWeight": "bold",
+          "color": "#c1272d"
         },
         {
           "id": "analysis-row4",
+          "x": 90,
+          "y": 342,
+          "width": 1100,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 440,
+            "delay": 760,
+            "step": 0
+          },
           "type": "text",
-          "x": 90, "y": 342, "width": 1100,
           "content": "Swarm baseline (ACO)            O(N²)               Medium            Low",
-          "fontSize": 15, "color": "rgba(26,26,26,0.65)",
-          "animation": { "enter": "fade-right", "duration": 440, "delay": 760, "step": 0 }
+          "fontSize": 15,
+          "color": "rgba(26,26,26,0.65)"
         },
         {
           "id": "analysis-insight",
+          "x": 89.56,
+          "y": 515.82,
+          "width": 1120,
           "type": "animatedText",
-          "x": 80, "y": 500, "width": 1120,
           "content": "Our framework achieves superior scalability while maintaining convergence guarantees",
-          "fontSize": 24, "fontWeight": "bold", "color": "#1a1a1a", "lineHeight": 1.3,
-          "textAnimation": { "name": "stagger", "splitMode": "word", "stagger": 55, "direction": "edges", "duration": 520 }
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#1a1a1a",
+          "lineHeight": 1.3,
+          "textAnimation": {
+            "name": "stagger",
+            "splitMode": "word",
+            "stagger": 55,
+            "direction": "edges",
+            "duration": 520
+          }
         },
         {
           "id": "analysis-accent-line",
+          "x": 80,
+          "y": 494,
+          "width": 6,
+          "height": 72,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 500,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 494, "width": 6, "height": 72,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-y", "duration": 500, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         }
+      ],
+      "notes": "Comparative analysis — table layout and key insight animatedText.",
+      "fx": [
+        "diagonal-wipe"
       ]
     },
-
     {
       "id": "contribution",
       "background": "#f5f0e8",
-      "fx": ["geometric-grid"],
-      "notes": "3 contribution pillars with badge numbers, connecting lines, published badge.",
       "elements": [
         {
           "id": "contrib-title",
+          "x": 80,
+          "y": 36,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 580,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 36, "width": 700,
-          "content": "Contributions", "fontSize": 42, "fontWeight": "bold", "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 580, "step": 0 }
+          "content": "Contributions",
+          "fontSize": 42,
+          "fontWeight": "bold",
+          "color": "#1a1a1a"
         },
         {
           "id": "contrib-title-bar",
+          "x": 80,
+          "y": 86,
+          "width": 320,
+          "height": 5,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 520,
+            "delay": 150,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 86, "width": 320, "height": 5,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 520, "delay": 150, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "contrib-pillar-1",
+          "x": 80,
+          "y": 140,
+          "width": 310,
+          "height": 420,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 640,
+            "delay": 0,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 140, "width": 310, "height": 420,
-          "fill": "rgba(245,240,232,0.96)", "stroke": "#1a1a1a", "strokeWidth": 3,
-          "animation": { "enter": "fade-up", "duration": 640, "delay": 0, "step": 0 }
+          "fill": "rgba(245,240,232,0.96)",
+          "stroke": "#1a1a1a",
+          "strokeWidth": 3
         },
         {
           "id": "contrib-badge-1",
+          "x": 235,
+          "y": 178,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 600,
+            "delay": 300,
+            "step": 0
+          },
           "type": "circle",
-          "x": 235, "y": 178, "radius": 30,
-          "fill": "#c1272d",
-          "animation": { "enter": "rotate-in", "duration": 600, "delay": 300, "step": 0 }
+          "radius": 30,
+          "fill": "#c1272d"
         },
         {
           "id": "contrib-badge-1-text",
+          "x": 205,
+          "y": 167,
+          "width": 60,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 600,
+            "delay": 300,
+            "step": 0
+          },
           "type": "text",
-          "x": 205, "y": 167, "width": 60,
-          "content": "1", "fontSize": 22, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
-          "animation": { "enter": "rotate-in", "duration": 600, "delay": 300, "step": 0 }
+          "content": "1",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#f5f0e8",
+          "align": "center"
         },
         {
           "id": "contrib-text-1",
+          "x": 96,
+          "y": 230,
+          "width": 278,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 480,
+            "delay": 450,
+            "step": 0
+          },
           "type": "text",
-          "x": 96, "y": 230, "width": 278,
           "content": "Formal convergence framework for decentralized multi-agent systems",
-          "fontSize": 16, "color": "#1a1a1a", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 480, "delay": 450, "step": 0 }
+          "fontSize": 16,
+          "color": "#1a1a1a",
+          "lineHeight": 1.5
         },
         {
           "id": "contrib-conn-1",
+          "x": 390,
+          "y": 348,
+          "width": 110,
+          "height": 5,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 420,
+            "delay": 200,
+            "step": 0
+          },
           "type": "rect",
-          "x": 390, "y": 348, "width": 110, "height": 5,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 420, "delay": 200, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "contrib-pillar-2",
+          "x": 505,
+          "y": 140,
+          "width": 270,
+          "height": 420,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 640,
+            "delay": 120,
+            "step": 0
+          },
           "type": "rect",
-          "x": 505, "y": 140, "width": 270, "height": 420,
-          "fill": "rgba(245,240,232,0.96)", "stroke": "#c1272d", "strokeWidth": 3,
-          "animation": { "enter": "fade-up", "duration": 640, "delay": 120, "step": 0 }
+          "fill": "rgba(245,240,232,0.96)",
+          "stroke": "#c1272d",
+          "strokeWidth": 3
         },
         {
           "id": "contrib-badge-2",
+          "x": 640,
+          "y": 178,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 600,
+            "delay": 420,
+            "step": 0
+          },
           "type": "circle",
-          "x": 640, "y": 178, "radius": 30,
-          "fill": "#c1272d",
-          "animation": { "enter": "rotate-in", "duration": 600, "delay": 420, "step": 0 }
+          "radius": 30,
+          "fill": "#c1272d"
         },
         {
           "id": "contrib-badge-2-text",
+          "x": 610,
+          "y": 167,
+          "width": 60,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 600,
+            "delay": 420,
+            "step": 0
+          },
           "type": "text",
-          "x": 610, "y": 167, "width": 60,
-          "content": "2", "fontSize": 22, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
-          "animation": { "enter": "rotate-in", "duration": 600, "delay": 420, "step": 0 }
+          "content": "2",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#f5f0e8",
+          "align": "center"
         },
         {
           "id": "contrib-text-2",
+          "x": 521,
+          "y": 230,
+          "width": 238,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 480,
+            "delay": 560,
+            "step": 0
+          },
           "type": "text",
-          "x": 521, "y": 230, "width": 238,
           "content": "Phase transition analysis of emergent behavior",
-          "fontSize": 16, "color": "#1a1a1a", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 480, "delay": 560, "step": 0 }
+          "fontSize": 16,
+          "color": "#1a1a1a",
+          "lineHeight": 1.5
         },
         {
           "id": "contrib-conn-2",
+          "x": 775,
+          "y": 348,
+          "width": 110,
+          "height": 5,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 420,
+            "delay": 300,
+            "step": 0
+          },
           "type": "rect",
-          "x": 775, "y": 348, "width": 110, "height": 5,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 420, "delay": 300, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "contrib-pillar-3",
+          "x": 890,
+          "y": 140,
+          "width": 310,
+          "height": 420,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 640,
+            "delay": 240,
+            "step": 0
+          },
           "type": "rect",
-          "x": 890, "y": 140, "width": 310, "height": 420,
-          "fill": "rgba(245,240,232,0.96)", "stroke": "#3a5a7c", "strokeWidth": 3,
-          "animation": { "enter": "fade-up", "duration": 640, "delay": 240, "step": 0 }
+          "fill": "rgba(245,240,232,0.96)",
+          "stroke": "#3a5a7c",
+          "strokeWidth": 3
         },
         {
           "id": "contrib-badge-3",
+          "x": 1045,
+          "y": 178,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 600,
+            "delay": 540,
+            "step": 0
+          },
           "type": "circle",
-          "x": 1045, "y": 178, "radius": 30,
-          "fill": "#c1272d",
-          "animation": { "enter": "rotate-in", "duration": 600, "delay": 540, "step": 0 }
+          "radius": 30,
+          "fill": "#c1272d"
         },
         {
           "id": "contrib-badge-3-text",
+          "x": 1015,
+          "y": 167,
+          "width": 60,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 600,
+            "delay": 540,
+            "step": 0
+          },
           "type": "text",
-          "x": 1015, "y": 167, "width": 60,
-          "content": "3", "fontSize": 22, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
-          "animation": { "enter": "rotate-in", "duration": 600, "delay": 540, "step": 0 }
+          "content": "3",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#f5f0e8",
+          "align": "center"
         },
         {
           "id": "contrib-text-3",
+          "x": 906,
+          "y": 230,
+          "width": 278,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 480,
+            "delay": 660,
+            "step": 0
+          },
           "type": "text",
-          "x": 906, "y": 230, "width": 278,
           "content": "Open-source simulation toolkit (AgentForge)",
-          "fontSize": 16, "color": "#1a1a1a", "lineHeight": 1.5,
-          "animation": { "enter": "fade-up", "duration": 480, "delay": 660, "step": 0 }
+          "fontSize": 16,
+          "color": "#1a1a1a",
+          "lineHeight": 1.5
         },
         {
           "id": "contrib-published-badge",
+          "x": 906,
+          "y": 440,
+          "width": 160,
+          "height": 44,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 560,
+            "delay": 800,
+            "step": 0
+          },
           "type": "rect",
-          "x": 906, "y": 440, "width": 160, "height": 44,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "zoom-pop", "duration": 560, "delay": 800, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "contrib-published-text",
+          "x": 906,
+          "y": 450,
+          "width": 160,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 560,
+            "delay": 800,
+            "step": 0
+          },
           "type": "text",
-          "x": 906, "y": 450, "width": 160,
-          "content": "PUBLISHED", "fontSize": 14, "fontWeight": "bold", "color": "#f5f0e8", "align": "center",
-          "animation": { "enter": "zoom-pop", "duration": 560, "delay": 800, "step": 0 }
+          "content": "PUBLISHED",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "color": "#f5f0e8",
+          "align": "center"
         }
+      ],
+      "notes": "3 contribution pillars with badge numbers, connecting lines, published badge.",
+      "fx": [
+        "geometric-grid"
       ]
     },
-
     {
       "id": "conclusion",
       "background": "#f5f0e8",
-      "fx": ["geometric-grid"],
-      "notes": "Conclusion + Q&A — cascade summary, large thank you, decorative geometry.",
       "elements": [
         {
           "id": "concl-geo-rect-a",
-          "type": "rect",
-          "x": -30, "y": 460, "width": 180, "height": 180,
-          "fill": "rgba(193,39,45,0.12)", "stroke": "#c1272d", "strokeWidth": 3,
+          "x": -30,
+          "y": 460,
+          "width": 180,
+          "height": 180,
           "rotation": 20,
-          "animation": { "enter": "rotate-in", "duration": 800, "delay": 0, "step": 0 }
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 800,
+            "delay": 0,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(193,39,45,0.12)",
+          "stroke": "#c1272d",
+          "strokeWidth": 3
         },
         {
           "id": "concl-geo-circle-a",
+          "x": 1140,
+          "y": 120,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 750,
+            "delay": 100,
+            "step": 0
+          },
           "type": "circle",
-          "x": 1140, "y": 120, "radius": 80,
-          "fill": "rgba(0,0,0,0)", "stroke": "#c1272d", "strokeWidth": 4,
-          "animation": { "enter": "scale-in", "duration": 750, "delay": 100, "step": 0 }
+          "radius": 80,
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "#c1272d",
+          "strokeWidth": 4
         },
         {
           "id": "concl-geo-circle-b",
+          "x": 1180,
+          "y": 90,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 680,
+            "delay": 200,
+            "step": 0
+          },
           "type": "circle",
-          "x": 1180, "y": 90, "radius": 45,
-          "fill": "rgba(0,0,0,0)", "stroke": "#1a1a1a", "strokeWidth": 3,
-          "animation": { "enter": "scale-in", "duration": 680, "delay": 200, "step": 0 }
+          "radius": 45,
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "#1a1a1a",
+          "strokeWidth": 3
         },
         {
           "id": "concl-geo-rect-b",
-          "type": "rect",
-          "x": 1040, "y": 540, "width": 100, "height": 100,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
+          "x": 1040,
+          "y": 540,
+          "width": 100,
+          "height": 100,
           "rotation": -12,
-          "animation": { "enter": "rotate-in", "duration": 720, "delay": 150, "step": 0 }
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 720,
+            "delay": 150,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "concl-summary",
+          "x": 80,
+          "y": 60,
+          "width": 900,
           "type": "animatedText",
-          "x": 80, "y": 60, "width": 900,
           "content": "Decentralized systems can achieve collective intelligence through simple local interaction rules",
-          "fontSize": 26, "color": "#1a1a1a", "lineHeight": 1.4,
-          "textAnimation": { "name": "cascade", "stagger": 42, "duration": 580 }
+          "fontSize": 26,
+          "color": "#1a1a1a",
+          "lineHeight": 1.4,
+          "textAnimation": {
+            "name": "cascade",
+            "stagger": 42,
+            "duration": 580
+          }
         },
         {
           "id": "concl-summary-bar",
+          "x": 80,
+          "y": 56,
+          "width": 5,
+          "height": 130,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 580,
+            "delay": 200,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 56, "width": 5, "height": 130,
-          "fill": "#c1272d", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-y", "duration": 580, "delay": 200, "step": 0 }
+          "fill": "#c1272d",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "concl-thank-you",
+          "x": 80,
+          "y": 270,
+          "width": 900,
+          "animation": {
+            "enter": "blur-zoom",
+            "duration": 800,
+            "delay": 600,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 270, "width": 900,
-          "content": "Thank You", "fontSize": 82, "fontWeight": "bold", "color": "#c1272d",
-          "animation": { "enter": "blur-zoom", "duration": 800, "delay": 600, "step": 0 }
+          "content": "Thank You",
+          "fontSize": 82,
+          "fontWeight": "bold",
+          "color": "#c1272d"
         },
         {
           "id": "concl-questions",
+          "x": 80,
+          "y": 390,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 560,
+            "delay": 900,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 390, "width": 700,
-          "content": "Questions & Discussion", "fontSize": 28, "color": "#1a1a1a",
-          "animation": { "enter": "fade-up", "duration": 560, "delay": 900, "step": 0 }
+          "content": "Questions & Discussion",
+          "fontSize": 28,
+          "color": "#1a1a1a"
         },
         {
           "id": "concl-divider",
+          "x": 80,
+          "y": 434,
+          "width": 460,
+          "height": 3,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 500,
+            "delay": 1000,
+            "step": 0
+          },
           "type": "rect",
-          "x": 80, "y": 434, "width": 460, "height": 3,
-          "fill": "#1a1a1a", "stroke": "none", "strokeWidth": 0,
-          "animation": { "enter": "stretch-x", "duration": 500, "delay": 1000, "step": 0 }
+          "fill": "#1a1a1a",
+          "stroke": "none",
+          "strokeWidth": 0
         },
         {
           "id": "concl-contact",
+          "x": 80,
+          "y": 450,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 420,
+            "delay": 1100,
+            "step": 0
+          },
           "type": "text",
-          "x": 80, "y": 450, "width": 700,
-          "content": "speaker@example.edu", "fontSize": 14, "color": "rgba(26,26,26,0.55)",
-          "animation": { "enter": "fade-up", "duration": 420, "delay": 1100, "step": 0 }
+          "content": "speaker@example.edu",
+          "fontSize": 14,
+          "color": "rgba(26,26,26,0.55)"
         }
+      ],
+      "notes": "Conclusion + Q&A — cascade summary, large thank you, decorative geometry.",
+      "fx": [
+        "diagonal-wipe"
       ]
     }
-
   ]
 }

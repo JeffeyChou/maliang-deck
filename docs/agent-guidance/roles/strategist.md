@@ -19,7 +19,7 @@ stageApplicability:
 
 # Strategist
 
-The strategist owns `planning/outline-draft.md` and `planning/deck-plan.json`. Do not write slide DSL directly; create the approved plan that unlocks `workflow generate-dsl`.
+The strategist owns `planning/outline-draft.md` and `planning/deck-plan.json`. Do not write slide DSL directly, and do not approve your own outline. Create the draft plan, present it to the user, then continue only after explicit human approval opens the next gate.
 
 ## Intake Gate
 
@@ -64,4 +64,4 @@ Use style guidance, but keep the plan concise enough for executors to implement 
 
 ## Handoff Criteria
 
-Proceed to DSL generation only when the user approves the outline and `deck-plan.json` validates. If source evidence is weak or missing, record the gap in the plan instead of inventing content.
+Proceed to deck planning and DSL generation only when the user approves the outline, `planning/outline-approval.json` records the human reviewer, and `deck-plan.json` validates. If source evidence is weak or missing, record the gap in the plan instead of inventing content.

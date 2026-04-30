@@ -59,7 +59,9 @@
  * Use CSS var override for stroke (rendered via ::before inset box-shadow)
  * instead of CSS border to avoid double-stroke artifacts. */
 [data-maliang-deck-id*="-glass"] {
+  background-color: rgba(245,240,235,.06) !important;
   background-image: linear-gradient(135deg, rgba(230,57,70,.08), rgba(43,45,66,.15)) !important;
+  --maliang-rect-fill: rgba(245,240,235,.06) !important;
   border: 1px solid rgba(230,57,70,.35);
   box-shadow:
     0 24px 80px rgba(0,0,0,.6),
@@ -88,7 +90,9 @@
 
 /* Chip/pill badges: red gradient — editorial tag feel (rect only, not text labels) */
 [data-maliang-deck-id*="-chip"][data-maliang-deck-type="rect"] {
+  background-color: rgba(230,57,70,.16) !important;
   background-image: linear-gradient(135deg, rgba(230,57,70,.30), rgba(230,57,70,.10)) !important;
+  --maliang-rect-fill: rgba(230,57,70,.16) !important;
   background-clip: padding-box !important;
   box-shadow: 0 8px 28px rgba(0,0,0,.40);
 }

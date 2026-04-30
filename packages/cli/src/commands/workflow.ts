@@ -1,4 +1,6 @@
 import { Command } from 'commander';
+import { existsSync } from 'node:fs';
+import { dirname, isAbsolute, join, resolve } from 'node:path';
 import {
   approveOutline,
   assembleDeck,
@@ -18,6 +20,38 @@ import {
   type ExtractionProvider,
   type OutputFormat,
 } from '@maliang-deck/workflow';
+
+function findWorkspaceRoot(start = process.cwd()): string {
+  let current = resolve(start);
+  while (true) {
+    if (existsSync(join(current, 'pnpm-workspace.yaml'))) return current;
+    const parent = dirname(current);
+    if (parent === current) return resolve(start);
+    current = parent;
+  }
+}
+
+function resolveProjectsRoot(input?: string): string {
+  return input ? resolve(input) : join(findWorkspaceRoot(), 'projects');
+}
+
+function hasPathSeparator(input: string): boolean {
+  return input.includes('/') || input.includes('\\');
+}
+
+export function resolveWorkflowSourceInput(source: string): string {
+  if (/^https?:\/\//u.test(source) || isAbsolute(source)) return source;
+  return resolve(findWorkspaceRoot(), source);
+}
+
+export function resolveWorkflowProjectInput(project: string, projectsRootInput?: string): string {
+  if (isAbsolute(project)) return project;
+  const workspaceRoot = projectsRootInput ? dirname(resolveProjectsRoot(projectsRootInput)) : findWorkspaceRoot();
+  if (!hasPathSeparator(project)) return join(resolveProjectsRoot(projectsRootInput), project);
+  const normalized = project.replace(/\\/g, '/');
+  if (normalized === 'projects' || normalized.startsWith('projects/')) return resolve(workspaceRoot, project);
+  return resolve(workspaceRoot, project);
+}
 
 function parseFormats(input?: string): OutputFormat[] | undefined {
   if (!input) return undefined;
@@ -105,18 +139,21 @@ export function registerWorkflowCommand(program: Command): void {
     .description('Create a workflow project folder and manifest')
     .requiredOption('--sources <pathsOrUrls...>', 'Source paths or URLs')
     .option('--formats <formats>', 'Comma-separated output formats', 'html,pdf,pptx')
-    .action((projectSlug: string, opts: { sources: string[]; formats?: string }, command: Command) => {
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((projectSlug: string, opts: { sources: string[]; formats?: string; projectsRoot?: string }, command: Command) => {
       const explicitFormats = formatsCliOverride(command, opts.formats);
       const resolved = resolveMaliangDeckConfig({ cliOverrides: explicitFormats ? { formats: explicitFormats, outputs: { formats: explicitFormats } } : undefined });
-      const manifest = createProject({ slug: projectSlug, sources: opts.sources, outputFormats: resolved.config.outputs.formats });
-      console.log(`Created workflow project: projects/${manifest.slug}`);
+      const projectsRoot = resolveProjectsRoot(opts.projectsRoot);
+      const manifest = createProject({ projectsRoot, slug: projectSlug, sources: opts.sources.map(resolveWorkflowSourceInput), outputFormats: resolved.config.outputs.formats });
+      console.log(`Created workflow project: ${join(projectsRoot, manifest.slug)}`);
     });
 
   workflow
     .command('intake <project>')
     .description('Create or refresh requirements intake template')
-    .action((project: string) => {
-      console.log(`Requirements template: ${writeRequirementsTemplate(project)}`);
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((project: string, opts: { projectsRoot?: string }) => {
+      console.log(`Requirements template: ${writeRequirementsTemplate(resolveWorkflowProjectInput(project, opts.projectsRoot))}`);
     });
 
   workflow
@@ -131,10 +168,12 @@ export function registerWorkflowCommand(program: Command): void {
     .option('--artifacts-path <path>', 'Docling local model artifacts path for air-gapped runs')
     .option('--document-timeout <seconds>', 'Docling per-document timeout in seconds')
     .option('--allow-remote-input', 'Allow Docling to fetch remote URL sources instead of rejecting them')
-    .action((project: string, opts: { provider?: string; mineru?: 'precise'; model?: string; ocr?: boolean; tables?: boolean; tableMode?: string; artifactsPath?: string; documentTimeout?: string; allowRemoteInput?: boolean }, command: Command) => {
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((project: string, opts: { provider?: string; mineru?: 'precise'; model?: string; ocr?: boolean; tables?: boolean; tableMode?: string; artifactsPath?: string; documentTimeout?: string; allowRemoteInput?: boolean; projectsRoot?: string }, command: Command) => {
       const extractionOptions = extractionCliOverrides(command, opts);
-      const workOrder = writeExtractionWorkOrder(project, extractionOptions);
-      const result = extractLocalSources(project, extractionOptions);
+      const resolvedProject = resolveWorkflowProjectInput(project, opts.projectsRoot);
+      const workOrder = writeExtractionWorkOrder(resolvedProject, extractionOptions);
+      const result = extractLocalSources(resolvedProject, extractionOptions);
       console.log(`Extraction task manifest: ${workOrder}`);
       console.log(`Extraction records: ${result.records.length}`);
     });
@@ -143,9 +182,10 @@ export function registerWorkflowCommand(program: Command): void {
     .command('normalize <project>')
     .description('Normalize provider Markdown/content-list/assets into workflow artifacts')
     .option('--provider <provider>', 'Extraction provider to normalize: mineru or docling')
-    .action((project: string, opts: { provider?: string }, command: Command) => {
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((project: string, opts: { provider?: string; projectsRoot?: string }, command: Command) => {
       const providerInput = cliOption(command, 'provider', opts.provider);
-      const result = normalizeExtraction(project, { provider: providerInput === undefined ? undefined : parseProvider(providerInput) });
+      const result = normalizeExtraction(resolveWorkflowProjectInput(project, opts.projectsRoot), { provider: providerInput === undefined ? undefined : parseProvider(providerInput) });
       console.log(`Normalized materials=${result.materials.length} blocks=${result.blocks.length} assets=${result.assets.length}`);
       if (result.warnings.length) console.warn(`Warnings: ${result.warnings.join('; ')}`);
     });
@@ -154,16 +194,23 @@ export function registerWorkflowCommand(program: Command): void {
     .command('outline <project>')
     .description('Create an outline work order and draft artifact; does not generate DSL')
     .option('--mode <mode>', 'agent or manual', 'agent')
-    .action((project: string, opts: { mode: string }) => {
-      const order = createOutlineWorkOrder(project, parseMode(opts.mode));
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((project: string, opts: { mode: string; projectsRoot?: string }) => {
+      const order = createOutlineWorkOrder(resolveWorkflowProjectInput(project, opts.projectsRoot), parseMode(opts.mode));
       console.log(`Planning task manifest: planning/tasks.json (${order.status})`);
     });
 
   workflow
     .command('approve-outline <project>')
-    .description('Approve the current outline draft and open the DSL generation gate')
-    .action((project: string) => {
-      console.log(`Approved outline: ${approveOutline(project)}`);
+    .description('Approve the current outline draft after human review and open the deck-plan/DSL gates')
+    .requiredOption('--reviewed-by <name>', 'Human reviewer who approved planning/outline-draft.md')
+    .option('--approval-note <text>', 'Short note summarizing requested revisions or approval context')
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((project: string, opts: { reviewedBy: string; approvalNote?: string; projectsRoot?: string }) => {
+      console.log(`Approved outline: ${approveOutline(resolveWorkflowProjectInput(project, opts.projectsRoot), {
+        reviewedBy: opts.reviewedBy,
+        approvalNote: opts.approvalNote,
+      })}`);
     });
 
   workflow
@@ -171,12 +218,14 @@ export function registerWorkflowCommand(program: Command): void {
     .description('Create deck-plan work order or validate an agent-authored deck plan')
     .option('--mode <mode>', 'agent or manual', 'agent')
     .option('--validate-only', 'Only validate planning/deck-plan.json')
-    .action((project: string, opts: { mode: string; validateOnly?: boolean }) => {
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((project: string, opts: { mode: string; validateOnly?: boolean; projectsRoot?: string }) => {
+      const resolvedProject = resolveWorkflowProjectInput(project, opts.projectsRoot);
       if (opts.validateOnly) {
-        const plan = validateDeckPlan(project);
+        const plan = validateDeckPlan(resolvedProject);
         console.log(`Deck plan valid: ${plan.slides.length} slide(s)`);
       } else {
-        const order = createDeckPlanWorkOrder(project, parseMode(opts.mode));
+        const order = createDeckPlanWorkOrder(resolvedProject, parseMode(opts.mode));
         console.log(`Planning task manifest: planning/tasks.json (${order.id})`);
       }
     });
@@ -186,16 +235,18 @@ export function registerWorkflowCommand(program: Command): void {
     .description('Create slide DSL tasks after outline and deck-plan approval')
     .option('--mode <mode>', 'agent or manual', 'agent')
     .option('--parallel', 'Create disjoint slide tasks for parallel authoring')
-    .action((project: string, opts: { mode: string; parallel?: boolean }) => {
-      const orders = createDslWorkOrders(project, { mode: parseMode(opts.mode), parallel: Boolean(opts.parallel) });
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((project: string, opts: { mode: string; parallel?: boolean; projectsRoot?: string }) => {
+      const orders = createDslWorkOrders(resolveWorkflowProjectInput(project, opts.projectsRoot), { mode: parseMode(opts.mode), parallel: Boolean(opts.parallel) });
       console.log(`Created ${orders.length} slide DSL task(s): dsl/tasks.json`);
     });
 
   workflow
     .command('assemble <project>')
     .description('Merge agent-authored slide DSL slices into dsl/deck.json and validate')
-    .action((project: string) => {
-      const deck = assembleDeck(project);
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((project: string, opts: { projectsRoot?: string }) => {
+      const deck = assembleDeck(resolveWorkflowProjectInput(project, opts.projectsRoot));
       console.log(`Assembled deck: ${deck.slides.length} slide(s)`);
     });
 
@@ -203,8 +254,9 @@ export function registerWorkflowCommand(program: Command): void {
     .command('build <project>')
     .description('Build reviewable HTML and export PDF/PPTX from dsl/deck.json')
     .option('--formats <formats>', 'Comma-separated output formats', 'html,pdf,pptx')
-    .action((project: string, opts: { formats?: string }, command: Command) => {
-      const report = buildWorkflow(project, formatsCliOverride(command, opts.formats));
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((project: string, opts: { formats?: string; projectsRoot?: string }, command: Command) => {
+      const report = buildWorkflow(resolveWorkflowProjectInput(project, opts.projectsRoot), formatsCliOverride(command, opts.formats));
       const failed = report.results.filter((result) => !result.success);
       if (failed.length) {
         for (const result of failed) console.error(`${result.format} failed: ${result.error}`);
@@ -225,8 +277,9 @@ export function registerWorkflowCommand(program: Command): void {
     .option('--artifacts-path <path>', 'Docling local model artifacts path for air-gapped runs')
     .option('--document-timeout <seconds>', 'Docling per-document timeout in seconds')
     .option('--allow-remote-input', 'Allow Docling to fetch remote URL sources instead of rejecting them')
-    .action((project: string, opts: { formats?: string; provider?: string; ocr?: boolean; tables?: boolean; tableMode?: string; artifactsPath?: string; documentTimeout?: string; allowRemoteInput?: boolean }, command: Command) => {
-      const result = runWorkflow(project, formatsCliOverride(command, opts.formats), extractionCliOverrides(command, opts));
+    .option('--projects-root <path>', 'Root directory for workflow projects; defaults to the workspace projects/ directory')
+    .action((project: string, opts: { formats?: string; provider?: string; ocr?: boolean; tables?: boolean; tableMode?: string; artifactsPath?: string; documentTimeout?: string; allowRemoteInput?: boolean; projectsRoot?: string }, command: Command) => {
+      const result = runWorkflow(resolveWorkflowProjectInput(project, opts.projectsRoot), formatsCliOverride(command, opts.formats), extractionCliOverrides(command, opts));
       console.log(result.message);
       if (result.status === 'blocked') process.exitCode = 2;
     });

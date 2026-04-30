@@ -1,0 +1,2880 @@
+{
+  "meta": {
+    "title": "Maliang Deck — Interactive Motion System",
+    "theme": "neon-glass-dark",
+    "canvas": {
+      "width": 1280,
+      "height": 720
+    },
+    "htmlRuntime": {
+      "transition": {
+        "type": "morph",
+        "durationMs": 520,
+        "easing": "cubic-bezier(.2,.8,.2,1)",
+        "autoAnimate": true
+      }
+    }
+  },
+  "slides": [
+    {
+      "id": "anim-cover",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "hero-ring-a",
+          "x": 748,
+          "y": 52,
+          "width": 430,
+          "height": 430,
+          "rotation": 18,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(72,231,255,.42)",
+          "strokeWidth": 2
+        },
+        {
+          "id": "hero-ring-b",
+          "x": 792,
+          "y": 95,
+          "width": 345,
+          "height": 345,
+          "rotation": -12,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "delay": 80,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(255,79,216,.38)",
+          "strokeWidth": 2
+        },
+        {
+          "id": "hero-ring-c",
+          "x": 846,
+          "y": 152,
+          "width": 235,
+          "height": 235,
+          "rotation": 35,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "delay": 160,
+            "step": 0
+          },
+          "type": "ellipse",
+          "fill": "rgba(0,0,0,0)",
+          "stroke": "rgba(183,255,90,.34)",
+          "strokeWidth": 2
+        },
+        {
+          "id": "hero-orb-main",
+          "x": 964,
+          "y": 270,
+          "opacity": 0.92,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 900,
+            "delay": 260,
+            "easing": "cubic-bezier(.2,.9,.2,1)",
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 118,
+          "fill": "#48e7ff"
+        },
+        {
+          "id": "cover-glass-card",
+          "x": 70,
+          "y": 82,
+          "width": 660,
+          "height": 482,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 850,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.08)",
+          "stroke": "rgba(255,255,255,.18)",
+          "strokeWidth": 1,
+          "radius": 34
+        },
+        {
+          "id": "cover-kicker",
+          "x": 116,
+          "y": 130,
+          "width": 520,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 160,
+            "step": 0
+          },
+          "type": "text",
+          "content": "MALIANG RUNTIME",
+          "fontSize": 15,
+          "fontWeight": "bold",
+          "color": "#48e7ff"
+        },
+        {
+          "id": "neon-title",
+          "x": 112,
+          "y": 178,
+          "width": 590,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 780,
+            "delay": 260,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Interactive\nMotion System",
+          "fontSize": 60,
+          "fontWeight": "bold",
+          "color": "#f8fbff",
+          "lineHeight": 0.96
+        },
+        {
+          "id": "cover-subtitle",
+          "x": 118,
+          "y": 390,
+          "width": 540,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 700,
+            "delay": 420,
+            "step": 0
+          },
+          "type": "text",
+          "content": "A guided tour of runtime animation, text effects, formula steps, graph rendering, canvas FX, morphing, and presenter controls.",
+          "fontSize": 20,
+          "color": "rgba(225,236,255,.72)",
+          "lineHeight": 1.4
+        }
+      ],
+      "notes": "Grand opening — cinematic rings, glowing orb, glass card. All step-0 auto-play with stagger.",
+      "fx": [
+        "starfield"
+      ]
+    },
+    {
+      "id": "anim-section-enter",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "section-bg-dot",
+          "x": 1060,
+          "y": 360,
+          "opacity": 0.1,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 160,
+          "fill": "#48e7ff"
+        },
+        {
+          "id": "morph-number",
+          "x": 76,
+          "y": 170,
+          "width": 300,
+          "animation": {
+            "enter": "shrink-in",
+            "duration": 800,
+            "step": 0
+          },
+          "type": "text",
+          "content": "01",
+          "fontSize": 120,
+          "fontWeight": "bold",
+          "color": "rgba(72,231,255,.18)"
+        },
+        {
+          "id": "section-accent-a",
+          "x": 80,
+          "y": 340,
+          "width": 80,
+          "height": 5,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 600,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "#48e7ff",
+          "radius": 3
+        },
+        {
+          "id": "section-title-a",
+          "x": 78,
+          "y": 365,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 650,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Element Animations",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "section-sub-a",
+          "x": 80,
+          "y": 435,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 550,
+            "delay": 420,
+            "step": 0
+          },
+          "type": "text",
+          "content": "26 presets across 4 families — fade, scale, bounce, blur",
+          "fontSize": 21,
+          "color": "rgba(225,236,255,.60)"
+        },
+        {
+          "id": "morph-shape",
+          "x": 1060,
+          "y": 360,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 700,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 80,
+          "fill": "rgba(72,231,255,.15)"
+        }
+      ],
+      "notes": "Section divider — Element Animations. Morph pair A: morph-number + morph-shape shared with next slide.",
+      "fx": [
+        "galaxy-swirl"
+      ]
+    },
+    {
+      "id": "anim-gallery-core",
+      "background": "#08111f",
+      "elements": [
+        {
+          "id": "morph-number",
+          "x": 12,
+          "y": 10,
+          "width": 60,
+          "type": "text",
+          "content": "01",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "rgba(72,231,255,.40)"
+        },
+        {
+          "id": "morph-shape",
+          "x": 1248,
+          "y": 24,
+          "type": "circle",
+          "radius": 12,
+          "fill": "rgba(72,231,255,.20)"
+        },
+        {
+          "id": "gallery-title-1",
+          "x": 60,
+          "y": 14,
+          "width": 700,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Core & Emphasis Animations",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "g-fade-up",
+          "x": 60,
+          "y": 70,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(72,231,255,.18)",
+          "stroke": "rgba(72,231,255,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-fade-up",
+          "x": 60,
+          "y": 148,
+          "width": 235,
+          "type": "text",
+          "content": "fade-up",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-fade-down",
+          "x": 355,
+          "y": 70,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,79,216,.18)",
+          "stroke": "rgba(255,79,216,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-fade-down",
+          "x": 355,
+          "y": 148,
+          "width": 235,
+          "type": "text",
+          "content": "fade-down",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-fade-left",
+          "x": 650,
+          "y": 70,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "fade-left",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(139,92,246,.18)",
+          "stroke": "rgba(139,92,246,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-fade-left",
+          "x": 650,
+          "y": 148,
+          "width": 235,
+          "type": "text",
+          "content": "fade-left",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-fade-right",
+          "x": 945,
+          "y": 70,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(183,255,90,.18)",
+          "stroke": "rgba(183,255,90,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-fade-right",
+          "x": 945,
+          "y": 148,
+          "width": 235,
+          "type": "text",
+          "content": "fade-right",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-rise-in",
+          "x": 60,
+          "y": 185,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "rise-in",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,209,102,.18)",
+          "stroke": "rgba(255,209,102,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-rise-in",
+          "x": 60,
+          "y": 263,
+          "width": 235,
+          "type": "text",
+          "content": "rise-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-slide-left",
+          "x": 355,
+          "y": 185,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(72,231,255,.18)",
+          "stroke": "rgba(72,231,255,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-slide-left",
+          "x": 355,
+          "y": 263,
+          "width": 235,
+          "type": "text",
+          "content": "slide-from-left",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-slide-right",
+          "x": 650,
+          "y": 185,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "slide-from-right",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,79,216,.18)",
+          "stroke": "rgba(255,79,216,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-slide-right",
+          "x": 650,
+          "y": 263,
+          "width": 235,
+          "type": "text",
+          "content": "slide-from-right",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-slide-top",
+          "x": 945,
+          "y": 185,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "slide-from-top",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(139,92,246,.18)",
+          "stroke": "rgba(139,92,246,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-slide-top",
+          "x": 945,
+          "y": 263,
+          "width": 235,
+          "type": "text",
+          "content": "slide-from-top",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-slide-bottom",
+          "x": 60,
+          "y": 305,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "slide-from-bottom",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(183,255,90,.18)",
+          "stroke": "rgba(183,255,90,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-slide-bottom",
+          "x": 60,
+          "y": 383,
+          "width": 235,
+          "type": "text",
+          "content": "slide-from-bottom",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-scale-in",
+          "x": 355,
+          "y": 305,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,209,102,.18)",
+          "stroke": "rgba(255,209,102,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-scale-in",
+          "x": 355,
+          "y": 383,
+          "width": 235,
+          "type": "text",
+          "content": "scale-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-zoom-in",
+          "x": 650,
+          "y": 305,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "zoom-in",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(72,231,255,.18)",
+          "stroke": "rgba(72,231,255,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-zoom-in",
+          "x": 650,
+          "y": 383,
+          "width": 235,
+          "type": "text",
+          "content": "zoom-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-zoom-pop",
+          "x": 945,
+          "y": 305,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,79,216,.18)",
+          "stroke": "rgba(255,79,216,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-zoom-pop",
+          "x": 945,
+          "y": 383,
+          "width": 235,
+          "type": "text",
+          "content": "zoom-pop",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-shrink-in",
+          "x": 60,
+          "y": 425,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "shrink-in",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(139,92,246,.18)",
+          "stroke": "rgba(139,92,246,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-shrink-in",
+          "x": 60,
+          "y": 503,
+          "width": 235,
+          "type": "text",
+          "content": "shrink-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-rotate-in",
+          "x": 355,
+          "y": 425,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "rotate-in",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(183,255,90,.18)",
+          "stroke": "rgba(183,255,90,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-rotate-in",
+          "x": 355,
+          "y": 503,
+          "width": 235,
+          "type": "text",
+          "content": "rotate-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-spin-in",
+          "x": 650,
+          "y": 425,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "spin-in",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,209,102,.18)",
+          "stroke": "rgba(255,209,102,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-spin-in",
+          "x": 650,
+          "y": 503,
+          "width": 235,
+          "type": "text",
+          "content": "spin-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-flip-in",
+          "x": 945,
+          "y": 425,
+          "width": 235,
+          "height": 70,
+          "animation": {
+            "enter": "flip-in",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(72,231,255,.18)",
+          "stroke": "rgba(72,231,255,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-flip-in",
+          "x": 945,
+          "y": 503,
+          "width": 235,
+          "type": "text",
+          "content": "flip-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "gallery-core-note",
+          "x": 60,
+          "y": 560,
+          "width": 1160,
+          "type": "text",
+          "content": "Entry families are grouped by motion intent so authors can choose effects that clarify sequence instead of decorating every element.",
+          "fontSize": 13,
+          "color": "rgba(225,236,255,.35)",
+          "align": "center"
+        }
+      ],
+      "notes": "Gallery: all 9 core + 7 emphasis animations. Morph pair A target — morph-number and morph-shape shrink to corner."
+    },
+    {
+      "id": "anim-gallery-dynamic",
+      "background": "#08111f",
+      "elements": [
+        {
+          "id": "gallery-title-2",
+          "x": 60,
+          "y": 14,
+          "width": 700,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Dynamic & Effect Animations",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "dyn-header",
+          "x": 60,
+          "y": 60,
+          "width": 400,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 0
+          },
+          "type": "text",
+          "content": "DYNAMIC (BOUNCE / ELASTIC)",
+          "fontSize": 12,
+          "fontWeight": "bold",
+          "color": "rgba(255,209,102,.60)"
+        },
+        {
+          "id": "g-bounce-in",
+          "x": 60,
+          "y": 85,
+          "width": 235,
+          "height": 80,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,209,102,.18)",
+          "stroke": "rgba(255,209,102,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-bounce-in",
+          "x": 60,
+          "y": 173,
+          "width": 235,
+          "type": "text",
+          "content": "bounce-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-elastic-in",
+          "x": 355,
+          "y": 85,
+          "width": 235,
+          "height": 80,
+          "animation": {
+            "enter": "elastic-in",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(72,231,255,.18)",
+          "stroke": "rgba(72,231,255,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-elastic-in",
+          "x": 355,
+          "y": 173,
+          "width": 235,
+          "type": "text",
+          "content": "elastic-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-swing-in",
+          "x": 650,
+          "y": 85,
+          "width": 235,
+          "height": 80,
+          "animation": {
+            "enter": "swing-in",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,79,216,.18)",
+          "stroke": "rgba(255,79,216,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-swing-in",
+          "x": 650,
+          "y": 173,
+          "width": 235,
+          "type": "text",
+          "content": "swing-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-drop-in",
+          "x": 945,
+          "y": 85,
+          "width": 235,
+          "height": 80,
+          "animation": {
+            "enter": "drop-in",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(139,92,246,.18)",
+          "stroke": "rgba(139,92,246,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-drop-in",
+          "x": 945,
+          "y": 173,
+          "width": 235,
+          "type": "text",
+          "content": "drop-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "eff-header",
+          "x": 60,
+          "y": 220,
+          "width": 400,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "text",
+          "content": "EFFECT (BLUR / SKEW / STRETCH)",
+          "fontSize": 12,
+          "fontWeight": "bold",
+          "color": "rgba(183,255,90,.60)"
+        },
+        {
+          "id": "g-blur-in",
+          "x": 40,
+          "y": 250,
+          "width": 200,
+          "height": 80,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(183,255,90,.18)",
+          "stroke": "rgba(183,255,90,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-blur-in",
+          "x": 40,
+          "y": 338,
+          "width": 200,
+          "type": "text",
+          "content": "blur-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-blur-zoom",
+          "x": 280,
+          "y": 250,
+          "width": 200,
+          "height": 80,
+          "animation": {
+            "enter": "blur-zoom",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,209,102,.18)",
+          "stroke": "rgba(255,209,102,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-blur-zoom",
+          "x": 280,
+          "y": 338,
+          "width": 200,
+          "type": "text",
+          "content": "blur-zoom",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-skew-in",
+          "x": 520,
+          "y": 250,
+          "width": 200,
+          "height": 80,
+          "animation": {
+            "enter": "skew-in",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(72,231,255,.18)",
+          "stroke": "rgba(72,231,255,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-skew-in",
+          "x": 520,
+          "y": 338,
+          "width": 200,
+          "type": "text",
+          "content": "skew-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-stretch-x",
+          "x": 760,
+          "y": 250,
+          "width": 200,
+          "height": 80,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,79,216,.18)",
+          "stroke": "rgba(255,79,216,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-stretch-x",
+          "x": 760,
+          "y": 338,
+          "width": 200,
+          "type": "text",
+          "content": "stretch-x",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-stretch-y",
+          "x": 1000,
+          "y": 250,
+          "width": 200,
+          "height": 80,
+          "animation": {
+            "enter": "stretch-y",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(139,92,246,.18)",
+          "stroke": "rgba(139,92,246,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-stretch-y",
+          "x": 1000,
+          "y": 338,
+          "width": 200,
+          "type": "text",
+          "content": "stretch-y",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "g-flash-in",
+          "x": 420,
+          "y": 390,
+          "width": 200,
+          "height": 80,
+          "animation": {
+            "enter": "flash-in",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,209,102,.18)",
+          "stroke": "rgba(255,209,102,.30)",
+          "strokeWidth": 1,
+          "radius": 10
+        },
+        {
+          "id": "gl-flash-in",
+          "x": 420,
+          "y": 478,
+          "width": 200,
+          "type": "text",
+          "content": "flash-in",
+          "fontSize": 12,
+          "color": "rgba(225,236,255,.50)",
+          "align": "center"
+        },
+        {
+          "id": "gallery-dyn-note",
+          "x": 60,
+          "y": 540,
+          "width": 1160,
+          "type": "text",
+          "content": "Row 1: Dynamic family (4)  ·  Row 2-3: Effect family (6)  ·  26 total presets — GPU-composited via Web Animations API",
+          "fontSize": 13,
+          "color": "rgba(225,236,255,.35)",
+          "align": "center"
+        }
+      ],
+      "notes": "Gallery: 4 dynamic + 6 effect animations. All step-0 auto-play.",
+      "fx": [
+        "shockwave"
+      ]
+    },
+    {
+      "id": "anim-steps",
+      "background": "#08111f",
+      "elements": [
+        {
+          "id": "steps-title",
+          "x": 80,
+          "y": 40,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Progressive Disclosure",
+          "fontSize": 36,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "steps-intro",
+          "x": 80,
+          "y": 110,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Press → or Space to reveal each point:",
+          "fontSize": 20,
+          "color": "rgba(225,236,255,.60)"
+        },
+        {
+          "id": "steps-b1",
+          "x": 120,
+          "y": 200,
+          "width": 800,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "text",
+          "content": "1. Step 0 — elements auto-play on slide entry with index-based stagger",
+          "fontSize": 24,
+          "color": "#f8fbff"
+        },
+        {
+          "id": "steps-b2",
+          "x": 120,
+          "y": 270,
+          "width": 800,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 500,
+            "step": 2
+          },
+          "type": "text",
+          "content": "2. Steps 1-N — click or arrow-right reveals each group sequentially",
+          "fontSize": 24,
+          "color": "#f8fbff"
+        },
+        {
+          "id": "steps-highlight-glass-card",
+          "x": 920,
+          "y": 200,
+          "width": 300,
+          "height": 150,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 400,
+            "step": 2
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.06)",
+          "stroke": "rgba(72,231,255,.25)",
+          "strokeWidth": 1,
+          "radius": 16
+        },
+        {
+          "id": "steps-b3",
+          "x": 120,
+          "y": 340,
+          "width": 800,
+          "animation": {
+            "enter": "slide-from-left",
+            "duration": 500,
+            "step": 3
+          },
+          "type": "text",
+          "content": "3. Same step number → simultaneous animation (bullet 2 + highlight)",
+          "fontSize": 24,
+          "color": "#f8fbff"
+        },
+        {
+          "id": "steps-b4",
+          "x": 120,
+          "y": 410,
+          "width": 800,
+          "animation": {
+            "enter": "elastic-in",
+            "duration": 600,
+            "step": 4
+          },
+          "type": "text",
+          "content": "4. Morph & formula extensions register via registerStepConsumer()",
+          "fontSize": 24,
+          "color": "#f8fbff"
+        },
+        {
+          "id": "steps-note",
+          "x": 120,
+          "y": 520,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 4
+          },
+          "type": "text",
+          "content": "Step 0 elements played automatically above. Steps 1-4 required user interaction.",
+          "fontSize": 15,
+          "color": "rgba(225,236,255,.35)"
+        }
+      ],
+      "notes": "Step system demo: step-0 auto-play, then click-to-reveal steps 1-4.",
+      "fx": [
+        "constellation"
+      ]
+    },
+    {
+      "id": "anim-section-text",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "section-bg-dot-b",
+          "x": 1060,
+          "y": 360,
+          "opacity": 0.08,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 140,
+          "fill": "#ff4fd8"
+        },
+        {
+          "id": "morph-text-num",
+          "x": 76,
+          "y": 170,
+          "width": 300,
+          "animation": {
+            "enter": "shrink-in",
+            "duration": 800,
+            "step": 0
+          },
+          "type": "text",
+          "content": "02",
+          "fontSize": 120,
+          "fontWeight": "bold",
+          "color": "rgba(255,79,216,.18)"
+        },
+        {
+          "id": "section-accent-b",
+          "x": 80,
+          "y": 340,
+          "width": 80,
+          "height": 5,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 600,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "#ff4fd8",
+          "radius": 3
+        },
+        {
+          "id": "section-title-b",
+          "x": 78,
+          "y": 365,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 650,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Text Animations",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "section-sub-b",
+          "x": 80,
+          "y": 435,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 550,
+            "delay": 420,
+            "step": 0
+          },
+          "type": "text",
+          "content": "12 effects with per-character, per-word, and per-line control",
+          "fontSize": 21,
+          "color": "rgba(225,236,255,.60)"
+        },
+        {
+          "id": "morph-text-orb",
+          "x": 1050,
+          "y": 320,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 700,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 80,
+          "fill": "rgba(255,79,216,.15)"
+        }
+      ],
+      "notes": "Section divider — Text Animations. Morph pair B: morph-text-num + morph-text-orb shared with next slide.",
+      "fx": [
+        "particle-burst"
+      ]
+    },
+    {
+      "id": "anim-text-stagger",
+      "background": "#0b1428",
+      "elements": [
+        {
+          "id": "morph-text-num",
+          "x": 12,
+          "y": 10,
+          "width": 60,
+          "type": "text",
+          "content": "02",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "rgba(255,79,216,.40)"
+        },
+        {
+          "id": "morph-text-orb",
+          "x": 1248,
+          "y": 24,
+          "type": "circle",
+          "radius": 12,
+          "fill": "rgba(255,79,216,.20)"
+        },
+        {
+          "id": "stagger-title",
+          "x": 80,
+          "y": 14,
+          "width": 800,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Stagger, Wave & Cascade",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "stagger-char-fwd",
+          "x": 80,
+          "y": 80,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "Hello, Maliang Deck!",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#f8fbff",
+          "textAnimation": {
+            "name": "stagger",
+            "splitMode": "char",
+            "stagger": 40,
+            "direction": "forward",
+            "easing": "easeOutCubic",
+            "duration": 500
+          }
+        },
+        {
+          "id": "stagger-word-edges",
+          "x": 80,
+          "y": 190,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "Words from edges converge to center",
+          "fontSize": 36,
+          "fontWeight": "bold",
+          "color": "#8b5cf6",
+          "textAnimation": {
+            "name": "stagger",
+            "splitMode": "word",
+            "stagger": 90,
+            "direction": "edges",
+            "duration": 500
+          }
+        },
+        {
+          "id": "stagger-char-random",
+          "x": 80,
+          "y": 290,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "Random reveal order creates surprise",
+          "fontSize": 36,
+          "color": "#48e7ff",
+          "textAnimation": {
+            "name": "stagger",
+            "splitMode": "char",
+            "stagger": 25,
+            "direction": "random",
+            "easing": "easeOutElastic",
+            "duration": 500
+          }
+        },
+        {
+          "id": "wave-large",
+          "x": 80,
+          "y": 400,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "WAVE MOTION",
+          "fontSize": 60,
+          "fontWeight": "bold",
+          "color": "#ff4fd8",
+          "textAnimation": {
+            "name": "wave",
+            "splitMode": "char",
+            "stagger": 100,
+            "duration": 1800
+          }
+        },
+        {
+          "id": "cascade-demo",
+          "x": 80,
+          "y": 530,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "Cascade Drop",
+          "fontSize": 44,
+          "fontWeight": "bold",
+          "color": "#ffd166",
+          "textAnimation": {
+            "name": "cascade",
+            "stagger": 50,
+            "duration": 600
+          }
+        }
+      ],
+      "notes": "Text stagger (3 directions), wave (continuous), cascade. Morph pair B target."
+    },
+    {
+      "id": "anim-text-decode",
+      "background": "#0b1428",
+      "elements": [
+        {
+          "id": "decode-title",
+          "x": 80,
+          "y": 30,
+          "width": 800,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Digital Text Effects",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "typewriter-code",
+          "x": 80,
+          "y": 120,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "const deck = await maliang.create({ theme: 'neon-glass-dark' });",
+          "fontSize": 24,
+          "fontFamily": "JetBrains Mono, monospace",
+          "color": "#b7ff5a",
+          "textAnimation": {
+            "name": "typewriter",
+            "stagger": 45
+          }
+        },
+        {
+          "id": "scramble-demo",
+          "x": 80,
+          "y": 260,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "DECRYPTING ACCESS...",
+          "fontSize": 40,
+          "fontFamily": "JetBrains Mono, monospace",
+          "fontWeight": "bold",
+          "color": "#b7ff5a",
+          "textAnimation": {
+            "name": "scramble",
+            "stagger": 60,
+            "duration": 1200
+          }
+        },
+        {
+          "id": "decode-demo",
+          "x": 38.8,
+          "y": 445.17,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "Binary Decode Effect",
+          "fontSize": 36,
+          "fontFamily": "JetBrains Mono, monospace",
+          "color": "#8b5cf6",
+          "textAnimation": {
+            "name": "decode",
+            "stagger": 45,
+            "duration": 1000
+          }
+        },
+        {
+          "id": "glitch-demo",
+          "x": 80,
+          "y": 510,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "SYSTEM_ERROR",
+          "fontSize": 52,
+          "fontFamily": "JetBrains Mono, monospace",
+          "fontWeight": "bold",
+          "color": "#ff4fd8",
+          "textAnimation": {
+            "name": "glitch",
+            "stagger": 30,
+            "duration": 2000
+          }
+        }
+      ],
+      "notes": "Digital text effects — typewriter, scramble, decode, glitch.",
+      "fx": [
+        "matrix-rain",
+        "typewriter-multi"
+      ]
+    },
+    {
+      "id": "anim-text-physics",
+      "background": "#0b1428",
+      "elements": [
+        {
+          "id": "physics-title",
+          "x": 80,
+          "y": 30,
+          "width": 800,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Kinetic Text Effects",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "bounce-demo",
+          "x": 80,
+          "y": 110,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "BOUNCE!",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#ffd166",
+          "textAnimation": {
+            "name": "bounce-chars",
+            "stagger": 60,
+            "duration": 800
+          }
+        },
+        {
+          "id": "rotate-demo",
+          "x": 80,
+          "y": 230,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "Spin Into Place",
+          "fontSize": 44,
+          "fontWeight": "bold",
+          "color": "#48e7ff",
+          "textAnimation": {
+            "name": "rotate-chars",
+            "stagger": 45,
+            "duration": 700
+          }
+        },
+        {
+          "id": "scale-demo",
+          "x": 80,
+          "y": 340,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "POP!",
+          "fontSize": 56,
+          "fontWeight": "bold",
+          "color": "#ff4fd8",
+          "textAnimation": {
+            "name": "scale-chars",
+            "stagger": 80,
+            "easing": "easeOutElastic",
+            "duration": 600
+          }
+        },
+        {
+          "id": "blur-demo",
+          "x": 80,
+          "y": 450,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "Focus Into Clarity",
+          "fontSize": 44,
+          "fontWeight": "bold",
+          "color": "#f8fbff",
+          "textAnimation": {
+            "name": "blur-reveal",
+            "stagger": 40,
+            "duration": 700
+          }
+        },
+        {
+          "id": "fade-demo",
+          "x": 80,
+          "y": 560,
+          "width": 1120,
+          "type": "animatedText",
+          "content": "Subtle fade from center outward",
+          "fontSize": 30,
+          "color": "rgba(225,236,255,.60)",
+          "textAnimation": {
+            "name": "fade-chars",
+            "stagger": 30,
+            "direction": "center",
+            "duration": 400
+          }
+        }
+      ],
+      "notes": "Kinetic text effects — bounce, rotate, scale, blur-reveal, fade-chars.",
+      "fx": [
+        "confetti-cannon"
+      ]
+    },
+    {
+      "id": "anim-text-path",
+      "background": "#0b1428",
+      "elements": [
+        {
+          "id": "path-title",
+          "x": 80,
+          "y": 24,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Text on Path",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "path-circle",
+          "x": 238.99,
+          "y": -42.99,
+          "width": 140.14,
+          "height": 129.89,
+          "type": "animatedText",
+          "content": "CIRCULAR TEXT PATH  •  MALIANG DECK  •  MOTION GRAPHICS  •  ANIMATION ENGINE  •  ",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "color": "#ff4fd8",
+          "textAnimation": {
+            "name": "stagger",
+            "stagger": 1,
+            "duration": 1
+          },
+          "path": {
+            "d": "M 400,270 A 210,210 0 1,1 399.9,270",
+            "align": "start",
+            "animate": true,
+            "animateDuration": 8000
+          }
+        },
+        {
+          "id": "path-label",
+          "x": 440,
+          "y": 620,
+          "width": 400,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 600,
+            "step": 0
+          },
+          "type": "text",
+          "content": "8-second orbital loop on SVG arc",
+          "fontSize": 14,
+          "color": "rgba(225,236,255,.40)",
+          "align": "center"
+        }
+      ],
+      "notes": "Animated text on a circular SVG path — 8-second orbital loop.",
+      "fx": [
+        "orbit-ring"
+      ]
+    },
+    {
+      "id": "anim-section-math",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "section-bg-dot-c",
+          "x": 1060,
+          "y": 360,
+          "opacity": 0.08,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 140,
+          "fill": "#ffd166"
+        },
+        {
+          "id": "morph-math-num",
+          "x": 76,
+          "y": 170,
+          "width": 300,
+          "animation": {
+            "enter": "shrink-in",
+            "duration": 800,
+            "step": 0
+          },
+          "type": "text",
+          "content": "03",
+          "fontSize": 120,
+          "fontWeight": "bold",
+          "color": "rgba(255,209,102,.18)"
+        },
+        {
+          "id": "section-accent-c",
+          "x": 80,
+          "y": 340,
+          "width": 80,
+          "height": 5,
+          "animation": {
+            "enter": "stretch-x",
+            "duration": 600,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "#ffd166",
+          "radius": 3
+        },
+        {
+          "id": "section-title-c",
+          "x": 78,
+          "y": 365,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 650,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Math & Visualization",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "section-sub-c",
+          "x": 80,
+          "y": 435,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 550,
+            "delay": 420,
+            "step": 0
+          },
+          "type": "text",
+          "content": "KaTeX formulas, 2D function plots, 3D surface renders",
+          "fontSize": 21,
+          "color": "rgba(225,236,255,.60)"
+        },
+        {
+          "id": "morph-math-card",
+          "x": 800,
+          "y": 200,
+          "width": 360,
+          "height": 300,
+          "animation": {
+            "enter": "flip-in",
+            "duration": 700,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.06)",
+          "stroke": "rgba(255,209,102,.20)",
+          "strokeWidth": 1,
+          "radius": 28
+        }
+      ],
+      "notes": "Section divider — Math & Visualization. Morph pair C: morph-math-num + morph-math-card shared with next slide.",
+      "fx": [
+        "knowledge-graph"
+      ]
+    },
+    {
+      "id": "anim-formula",
+      "background": "#08111f",
+      "elements": [
+        {
+          "id": "morph-math-num",
+          "x": 12,
+          "y": 10,
+          "width": 60,
+          "type": "text",
+          "content": "03",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "color": "rgba(255,209,102,.40)"
+        },
+        {
+          "id": "morph-math-card",
+          "x": 50,
+          "y": 55,
+          "width": 1180,
+          "height": 610,
+          "type": "rect",
+          "fill": "rgba(255,255,255,.04)",
+          "stroke": "rgba(255,209,102,.12)",
+          "strokeWidth": 1,
+          "radius": 24
+        },
+        {
+          "id": "formula-title",
+          "x": 90,
+          "y": 24,
+          "width": 600,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "KaTeX Formulas",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "euler-identity",
+          "x": 100,
+          "y": 90,
+          "width": 500,
+          "height": 70,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "formula",
+          "latex": "e^{i\\pi} + 1 = 0",
+          "fontSize": 36,
+          "color": "#f8fbff"
+        },
+        {
+          "id": "quadratic",
+          "x": 680,
+          "y": 90,
+          "width": 500,
+          "height": 70,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 100,
+            "step": 0
+          },
+          "type": "formula",
+          "latex": "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
+          "fontSize": 28,
+          "color": "#f8fbff"
+        },
+        {
+          "id": "integral",
+          "x": 100,
+          "y": 190,
+          "width": 500,
+          "height": 70,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "formula",
+          "latex": "\\int_{-\\infty}^{\\infty} e^{-x^2} \\, dx = \\sqrt{\\pi}",
+          "fontSize": 28,
+          "color": "#f8fbff"
+        },
+        {
+          "id": "matrix-formula",
+          "x": 680,
+          "y": 190,
+          "width": 500,
+          "height": 90,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "formula",
+          "latex": "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} ax + by \\\\ cx + dy \\end{pmatrix}",
+          "fontSize": 22,
+          "color": "#f8fbff"
+        },
+        {
+          "id": "derivation-label",
+          "x": 100,
+          "y": 330,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 1
+          },
+          "type": "text",
+          "content": "Step Derivation — click → to advance",
+          "fontSize": 18,
+          "color": "#48e7ff"
+        },
+        {
+          "id": "derivation-exp",
+          "x": 120,
+          "y": 380,
+          "width": 1040,
+          "height": 100,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "formula",
+          "latex": "\\frac{d}{dx} e^x = e^x",
+          "fontSize": 28,
+          "color": "#f8fbff",
+          "steps": [
+            {
+              "latex": "\\frac{d}{dx} e^x = \\lim_{h \\to 0} \\frac{e^{x+h} - e^x}{h}"
+            },
+            {
+              "latex": "= \\lim_{h \\to 0} \\frac{e^x \\cdot e^h - e^x}{h}"
+            },
+            {
+              "latex": "= e^x \\cdot \\lim_{h \\to 0} \\frac{e^h - 1}{h}"
+            },
+            {
+              "latex": "= e^x \\cdot 1 = e^x"
+            }
+          ],
+          "stepTrigger": "click"
+        },
+        {
+          "id": "taylor-series",
+          "x": 120,
+          "y": 520,
+          "width": 1040,
+          "height": 80,
+          "animation": {
+            "enter": "blur-in",
+            "duration": 600,
+            "step": 1
+          },
+          "type": "formula",
+          "latex": "e^x = \\sum_{n=0}^{\\infty} \\frac{x^n}{n!} = 1 + x + \\frac{x^2}{2!} + \\frac{x^3}{3!} + \\cdots",
+          "fontSize": 24,
+          "color": "rgba(225,236,255,.70)"
+        }
+      ],
+      "notes": "KaTeX formulas (static) + click-through step derivation. Morph pair C target.",
+      "fx": [
+        "neural-net"
+      ]
+    },
+    {
+      "id": "anim-graph-2d",
+      "background": "#08111f",
+      "elements": [
+        {
+          "id": "graph2d-title",
+          "x": 80,
+          "y": 14,
+          "width": 600,
+          "animation": {
+            "enter": "fade-down",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "2D Function Plots",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "trig-graph",
+          "x": 30,
+          "y": 55,
+          "width": 590,
+          "height": 620,
+          "type": "graph",
+          "functions": [
+            {
+              "expr": "sin(x)",
+              "color": "#ff4fd8",
+              "strokeWidth": 2.5,
+              "animate": "draw-on",
+              "animateDuration": 2000,
+              "label": "sin(x)"
+            },
+            {
+              "expr": "cos(x)",
+              "color": "#48e7ff",
+              "strokeWidth": 2.5,
+              "animate": "draw-on",
+              "animateDuration": 2000,
+              "label": "cos(x)"
+            }
+          ],
+          "axes": {
+            "x": [
+              -6.3,
+              6.3
+            ],
+            "y": [
+              -1.5,
+              1.5
+            ],
+            "grid": true,
+            "labels": true
+          }
+        },
+        {
+          "id": "poly-graph",
+          "x": 660,
+          "y": 55,
+          "width": 590,
+          "height": 620,
+          "type": "graph",
+          "functions": [
+            {
+              "expr": "x*x",
+              "color": "#8b5cf6",
+              "strokeWidth": 2.5,
+              "animate": "draw-on",
+              "animateDuration": 1500,
+              "label": "x²"
+            },
+            {
+              "expr": "exp(x/2)",
+              "color": "#ffd166",
+              "strokeWidth": 2,
+              "animate": "draw-on",
+              "animateDuration": 2500,
+              "label": "e^(x/2)"
+            }
+          ],
+          "axes": {
+            "x": [
+              -5,
+              5
+            ],
+            "y": [
+              -2,
+              10
+            ],
+            "grid": true,
+            "labels": true
+          }
+        }
+      ],
+      "notes": "2D function plots — trigonometric and polynomial with draw-on animation.",
+      "fx": [
+        "data-stream"
+      ]
+    },
+    {
+      "id": "anim-graph-3d",
+      "background": "#08111f",
+      "elements": [
+        {
+          "id": "graph3d-title",
+          "x": 80,
+          "y": 14,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 0
+          },
+          "type": "text",
+          "content": "3D Surface Plots",
+          "fontSize": 24,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "graph-3d-saddle",
+          "x": 30,
+          "y": 55,
+          "width": 590,
+          "height": 620,
+          "type": "graph",
+          "functions": [
+            {
+              "expr": "x*x - y*y"
+            }
+          ],
+          "axes": {
+            "x": [
+              -9,
+              9
+            ],
+            "y": [
+              -9,
+              9
+            ],
+            "grid": true
+          },
+          "mode": "3d",
+          "surface": {
+            "expr": "x*x - y*y",
+            "colorMap": "coolwarm",
+            "resolution": 80
+          },
+          "zAxis": [
+            -9,
+            9
+          ],
+          "camera": {
+            "distance": 14,
+            "phi": 1,
+            "theta": 0.8,
+            "orbit": true,
+            "orbitSpeed": 0.5
+          }
+        },
+        {
+          "id": "graph-3d-ripple",
+          "x": 660,
+          "y": 55,
+          "width": 590,
+          "height": 620,
+          "type": "graph",
+          "functions": [
+            {
+              "expr": "sin(sqrt(x*x + y*y))"
+            }
+          ],
+          "axes": {
+            "x": [
+              -8,
+              8
+            ],
+            "y": [
+              -8,
+              8
+            ],
+            "grid": true
+          },
+          "mode": "3d",
+          "surface": {
+            "expr": "sin(sqrt(x*x + y*y))",
+            "colorMap": "viridis",
+            "resolution": 100
+          },
+          "zAxis": [
+            -1.5,
+            1.5
+          ],
+          "camera": {
+            "distance": 16,
+            "phi": 0.9,
+            "theta": 0.5,
+            "orbit": true,
+            "orbitSpeed": 0.8
+          }
+        }
+      ],
+      "notes": "3D surface plots with orbiting cameras — saddle (coolwarm) + ripple (viridis).",
+      "fx": [
+        "starfield"
+      ]
+    },
+    {
+      "id": "anim-morph-shape",
+      "background": "#0b1428",
+      "elements": [
+        {
+          "id": "morph-shape-title",
+          "x": 80,
+          "y": 30,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Shape Morphing",
+          "fontSize": 36,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "morph-shape-explain",
+          "x": 80,
+          "y": 88,
+          "width": 600,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Click → to advance through morph steps",
+          "fontSize": 18,
+          "color": "rgba(225,236,255,.55)"
+        },
+        {
+          "id": "morph-rect-demo",
+          "x": 100,
+          "y": 160,
+          "width": 200,
+          "height": 120,
+          "opacity": 0.9,
+          "animation": {
+            "enter": "scale-in",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "rect",
+          "fill": "#48e7ff",
+          "radius": 8,
+          "morphSteps": [
+            {
+              "target": {
+                "fill": "#ff4fd8",
+                "width": 440,
+                "radius": 24
+              },
+              "duration": 800,
+              "easing": "easeInOutCubic"
+            },
+            {
+              "target": {
+                "x": 200,
+                "fill": "#8b5cf6",
+                "height": 220,
+                "radius": 50
+              },
+              "duration": 700
+            },
+            {
+              "target": {
+                "fill": "#b7ff5a",
+                "opacity": 0.7,
+                "width": 200,
+                "height": 120,
+                "radius": 60
+              },
+              "duration": 600
+            }
+          ],
+          "morphStepTrigger": "click"
+        },
+        {
+          "id": "morph-rect-label",
+          "x": 80,
+          "y": 420,
+          "width": 550,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 300,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Rect: 3 steps — size, color, radius, opacity morphing",
+          "fontSize": 15,
+          "color": "rgba(225,236,255,.45)"
+        },
+        {
+          "id": "morph-circle-demo",
+          "x": 900,
+          "y": 260,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 60,
+          "fill": "#ff4fd8",
+          "morphSteps": [
+            {
+              "target": {
+                "fill": "#48e7ff",
+                "radius": 120
+              },
+              "duration": 700,
+              "easing": "easeInOutCubic"
+            },
+            {
+              "target": {
+                "x": 750,
+                "fill": "#b7ff5a",
+                "opacity": 0.6,
+                "radius": 40
+              },
+              "duration": 600
+            }
+          ],
+          "morphStepTrigger": "click"
+        },
+        {
+          "id": "morph-circle-label",
+          "x": 700,
+          "y": 420,
+          "width": 500,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 400,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Circle: 2 steps — radius, position, color morphing",
+          "fontSize": 15,
+          "color": "rgba(225,236,255,.45)"
+        }
+      ],
+      "notes": "Shape morphing — rect with 3 morph steps and circle with 2 morph steps, both click-triggered.",
+      "fx": [
+        "magnetic-field"
+      ]
+    },
+    {
+      "id": "anim-morph-component",
+      "background": "#0b1428",
+      "elements": [
+        {
+          "id": "comp-morph-title",
+          "x": 80,
+          "y": 30,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Component Morphing",
+          "fontSize": 36,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "comp-morph-explain",
+          "x": 80,
+          "y": 88,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Group container + per-child targeting with stagger — click → to morph",
+          "fontSize": 18,
+          "color": "rgba(225,236,255,.55)"
+        },
+        {
+          "id": "morph-panel",
+          "x": 180,
+          "y": 160,
+          "width": 420,
+          "height": 320,
+          "animation": {
+            "enter": "fade-right",
+            "duration": 700,
+            "step": 0
+          },
+          "type": "group",
+          "elements": [
+            {
+              "id": "panel-bg",
+              "x": 0,
+              "y": 0,
+              "width": 420,
+              "height": 320,
+              "type": "rect",
+              "fill": "rgba(255,255,255,.06)",
+              "stroke": "rgba(255,255,255,.15)",
+              "strokeWidth": 1,
+              "radius": 24
+            },
+            {
+              "id": "panel-box-a",
+              "x": 30,
+              "y": 30,
+              "width": 120,
+              "height": 100,
+              "type": "rect",
+              "fill": "#48e7ff",
+              "radius": 12
+            },
+            {
+              "id": "panel-box-b",
+              "x": 180,
+              "y": 30,
+              "width": 120,
+              "height": 100,
+              "type": "rect",
+              "fill": "#ff4fd8",
+              "radius": 12
+            },
+            {
+              "id": "panel-box-c",
+              "x": 30,
+              "y": 160,
+              "width": 270,
+              "height": 60,
+              "type": "rect",
+              "fill": "rgba(255,255,255,.08)",
+              "stroke": "rgba(255,255,255,.12)",
+              "strokeWidth": 1,
+              "radius": 8
+            },
+            {
+              "id": "panel-label",
+              "x": 30,
+              "y": 250,
+              "width": 360,
+              "type": "text",
+              "content": "Group with morphSteps + children map",
+              "fontSize": 15,
+              "color": "rgba(225,236,255,.50)"
+            }
+          ],
+          "morphSteps": [
+            {
+              "target": {
+                "x": 340,
+                "width": 620
+              },
+              "children": {
+                "panel-box-a": {
+                  "fill": "#ff4fd8",
+                  "width": 180
+                },
+                "panel-box-b": {
+                  "fill": "#b7ff5a",
+                  "radius": 30
+                }
+              },
+              "duration": 800,
+              "easing": "easeInOutCubic",
+              "stagger": 150
+            },
+            {
+              "target": {
+                "x": 180,
+                "width": 420,
+                "opacity": 0.85
+              },
+              "children": {
+                "panel-box-a": {
+                  "fill": "#48e7ff",
+                  "width": 120
+                },
+                "panel-box-b": {
+                  "fill": "#ffd166",
+                  "radius": 10
+                }
+              },
+              "duration": 700,
+              "stagger": 100
+            }
+          ],
+          "morphStepTrigger": "click"
+        },
+        {
+          "id": "comp-morph-note",
+          "x": 180,
+          "y": 530,
+          "width": 920,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "delay": 400,
+            "step": 0
+          },
+          "type": "text",
+          "content": "morphSteps on group animate the container while children map targets individual child elements by ID, with configurable stagger delay",
+          "fontSize": 14,
+          "color": "rgba(225,236,255,.35)",
+          "align": "center"
+        }
+      ],
+      "notes": "Component morphing — group with per-child targeting and stagger delay."
+    },
+    {
+      "id": "anim-fx-showcase",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "fx-title",
+          "x": 140,
+          "y": 40,
+          "width": 1000,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 800,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Canvas FX Backgrounds",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "color": "#f8fbff",
+          "align": "center"
+        },
+        {
+          "id": "fx-subtitle",
+          "x": 140,
+          "y": 110,
+          "width": 1000,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "text",
+          "content": "17 effects driven from the DSL fx property",
+          "fontSize": 20,
+          "color": "rgba(225,236,255,.55)",
+          "align": "center"
+        },
+        {
+          "id": "fx-col-particle",
+          "x": 40,
+          "y": 180,
+          "width": 280,
+          "animation": {
+            "enter": "drop-in",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "text",
+          "content": "PARTICLE / PHYSICS\n\n• particle-burst\n• confetti-cannon\n• firework\n• counter-explosion\n• magnetic-field\n• shockwave",
+          "fontSize": 15,
+          "color": "rgba(225,236,255,.65)",
+          "lineHeight": 1.6
+        },
+        {
+          "id": "fx-col-data",
+          "x": 350,
+          "y": 180,
+          "width": 280,
+          "animation": {
+            "enter": "swing-in",
+            "duration": 500,
+            "step": 2
+          },
+          "type": "text",
+          "content": "DATA / GRAPH\n\n• knowledge-graph\n• neural-net\n• data-stream\n• constellation",
+          "fontSize": 15,
+          "color": "rgba(225,236,255,.65)",
+          "lineHeight": 1.6
+        },
+        {
+          "id": "fx-col-space",
+          "x": 660,
+          "y": 180,
+          "width": 280,
+          "animation": {
+            "enter": "rise-in",
+            "duration": 500,
+            "step": 3
+          },
+          "type": "text",
+          "content": "SPACE / AMBIENT\n\n• starfield\n• galaxy-swirl\n• orbit-ring\n• matrix-rain",
+          "fontSize": 15,
+          "color": "rgba(225,236,255,.65)",
+          "lineHeight": 1.6
+        },
+        {
+          "id": "fx-col-visual",
+          "x": 970,
+          "y": 180,
+          "width": 280,
+          "animation": {
+            "enter": "skew-in",
+            "duration": 500,
+            "step": 4
+          },
+          "type": "text",
+          "content": "TEXT / VISUAL\n\n• letter-explode\n• typewriter-multi\n• word-cascade\n• sparkle-trail",
+          "fontSize": 15,
+          "color": "rgba(225,236,255,.65)",
+          "lineHeight": 1.6
+        },
+        {
+          "id": "fx-note",
+          "x": 140,
+          "y": 610,
+          "width": 1000,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 4
+          },
+          "type": "text",
+          "content": "FX run behind typed DSL elements and are pre-warmed during transitions; use them for title, divider, and atmosphere slides.",
+          "fontSize": 13,
+          "color": "rgba(225,236,255,.30)",
+          "align": "center"
+        }
+      ],
+      "notes": "Canvas FX gallery — all 20 effects listed by category with 3 running live.",
+      "fx": [
+        "firework",
+        "sparkle-trail",
+        "letter-explode"
+      ]
+    },
+    {
+      "id": "anim-transitions",
+      "background": "#08111f",
+      "elements": [
+        {
+          "id": "trans-title",
+          "x": 80,
+          "y": 30,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Slide Transitions",
+          "fontSize": 36,
+          "fontWeight": "bold",
+          "color": "#f8fbff"
+        },
+        {
+          "id": "trans-body",
+          "x": 80,
+          "y": 90,
+          "width": 700,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 100,
+            "step": 0
+          },
+          "type": "text",
+          "content": "Set via meta.htmlRuntime.transition — this deck uses morph (FLIP-based cross-slide morphing). Elements with matching IDs across slides interpolate position, size, and style.",
+          "fontSize": 18,
+          "color": "rgba(225,236,255,.60)",
+          "lineHeight": 1.5
+        },
+        {
+          "id": "trans-glass-card",
+          "x": 60,
+          "y": 200,
+          "width": 1160,
+          "height": 280,
+          "animation": {
+            "enter": "flip-in",
+            "duration": 600,
+            "step": 1
+          },
+          "type": "rect",
+          "fill": "rgba(255,255,255,.05)",
+          "stroke": "rgba(255,255,255,.12)",
+          "strokeWidth": 1,
+          "radius": 20
+        },
+        {
+          "id": "trans-types",
+          "x": 100,
+          "y": 220,
+          "width": 1080,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "step": 1
+          },
+          "type": "text",
+          "content": "none — instant cut, no animation\nfade — vertical scroll + cross-fade (default)\nslide — vertical scroll with softer fade\ndissolve — cross-dissolve with subtle blur\nzoom — outgoing shrinks, incoming grows\npush — both slides move together\ncover — new slide covers old with depth shadow",
+          "fontSize": 17,
+          "color": "rgba(225,236,255,.65)",
+          "lineHeight": 1.65
+        },
+        {
+          "id": "trans-morph-callout",
+          "x": 240,
+          "y": 530,
+          "width": 800,
+          "height": 80,
+          "animation": {
+            "enter": "bounce-in",
+            "duration": 600,
+            "step": 2
+          },
+          "type": "rect",
+          "fill": "rgba(72,231,255,.08)",
+          "stroke": "rgba(72,231,255,.30)",
+          "strokeWidth": 1,
+          "radius": 16
+        },
+        {
+          "id": "trans-morph-label",
+          "x": 280,
+          "y": 555,
+          "width": 720,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 400,
+            "step": 2
+          },
+          "type": "text",
+          "content": "morph (active) — FLIP + CSS property interpolation for matched elements",
+          "fontSize": 20,
+          "fontWeight": "bold",
+          "color": "#48e7ff",
+          "align": "center"
+        }
+      ],
+      "notes": "Slide transition reference — all 7 types + morph. This deck uses morph transition.",
+      "fx": [
+        "counter-explosion"
+      ]
+    },
+    {
+      "id": "anim-closing",
+      "background": "#050816",
+      "elements": [
+        {
+          "id": "closing-orb",
+          "x": 640,
+          "y": 200,
+          "opacity": 0.85,
+          "animation": {
+            "enter": "zoom-pop",
+            "duration": 900,
+            "step": 0
+          },
+          "type": "circle",
+          "radius": 80,
+          "fill": "#48e7ff"
+        },
+        {
+          "id": "closing-title",
+          "x": 190,
+          "y": 320,
+          "width": 900,
+          "animation": {
+            "enter": "blur-zoom",
+            "duration": 800,
+            "delay": 200,
+            "step": 0
+          },
+          "type": "text",
+          "content": "The Full Animation Engine",
+          "fontSize": 52,
+          "fontWeight": "bold",
+          "fontStyle": "italic",
+          "color": "#f8fbff",
+          "align": "center"
+        },
+        {
+          "id": "closing-subtitle",
+          "x": 240,
+          "y": 420,
+          "width": 800,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 600,
+            "delay": 420,
+            "step": 0
+          },
+          "type": "text",
+          "content": "26 presets · 12 text effects · 20 canvas FX · shape & component morphing · morph transitions · KaTeX derivations · 2D/3D graphs · text on path",
+          "fontSize": 19,
+          "color": "rgba(225,236,255,.60)",
+          "align": "center",
+          "lineHeight": 1.5
+        },
+        {
+          "id": "closing-tagline",
+          "x": 440,
+          "y": 540,
+          "width": 400,
+          "animation": {
+            "enter": "fade-up",
+            "duration": 500,
+            "delay": 600,
+            "step": 0
+          },
+          "type": "text",
+          "content": "maliang-deck",
+          "fontSize": 16,
+          "color": "rgba(225,236,255,.35)",
+          "align": "center"
+        }
+      ],
+      "notes": "Grand finale — bookend symmetry with cover. All step-0 auto-play."
+    }
+  ]
+}

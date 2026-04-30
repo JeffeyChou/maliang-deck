@@ -75,6 +75,8 @@
 /* Terminal box cards — SHARP edges, NO blur, green wireframe stroke */
 [data-maliang-deck-id*="-glass"] {
   background-color: rgba(0, 255, 65, 0.03) !important;
+  background-image: none !important;
+  --maliang-rect-fill: rgba(0, 255, 65, 0.03) !important;
   border: 1px solid rgba(0, 255, 65, 0.20);
   box-shadow:
     0 0 20px rgba(0, 255, 65, 0.06),

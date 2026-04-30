@@ -1,0 +1,154 @@
+/* Constructivism PhD Defense theme.
+ * Russian Constructivist / Bauhaus aesthetic — bold geometry, diagonal compositions,
+ * red/black/cream palette, angular typography, structural clarity.
+ * LIGHT theme: cream background (#f5f0e8), dark text (#1a1a1a).
+ */
+:root {
+  --cv-cream: #f5f0e8;
+  --cv-red: #c1272d;
+  --cv-black: #1a1a1a;
+  --cv-blue: #3a5a7c;
+  --cv-dark-cream: #d4c9b0;
+  --cv-muted: rgba(26, 26, 26, 0.55);
+}
+
+.slide {
+  font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
+  background: #f5f0e8;
+  color: #1a1a1a;
+}
+
+.slide::before,
+.slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Bold diagonal red stripe — Constructivist hallmark */
+.slide::before {
+  background: linear-gradient(
+    15deg,
+    transparent 0%,
+    transparent 38%,
+    rgba(193, 39, 45, 0.13) 38%,
+    rgba(193, 39, 45, 0.13) 42%,
+    transparent 42%,
+    transparent 100%
+  );
+  z-index: 0;
+}
+
+/* Geometric circle pattern overlay — repeating dots at low opacity */
+.slide::after {
+  background-image:
+    radial-gradient(circle, rgba(26, 26, 26, 0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+/* ─── Template-generic selectors ─────────────────────────────────────────
+ * Name DSL element IDs with these substrings to activate CSS polish.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+/* Glass cards: cream card with heavy black border — sharp, architectural, NO blur */
+[data-maliang-deck-id*="-glass"] {
+  background-color: rgba(245, 240, 232, 0.96) !important;
+  border: 3px solid #1a1a1a;
+  box-shadow: 6px 6px 0 rgba(26, 26, 26, 0.25);
+  border-radius: 0 !important;
+}
+
+/* Kicker labels: red background, cream text, uppercase letter-spacing */
+[data-maliang-deck-id*="-kicker"] {
+  background: #c1272d !important;
+  color: #f5f0e8 !important;
+  padding: 6px 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 900;
+}
+
+/* Titles: red underline, no text-shadow (light theme) */
+[data-maliang-deck-id$="-title"] {
+  border-bottom: 4px solid #c1272d;
+  display: inline;
+  text-shadow: none !important;
+}
+
+/* Accent elements: red fill */
+[data-maliang-deck-id*="-accent"] {
+  fill: #c1272d !important;
+  background: #c1272d !important;
+  color: #c1272d !important;
+}
+
+/* Badge elements: red circle with cream text */
+[data-maliang-deck-id*="-badge"] {
+  background: #c1272d !important;
+  color: #f5f0e8 !important;
+  border-radius: 999px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0 rgba(26, 26, 26, 0.3);
+}
+
+/* Connector lines: sharp, no glow */
+[data-maliang-deck-id*="-connector"] {
+  background: #1a1a1a !important;
+  opacity: 0.4;
+}
+
+/* Phase boxes / structural blocks */
+[data-maliang-deck-id*="-phase"] {
+  border: 3px solid #1a1a1a;
+  background: rgba(245, 240, 232, 0.9) !important;
+  box-shadow: 4px 4px 0 rgba(26, 26, 26, 0.2);
+}
+
+/* Chart theme — constructivist palette */
+[data-maliang-deck-id*="chart"] {
+  --chart-palette-1: var(--cv-red);
+  --chart-palette-2: var(--cv-black);
+  --chart-palette-3: var(--cv-blue);
+  --chart-palette-4: var(--cv-dark-cream);
+  --chart-axis: rgba(26, 26, 26, 0.3);
+  --chart-grid: rgba(26, 26, 26, 0.12);
+  --chart-label: rgba(26, 26, 26, 0.72);
+}
+
+/* Table theme — sharp borders */
+[data-maliang-deck-id*="table"] table {
+  border-radius: 0;
+  box-shadow: 4px 4px 0 rgba(26, 26, 26, 0.2);
+  border: 2px solid #1a1a1a;
+}
+
+/* ─── UI overrides for light theme ──────────────────────────────────────── */
+:root {
+  --ui-bar-bg: rgba(0, 0, 0, 0.1);
+  --ui-bar-fill: #c1272d;
+  --ui-text: rgba(26, 26, 26, 0.6);
+  --ui-shadow: none;
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+
+@keyframes geo-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes wipe-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+
+@keyframes cv-pulse-red {
+  from { box-shadow: 0 0 0 0 rgba(193, 39, 45, 0.4); }
+  to   { box-shadow: 0 0 0 12px rgba(193, 39, 45, 0); }
+}

@@ -18,7 +18,7 @@ before details are widely visible.
 Report vulnerabilities privately by emailing:
 
 ```text
-your-email@example.com
+jiefeng.zhou37@gmail.com
 ```
 
 Include:

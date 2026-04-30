@@ -26,6 +26,13 @@ init -> extract -> normalize -> outline -> approve-outline -> plan-deck -> gener
 Rules:
 
 - Do not generate slide DSL before `planning/outline-approved.md` exists.
+- Do not create `planning/outline-approved.md` yourself. After authoring
+  `planning/outline-draft.md`, present the outline plan to the user for review
+  and wait for explicit approval or revision instructions.
+- The outline review must expose audience, style, duration, source coverage,
+  omissions, output formats, and the per-slide outline.
+- Only run `workflow approve-outline` after explicit human approval, and record
+  the human reviewer with `--reviewed-by`.
 - `dsl/deck.json` is assembled from `dsl/slides/*.json`.
 - Keep `project.json`, `requirements.md`, `planning/deck-plan.json`, and
   `dsl/deck.json` consistent.

@@ -57,5 +57,5 @@ may reasonably read them as official offerings.
 For brand or trademark permission, contact:
 
 ```text
-your-email@example.com
+jiefeng.zhou37@gmail.com
 ```

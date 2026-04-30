@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Neon Glass Dark — Design System Template",
+    "title": "Neon Glass Dark — Maliang Product Showcase",
     "theme": "neon-glass-dark",
     "canvas": {
       "width": 1280,
@@ -8,8 +8,8 @@
     },
     "htmlRuntime": {
       "transition": {
-        "type": "fade",
-        "durationMs": 520,
+        "type": "morph",
+        "durationMs": 540,
         "easing": "cubic-bezier(.2,.8,.2,1)",
         "autoAnimate": true,
         "unmatched": "fade"
@@ -119,7 +119,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "CATEGORY / TOPIC",
+          "content": "MALIANG DECK",
           "fontSize": 15,
           "fontWeight": "bold",
           "color": "#48e7ff"
@@ -136,7 +136,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Presentation Title Goes Here",
+          "content": "DSL-First\nSlide Systems",
           "fontSize": 64,
           "fontWeight": "bold",
           "color": "#f8fbff",
@@ -154,7 +154,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "A concise subtitle that frames the topic and sets audience expectations for this presentation.",
+          "content": "Build once in typed JSON, preview interactively in HTML, and export from the same canonical deck source.",
           "fontSize": 22,
           "color": "rgba(225,236,255,.78)",
           "lineHeight": 1.35
@@ -189,7 +189,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Label A",
+          "content": "DSL",
           "fontSize": 14,
           "fontWeight": "bold",
           "color": "#f8fbff",
@@ -225,7 +225,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Label B",
+          "content": "HTML",
           "fontSize": 14,
           "fontWeight": "bold",
           "color": "#f8fbff",
@@ -261,7 +261,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Label C",
+          "content": "EXPORT",
           "fontSize": 14,
           "fontWeight": "bold",
           "color": "#f8fbff",
@@ -335,15 +335,15 @@
             "step": 0
           },
           "type": "text",
-          "content": "Section Title",
+          "content": "From Structure to Showcase",
           "fontSize": 48,
           "fontWeight": "bold",
           "color": "#f8fbff"
         },
         {
           "id": "section-subtitle",
-          "x": 80,
-          "y": 440,
+          "x": 86.62,
+          "y": 508.78,
           "width": 500,
           "animation": {
             "enter": "fade-up",
@@ -352,7 +352,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Brief context or framing for this section of the presentation.",
+          "content": "The deck DSL keeps layout, motion, charts, tables, formulas, and presenter notes in one auditable source.",
           "fontSize": 21,
           "color": "rgba(225,236,255,.65)",
           "lineHeight": 1.4
@@ -378,7 +378,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "KEY FEATURES",
+          "content": "CORE PROMISE",
           "fontSize": 14,
           "fontWeight": "bold",
           "color": "#b7ff5a"
@@ -395,7 +395,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Three pillars of the approach",
+          "content": "Three layers keep production reliable",
           "fontSize": 44,
           "fontWeight": "bold",
           "color": "#f8fbff"
@@ -453,7 +453,7 @@
               "y": 102,
               "width": 295,
               "type": "text",
-              "content": "First Pillar",
+              "content": "Typed DSL",
               "fontSize": 26,
               "fontWeight": "bold",
               "color": "#f8fbff"
@@ -464,7 +464,7 @@
               "y": 148,
               "width": 295,
               "type": "text",
-              "content": "Description of the first key feature or pillar. Explain what it does and why it matters to the audience.",
+              "content": "Slides are authored as validated elements, charts, tables, formulas, layouts, and notes rather than hand-edited output files.",
               "fontSize": 18,
               "color": "rgba(225,236,255,.72)",
               "lineHeight": 1.45
@@ -524,7 +524,7 @@
               "y": 102,
               "width": 295,
               "type": "text",
-              "content": "Second Pillar",
+              "content": "Runtime polish",
               "fontSize": 26,
               "fontWeight": "bold",
               "color": "#f8fbff"
@@ -535,7 +535,7 @@
               "y": 148,
               "width": 295,
               "type": "text",
-              "content": "Description of the second key feature or pillar. Explain what it does and why it matters to the audience.",
+              "content": "HTML previews support transitions, FX, progressive reveals, presenter tools, morphing, and interactive visualization.",
               "fontSize": 18,
               "color": "rgba(225,236,255,.72)",
               "lineHeight": 1.45
@@ -595,7 +595,7 @@
               "y": 102,
               "width": 295,
               "type": "text",
-              "content": "Third Pillar",
+              "content": "Export discipline",
               "fontSize": 26,
               "fontWeight": "bold",
               "color": "#f8fbff"
@@ -606,7 +606,7 @@
               "y": 148,
               "width": 295,
               "type": "text",
-              "content": "Description of the third key feature or pillar. Explain what it does and why it matters to the audience.",
+              "content": "PDF, PPTX, and static HTML exports are regenerated from the same JSON source so review and delivery stay aligned.",
               "fontSize": 18,
               "color": "rgba(225,236,255,.72)",
               "lineHeight": 1.45
@@ -634,7 +634,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "DEEP DIVE",
+          "content": "AUTHORING MODEL",
           "fontSize": 14,
           "fontWeight": "bold",
           "color": "#ff4fd8"
@@ -651,7 +651,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Key narrative point with supporting evidence",
+          "content": "A professional deck should behave like a designed system",
           "fontSize": 40,
           "fontWeight": "bold",
           "color": "#f8fbff"
@@ -668,7 +668,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Supporting paragraph that provides context and evidence for the main point. This area can contain up to 3–4 sentences of explanatory text.",
+          "content": "Maliang separates semantic slide content from runtime rendering. That gives authors room to add motion and visual richness without losing exportable structure.",
           "fontSize": 20,
           "color": "rgba(225,236,255,.78)",
           "lineHeight": 1.5
@@ -685,7 +685,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "• First supporting detail or finding\n• Second data point or observation\n• Third actionable insight",
+          "content": "• Stable IDs support animation, export, and review\n• Structured elements keep charts and tables editable\n• Speaker notes preserve presenter intent",
           "fontSize": 19,
           "color": "rgba(225,236,255,.72)",
           "lineHeight": 1.65
@@ -737,7 +737,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Diagram, image,\nor code sample",
+          "content": "JSON DSL\n→ HTML Preview\n→ PDF / PPTX",
           "fontSize": 17,
           "color": "rgba(225,236,255,.35)",
           "align": "center"
@@ -763,7 +763,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "DATA EVIDENCE",
+          "content": "PIPELINE SIGNALS",
           "fontSize": 14,
           "fontWeight": "bold",
           "color": "#ffd166"
@@ -780,7 +780,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Trend reveals a clear upward trajectory",
+          "content": "Feature coverage grows without abandoning the DSL",
           "fontSize": 40,
           "fontWeight": "bold",
           "color": "#f8fbff"
@@ -893,7 +893,7 @@
             "step": 2
           },
           "type": "text",
-          "content": "Year-over-year growth driven by improved methodology and expanded coverage.",
+          "content": "Representative coverage across rendering, animation, export, and workflow surfaces.",
           "fontSize": 19,
           "color": "rgba(225,236,255,.72)",
           "lineHeight": 1.45
@@ -919,7 +919,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "KEY PERFORMANCE INDICATORS",
+          "content": "SHOWCASE METRICS",
           "fontSize": 14,
           "fontWeight": "bold",
           "color": "#48e7ff"
@@ -936,7 +936,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Performance dashboard at a glance",
+          "content": "What this example demonstrates at a glance",
           "fontSize": 40,
           "fontWeight": "bold",
           "color": "#f8fbff"
@@ -982,7 +982,7 @@
               "y": 28,
               "width": 300,
               "type": "text",
-              "content": "Revenue Growth",
+              "content": "Typed surfaces",
               "fontSize": 15,
               "fontWeight": "bold",
               "color": "#48e7ff"
@@ -993,7 +993,7 @@
               "y": 68,
               "width": 300,
               "type": "text",
-              "content": "147%",
+              "content": "9+",
               "fontSize": 52,
               "fontWeight": "bold",
               "color": "#f8fbff"
@@ -1004,7 +1004,7 @@
               "y": 148,
               "width": 300,
               "type": "text",
-              "content": "Year-over-year quarterly growth",
+              "content": "element families represented",
               "fontSize": 16,
               "color": "rgba(225,236,255,.6)",
               "lineHeight": 1.35
@@ -1053,7 +1053,7 @@
               "y": 28,
               "width": 300,
               "type": "text",
-              "content": "User Retention",
+              "content": "Motion patterns",
               "fontSize": 15,
               "fontWeight": "bold",
               "color": "#ff4fd8"
@@ -1064,7 +1064,7 @@
               "y": 68,
               "width": 300,
               "type": "text",
-              "content": "92.4%",
+              "content": "20+",
               "fontSize": 52,
               "fontWeight": "bold",
               "color": "#f8fbff"
@@ -1075,7 +1075,7 @@
               "y": 148,
               "width": 300,
               "type": "text",
-              "content": "30-day retention rate across cohorts",
+              "content": "animations and FX modules",
               "fontSize": 16,
               "color": "rgba(225,236,255,.6)",
               "lineHeight": 1.35
@@ -1124,7 +1124,7 @@
               "y": 28,
               "width": 300,
               "type": "text",
-              "content": "System Uptime",
+              "content": "Export target",
               "fontSize": 15,
               "fontWeight": "bold",
               "color": "#b7ff5a"
@@ -1135,7 +1135,7 @@
               "y": 68,
               "width": 300,
               "type": "text",
-              "content": "99.97%",
+              "content": "HTML",
               "fontSize": 52,
               "fontWeight": "bold",
               "color": "#f8fbff"
@@ -1146,7 +1146,7 @@
               "y": 148,
               "width": 300,
               "type": "text",
-              "content": "Last 90 days across all regions",
+              "content": "self-contained static folder",
               "fontSize": 16,
               "color": "rgba(225,236,255,.6)",
               "lineHeight": 1.35
@@ -1219,7 +1219,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Weighing the strengths against the constraints",
+          "content": "Choosing runtime polish with export discipline",
           "fontSize": 44,
           "fontWeight": "bold",
           "color": "#f8fbff"
@@ -1253,7 +1253,7 @@
             "step": 1
           },
           "type": "text",
-          "content": "Advantages",
+          "content": "Strengths",
           "fontSize": 28,
           "fontWeight": "bold",
           "color": "#b7ff5a"
@@ -1270,7 +1270,7 @@
             "step": 1
           },
           "type": "text",
-          "content": "• First advantage or strength\n• Second positive outcome\n• Third benefit area\n• Fourth supporting evidence",
+          "content": "• Interactive HTML feels alive\n• Typed DSL remains inspectable\n• Theme and FX assets are portable\n• Notes travel with the deck",
           "fontSize": 20,
           "color": "rgba(248,251,255,.82)",
           "lineHeight": 1.6
@@ -1304,7 +1304,7 @@
             "step": 2
           },
           "type": "text",
-          "content": "Limitations",
+          "content": "Tradeoffs",
           "fontSize": 28,
           "fontWeight": "bold",
           "color": "#ff4fd8"
@@ -1321,7 +1321,7 @@
             "step": 2
           },
           "type": "text",
-          "content": "• First constraint or risk\n• Second boundary condition\n• Third area for improvement\n• Fourth known limitation",
+          "content": "• WebGL/CDN features need connectivity\n• Dense effects require restraint\n• Static exports need fallbacks\n• Complex decks need validation",
           "fontSize": 20,
           "color": "rgba(248,251,255,.82)",
           "lineHeight": 1.6
@@ -1337,14 +1337,14 @@
             "step": 3
           },
           "type": "text",
-          "content": "Synthesis: the advantages significantly outweigh the limitations for most practical scenarios.",
+          "content": "The practical rule: add motion where it explains structure, and keep the canonical deck exportable.",
           "fontSize": 22,
           "fontWeight": "bold",
           "color": "#f8fbff",
           "align": "center"
         }
       ],
-      "notes": "ARCHETYPE: Side-by-Side Comparison | ANIMATION SET: Dramatic (step 0 = title, step 1 = left card, step 2 = right card, step 3 = synthesis thesis) | Two glass cards with contrasting accent colors (lime = positive, pink = constraints). Bottom thesis synthesizes the comparison. Classic 'strong vs bounded' pattern.",
+      "notes": "ARCHETYPE: Side-by-Side Comparison | ANIMATION SET: Dramatic (step 0 = title, step 1 = left card, step 2 = right card, step 3 = synthesis thesis) | Two glass cards with contrasting accent colors (lime = positive, pink = constraints). Bottom thesis synthesizes the comparison. Classic 'strong vs bounded' pattern."
     },
     {
       "id": "ub-table",
@@ -1361,7 +1361,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "DETAILED BREAKDOWN",
+          "content": "EXPORT READINESS",
           "fontSize": 14,
           "fontWeight": "bold",
           "color": "#8b5cf6"
@@ -1379,7 +1379,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Comparative analysis across dimensions",
+          "content": "What each showcase deck proves",
           "fontSize": 40,
           "fontWeight": "bold",
           "color": "#f8fbff"
@@ -1486,7 +1486,7 @@
             "step": 1
           },
           "type": "text",
-          "content": "Source: Internal analytics dashboard, Q4 reporting period.",
+          "content": "Source: Maliang Deck example suite, regenerated from source DSL.",
           "fontSize": 14,
           "color": "rgba(225,236,255,.4)"
         }
@@ -1508,7 +1508,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Implementation roadmap",
+          "content": "Showcase publishing roadmap",
           "fontSize": 44,
           "fontWeight": "bold",
           "color": "#f8fbff"
@@ -1525,7 +1525,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Phased rollout with gates between each stage.",
+          "content": "A lightweight path from curated examples to a GitHub Pages gallery.",
           "fontSize": 20,
           "color": "rgba(225,236,255,.65)"
         },
@@ -1607,7 +1607,7 @@
             "step": 1
           },
           "type": "text",
-          "content": "Phase One",
+          "content": "Curate",
           "fontSize": 20,
           "fontWeight": "bold",
           "color": "#f8fbff"
@@ -1624,7 +1624,7 @@
             "step": 1
           },
           "type": "text",
-          "content": "Foundation work and validation of core assumptions.",
+          "content": "Revise source DSL, theme assets, and deck metadata.",
           "fontSize": 15,
           "color": "rgba(225,236,255,.65)",
           "lineHeight": 1.35
@@ -1691,7 +1691,7 @@
             "step": 2
           },
           "type": "text",
-          "content": "Phase Two",
+          "content": "Export",
           "fontSize": 20,
           "fontFamily": "sans-serif",
           "fontWeight": "bold",
@@ -1710,7 +1710,7 @@
             "step": 2
           },
           "type": "text",
-          "content": "Scale and iterate based on feedback from phase one.",
+          "content": "Validate every deck and export static HTML folders.",
           "fontSize": 15,
           "color": "rgba(225,236,255,.65)",
           "lineHeight": 1.35
@@ -1777,7 +1777,7 @@
             "step": 3
           },
           "type": "text",
-          "content": "Phase Three",
+          "content": "Publish",
           "fontSize": 20,
           "fontWeight": "bold",
           "color": "#f8fbff"
@@ -1794,7 +1794,7 @@
             "step": 3
           },
           "type": "text",
-          "content": "Full deployment with monitoring and optimization.",
+          "content": "Publish the generated gallery through GitHub Pages Actions.",
           "fontSize": 15,
           "color": "rgba(225,236,255,.65)",
           "lineHeight": 1.35
@@ -1836,7 +1836,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Thank You so much",
+          "content": "Build decks like systems",
           "fontSize": 56,
           "fontWeight": "bold",
           "fontStyle": "italic",
@@ -1855,7 +1855,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "Questions, feedback, or next steps — let’s discuss.",
+          "content": "Explore the source DSL, exported HTML, and hosting workflow.",
           "fontSize": 22,
           "color": "rgba(225,236,255,.72)",
           "align": "center",
@@ -1873,7 +1873,7 @@
             "step": 0
           },
           "type": "text",
-          "content": "name@example.com  ·  @handle",
+          "content": "maliang-deck/examples  ·  GitHub Pages ready",
           "fontSize": 16,
           "color": "rgba(225,236,255,.45)",
           "align": "center"

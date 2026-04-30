@@ -59,6 +59,7 @@ export const ProjectArtifactsSchema = z.object({
   sourceSummary: z.string(),
   outlineDraft: z.string(),
   outlineApproval: z.string(),
+  outlineApprovalMetadata: z.string().optional(),
   planningTasks: z.string().optional(),
   deckPlan: z.string(),
   dslTasks: z.string().optional(),
