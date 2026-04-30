@@ -1,7 +1,7 @@
 <p align="center">
   <strong>English</strong> ·
   <a href="./README_ZH.md"><strong>中文</strong></a> ·
-  <a href="https://jeffeychou.github.io/ppt-master/"><strong>Live Demo</strong></a>
+  <a href="https://jeffeychou.github.io/maliang-deck/"><strong>Live Demo</strong></a>
 </p>
 
 # Maliang Deck -- Domain-Specific Language (DSL) For Slide Production
