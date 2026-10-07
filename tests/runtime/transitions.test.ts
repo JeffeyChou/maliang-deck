@@ -95,41 +95,27 @@ describe('HTML runtime transition config and lifecycle', () => {
     expect(runtimeSource).toContain("case 'ArrowRight': advanceTimelineStep('forward')");
   });
 
-  it('tokenizes formula morphs and defers source fade until after path movement', () => {
-    expect(mathVizSource).toContain('function snapshotFormulaTokens');
-    expect(mathVizSource).toContain("span.setAttribute('data-formula-token'");
-    expect(mathVizSource).toContain('splitGraphemes(node.nodeValue');
-    expect(mathVizSource).toContain('containerRect.width / container.offsetWidth');
-    expect(mathVizSource).toContain('(rect.left - containerRect.left) / scaleX');
-    expect(mathVizSource).toContain("tokenType(token) === 'text' && token.h > 0");
-    expect(mathVizSource).toContain('function structuralMatch(oldAtoms, newAtoms, explicitMap)');
-    expect(mathVizSource).toContain("container.querySelectorAll('.frac-line, .sqrt-line')");
-    expect(mathVizSource).toContain("type: 'structure'");
-    expect(mathVizSource).toContain("role = structureRole(node)");
-    expect(mathVizSource).toContain('if (!sameTokenType(oldAtoms[oldIdx], newAtoms[newIdx])) return;');
-    expect(mathVizSource).toContain('tokenType(oa) === \'structure\' && tokenType(na) === \'structure\'');
-    expect(mathVizSource).toContain("ghost.setAttribute('data-formula-structure-ghost', token.role)");
-    expect(mathVizSource).toContain('function curvedBoundaryPath');
-    expect(mathVizSource).toContain('maliang-formula-annotation-layer');
-    expect(mathVizSource).not.toContain('querySelectorAll(\'[class*="frac"]\')');
+  it('delegates formula morphs to texmorph and keeps the clock in the deck', () => {
+    const texmorph = readFileSync(join(process.cwd(), 'assets', 'lib', 'texmorph.iife.js'), 'utf-8');
+    const render = readFileSync(join(process.cwd(), 'packages', 'renderer-html', 'src', 'render.ts'), 'utf-8');
+    expect(texmorph.startsWith('/*! texmorph')).toBe(true);
+    expect(texmorph).toContain('MIT License');
+    expect(texmorph).toContain('var Texmorph=');
+    expect(render.indexOf('assets/lib/texmorph.iife.js')).toBeGreaterThan(-1);
+    expect(render.indexOf('assets/lib/texmorph.iife.js')).toBeLessThan(render.indexOf('assets/extensions/math-viz/index.js'));
 
-    // The morph uses a single unified tick() loop: token matching hides old tokens
-    // before animation starts, then tick() handles position interpolation + opacity
-    // fade in one pass (no separate swapTick phase).
-    const morphStart = mathVizSource.indexOf('function morphTo(targetLatex, morphMap)');
-    const tickStart = mathVizSource.indexOf('function tick()', morphStart);
-    const advanceStart = mathVizSource.indexOf('function advanceStep()', morphStart);
-    const setupBlock = mathVizSource.slice(morphStart, tickStart);
-    const tickBlock = mathVizSource.slice(tickStart, advanceStart);
+    expect(mathVizSource).toContain('window.Texmorph.katexRenderer(window.katex)');
+    expect(mathVizSource).toContain('window.Texmorph.createMorph(el, from,');
+    expect(mathVizSource).toContain('window.Texmorph.parseEasing(name)');
+    expect(mathVizSource).toContain("state.live.dispose({ settle: 'target' })");
+    expect(mathVizSource).toContain("morph.dispose({ settle: 'source' })");
+    expect(mathVizSource).toContain('var duration = config.morphDuration || 800;');
+    expect(mathVizSource).not.toContain('function snapshotFormulaTokens');
+    expect(mathVizSource).not.toContain('function structuralMatch');
 
-    // Token hiding happens during setup (before animation loop)
-    expect(setupBlock).toContain('if (liveToken && sameLayerToken(liveToken, pair.old)) liveToken.el.style.visibility = \'hidden\'');
-    // Old layer opacity fade and new KaTeX reveal happen inside the unified tick loop
-    expect(tickBlock).toContain('oldLayer.style.opacity = String(1 - e)');
-    expect(tickBlock).toContain('arcInterpolate(pair.old.x, pair.old.y, pair.new.x, pair.new.y, e, 0.2)');
-    expect(tickBlock).toContain("tokenType(pair.old) === 'text' || tokenType(pair.new) === 'text'");
-    expect(tickBlock).toContain('setGhostBox(pair.ghost, pair.new.x, pair.new.y, pair.new.w, pair.new.h)');
-    expect(tickBlock).toContain('requestAnimationFrame(function ()');
-    expect(tickBlock).toContain('if (newKatex) newKatex.style.opacity');
+    // Retreat replays the transition being undone, so it uses that transition's forward map.
+    const retreat = mathVizSource.slice(mathVizSource.indexOf('function retreatStep()'), mathVizSource.indexOf("el.addEventListener('click', advanceStep)"));
+    expect(retreat).toContain('options(steps[undone].morphMap)');
+    expect(retreat).toContain('animate(morph, 1, 0,');
   });
 });
